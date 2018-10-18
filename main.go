@@ -32,6 +32,7 @@ func main() {
 	if err != nil {
 		// TODO: if anything goes wrong parsing, we need to return back whatever user has piped in.
 		// assuming we were able to get a reader from getReader
+		// Also need to handle panics.
 		log.Fatal(err)
 	}
 
@@ -90,6 +91,8 @@ func main() {
 	}
 
 	tbl.Render()
+
+	// TODO: we need to return an exit code that's inline with what go test would have returned.
 }
 
 // read from a named pipe (no args) or from single arg expected to be a faile path
@@ -121,6 +124,7 @@ func getReader() (io.Reader, error) {
 		if err != nil {
 			return nil, err
 		}
+
 		return bytes.NewReader(dat), nil
 
 	default:
