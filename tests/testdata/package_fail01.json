@@ -1,0 +1,13 @@
+{"Time":"2018-10-17T22:05:12.535482-04:00","Action":"run","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus"}
+{"Time":"2018-10-17T22:05:12.535868-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Output":"=== RUN   TestStatus\n"}
+{"Time":"2018-10-17T22:05:12.535902-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Output":"=== PAUSE TestStatus\n"}
+{"Time":"2018-10-17T22:05:12.535919-04:00","Action":"pause","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus"}
+{"Time":"2018-10-17T22:05:12.535942-04:00","Action":"cont","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus"}
+{"Time":"2018-10-17T22:05:12.535959-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Output":"=== CONT  TestStatus\n"}
+{"Time":"2018-10-17T22:05:12.541357-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Output":"--- FAIL: TestStatus (0.01s)\n"}
+{"Time":"2018-10-17T22:05:12.54139-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Output":"    status_test.go:56: log: file: package_skip02.json\n"}
+{"Time":"2018-10-17T22:05:12.541412-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Output":"    status_test.go:57: failed package summary action: got \"FAIL\", want \"PASS\"\n"}
+{"Time":"2018-10-17T22:05:12.541432-04:00","Action":"fail","Package":"github.com/mfridman/tparse/tests","Test":"TestStatus","Elapsed":0.01}
+{"Time":"2018-10-17T22:05:12.541458-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"FAIL\n"}
+{"Time":"2018-10-17T22:05:12.541857-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"FAIL\tgithub.com/mfridman/tparse/tests\t0.017s\n"}
+{"Time":"2018-10-17T22:05:12.541908-04:00","Action":"fail","Package":"github.com/mfridman/tparse/tests","Elapsed":0.017}

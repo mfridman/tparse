@@ -1,0 +1,21 @@
+{"Time":"2018-10-15T22:57:27.729679-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/15 22:57:27 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n"}
+{"Time":"2018-10-15T22:57:27.730067-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/15 22:57:27 Iterating file id: 0\n"}
+{"Time":"2018-10-15T22:57:27.730109-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/15 22:57:27 Iteration took: 49.09µs\n"}
+{"Time":"2018-10-15T22:57:27.732221-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/15 22:57:27 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n"}
+{"Time":"2018-10-15T22:57:27.732263-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/15 22:57:27 Iterating file id: 0\n"}
+{"Time":"2018-10-15T22:57:27.732285-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/15 22:57:27 Iteration took: 63.3µs\n"}
+{"Time":"2018-10-15T22:57:28.228957-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch"}
+{"Time":"2018-10-15T22:57:28.229033-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Output":"=== RUN   TestCatch\n"}
+{"Time":"2018-10-15T22:57:28.229083-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve"}
+{"Time":"2018-10-15T22:57:28.229112-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"=== RUN   TestCatch/catchAndRetrieve\n"}
+{"Time":"2018-10-15T22:57:28.236421-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Output":"--- PASS: TestCatch (0.01s)\n"}
+{"Time":"2018-10-15T22:57:28.236461-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"    --- PASS: TestCatch/catchAndRetrieve (0.01s)\n"}
+{"Time":"2018-10-15T22:57:28.236492-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Elapsed":0.01}
+{"Time":"2018-10-15T22:57:28.236516-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Elapsed":0.01}
+{"Time":"2018-10-15T22:57:28.236568-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat"}
+{"Time":"2018-10-15T22:57:28.236597-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat","Output":"=== RUN   TestNameFormat\n"}
+{"Time":"2018-10-15T22:57:28.236633-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat","Output":"--- PASS: TestNameFormat (0.00s)\n"}
+{"Time":"2018-10-15T22:57:28.236657-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat","Elapsed":0}
+{"Time":"2018-10-15T22:57:28.236673-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"PASS\n"}
+{"Time":"2018-10-15T22:57:28.237956-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"ok  \tgithub.com/astromail/rover/tests\t0.582s\n"}
+{"Time":"2018-10-15T22:57:28.23799-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Elapsed":0.582}
