@@ -42,6 +42,7 @@ Options:
 func main() {
 	flag.Usage = func() {
 		fmt.Fprint(os.Stderr, fmt.Sprint(usage))
+		os.Exit(2)
 	}
 	flag.Parse()
 
@@ -51,11 +52,11 @@ func main() {
 	}
 
 	log.SetFlags(0)
-	log.SetPrefix("tparse error: ")
 
 	r, err := getReader()
 	if err != nil {
-		log.Fatal(err)
+		fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
+		flag.Usage()
 	}
 
 	pkgs, err := parse.Do(r)
@@ -124,7 +125,13 @@ func main() {
 		tbl.Render()
 	}
 
-	// TODO: we need to return an exit code that's inline with what go test would have returned.
+	// Return an exit code that's inline with what go test would have returned otherwise.
+	// TODO: validate this is true, if at least one package is failed the exit code is set to 1.
+	for _, p := range pkgs {
+		if p.Summary.Action == parse.ActionFail {
+			os.Exit(1)
+		}
+	}
 }
 
 // read from a named pipe (no args) or from single arg expected to be a faile path
@@ -148,14 +155,13 @@ func getReader() (io.Reader, error) {
 			return bytes.NewReader(dat), nil
 		}
 
-		return nil, errors.Errorf("stdin must be a named pipe (FIFO). current filemode: %q\n", finfo.Mode())
+		return nil, errors.New("when no files are supplied as arguments stdin must be a named pipe")
 
 	default: // Attempt to read from a file.
 
 		// After processing all flags, we should have one file to read from, fail otherwise.
 		if flag.NArg() < 1 {
 			flag.Usage()
-			os.Exit(1)
 		}
 
 		dat, err := ioutil.ReadFile(os.Args[len(os.Args)-flag.NArg()]) // 🦄
