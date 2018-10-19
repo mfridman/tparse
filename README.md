@@ -1,4 +1,4 @@
-# tparse
+# tparse  [![Build Status](https://travis-ci.com/mfridman/tparse.svg?branch=master)](https://travis-ci.com/mfridman/tparse)
 
 A command line tool for analyzing and summarizing `go test` output.
 
