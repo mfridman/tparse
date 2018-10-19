@@ -41,7 +41,7 @@ func main() {
 
 	// Print failed package tests (if any).
 	for _, p := range pkgs {
-		failed := p.Failed()
+		failed := p.TestsByAction(parse.ActionFail)
 		if len(failed) == 0 {
 			continue
 		}
@@ -66,14 +66,12 @@ func main() {
 
 	var i int
 	for _, p := range pkgs {
-		passed := p.Passed()
+		passed := p.TestsByAction(parse.ActionPass)
 		if len(passed) == 0 {
 			continue
 		}
 
 		// Sort tests within a package by elapsed time in descending order, longest on top.
-		// TODO: I don't like how this works. Ideally all "pass" tests of all packages will be grouped
-		// and sorted by elapsed time.
 		sort.Slice(passed, func(i, j int) bool {
 			return passed[i].Elapsed() > passed[j].Elapsed()
 		})

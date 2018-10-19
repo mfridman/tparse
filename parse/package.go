@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"sort"
 	"strconv"
 
 	"github.com/olekukonko/tablewriter"
@@ -39,9 +38,9 @@ func (p Packages) Print() {
 			pkg.Summary.Action.WithColor(),
 			strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64),
 			name,
-			strconv.Itoa(len(pkg.Passed())),
-			strconv.Itoa(len(pkg.Failed())),
-			strconv.Itoa(len(pkg.Skipped())),
+			strconv.Itoa(len(pkg.TestsByAction(ActionPass))),
+			strconv.Itoa(len(pkg.TestsByAction(ActionFail))),
+			strconv.Itoa(len(pkg.TestsByAction(ActionSkip))),
 		})
 	}
 
@@ -106,7 +105,7 @@ func Do(r io.Reader) (Packages, error) {
 	}
 
 	if err := sc.Err(); err != nil {
-		// something went wrong scanning. We may want to fail? and dump
+		// TODO: FIXME: something went wrong scanning. We may want to fail? and dump
 		// what we were able to read.
 		// E.g., store events in strings.Builder and dump the output lines,
 		// or return a structured error with context and events we were able to read.
@@ -116,46 +115,26 @@ func Do(r io.Reader) (Packages, error) {
 	return pkgs, nil
 }
 
-// Passed returns a slice of tests, sorted by time.
-func (p *Package) Passed() []*Test {
-	passed := []*Test{}
+// TestsByAction returns all tests that identify as one of the following
+// actions: pass, skip or fail.
+//
+// If there are no tests an empty slice is returned.
+func (p *Package) TestsByAction(action Action) []*Test {
+	tests := []*Test{}
 
 	for _, t := range p.Tests {
-		if t.Status() == ActionPass {
-			passed = append(passed, t)
+		if t.Status() == action {
+			tests = append(tests, t)
 		}
 	}
-	if len(passed) == 0 {
-		return passed
-	}
 
-	sort.Slice(passed, func(i, j int) bool {
+	return tests
+}
+
+/*
+
+sort.Slice(passed, func(i, j int) bool {
 		return passed[i].Elapsed() > passed[i].Elapsed()
 	})
 
-	return passed
-}
-
-func (p *Package) Failed() []*Test {
-	failed := []*Test{}
-
-	for _, t := range p.Tests {
-		if t.Status() == ActionFail {
-			failed = append(failed, t)
-		}
-	}
-
-	return failed
-}
-
-func (p *Package) Skipped() []*Test {
-	skipped := []*Test{}
-
-	for _, t := range p.Tests {
-		if t.Status() == ActionSkip {
-			skipped = append(skipped, t)
-		}
-	}
-
-	return skipped
-}
+*/
