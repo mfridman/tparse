@@ -2,6 +2,8 @@
 
 A command line tool for analyzing and summarizing `go test` output.
 
+<img src="https://raw.githubusercontent.com/mfridman/tparse/master/pass.png" width="50%" height="50%"/>
+
 ## Installation
 
     go get github.com/mfridman/tparse
