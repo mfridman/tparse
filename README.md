@@ -1,6 +1,6 @@
 # tparse
 
-A command line tool for parsing the output of `go test` with `-json` flag. 
+A command line tool for analyzing and summarizing `go test` output.
 
 ## Installation
 
@@ -18,7 +18,7 @@ Example:
 go test fmt -json | tparse
 ```
 
-2. Save the output into a file and call `tparse` with filename as an argument.
+2. Save the output of `go test` with the `-json` flag into a file and call `tparse` with filename as an argument.
 
 ```
 go test fmt -json > fmt.out

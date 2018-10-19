@@ -19,8 +19,11 @@ func NewEvent(r io.Reader) (*Event, error) {
 	return &ev, nil
 }
 
-// Event is a single line of json output from go test with the -json flag.
-// For more info see, https://golang.org/cmd/test2json.
+// Event is an emitted event representing a single line of json output
+// from go test with the -json flag.
+//
+// For more info see, https://golang.org/cmd/test2json and
+// https://github.com/golang/go/blob/master/src/cmd/internal/test2json/test2json.go
 type Event struct {
 	// Action can be one of:
 	// run, pause, cont, pass, bench, fail, output, skip
@@ -49,33 +52,34 @@ type Event struct {
 	Elapsed float64
 }
 
-// Events represents all relevant events for a single test.
+// Events groups emitted events by test name. All events must belong to a single test
+// and thus a single package.
 type Events []*Event
 
-// Discard output-specific events without a test name (with the exception of the final summary line).
+// Discard "output" events without a test name (with the exception of the summary line).
 func (e *Event) Discard() bool {
 	return e.Action == ActionOutput && e.Test == ""
 }
 
-// IsSummary checks for the last event summarizing the entire test run. Usually the very
-// last line. E.g.,
+// IsSummary checks for the last emitted output line summarizing the whole test run.
+// Usually the very last line. E.g.,
 //
 // PASS
 // ok  	github.com/astromail/rover/tests	0.583s
-// Time:2018-10-14 11:45:03.489687 -0400 EDT Action:pass Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.584
+// {Time:2018-10-14 11:45:03.489687 -0400 EDT Action:pass Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.584}
 //
 // OR
 // FAIL
 // FAIL	github.com/astromail/rover/tests	0.534s
-// Time:2018-10-14 11:45:23.916729 -0400 EDT Action:fail Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.53
+// {Time:2018-10-14 11:45:23.916729 -0400 EDT Action:fail Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.53}
 func (e *Event) IsSummary() bool {
 	return e.Output == "" && e.Test == "" && (e.Action == ActionPass || e.Action == ActionFail)
 }
 
-// Action is one of a fixed set of actions describing the event.
+// Action is one of a fixed set of actions describing a single emitted test event.
 type Action string
 
-// Test actions describe a test event. Prefixed with Action for convenience.
+// Prefixed with Action for convenience.
 const (
 	ActionRun    Action = "run"    // test has started running
 	ActionPause         = "pause"  // test has been paused
