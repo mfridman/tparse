@@ -137,7 +137,7 @@ func main() {
 // read from a named pipe (no args) or from single arg expected to be a faile path
 func getReader() (io.Reader, error) {
 
-	switch len(os.Args[1:]) {
+	switch flag.NArg() {
 	case 0: // Get FileInfo interface and fail everything except a named pipe (FIFO).
 
 		finfo, err := os.Stdin.Stat()
@@ -158,11 +158,6 @@ func getReader() (io.Reader, error) {
 		return nil, errors.New("when no files are supplied as arguments stdin must be a named pipe")
 
 	default: // Attempt to read from a file.
-
-		// After processing all flags, we should have one file to read from, fail otherwise.
-		if flag.NArg() < 1 {
-			flag.Usage()
-		}
 
 		dat, err := ioutil.ReadFile(os.Args[len(os.Args)-flag.NArg()]) // 🦄
 		if err != nil {
