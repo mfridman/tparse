@@ -2,7 +2,9 @@
 
 A command line tool for analyzing and summarizing `go test` output.
 
-<img src="https://raw.githubusercontent.com/mfridman/tparse/master/passing.png" width="50%" height="50%"/>
+Pass            |  Fail
+:-------------------------:|:-------------------------:
+<img src="https://www.dropbox.com/s/255g8pgl55unes9/tparse_pass.png?raw=1" />  |  <img src="https://www.dropbox.com/s/x3nt5nztv3em94o/tparse_fail.png?raw=1" />
 
 ## Installation
 
