@@ -7,18 +7,18 @@ import (
 	"strings"
 )
 
-// Test represents an individual package test.
+// Test represents a single, unique, package test.
 type Test struct {
 	Name    string
 	Package string
 	Events
 }
 
-// Less is used for sorting events based on elapsed time in ascending order, i.e., shortest to longest.
+// Less sorts events based on elapsed time in ascending order, i.e., oldest to newest.
 func (t *Test) Less(i, j int) bool { return t.Events[i].Time.Before(t.Events[j].Time) }
 
-// Elapsed returns the largest elapsed value from a test event,
-// which represents how long the test ran in seconds.
+// Elapsed indicates how long a given test ran (in seconds), by scanning for the largest
+// elapsed value from all events.
 func (t *Test) Elapsed() float64 {
 	var f float64
 	for _, e := range t.Events {
@@ -31,12 +31,7 @@ func (t *Test) Elapsed() float64 {
 }
 
 // Status reports the outcome of the test represented as a single Action: pass, fail or skip.
-//
-// If the test contains no events a failure is returned, this is to prevent a panic.
 func (t *Test) Status() Action {
-	if len(t.Events) == 0 {
-		return ActionFail
-	}
 
 	// sort by time and scan for an action in reverse order.
 	// The first action we come across (in reverse order) is
@@ -54,14 +49,13 @@ func (t *Test) Status() Action {
 			return ActionSkip
 		}
 	}
+
 	// We should never get here. All tests must be flagged with a known action.
-	panic(fmt.Sprintf("failed test status check: must be one of pass|fail|skip: %+v\n", t))
+	panic(fmt.Sprintf("failed test status: action must be one of pass|fail|skip: %+v\n", t))
 }
 
 // Stack returns debugging information from output events for failed or skipped tests.
 func (t *Test) Stack() string {
-
-	// TODO: do we need to fail here if len(t.Events) == 0 ?
 
 	// Sort by time and scan for the first output containing the string
 	// "--- FAIL" or "--- SKIP"; this event marks the beginning for the "stack".
@@ -82,9 +76,17 @@ func (t *Test) Stack() string {
 			continue
 		}
 
-		if strings.Contains(e.Output, "--- FAIL") || strings.Contains(e.Output, "--- SKIP") {
-			cont = true
-			stack.WriteString(e.Output)
+		ss := []string{
+			"--- FAIL:",
+			"--- PASS:",
+			"--- SKIP:",
+			"--- BENCH:",
+		}
+		for i := range ss {
+			if strings.Contains(e.Output, ss[i]) {
+				cont = true
+				stack.WriteString(e.Output)
+			}
 		}
 	}
 

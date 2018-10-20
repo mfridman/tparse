@@ -127,11 +127,11 @@ func main() {
 
 	// Return an exit code that's inline with what go test would have returned otherwise.
 	// TODO: validate this is true, if at least one package is failed the exit code is set to 1.
-	for _, p := range pkgs {
-		if p.Summary.Action == parse.ActionFail {
-			os.Exit(1)
-		}
-	}
+	// for _, p := range pkgs {
+	// 	if p.Summary.Action == parse.ActionFail {
+	// 		os.Exit(1)
+	// 	}
+	// }
 }
 
 // read from a named pipe (no args) or from single arg expected to be a faile path

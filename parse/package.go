@@ -34,9 +34,20 @@ func (p Packages) Print() {
 	})
 
 	for name, pkg := range p {
+		if pkg.NoTest {
+			tbl.Append([]string{
+				Yellow("SKIP"),
+				"0.00s",
+				name + "\n[no test files]",
+				"0", "0", "0",
+			})
+
+			continue
+		}
+
 		tbl.Append([]string{
 			pkg.Summary.Action.WithColor(),
-			strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64),
+			strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64) + "s",
 			name,
 			strconv.Itoa(len(pkg.TestsByAction(ActionPass))),
 			strconv.Itoa(len(pkg.TestsByAction(ActionFail))),
@@ -50,8 +61,10 @@ func (p Packages) Print() {
 
 // Package is the representation of a single package being tested.
 type Package struct {
-	Summary *Event // single summary event describing the result of the package tests(s)
+	Summary *Event // single summary event describing the result of the package
 	Tests   []*Test
+
+	NoTest bool
 }
 
 // AddTestEvent adds the event to a test based on test name.
@@ -95,7 +108,11 @@ func Do(r io.Reader) (Packages, error) {
 			pkgs[e.Package] = pkg
 		}
 
-		if e.IsSummary() {
+		if e.SkipLine() {
+			pkg.NoTest = true
+		}
+
+		if e.Summary() {
 			pkg.Summary = e
 			continue
 		}

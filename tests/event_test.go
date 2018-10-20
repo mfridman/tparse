@@ -89,8 +89,8 @@ func TestNewEvent(t *testing.T) {
 			if e.Output != test.output {
 				t.Errorf("wrong output: got %q, want %q", e.Output, test.output)
 			}
-			if e.IsSummary() != test.summary {
-				t.Errorf("failed summary check: got %v, want %v", e.IsSummary(), test.summary)
+			if e.Summary() != test.summary {
+				t.Errorf("failed summary check: got %v, want %v", e.Summary(), test.summary)
 			}
 			if e.Discard() != test.discard {
 				t.Errorf("failed discard check: got %v, want %v", e.Discard(), test.discard)

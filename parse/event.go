@@ -19,8 +19,7 @@ func NewEvent(r io.Reader) (*Event, error) {
 	return &ev, nil
 }
 
-// Event is an emitted event representing a single line of json output
-// from go test with the -json flag.
+// Event represents a single line of json output from go test with the -json flag.
 //
 // For more info see, https://golang.org/cmd/test2json and
 // https://github.com/golang/go/blob/master/src/cmd/internal/test2json/test2json.go
@@ -46,8 +45,7 @@ type Event struct {
 	// function that caused the event. Events for the overall package test do not set Test.
 	Test string
 
-	// The Elapsed field is set for "pass" and "fail" events.
-	// It gives the time elapsed (in seconds) for the specific test or
+	// Elapsed is time elapsed (in seconds) for the specific test or
 	// the overall package test that passed or failed.
 	Elapsed float64
 }
@@ -56,24 +54,51 @@ type Event struct {
 // and thus a single package.
 type Events []*Event
 
-// Discard "output" events without a test name (with the exception of the summary line).
+// Discard reports whether an "output":
+// 1. has no test name (with the exception of the skip line)
+// 2. has test name but is an update: RUN, PAUSE, CONT.
+//
+// It might be possible folks want to know how often parallel
+// tests are switched (potential feature request?).
 func (e *Event) Discard() bool {
-	return e.Action == ActionOutput && e.Test == ""
+	u := []string{
+		"=== RUN",
+		"=== PAUSE",
+		"=== CONT",
+	}
+
+	for i := range u {
+		if strings.HasPrefix(e.Output, u[i]) {
+			return true
+		}
+	}
+
+	return e.Action == ActionOutput && e.Test == "" && !e.SkipLine()
 }
 
-// IsSummary checks for the last emitted output line summarizing the whole test run.
-// Usually the very last line. E.g.,
+// Let's try using the Summary method to report the package result.
+// If there are issues with Summary we can switch to this method.
 //
-// PASS
+// BigResult reports whether the package passed or failed.
+// func (e *Event) BigResult() bool {
+// 	return e.Test == "" && (e.Output == "PASS\n" || e.Output == "FAIL\n")
+// }
+
+// Summary reports whether the event is the final emitted output line summarizing the package run.
+//
 // ok  	github.com/astromail/rover/tests	0.583s
 // {Time:2018-10-14 11:45:03.489687 -0400 EDT Action:pass Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.584}
 //
-// OR
-// FAIL
 // FAIL	github.com/astromail/rover/tests	0.534s
 // {Time:2018-10-14 11:45:23.916729 -0400 EDT Action:fail Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.53}
-func (e *Event) IsSummary() bool {
-	return e.Output == "" && e.Test == "" && (e.Action == ActionPass || e.Action == ActionFail)
+func (e *Event) Summary() bool {
+	return e.Test == "" && e.Output == "" && (e.Action == ActionPass || e.Action == ActionFail)
+}
+
+// SkipLine reports special event case for packages containing no test files:
+// "?   \tpackage\t[no test files]\n"
+func (e *Event) SkipLine() bool {
+	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "\t[no test files]\n")
 }
 
 // Action is one of a fixed set of actions describing a single emitted test event.
@@ -98,24 +123,24 @@ func (a Action) String() string {
 func (a Action) WithColor() string {
 	switch a {
 	case ActionPass:
-		return a.Green()
+		return Green(a.String())
 	case ActionSkip:
-		return a.Yellow()
+		return Yellow(a.String())
 	case ActionFail:
-		return a.Red()
+		return Red(a.String())
 	default:
 		return a.String()
 	}
 }
 
-func (a Action) Red() string {
-	return color.New(color.FgHiRed).SprintFunc()(a.String())
+func Red(s string) string {
+	return color.New(color.FgHiRed).SprintFunc()(s)
 }
 
-func (a Action) Green() string {
-	return color.New(color.FgHiGreen).SprintFunc()(a.String())
+func Green(s string) string {
+	return color.New(color.FgHiGreen).SprintFunc()(s)
 }
 
-func (a Action) Yellow() string {
-	return color.New(color.FgHiYellow).SprintFunc()(a.String())
+func Yellow(s string) string {
+	return color.New(color.FgHiYellow).SprintFunc()(s)
 }
