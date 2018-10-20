@@ -117,19 +117,20 @@ const (
 )
 
 func (a Action) String() string {
-	return strings.ToUpper(string(a))
+	return string(a)
 }
 
 func (a Action) WithColor() string {
+	s := strings.ToUpper(a.String())
 	switch a {
 	case ActionPass:
-		return Green(a.String())
+		return Green(s)
 	case ActionSkip:
-		return Yellow(a.String())
+		return Yellow(s)
 	case ActionFail:
-		return Red(a.String())
+		return Red(s)
 	default:
-		return a.String()
+		return s
 	}
 }
 

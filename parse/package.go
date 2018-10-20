@@ -60,6 +60,7 @@ func (p Packages) Print() {
 }
 
 // Package is the representation of a single package being tested.
+// The summary event contains all relevant information about the package.
 type Package struct {
 	Summary *Event // single summary event describing the result of the package
 	Tests   []*Test
@@ -109,6 +110,7 @@ func Do(r io.Reader) (Packages, error) {
 		}
 
 		if e.SkipLine() {
+			pkg.Summary = &Event{Action: ActionPass}
 			pkg.NoTest = true
 		}
 
