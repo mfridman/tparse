@@ -15,9 +15,10 @@ import (
 // Packages is a collection of packages being tested.
 // TODO: consider changing this to a slice of packages instead of a map?
 // - would make it easier sorting the summary box by elapsed time
+// - would make it easier adding functional options.
 type Packages map[string]*Package
 
-func (p Packages) Print() {
+func (p Packages) Print(skipNoTests bool) {
 	if len(p) == 0 {
 		return
 	}
@@ -34,7 +35,12 @@ func (p Packages) Print() {
 	})
 
 	for name, pkg := range p {
+
 		if pkg.NoTest {
+			if !skipNoTests {
+				continue
+			}
+
 			tbl.Append([]string{
 				Yellow("SKIP"),
 				"0.00s",

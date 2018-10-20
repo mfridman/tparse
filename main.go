@@ -25,6 +25,7 @@ var (
 	allPtr     = flag.Bool("all", false, "")
 	passPtr    = flag.Bool("pass", false, "")
 	skipPtr    = flag.Bool("skip", false, "")
+	noTestsPtr = flag.Bool("notests", false, "")
 )
 
 var usage = `Usage:
@@ -32,11 +33,12 @@ var usage = `Usage:
 	go test [packages...] -json > pkgs.out ; tparse [options...] pkgs.out
 
 Options:
-	-h	Show help.
-	-v	Show version.
-	-all	Display all event types: pass, skip and fail. (Failed items are always displayed)
-	-pass	Display all passed tests.
-	-skip	Display all skipped tests.
+	-h		Show help.
+	-v		Show version.
+	-all		Display all event types: pass, skip and fail. (Failed items are always displayed)
+	-pass		Display all passed tests.
+	-skip		Display all skipped tests.
+	-notests	Display packages with no tests in summary.
 `
 
 func main() {
@@ -67,8 +69,9 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Prints the top-most summary box.
-	pkgs.Print()
+	// Prints packages summary table.
+	// TODO: think about using functional options?
+	pkgs.Print(*noTestsPtr)
 
 	// Print all failed tests per package (if any).
 	for _, p := range pkgs {
