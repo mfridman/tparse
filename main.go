@@ -9,6 +9,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strings"
 
 	"github.com/mfridman/tparse/parse"
 	"github.com/olekukonko/tablewriter"
@@ -80,7 +81,9 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("%s\n", p.Summary.Package)
+		s := fmt.Sprintf("PACKAGE: %s", p.Summary.Package)
+		n := make([]string, len(s)+1)
+		fmt.Printf("%s\n%s\n", s, strings.Join(n, "-"))
 
 		for _, t := range failed {
 			t.PrintFail()
