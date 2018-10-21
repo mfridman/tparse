@@ -4,7 +4,7 @@ A command line tool for analyzing and summarizing `go test` output.
 
 Pass            |  Fail
 :-------------------------:|:-------------------------:
-<img src="https://www.dropbox.com/s/255g8pgl55unes9/tparse_pass.png?raw=1" />  |  <img src="https://www.dropbox.com/s/66eas6iwbx6wofg/tparse_fail.png?raw=1" />
+<img src="https://www.dropbox.com/s/fzqt5vwu5jzdpr8/tparse_pass.png?raw=1" />  |  <img src="https://www.dropbox.com/s/66eas6iwbx6wofg/tparse_fail.png?raw=1" />
 
 With the `-pass` flag tests will get sorted by elapsed time per package.
 
