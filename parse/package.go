@@ -68,7 +68,7 @@ func (p Packages) Print(skipNoTests bool) {
 // Package is the representation of a single package being tested.
 // The summary event contains all relevant information about the package.
 type Package struct {
-	Summary *Event // single summary event describing the result of the package
+	Summary *Event
 	Tests   []*Test
 
 	NoTest bool
@@ -101,7 +101,6 @@ func Do(r io.Reader) (Packages, error) {
 
 		e, err := NewEvent(bytes.NewReader(sc.Bytes()))
 		if err != nil {
-			// TODO(mf): consider logging? and continue scanning instead of failing.
 			return nil, err
 		}
 

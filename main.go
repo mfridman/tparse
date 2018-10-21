@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -30,6 +31,7 @@ var (
 )
 
 var usage = `Usage:
+	go test ./... -json | tparse [options...]
 	go test [packages...] -json | tparse [options...]
 	go test [packages...] -json > pkgs.out ; tparse [options...] pkgs.out
 
@@ -58,16 +60,20 @@ func main() {
 
 	r, err := getReader()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
+		fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
 		flag.Usage()
 	}
 
 	pkgs, err := parse.Do(r)
 	if err != nil {
-		// TODO: if anything goes wrong parsing, we need to return back whatever user has piped in.
-		// assuming we were able to get a reader from getReader
-		// Also need to handle panics.
-		log.Fatal(err)
+		switch err := errors.Cause(err).(type) {
+		case *json.SyntaxError:
+			fmt.Fprint(os.Stderr, "Error: must call go test with -json flag\n\n")
+			flag.Usage()
+		default:
+			fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
+			flag.Usage()
+		}
 	}
 
 	// Prints packages summary table.
