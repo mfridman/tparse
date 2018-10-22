@@ -18,9 +18,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-// TODO: if a user reruns an unmodified test or package, it's considered cached. This should be displayed in some way.
-// The idiomatic way to bypass test caching is to use -count=1
-
 // Flags.
 var (
 	versionPtr = flag.Bool("v", false, "")
