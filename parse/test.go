@@ -12,8 +12,6 @@ type Test struct {
 	Name    string
 	Package string
 	Events
-
-	hasPanic bool
 }
 
 // Less sorts events based on elapsed time in ascending order, i.e., oldest to newest.
@@ -45,15 +43,12 @@ func (t *Test) Status() Action {
 		switch t.Events[i].Action {
 		case ActionPass:
 			return ActionPass
-		case ActionFail:
-			return ActionFail
 		case ActionSkip:
 			return ActionSkip
 		}
 	}
 
-	// We should never get here. All tests must be flagged with a known action.
-	panic(fmt.Sprintf("failed test status: action must be one of pass|fail|skip: %+v\n", t))
+	return ActionFail
 }
 
 // Stack returns debugging information from output events for failed or skipped tests.
@@ -63,13 +58,6 @@ func (t *Test) Stack() string {
 	// "--- FAIL" or "--- SKIP"; this event marks the beginning for the "stack".
 	// Record it and continue adding all subsequent lines.
 	sort.Slice(t.Events, t.Less)
-
-	if t.hasPanic {
-		// delete the last 2 lines:
-		// 1. FAIL	github.com/mfridman/tparse/tests	0.012s
-		// 2. empty line from summary which has no output
-		t.Events = t.Events[:len(t.Events)-2]
-	}
 
 	ss := []string{
 		"--- FAIL:",

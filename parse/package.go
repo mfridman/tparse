@@ -95,6 +95,7 @@ func (p *Package) AddTestEvent(event *Event) {
 	p.Tests = append(p.Tests, t)
 }
 
+// Do will return PanicErr on the first package that reports a test containing a panic.
 func Do(r io.Reader) (Packages, error) {
 
 	pkgs := Packages{}
@@ -142,33 +143,28 @@ func Do(r io.Reader) (Packages, error) {
 		return nil, errors.Wrap(err, "bufio scanner error")
 	}
 
-	// Unfortuantely a true summary line is not generated when a test panics, i.e.,
-	// the summary line contains the package AND test name (which doesn't get picked up
-	// by the Summary method).
+	// Panic means end of the world, don't return a summary, no table tests, etc.
+	// Just return the package, test and debug info from the panic inside the error.
 	for _, pkg := range pkgs {
-		ev, ok := pkg.HasPanic()
-		if ok {
-			pkg.Summary = ev
+		if err := pkg.HasPanic(); err != nil {
+			return nil, err
 		}
 	}
 
 	return pkgs, nil
 }
 
-// HasPanic reports whether a package contains a tes that panicked.
-func (p *Package) HasPanic() (*Event, bool) {
+// HasPanic reports whether a package contains a test that panicked.
+func (p *Package) HasPanic() error {
 	for _, t := range p.Tests {
-		if t.Status() == ActionFail {
-			for i := range t.Events {
-				if strings.HasPrefix(t.Events[i].Output, "panic:") && strings.HasPrefix(t.Events[i+1].Output, "\tpanic:") {
-					t.hasPanic = true
-					return t.Events[len(t.Events)-1], true
-				}
+		for i := range t.Events {
+			if strings.HasPrefix(t.Events[i].Output, "panic:") && strings.HasPrefix(t.Events[i+1].Output, "\tpanic:") {
+				return &PanicErr{Test: t, Summary: t.Events[len(t.Events)-1]}
 			}
 		}
 	}
 
-	return nil, false
+	return nil
 }
 
 // TestsByAction returns all tests that identify as one of the following
@@ -186,11 +182,3 @@ func (p *Package) TestsByAction(action Action) []*Test {
 
 	return tests
 }
-
-/*
-
-sort.Slice(passed, func(i, j int) bool {
-		return passed[i].Elapsed() > passed[i].Elapsed()
-	})
-
-*/

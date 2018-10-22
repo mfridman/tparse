@@ -67,6 +67,9 @@ func main() {
 		case *json.SyntaxError:
 			fmt.Fprint(os.Stderr, "Error: must call go test with -json flag\n\n")
 			flag.Usage()
+		case *parse.PanicErr:
+			err.PrintPanic()
+			os.Exit(1)
 		default:
 			fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
 			flag.Usage()
