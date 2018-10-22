@@ -12,6 +12,8 @@ type Test struct {
 	Name    string
 	Package string
 	Events
+
+	hasPanic bool
 }
 
 // Less sorts events based on elapsed time in ascending order, i.e., oldest to newest.
@@ -62,6 +64,20 @@ func (t *Test) Stack() string {
 	// Record it and continue adding all subsequent lines.
 	sort.Slice(t.Events, t.Less)
 
+	if t.hasPanic {
+		// delete the last 2 lines:
+		// 1. FAIL	github.com/mfridman/tparse/tests	0.012s
+		// 2. empty line from summary which has no output
+		t.Events = t.Events[:len(t.Events)-2]
+	}
+
+	ss := []string{
+		"--- FAIL:",
+		"--- PASS:",
+		"--- SKIP:",
+		"--- BENCH:",
+	}
+
 	var stack strings.Builder
 
 	var cont bool
@@ -76,12 +92,6 @@ func (t *Test) Stack() string {
 			continue
 		}
 
-		ss := []string{
-			"--- FAIL:",
-			"--- PASS:",
-			"--- SKIP:",
-			"--- BENCH:",
-		}
 		for i := range ss {
 			if strings.Contains(e.Output, ss[i]) {
 				cont = true

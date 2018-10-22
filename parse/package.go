@@ -7,10 +7,13 @@ import (
 	"io"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 )
+
+var readerDump io.Reader
 
 // Packages is a collection of packages being tested.
 // TODO: consider changing this to a slice of packages instead of a map?
@@ -96,6 +99,9 @@ func Do(r io.Reader) (Packages, error) {
 
 	pkgs := Packages{}
 
+	var buf bytes.Buffer
+	readerDump = io.TeeReader(r, &buf)
+
 	sc := bufio.NewScanner(r)
 	for sc.Scan() {
 
@@ -110,7 +116,7 @@ func Do(r io.Reader) (Packages, error) {
 
 		pkg, ok := pkgs[e.Package]
 		if !ok {
-			pkg = &Package{}
+			pkg = &Package{Summary: &Event{}}
 			pkgs[e.Package] = pkg
 		}
 
@@ -136,7 +142,33 @@ func Do(r io.Reader) (Packages, error) {
 		return nil, errors.Wrap(err, "bufio scanner error")
 	}
 
+	// Unfortuantely a true summary line is not generated when a test panics, i.e.,
+	// the summary line contains the package AND test name (which doesn't get picked up
+	// by the Summary method).
+	for _, pkg := range pkgs {
+		ev, ok := pkg.HasPanic()
+		if ok {
+			pkg.Summary = ev
+		}
+	}
+
 	return pkgs, nil
+}
+
+// HasPanic reports whether a package contains a tes that panicked.
+func (p *Package) HasPanic() (*Event, bool) {
+	for _, t := range p.Tests {
+		if t.Status() == ActionFail {
+			for i := range t.Events {
+				if strings.HasPrefix(t.Events[i].Output, "panic:") && strings.HasPrefix(t.Events[i+1].Output, "\tpanic:") {
+					t.hasPanic = true
+					return t.Events[len(t.Events)-1], true
+				}
+			}
+		}
+	}
+
+	return nil, false
 }
 
 // TestsByAction returns all tests that identify as one of the following
