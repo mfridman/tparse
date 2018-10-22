@@ -49,7 +49,7 @@ func main() {
 	flag.Parse()
 
 	if *versionPtr {
-		fmt.Println("tparse version 0.0.1")
+		fmt.Println("tparse version: devel")
 		os.Exit(0)
 	}
 

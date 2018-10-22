@@ -15,4 +15,4 @@ branches:
     - devel
 
 script:
-  - go test -v ./tests -json | tparse
+  - go test -v ./tests -json | tparse -all
