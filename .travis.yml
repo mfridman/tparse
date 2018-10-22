@@ -2,6 +2,9 @@ sudo: false
 
 language: go
 
+before_install:
+  - go get github.com/mfridman/tparse
+
 go:
   - "1.10"
   - "1.11"
@@ -9,5 +12,7 @@ go:
 branches:
   only:
     - master
+    - devel
 
-script: make test
+script:
+  - go test -v ./tests -json | tparse
