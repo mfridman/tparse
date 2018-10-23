@@ -2,7 +2,6 @@ package parse
 
 import (
 	"encoding/json"
-	"io"
 	"strings"
 	"time"
 
@@ -10,10 +9,10 @@ import (
 	"github.com/pkg/errors"
 )
 
-func NewEvent(r io.Reader) (*Event, error) {
+func NewEvent(data []byte) (*Event, error) {
 	var ev Event
-	if err := json.NewDecoder(r).Decode(&ev); err != nil {
-		return nil, errors.Wrap(err, "failed to parse test event")
+	if err := json.Unmarshal(data, &ev); err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal test event")
 	}
 
 	return &ev, nil

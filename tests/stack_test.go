@@ -8,7 +8,6 @@ import (
 )
 
 func TestStack(t *testing.T) {
-
 	t.Parallel()
 
 	// Inputs and outputs only check a single test case.
@@ -22,7 +21,7 @@ func TestStack(t *testing.T) {
 
 	for _, tt := range tests {
 
-		pkgs, err := parse.Do(strings.NewReader(tt.input))
+		pkgs, err := parse.Start(strings.NewReader(tt.input))
 		if err != nil {
 			t.Fatalf("failed to get packages: %v", err)
 		}

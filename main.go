@@ -1,12 +1,10 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"sort"
@@ -60,8 +58,9 @@ func main() {
 		fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
 		flag.Usage()
 	}
+	defer r.Close()
 
-	pkgs, err := parse.Do(r)
+	pkgs, err := parse.Start(r)
 	if err != nil {
 		switch err := errors.Cause(err).(type) {
 		case *json.SyntaxError:
@@ -146,8 +145,8 @@ func main() {
 	// }
 }
 
-// read from a named pipe (no args) or from single arg expected to be a faile path
-func getReader() (io.Reader, error) {
+// getReader returns a reader; either a named pipe or open file.
+func getReader() (io.ReadCloser, error) {
 
 	switch flag.NArg() {
 	case 0: // Get FileInfo interface and fail everything except a named pipe (FIFO).
@@ -160,22 +159,17 @@ func getReader() (io.Reader, error) {
 
 		// check file mode bits to test for named pipe as stdin
 		if finfo.Mode()&os.ModeNamedPipe != 0 {
-			dat, err := ioutil.ReadAll(os.Stdin)
-			if err != nil {
-				return nil, err
-			}
-			return bytes.NewReader(dat), nil
+			return os.Stdin, nil
 		}
 
 		return nil, errors.New("when no files are supplied as arguments stdin must be a named pipe")
 
 	default: // Attempt to read from a file.
-
-		dat, err := ioutil.ReadFile(os.Args[len(os.Args)-flag.NArg()]) // 🦄
+		f, err := os.Open(os.Args[len(os.Args)-flag.NArg()]) // 🦄
 		if err != nil {
 			return nil, err
 		}
 
-		return bytes.NewReader(dat), nil
+		return f, nil
 	}
 }

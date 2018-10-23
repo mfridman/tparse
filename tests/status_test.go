@@ -56,7 +56,7 @@ func TestStatus(t *testing.T) {
 				t.Fatalf("failed to read file: %v", err)
 			}
 
-			pkgs, err := parse.Do(bytes.NewReader(by))
+			pkgs, err := parse.Start(bytes.NewReader(by))
 			if err != nil {
 				t.Fatalf("failed to parse event: %v", err)
 			}

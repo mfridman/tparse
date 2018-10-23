@@ -2,7 +2,6 @@ package parse
 
 import (
 	"bufio"
-	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -12,8 +11,6 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 )
-
-var readerDump io.Reader
 
 // Packages is a collection of packages being tested.
 // TODO: consider changing this to a slice of packages instead of a map?
@@ -68,12 +65,15 @@ func (p Packages) Print(skipNoTests bool) {
 	fmt.Printf("\n")
 }
 
-// Package is the representation of a single package being tested.
-// The summary event contains all relevant information about the package.
+// Package is the representation of a single package being tested. The
+// summary field is an event that contains all relevant information about the
+// package, namely Package (name), Elapsed and Action (big pass or fail).
 type Package struct {
 	Summary *Event
 	Tests   []*Test
 
+	// NoTest indicates whether the package contains tests:
+	// "?   \tpackage\t[no test files]\n"
 	NoTest bool
 }
 
@@ -95,18 +95,15 @@ func (p *Package) AddTestEvent(event *Event) {
 	p.Tests = append(p.Tests, t)
 }
 
-// Do will return PanicErr on the first package that reports a test containing a panic.
-func Do(r io.Reader) (Packages, error) {
+// Start will return PanicErr on the first package that reports a test containing a panic.
+func Start(r io.Reader) (Packages, error) {
 
 	pkgs := Packages{}
-
-	var buf bytes.Buffer
-	readerDump = io.TeeReader(r, &buf)
 
 	sc := bufio.NewScanner(r)
 	for sc.Scan() {
 
-		e, err := NewEvent(bytes.NewReader(sc.Bytes()))
+		e, err := NewEvent(sc.Bytes())
 		if err != nil {
 			return nil, err
 		}
@@ -155,6 +152,7 @@ func Do(r io.Reader) (Packages, error) {
 }
 
 // HasPanic reports whether a package contains a test that panicked.
+// A PanicErr is returned if a test contains a panic.
 func (p *Package) HasPanic() error {
 	for _, t := range p.Tests {
 		for i := range t.Events {
@@ -170,7 +168,7 @@ func (p *Package) HasPanic() error {
 // TestsByAction returns all tests that identify as one of the following
 // actions: pass, skip or fail.
 //
-// If there are no tests an empty slice is returned.
+// An empty slice if returned if there are no tests.
 func (p *Package) TestsByAction(action Action) []*Test {
 	tests := []*Test{}
 

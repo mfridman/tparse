@@ -2,7 +2,6 @@ package parse_test
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 
 	"github.com/mfridman/tparse/parse"
@@ -75,7 +74,7 @@ func TestNewEvent(t *testing.T) {
 
 			t.Parallel()
 
-			e, err := parse.NewEvent(strings.NewReader(test.event))
+			e, err := parse.NewEvent([]byte(test.event))
 			if err != nil {
 				t.Error(errors.Wrapf(err, "failed to parse test event:\n%v", test.event))
 			}

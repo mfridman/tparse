@@ -19,7 +19,7 @@ func TestPanicEvent(t *testing.T) {
 
 	for _, input := range tt {
 
-		_, err := parse.Do(strings.NewReader(input))
+		_, err := parse.Start(strings.NewReader(input))
 		switch err := errors.Cause(err).(type) {
 		case *parse.PanicErr:
 			continue
