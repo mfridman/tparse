@@ -103,3 +103,74 @@ func TestNewEvent(t *testing.T) {
 
 	}
 }
+
+func TestCachedPackage(t *testing.T) {
+
+	t.Parallel()
+
+	tt := []struct {
+		input    string
+		isCached bool
+	}{
+		{`{"Time":"2018-10-24T08:30:14.566611-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n"}`, true},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"}`, true},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"github.com/mfridman/srfax\t(cached)"}`, false},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"(cached)"}`, false},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":""}`, false},
+	}
+
+	for _, test := range tt {
+		e, err := parse.NewEvent([]byte(test.input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		got := e.IsCached()
+		want := test.isCached
+
+		if got != want {
+			t.Errorf("got non-cached output (%t), want cached output (%t)", got, want)
+			t.Logf("log: input: %v", test.input)
+		}
+	}
+}
+func TestCover(t *testing.T) {
+
+	t.Parallel()
+
+	var zero float64
+
+	tt := []struct {
+		input    string
+		cover    bool
+		coverage float64
+	}{
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"}`, true, 28.8},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 100.0% of statements\n"}`, true, 100.0},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 0.0% of statements\n"}`, true, 0.0},
+		{`{"Time":"2018-10-24T09:25:59.855826-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t0.027s\tcoverage: 87.5% of statements\n"}`, true, 87.5},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 1000.0% of statements\n"}`, true, zero},
+		{`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: .0% of statements\n"}`, false, zero},
+	}
+
+	for _, test := range tt {
+		e, err := parse.NewEvent([]byte(test.input))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		f, ok := e.Cover()
+		if ok != test.cover {
+			t.Errorf("got (%t) non-coverage event, want %t", ok, test.cover)
+		}
+
+		if f != test.coverage {
+			t.Errorf("got wrong percentage for coervage %v, want %v", f, test.coverage)
+		}
+
+		if t.Failed() {
+			t.Logf("log: input: %v", test.input)
+		}
+	}
+
+}

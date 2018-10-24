@@ -29,6 +29,7 @@ func (p Packages) Print(skipNoTests bool) {
 		"Status",
 		"Elapsed",
 		"Package",
+		"Cover",
 		"Pass",
 		"Fail",
 		"Skip",
@@ -45,6 +46,7 @@ func (p Packages) Print(skipNoTests bool) {
 				Yellow("SKIP"),
 				"0.00s",
 				name + "\n[no test files]",
+				fmt.Sprintf(" %.1f%%", pkg.Coverage),
 				"0", "0", "0",
 			})
 
@@ -52,13 +54,14 @@ func (p Packages) Print(skipNoTests bool) {
 		}
 
 		if pkg.Cached {
-			name += "\n(cached)"
+			name += " (cached)"
 		}
 
 		tbl.Append([]string{
 			pkg.Summary.Action.WithColor(),
 			strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64) + "s",
 			name,
+			fmt.Sprintf(" %.1f%%", pkg.Coverage),
 			strconv.Itoa(len(pkg.TestsByAction(ActionPass))),
 			strconv.Itoa(len(pkg.TestsByAction(ActionFail))),
 			strconv.Itoa(len(pkg.TestsByAction(ActionSkip))),
@@ -82,6 +85,10 @@ type Package struct {
 
 	// Cached indicates whether the test result was obtained from the cache.
 	Cached bool
+
+	// Cover reports whether the package contains coverage (go test run with -cover)
+	Cover    bool
+	Coverage float64
 }
 
 // AddTestEvent adds the event to a test based on test name.
@@ -115,10 +122,6 @@ func Start(r io.Reader) (Packages, error) {
 			return nil, err
 		}
 
-		if e.Discard() {
-			continue
-		}
-
 		pkg, ok := pkgs[e.Package]
 		if !ok {
 			pkg = &Package{Summary: &Event{}}
@@ -130,14 +133,23 @@ func Start(r io.Reader) (Packages, error) {
 			pkg.NoTest = true
 		}
 
-		// We don't need this line, simply record the package as cached and move on.
 		if e.IsCached() {
 			pkg.Cached = true
-			continue
+		}
+
+		cover, ok := e.Cover()
+		if ok {
+			pkg.Cover = true
+			pkg.Coverage = cover
 		}
 
 		if e.Summary() {
 			pkg.Summary = e
+			continue
+		}
+
+		// We don't need to save these line.
+		if e.Discard() {
 			continue
 		}
 
