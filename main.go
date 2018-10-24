@@ -137,12 +137,11 @@ func main() {
 	}
 
 	// Return an exit code that's inline with what go test would have returned otherwise.
-	// TODO: validate this is true, if at least one package is failed the exit code is set to 1.
-	// for _, p := range pkgs {
-	// 	if p.Summary.Action == parse.ActionFail {
-	// 		os.Exit(1)
-	// 	}
-	// }
+	for _, p := range pkgs {
+		if p.Summary.Action == parse.ActionFail {
+			os.Exit(1)
+		}
+	}
 }
 
 // getReader returns a reader; either a named pipe or open file.
