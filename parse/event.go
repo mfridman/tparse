@@ -72,7 +72,7 @@ func (e *Event) Discard() bool {
 		}
 	}
 
-	return e.Action == ActionOutput && e.Test == "" && !e.SkipLine()
+	return e.Action == ActionOutput && e.Test == "" && !e.SkipLine() && !e.IsCached()
 }
 
 // Let's try using the Summary method to report the package result.
@@ -98,6 +98,12 @@ func (e *Event) Summary() bool {
 // "?   \tpackage\t[no test files]\n"
 func (e *Event) SkipLine() bool {
 	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "\t[no test files]\n")
+}
+
+// IsCached reports special event case for cached packages:
+// ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n
+func (e *Event) IsCached() bool {
+	return strings.HasPrefix(e.Output, "ok  \t") && strings.HasSuffix(e.Output, "\t(cached)\n")
 }
 
 // Action is one of a fixed set of actions describing a single emitted test event.

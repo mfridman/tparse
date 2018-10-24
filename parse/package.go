@@ -51,6 +51,10 @@ func (p Packages) Print(skipNoTests bool) {
 			continue
 		}
 
+		if pkg.Cached {
+			name += "\n(cached)"
+		}
+
 		tbl.Append([]string{
 			pkg.Summary.Action.WithColor(),
 			strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64) + "s",
@@ -75,6 +79,9 @@ type Package struct {
 	// NoTest indicates whether the package contains tests:
 	// "?   \tpackage\t[no test files]\n"
 	NoTest bool
+
+	// Cached indicates whether the test result was obtained from the cache.
+	Cached bool
 }
 
 // AddTestEvent adds the event to a test based on test name.
@@ -121,6 +128,12 @@ func Start(r io.Reader) (Packages, error) {
 		if e.SkipLine() {
 			pkg.Summary = &Event{Action: ActionPass}
 			pkg.NoTest = true
+		}
+
+		// We don't need this line, simply record the package as cached and move on.
+		if e.IsCached() {
+			pkg.Cached = true
+			continue
 		}
 
 		if e.Summary() {
