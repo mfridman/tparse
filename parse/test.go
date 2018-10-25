@@ -80,6 +80,13 @@ func (t *Test) Stack() string {
 			continue
 		}
 
+		// this is a special case for truly end of the world runtime panics
+		if strings.HasPrefix(e.Output, "panic:") && strings.Contains(e.Output, "runtime error:") {
+			stack.WriteString(e.Output)
+			cont = true
+			continue
+		}
+
 		for i := range ss {
 			if strings.Contains(e.Output, ss[i]) {
 				cont = true

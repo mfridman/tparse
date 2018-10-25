@@ -2,6 +2,7 @@ package parse
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"os"
@@ -11,6 +12,25 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 )
+
+var rawdump bytes.Buffer
+
+// RawDump returns original lines of output from go test.
+func RawDump() {
+	sc := bufio.NewScanner(&rawdump)
+	for sc.Scan() {
+		e, err := NewEvent(sc.Bytes())
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "tparse new event error: %v\n", err)
+			continue
+		}
+		fmt.Fprint(os.Stderr, e.Output)
+	}
+	if err := sc.Err(); err != nil {
+		fmt.Fprintf(os.Stderr, "tparse scan error: %v\n", err)
+		return
+	}
+}
 
 // Packages is a collection of packages being tested.
 // TODO: consider changing this to a slice of packages instead of a map?
@@ -114,13 +134,28 @@ func Start(r io.Reader) (Packages, error) {
 
 	pkgs := Packages{}
 
-	sc := bufio.NewScanner(r)
+	var scan bool
+	var badLine int
+
+	rd := io.TeeReader(r, &rawdump)
+
+	sc := bufio.NewScanner(rd)
 	for sc.Scan() {
 
+		// We'll "prescan" up-to 50 lines for a parsable event. If we do get a parsable event
+		// we expect no errors to follow until EOF. For each unparsable event we will dump back
+		// the up to 50 lines to stderr.
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
-			return nil, err
+			if scan || badLine >= 50 {
+				return nil, err
+			}
+
+			fmt.Fprintln(os.Stderr, sc.Text())
+			badLine++
+			continue
 		}
+		scan = true
 
 		pkg, ok := pkgs[e.Package]
 		if !ok {

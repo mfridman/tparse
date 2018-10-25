@@ -23,6 +23,7 @@ var (
 	passPtr    = flag.Bool("pass", false, "")
 	skipPtr    = flag.Bool("skip", false, "")
 	noTestsPtr = flag.Bool("notests", false, "")
+	dumpPtr    = flag.Bool("dump", false, "")
 )
 
 var usage = `Usage:
@@ -37,6 +38,7 @@ Options:
 	-pass		Display all passed tests.
 	-skip		Display all skipped tests.
 	-notests	Display packages with no tests in summary.
+	-dump		Dump raw go test output; enables recovering original go test output in non-JSON format.
 `
 
 func main() {
@@ -134,6 +136,10 @@ func main() {
 		}
 
 		tbl.Render()
+	}
+
+	if *dumpPtr {
+		parse.RawDump()
 	}
 
 	// Return an exit code that's inline with what go test would have returned otherwise.

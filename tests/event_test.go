@@ -60,6 +60,11 @@ var events = []struct {
 		`{"Time":"2018-10-15T23:00:28.432239-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"ok  \tgithub.com/astromail/rover/tests\t0.530s\n"}`,
 		parse.ActionOutput, "github.com/astromail/rover/tests", "ok  \tgithub.com/astromail/rover/tests\t0.530s\n", true, false,
 	},
+	{
+		// 9
+		`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"}`,
+		parse.ActionOutput, "github.com/mfridman/srfax", "ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n", true, false,
+	},
 }
 
 func TestNewEvent(t *testing.T) {
