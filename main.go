@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
 	"sort"
 	"strings"
@@ -34,11 +33,11 @@ var usage = `Usage:
 Options:
 	-h		Show help.
 	-v		Show version.
-	-all		Display all event types: pass, skip and fail. (Failed items are always displayed)
-	-pass		Display all passed tests.
-	-skip		Display all skipped tests.
-	-notests	Display packages with no tests in summary.
-	-dump		Dump raw go test output; enables recovering original go test output in non-JSON format.
+	-all		Display table event for pass, skip and fail. (Failed items are always displayed)
+	-pass		Display table for passed tests.
+	-skip		Display table for passed skipped tests.
+	-notests	Display packages containing no test files in summary.
+	-dump		Enables recovering initial go test output in non-JSON format following Summary and Test tables.
 `
 
 func main() {
@@ -53,8 +52,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	log.SetFlags(0)
-
 	r, err := getReader()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
@@ -63,23 +60,34 @@ func main() {
 	defer r.Close()
 
 	pkgs, err := parse.Start(r)
+	// TODO(mf): no matter what error we get, we should always allow the user to retrieve
+	// whatever we could read in Start with -dump. Currently it only gets called way below.
 	if err != nil {
 		switch err := errors.Cause(err).(type) {
 		case *json.SyntaxError:
 			fmt.Fprint(os.Stderr, "Error: must call go test with -json flag\n\n")
 			flag.Usage()
 		case *parse.PanicErr:
+			// Just return the package name, test name and debug info from the panic.
 			err.PrintPanic()
 			os.Exit(1)
 		default:
+			// TODO(mf):
+			// - Does it make sense to display error and usage
+			// back to the user when there is a scan error?
 			fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
 			flag.Usage()
 		}
 	}
 
+	if len(pkgs) == 0 {
+		parse.RawDump()
+		os.Exit(0)
+	}
+
 	// Prints packages summary table.
 	// TODO: think about using functional options?
-	pkgs.Print(*noTestsPtr)
+	pkgs.PrintSummary(*noTestsPtr)
 
 	// Print all failed tests per package (if any).
 	for _, p := range pkgs {
@@ -162,7 +170,7 @@ func getReader() (io.ReadCloser, error) {
 			return nil, err
 		}
 
-		// check file mode bits to test for named pipe as stdin
+		// Check file mode bits to test for named pipe as stdin.
 		if finfo.Mode()&os.ModeNamedPipe != 0 {
 			return os.Stdin, nil
 		}

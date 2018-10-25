@@ -11,15 +11,6 @@ import (
 	"github.com/pkg/errors"
 )
 
-func NewEvent(data []byte) (*Event, error) {
-	var ev Event
-	if err := json.Unmarshal(data, &ev); err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal test event")
-	}
-
-	return &ev, nil
-}
-
 // Event represents a single line of json output from go test with the -json flag.
 //
 // For more info see, https://golang.org/cmd/test2json and
@@ -51,16 +42,24 @@ type Event struct {
 	Elapsed float64
 }
 
+func NewEvent(data []byte) (*Event, error) {
+	var ev Event
+	if err := json.Unmarshal(data, &ev); err != nil {
+		return nil, errors.Wrap(err, "failed to unmarshal test event")
+	}
+
+	return &ev, nil
+}
+
 // Events groups emitted events by test name. All events must belong to a single test
 // and thus a single package.
 type Events []*Event
 
-// Discard reports whether an "output":
-// 1. has no test name (with the exception of the skip line)
-// 2. has test name but is an update: RUN, PAUSE, CONT.
+// Discard reports whether an "output" action:
+// 1. has test name but is an update action: RUN, PAUSE, CONT.
+// 2. has no test name
 //
-// It might be possible folks want to know how often parallel
-// tests are switched (potential feature request?).
+// If output is not one of the above return false.
 func (e *Event) Discard() bool {
 	u := []string{
 		"=== RUN",
