@@ -6,11 +6,8 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"sort"
-	"strings"
 
 	"github.com/mfridman/tparse/parse"
-	"github.com/olekukonko/tablewriter"
 
 	"github.com/pkg/errors"
 )
@@ -35,7 +32,7 @@ Options:
 	-v		Show version.
 	-all		Display table event for pass, skip and fail. (Failed items are always displayed)
 	-pass		Display table for passed tests.
-	-skip		Display table for passed skipped tests.
+	-skip		Display table for skipped tests.
 	-notests	Display packages containing no test files in summary.
 	-dump		Enables recovering initial go test output in non-JSON format following Summary and Test tables.
 `
@@ -90,58 +87,14 @@ func main() {
 	pkgs.PrintSummary(*noTestsPtr)
 
 	// Print all failed tests per package (if any).
-	for _, p := range pkgs {
-		failed := p.TestsByAction(parse.ActionFail)
-		if len(failed) == 0 {
-			continue
-		}
+	pkgs.PrintFailed()
 
-		s := fmt.Sprintf("PACKAGE: %s", p.Summary.Package)
-		n := make([]string, len(s)+1)
-		fmt.Printf("%s\n%s\n", s, strings.Join(n, "-"))
-
-		for _, t := range failed {
-			t.PrintFail()
-		}
-	}
-
-	if *allPtr || *passPtr {
-		// Print passed tests, sorted by elapsed. Unlike failed tests, passed tests
-		// are not grouped. Maybe bad design?
-		tbl := tablewriter.NewWriter(os.Stdout)
-
-		tbl.SetHeader([]string{
-			"Status",
-			"Elapsed",
-			"Test Name",
-			"Package",
-		})
-
-		var i int
-		for _, p := range pkgs {
-			passed := p.TestsByAction(parse.ActionPass)
-			if len(passed) == 0 {
-				continue
-			}
-
-			// Sort tests within a package by elapsed time in descending order, longest on top.
-			sort.Slice(passed, func(i, j int) bool {
-				return passed[i].Elapsed() > passed[j].Elapsed()
-			})
-
-			for _, t := range passed {
-				tbl.Append(t.PrintPass())
-			}
-
-			// Add empty lines between tests of packages. Maybe tablewriter has some feature, but this is easier (for now).
-			if i != len(pkgs)-1 {
-				tbl.Append([]string{"", "", "", ""})
-			}
-			i++
-
-		}
-
-		tbl.Render()
+	if *allPtr {
+		pkgs.PrintTests(true, true)
+	} else if *passPtr {
+		pkgs.PrintTests(true, false)
+	} else if *skipPtr {
+		pkgs.PrintTests(false, true)
 	}
 
 	if *dumpPtr {

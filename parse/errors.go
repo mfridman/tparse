@@ -2,7 +2,6 @@ package parse
 
 import (
 	"fmt"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -19,7 +18,7 @@ func (p *PanicErr) Error() string {
 }
 
 func (p *PanicErr) PrintPanic() {
-	sort.Slice(p.Test.Events, p.Test.Less)
+	p.Test.Sort()
 
 	// delete the last 2 lines:
 	// 1. FAIL	github.com/mfridman/tparse/tests	0.012s

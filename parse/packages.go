@@ -3,7 +3,10 @@ package parse
 import (
 	"fmt"
 	"os"
+	"path/filepath"
+	"sort"
 	"strconv"
+	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
@@ -70,4 +73,79 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 
 	tbl.Render()
 	fmt.Printf("\n")
+}
+
+func (p Packages) PrintFailed() {
+	// Print all failed tests per package (if any).
+	for _, pkg := range p {
+		failed := pkg.TestsByAction(ActionFail)
+		if len(failed) == 0 {
+			continue
+		}
+
+		s := fmt.Sprintf("PACKAGE: %s", pkg.Summary.Package)
+		n := make([]string, len(s)+1)
+		fmt.Printf("%s\n%s\n", s, strings.Join(n, "-"))
+
+		for _, t := range failed {
+			t.Sort()
+
+			fmt.Printf("%s\n\n", t.Stack())
+
+		}
+	}
+}
+
+func (p Packages) PrintTests(pass, skip bool) {
+	// Print passed tests, sorted by elapsed. Unlike failed tests, passed tests
+	// are not grouped. Maybe bad design?
+	tbl := tablewriter.NewWriter(os.Stdout)
+
+	tbl.SetHeader([]string{
+		"Status",
+		"Elapsed",
+		"Test",
+		"Package",
+	})
+
+	var i int
+	for _, pkg := range p {
+		var all []*Test
+		if skip {
+			skipped := pkg.TestsByAction(ActionSkip)
+			all = append(all, skipped...)
+		}
+		if pass {
+			passed := pkg.TestsByAction(ActionPass)
+
+			// Sort tests within a package by elapsed time in descending order, longest on top.
+			sort.Slice(passed, func(i, j int) bool {
+				return passed[i].Elapsed() > passed[j].Elapsed()
+			})
+
+			all = append(all, passed...)
+		}
+		if len(all) == 0 {
+			continue
+		}
+
+		for _, t := range all {
+			t.Sort()
+
+			tbl.Append([]string{
+				t.Status().WithColor(),
+				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
+				t.Name,
+				filepath.Base(t.Package),
+			})
+		}
+
+		// Add empty line between package groups except last one.
+		if i != len(p)-1 {
+			tbl.Append([]string{"", "", "", ""})
+		}
+		i++
+	}
+
+	tbl.Render()
 }

@@ -1,10 +1,7 @@
 package parse
 
 import (
-	"fmt"
-	"path/filepath"
 	"sort"
-	"strconv"
 	"strings"
 )
 
@@ -14,9 +11,6 @@ type Test struct {
 	Package string
 	Events
 }
-
-// Less sorts events based on elapsed time in ascending order, i.e., oldest to newest.
-func (t *Test) Less(i, j int) bool { return t.Events[i].Time.Before(t.Events[j].Time) }
 
 // Elapsed indicates how long a given test ran (in seconds), by scanning for the largest
 // elapsed value from all events.
@@ -37,8 +31,7 @@ func (t *Test) Status() Action {
 	// sort by time and scan for an action in reverse order.
 	// The first action we come across (in reverse order) is
 	// the outcome of the test, which will be one of pass|fail|skip.
-
-	sort.Slice(t.Events, t.Less)
+	t.Sort()
 
 	for i := len(t.Events) - 1; i >= 0; i-- {
 		switch t.Events[i].Action {
@@ -58,7 +51,7 @@ func (t *Test) Stack() string {
 	// Sort by time and scan for the first output containing the string
 	// "--- FAIL" or "--- SKIP"; this event marks the beginning for the "stack".
 	// Record it and continue adding all subsequent lines.
-	sort.Slice(t.Events, t.Less)
+	t.Sort()
 
 	ss := []string{
 		"--- FAIL:",
@@ -91,7 +84,7 @@ func (t *Test) Stack() string {
 		for i := range ss {
 			if strings.Contains(e.Output, ss[i]) {
 				cont = true
-				stack.WriteString(e.Output)
+				stack.WriteString(colorize(e.Output, cRed, true))
 			}
 		}
 	}
@@ -99,24 +92,9 @@ func (t *Test) Stack() string {
 	return strings.TrimSpace(stack.String())
 }
 
-func (t *Test) PrintFail() {
-	sort.Slice(t.Events, t.Less)
-
-	fmt.Printf("%s\t%s\t%s\n%s\n\n",
-		t.Status().WithColor(),
-		strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
-		t.Name,
-		t.Stack(),
-	)
-}
-
-func (t *Test) PrintPass() []string {
-	sort.Slice(t.Events, t.Less)
-
-	return []string{
-		t.Status().WithColor(),
-		strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
-		t.Name,
-		filepath.Base(t.Package),
-	}
+// Sort events by elapsed time in ascending order, i.e., oldest to newest.
+func (t *Test) Sort() {
+	sort.Slice(t.Events, func(i, j int) bool {
+		return t.Events[i].Time.Before(t.Events[j].Time)
+	})
 }
