@@ -148,6 +148,8 @@ func (a Action) String() string {
 	return string(a)
 }
 
+// WithColor attempts to return a colorized string based on action:
+// pass=green, skip=yellow, fail=red, default=no color.
 func (a Action) WithColor() string {
 	s := strings.ToUpper(a.String())
 	switch a {
