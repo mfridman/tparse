@@ -47,7 +47,7 @@ func TestStatus(t *testing.T) {
 				}
 			}
 
-			if !supported {
+			if supported {
 				t.Fatalf("got unsupported filename %q; want testdata/big file name prefixed pass|fail|skip", info.Name())
 			}
 

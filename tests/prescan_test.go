@@ -77,7 +77,7 @@ func TestPrescan(t *testing.T) {
 		{"Time":"2018-10-24T13:13:35.447759-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t0.014s\n"}
 		{"Time":"2018-10-24T13:13:35.454438-04:00","Action":"pass","Package":"github.com/mfridman/tparse/tests","Elapsed":0.021}`
 
-		if _, err := parse.Start(strings.NewReader(intput)); err != nil {
+		if _, err := parse.Start(strings.NewReader(intput)); err == nil {
 			t.Fatalf("failed to scan over non-event lines, 50 max: %v", err)
 		}
 	})

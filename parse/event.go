@@ -164,7 +164,7 @@ func (a Action) WithColor() string {
 
 const (
 	cReset  = 0
-	cRed    = 1
+	cRed    = 31
 	cGreen  = 32
 	cYellow = 33
 )

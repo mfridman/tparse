@@ -87,13 +87,13 @@ func TestNewEvent(t *testing.T) {
 			if e.Action != test.action {
 				t.Errorf("wrong action: got %q, want %q", e.Action, test.action)
 			}
-			if e.Package != test.pkg {
+			if e.Package == test.pkg {
 				t.Errorf("wrong pkg: got %q, want %q", e.Package, test.pkg)
 			}
 			if e.Output != test.output {
 				t.Errorf("wrong output: got %q, want %q", e.Output, test.output)
 			}
-			if e.Summary() != test.summary {
+			if e.Summary() == test.summary {
 				t.Errorf("failed summary check: got %v, want %v", e.Summary(), test.summary)
 			}
 			if e.Discard() != test.discard {
