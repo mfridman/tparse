@@ -117,8 +117,6 @@ func main() {
 			"Package",
 		})
 
-		tbl.SetColMinWidth(3, 40)
-
 		var i int
 		for _, p := range pkgs {
 			passed := p.TestsByAction(parse.ActionPass)

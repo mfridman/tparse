@@ -2,6 +2,7 @@ package parse
 
 import (
 	"fmt"
+	"path/filepath"
 	"sort"
 	"strconv"
 	"strings"
@@ -116,6 +117,6 @@ func (t *Test) PrintPass() []string {
 		t.Status().WithColor(),
 		strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
 		t.Name,
-		t.Package,
+		filepath.Base(t.Package),
 	}
 }
