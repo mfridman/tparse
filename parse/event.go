@@ -110,7 +110,7 @@ func (e *Event) IsCached() bool {
 // Cover reports special event case for package coverage:
 // ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n
 // ok  \tgithub.com/mfridman/srfax\t0.027s\tcoverage: 28.8% of statements\n
-func (e Event) Cover() (float64, bool) {
+func (e *Event) Cover() (float64, bool) {
 	var re = regexp.MustCompile(`[0-9]{1,3}\.[0-9]{1}\%`)
 
 	var f float64
