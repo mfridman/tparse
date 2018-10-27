@@ -12,6 +12,7 @@ go:
 branches:
   only:
     - master
+    - devel
 
 script:
-  - go test -v ./tests -json | tparse -all
+  - go test -v ./tests -json | tparse -all -dump

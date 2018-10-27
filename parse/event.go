@@ -2,12 +2,12 @@ package parse
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
-	"github.com/fatih/color"
 	"github.com/pkg/errors"
 )
 
@@ -20,12 +20,11 @@ type Event struct {
 	// run, pause, cont, pass, bench, fail, output, skip
 	Action Action
 
-	// Portion of the test's output (standard output and standard error merged together
+	// Portion of the test's output (standard output and standard error merged together)
 	Output string
 
-	// The Time field holds the time the event happened.
+	// Time at which the the event occurred, encodes as an RFC3339-format string.
 	// It is conventionally omitted for cached test results.
-	// encodes as an RFC3339-format string
 	Time time.Time
 
 	// The Package field, if present, specifies the package being tested.
@@ -51,12 +50,12 @@ func NewEvent(data []byte) (*Event, error) {
 	return &ev, nil
 }
 
-// Events groups emitted events by test name. All events must belong to a single test
-// and thus a single package.
+// Events is a slice of events belonging to a single test based on test name.
+// All events must belong to a single test and thus a single package.
 type Events []*Event
 
 // Discard reports whether an "output" action:
-// 1. has test name but is an update action: RUN, PAUSE, CONT.
+// 1. is an update action: RUN, PAUSE, CONT.
 // 2. has no test name
 //
 // If output is not one of the above return false.
@@ -130,7 +129,7 @@ func (e Event) Cover() (float64, bool) {
 	return f, false
 }
 
-// Action is one of a fixed set of actions describing a single emitted test event.
+// Action is one of a fixed set of actions describing a single emitted event.
 type Action string
 
 // Prefixed with Action for convenience.
@@ -153,24 +152,26 @@ func (a Action) WithColor() string {
 	s := strings.ToUpper(a.String())
 	switch a {
 	case ActionPass:
-		return Green(s)
+		return colorize(s, cGreen, true)
 	case ActionSkip:
-		return Yellow(s)
+		return colorize(s, cYellow, true)
 	case ActionFail:
-		return Red(s)
+		return colorize(s, cRed, true)
 	default:
 		return s
 	}
 }
 
-func Red(s string) string {
-	return color.New(color.FgHiRed).SprintFunc()(s)
-}
+const (
+	cReset  = 0
+	cRed    = 31
+	cGreen  = 32
+	cYellow = 33
+)
 
-func Green(s string) string {
-	return color.New(color.FgHiGreen).SprintFunc()(s)
-}
-
-func Yellow(s string) string {
-	return color.New(color.FgHiYellow).SprintFunc()(s)
+func colorize(s string, color int, enabled bool) string {
+	if !enabled {
+		return fmt.Sprintf("%s", s)
+	}
+	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
 }

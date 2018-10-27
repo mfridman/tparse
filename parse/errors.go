@@ -32,7 +32,7 @@ func (p *PanicErr) PrintPanic() {
 	fmt.Printf("%s\n%s\n", s, strings.Join(n, "-"))
 
 	fmt.Printf("%s\t%s\t%s\n%s\n\n",
-		Red("PANIC"),
+		colorize("PANIC", cRed, true),
 		strconv.FormatFloat(p.Test.Elapsed(), 'f', 2, 64),
 		p.Test.Name,
 		p.Test.Stack(),
