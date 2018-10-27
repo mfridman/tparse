@@ -32,7 +32,7 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 			}
 
 			tbl.Append([]string{
-				Yellow("SKIP"),
+				colorize("SKIP", cYellow, true),
 				"0.00s",
 				name + "\n[no test files]",
 				fmt.Sprintf(" %.1f%%", pkg.Coverage),
