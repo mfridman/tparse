@@ -1,4 +1,4 @@
-package parse_test
+package tests
 
 import (
 	"bytes"
