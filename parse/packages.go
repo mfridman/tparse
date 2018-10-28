@@ -14,7 +14,7 @@ import (
 // Packages is a collection of packages being tested.
 type Packages map[string]*Package
 
-func (p Packages) PrintSummary(skipNoTests bool) {
+func (p Packages) PrintSummary(showNoTests bool) {
 	tbl := tablewriter.NewWriter(os.Stdout)
 	tbl.SetHeader([]string{
 		"Status",  //0
@@ -26,19 +26,20 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 		"Skip",    //6
 	})
 
+	var passed [][]string
+	var skipped [][]string
+
 	for name, pkg := range p {
 
 		if pkg.NoTestFiles {
-			if skipNoTests {
-				tbl.Append([]string{
-					colorize("SKIP", cYellow, true), "--", name + "\n[no test files]", "--", "--", "--", "--",
-				})
-			}
+			skipped = append(skipped, []string{
+				colorize("SKIP", cYellow, true), "--", name + "\n[no test files]", "--", "--", "--", "--",
+			})
 			continue
 		}
 
 		if pkg.NoTests {
-			tbl.Append([]string{
+			skipped = append(skipped, []string{
 				colorize("SKIP", cYellow, true), "--", name + "\n[no tests to run]", "--", "--", "--", "--",
 			})
 			continue
@@ -63,7 +64,7 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 			coverage = colorize(coverage, cGreen, true)
 		}
 
-		tbl.Append([]string{
+		passed = append(passed, []string{
 			pkg.Summary.Action.WithColor(), //0
 			elapsed,                        //1
 			name,                           //2
@@ -74,12 +75,22 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 		})
 	}
 
-	if tbl.NumLines() > 0 {
-		tbl.Render()
-		fmt.Printf("\n")
-	} else {
+	if len(passed) == 0 && len(skipped) == 0 {
 		RawDump()
+		return
 	}
+
+	if len(passed) > 0 {
+		tbl.AppendBulk(passed)
+		if showNoTests {
+			tbl.AppendBulk(skipped)
+		}
+	} else {
+		tbl.AppendBulk(skipped)
+	}
+
+	tbl.Render()
+	fmt.Printf("\n")
 }
 
 func (p Packages) PrintFailed() {

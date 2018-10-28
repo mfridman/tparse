@@ -18,7 +18,7 @@ var (
 	allPtr         = flag.Bool("all", false, "")
 	passPtr        = flag.Bool("pass", false, "")
 	skipPtr        = flag.Bool("skip", false, "")
-	noTestsPtr     = flag.Bool("notests", false, "")
+	showNoTestsPtr = flag.Bool("notests", false, "")
 	dumpPtr        = flag.Bool("dump", false, "")
 	smallScreenPtr = flag.Bool("smallscreen", false, "")
 )
@@ -34,7 +34,7 @@ Options:
 	-all		Display table event for pass, skip and fail. (Failed items are always displayed)
 	-pass		Display table for passed tests.
 	-skip		Display table for skipped tests.
-	-notests	Display packages containing no test files in summary.
+	-notests	Display packages containing no test files or empty test files in summary.
 	-dump		Enables recovering initial go test output in non-JSON format following Summary and Test tables.
 	-smallscreen	Split subtest names vertically to fit on smaller screens.
 `
@@ -86,7 +86,7 @@ func main() {
 
 	// Prints packages summary table.
 	// TODO: think about using functional options?
-	pkgs.PrintSummary(*noTestsPtr)
+	pkgs.PrintSummary(*showNoTestsPtr)
 
 	// Print all failed tests per package (if any).
 	pkgs.PrintFailed()
