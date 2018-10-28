@@ -96,7 +96,7 @@ func (p Packages) PrintFailed() {
 	}
 }
 
-func (p Packages) PrintTests(pass, skip bool) {
+func (p Packages) PrintTests(pass, skip, trim bool) {
 	// Print passed tests, sorted by elapsed. Unlike failed tests, passed tests
 	// are not grouped. Maybe bad design?
 	tbl := tablewriter.NewWriter(os.Stdout)
@@ -132,10 +132,21 @@ func (p Packages) PrintTests(pass, skip bool) {
 		for _, t := range all {
 			t.Sort()
 
+			var testName strings.Builder
+			testName.WriteString(t.Name)
+			if trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
+				testName.Reset()
+				ss := strings.Split(t.Name, "/")
+				testName.WriteString(ss[0] + "\n")
+				for _, s := range ss[1:] {
+					testName.WriteString(" /" + s + "\n")
+				}
+			}
+
 			tbl.Append([]string{
 				t.Status().WithColor(),
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
-				t.Name,
+				testName.String(),
 				filepath.Base(t.Package),
 			})
 		}
@@ -146,6 +157,7 @@ func (p Packages) PrintTests(pass, skip bool) {
 		}
 		i++
 	}
-
-	tbl.Render()
+	if tbl.NumLines() > 0 {
+		tbl.Render()
+	}
 }

@@ -14,12 +14,13 @@ import (
 
 // Flags.
 var (
-	versionPtr = flag.Bool("v", false, "")
-	allPtr     = flag.Bool("all", false, "")
-	passPtr    = flag.Bool("pass", false, "")
-	skipPtr    = flag.Bool("skip", false, "")
-	noTestsPtr = flag.Bool("notests", false, "")
-	dumpPtr    = flag.Bool("dump", false, "")
+	versionPtr     = flag.Bool("v", false, "")
+	allPtr         = flag.Bool("all", false, "")
+	passPtr        = flag.Bool("pass", false, "")
+	skipPtr        = flag.Bool("skip", false, "")
+	noTestsPtr     = flag.Bool("notests", false, "")
+	dumpPtr        = flag.Bool("dump", false, "")
+	smallScreenPtr = flag.Bool("smallscreen", false, "")
 )
 
 var usage = `Usage:
@@ -35,6 +36,7 @@ Options:
 	-skip		Display table for skipped tests.
 	-notests	Display packages containing no test files in summary.
 	-dump		Enables recovering initial go test output in non-JSON format following Summary and Test tables.
+	-smallscreen	Split subtest names vertically to fit on smaller screens.
 `
 
 func main() {
@@ -90,11 +92,11 @@ func main() {
 	pkgs.PrintFailed()
 
 	if *allPtr {
-		pkgs.PrintTests(true, true)
+		pkgs.PrintTests(true, true, *smallScreenPtr)
 	} else if *passPtr {
-		pkgs.PrintTests(true, false)
+		pkgs.PrintTests(true, false, *smallScreenPtr)
 	} else if *skipPtr {
-		pkgs.PrintTests(false, true)
+		pkgs.PrintTests(false, true, *smallScreenPtr)
 	}
 
 	if *dumpPtr {

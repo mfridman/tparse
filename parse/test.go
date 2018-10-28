@@ -62,14 +62,14 @@ func (t *Test) Stack() string {
 
 	var stack strings.Builder
 
-	var cont bool
+	var scan bool
 	for _, e := range t.Events {
 		// Only output events have useful information. Skip everything else.
 		if e.Action != ActionOutput {
 			continue
 		}
 
-		if cont {
+		if scan {
 			stack.WriteString(e.Output)
 			continue
 		}
@@ -77,13 +77,13 @@ func (t *Test) Stack() string {
 		// this is a special case for truly end of the world runtime panics
 		if strings.HasPrefix(e.Output, "panic:") && strings.Contains(e.Output, "runtime error:") {
 			stack.WriteString(e.Output)
-			cont = true
+			scan = true
 			continue
 		}
 
 		for i := range ss {
 			if strings.Contains(e.Output, ss[i]) {
-				cont = true
+				scan = true
 				stack.WriteString(colorize(e.Output, cRed, true))
 			}
 		}
