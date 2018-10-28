@@ -55,7 +55,12 @@ func Start(r io.Reader) (Packages, error) {
 
 		if e.SkipLine() {
 			pkg.Summary = &Event{Action: ActionPass}
-			pkg.NoTest = true
+			pkg.NoTestFiles = true
+		}
+
+		if e.NoTestsToRun() {
+			pkg.Summary = &Event{Action: ActionPass}
+			pkg.NoTests = true
 		}
 
 		if e.IsCached() {

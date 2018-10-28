@@ -11,9 +11,13 @@ type Package struct {
 	Summary *Event
 	Tests   []*Test
 
-	// NoTest indicates whether the package contains tests:
+	// NoTestFiles indicates whether the package contains tests:
 	// "?   \tpackage\t[no test files]\n"
-	NoTest bool
+	NoTestFiles bool
+
+	// NoTests indicates whether package contains:
+	// "[no tests to run]"
+	NoTests bool
 
 	// Cached indicates whether the test result was obtained from the cache.
 	Cached bool

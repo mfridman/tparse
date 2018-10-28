@@ -28,16 +28,19 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 
 	for name, pkg := range p {
 
-		if pkg.NoTest {
+		if pkg.NoTestFiles {
 			if skipNoTests {
 				tbl.Append([]string{
-					colorize("SKIP", cYellow, true),
-					"--",
-					name + "\n[no test files]",
-					fmt.Sprintf(" %.1f%%", pkg.Coverage),
-					"--", "--", "--",
+					colorize("SKIP", cYellow, true), "--", name + "\n[no test files]", "--", "--", "--", "--",
 				})
 			}
+			continue
+		}
+
+		if pkg.NoTests {
+			tbl.Append([]string{
+				colorize("SKIP", cYellow, true), "--", name + "\n[no tests to run]", "--", "--", "--", "--",
+			})
 			continue
 		}
 

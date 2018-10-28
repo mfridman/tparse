@@ -1,0 +1,3 @@
+{"Time":"2018-10-27T23:15:21.909874-04:00","Action":"output","Package":"github.com/awesome/pkg","Output":"PASS\n"}
+{"Time":"2018-10-27T23:15:21.914955-04:00","Action":"output","Package":"github.com/awesome/pkg","Output":"ok  \tgithub.com/awesome/pkg\t4.543s [no tests to run]\n"}
+{"Time":"2018-10-27T23:15:21.914992-04:00","Action":"pass","Package":"github.com/awesome/pkg","Elapsed":4.543}

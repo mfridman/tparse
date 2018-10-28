@@ -97,7 +97,13 @@ func (e *Event) Summary() bool {
 // SkipLine reports special event case for packages containing no test files:
 // "?   \tpackage\t[no test files]\n"
 func (e *Event) SkipLine() bool {
-	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "\t[no test files]\n")
+	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "[no test files]\n")
+}
+
+// NoTestsToRun reports special event case for no tests to run:
+// "ok  \tgithub.com/some/awesome/module\t4.543s [no tests to run]\n"
+func (e *Event) NoTestsToRun() bool {
+	return strings.HasPrefix(e.Output, "ok  \t") && strings.HasSuffix(e.Output, "[no tests to run]\n")
 }
 
 // IsCached reports special event case for cached packages:
