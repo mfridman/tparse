@@ -71,8 +71,12 @@ func (p Packages) PrintSummary(skipNoTests bool) {
 		})
 	}
 
-	tbl.Render()
-	fmt.Printf("\n")
+	if tbl.NumLines() > 0 {
+		tbl.Render()
+		fmt.Printf("\n")
+	} else {
+		RawDump()
+	}
 }
 
 func (p Packages) PrintFailed() {
@@ -108,6 +112,8 @@ func (p Packages) PrintTests(pass, skip, trim bool) {
 		"Package",
 	})
 
+	tbl.SetAutoWrapText(false)
+
 	var i int
 	for _, pkg := range p {
 		var all []*Test
@@ -138,8 +144,11 @@ func (p Packages) PrintTests(pass, skip, trim bool) {
 				testName.Reset()
 				ss := strings.Split(t.Name, "/")
 				testName.WriteString(ss[0] + "\n")
-				for _, s := range ss[1:] {
-					testName.WriteString(" /" + s + "\n")
+				for i, s := range ss[1:] {
+					testName.WriteString(" /" + s)
+					if i != len(ss[1:])-1 {
+						testName.WriteString("\n")
+					}
 				}
 			}
 
