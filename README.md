@@ -2,13 +2,13 @@
 
 A command line tool for analyzing and summarizing `go test` output.
 
+**Don't forget to run `go test` with `-json` flag.**
+
 Pass            |  Fail
 :-------------------------:|:-------------------------:
 <img src="https://www.dropbox.com/s/fzqt5vwu5jzdpr8/tparse_pass.png?raw=1" />  |  <img src="https://www.dropbox.com/s/66eas6iwbx6wofg/tparse_fail.png?raw=1" />
 
-**Don't forget to run `go test` with `-json` flag.**
-
-By default `tparse` will always return a summary box containing package-level details and errors, if any.
+By default, `tparse` will always return a summary box containing package-level details followed by errors, if any.
 
 To get the summary of passed tests run `tparse` with the `-pass` flag. Tests will be grouped by package and sorted by elapsed time (longest to shorted).
 

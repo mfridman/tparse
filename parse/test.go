@@ -5,6 +5,9 @@ import (
 	"strings"
 )
 
+// enables disabling colors in test runs. Will eventually be a feature to enable users to turn on/off colors.
+var colors = true
+
 // Test represents a single, unique, package test.
 type Test struct {
 	Name    string
@@ -39,6 +42,8 @@ func (t *Test) Status() Action {
 			return ActionPass
 		case ActionSkip:
 			return ActionSkip
+		case ActionFail:
+			return ActionFail
 		}
 	}
 
@@ -84,7 +89,11 @@ func (t *Test) Stack() string {
 		for i := range ss {
 			if strings.Contains(e.Output, ss[i]) {
 				scan = true
-				stack.WriteString(colorize(e.Output, cRed, true))
+				if colors {
+					stack.WriteString(colorize(e.Output, cRed, true))
+				} else {
+					stack.WriteString(e.Output)
+				}
 			}
 		}
 	}

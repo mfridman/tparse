@@ -62,6 +62,9 @@ func TestStatus(t *testing.T) {
 			}
 
 			for _, pkg := range pkgs {
+				if pkg.NoTests || pkg.NoTestFiles {
+					continue
+				}
 				if pkg.Summary.Action != want {
 					t.Logf("log: file: %s", info.Name())
 					t.Fatalf("failed package summary action: got %q, want %q", pkg.Summary.Action, want)

@@ -97,9 +97,10 @@ func (p Packages) PrintFailed() {
 		for _, t := range failed {
 			t.Sort()
 
-			fmt.Printf("%s\n\n", t.Stack())
-
+			fmt.Printf("%s\n", t.Stack())
 		}
+
+		fmt.Printf("\n")
 	}
 }
 
@@ -117,8 +118,11 @@ func (p Packages) PrintTests(pass, skip, trim bool) {
 
 	tbl.SetAutoWrapText(false)
 
-	var i int
 	for _, pkg := range p {
+		if pkg.NoTests || pkg.NoTestFiles {
+			continue
+		}
+
 		var all []*Test
 		if skip {
 			skipped := pkg.TestsByAction(ActionSkip)
@@ -163,12 +167,11 @@ func (p Packages) PrintTests(pass, skip, trim bool) {
 			})
 		}
 
-		// Add empty line between package groups except last one.
-		if i != len(p)-1 {
-			tbl.Append([]string{"", "", "", ""})
-		}
-		i++
+		// Add empty line between package groups.
+		// TODO(mf): don't add line to last item
+		tbl.Append([]string{"", "", "", ""})
 	}
+
 	if tbl.NumLines() > 0 {
 		tbl.Render()
 	}

@@ -107,22 +107,22 @@ func (e *Event) NoTestsToRun() bool {
 }
 
 // IsCached reports special event case for cached packages:
-// ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n
-// ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n
+// "ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n"
+// "ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"
 func (e *Event) IsCached() bool {
 	return strings.HasPrefix(e.Output, "ok  \t") && strings.Contains(e.Output, "\t(cached)")
 }
 
 // Cover reports special event case for package coverage:
-// ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n
-// ok  \tgithub.com/mfridman/srfax\t0.027s\tcoverage: 28.8% of statements\n
+// "ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"
+// "ok  \tgithub.com/mfridman/srfax\t0.027s\tcoverage: 28.8% of statements\n"
 func (e *Event) Cover() (float64, bool) {
 	var re = regexp.MustCompile(`[0-9]{1,3}\.[0-9]{1}\%`)
 
 	var f float64
 	var err error
 
-	if strings.Contains(e.Output, "\tcoverage:") && strings.HasSuffix(e.Output, "statements\n") {
+	if strings.Contains(e.Output, "coverage:") && strings.HasSuffix(e.Output, "of statements\n") {
 		s := re.FindString(e.Output)
 		f, err = strconv.ParseFloat(strings.TrimRight(s, "%"), 64)
 		if err != nil {

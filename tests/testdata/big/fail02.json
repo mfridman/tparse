@@ -1,0 +1,36 @@
+{"Time":"2018-10-28T00:06:53.478265-04:00","Action":"output","Package":"github.com/astromail/rover","Output":"?   \tgithub.com/astromail/rover\t[no test files]\n"}
+{"Time":"2018-10-28T00:06:53.478512-04:00","Action":"skip","Package":"github.com/astromail/rover","Elapsed":0}
+{"Time":"2018-10-28T00:06:53.511804-04:00","Action":"output","Package":"github.com/astromail/rover/cmd/roverd","Output":"?   \tgithub.com/astromail/rover/cmd/roverd\t[no test files]\n"}
+{"Time":"2018-10-28T00:06:53.511862-04:00","Action":"skip","Package":"github.com/astromail/rover/cmd/roverd","Elapsed":0}
+{"Time":"2018-10-28T00:06:53.511882-04:00","Action":"output","Package":"github.com/astromail/rover/errors","Output":"?   \tgithub.com/astromail/rover/errors\t[no test files]\n"}
+{"Time":"2018-10-28T00:06:53.511891-04:00","Action":"skip","Package":"github.com/astromail/rover/errors","Elapsed":0}
+{"Time":"2018-10-28T00:06:53.511907-04:00","Action":"output","Package":"github.com/astromail/rover/smtp","Output":"?   \tgithub.com/astromail/rover/smtp\t[no test files]\n"}
+{"Time":"2018-10-28T00:06:53.511916-04:00","Action":"skip","Package":"github.com/astromail/rover/smtp","Elapsed":0}
+{"Time":"2018-10-28T00:06:53.511933-04:00","Action":"output","Package":"github.com/astromail/rover/storage","Output":"?   \tgithub.com/astromail/rover/storage\t[no test files]\n"}
+{"Time":"2018-10-28T00:06:53.511942-04:00","Action":"skip","Package":"github.com/astromail/rover/storage","Elapsed":0}
+{"Time":"2018-10-28T00:06:53.511957-04:00","Action":"output","Package":"github.com/astromail/rover/storage/badger","Output":"?   \tgithub.com/astromail/rover/storage/badger\t[no test files]\n"}
+{"Time":"2018-10-28T00:06:53.511969-04:00","Action":"skip","Package":"github.com/astromail/rover/storage/badger","Elapsed":0}
+{"Time":"2018-10-28T00:06:54.007207-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/28 00:06:54 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n"}
+{"Time":"2018-10-28T00:06:54.007282-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/28 00:06:54 Iterating file id: 0\n"}
+{"Time":"2018-10-28T00:06:54.007321-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/28 00:06:54 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n"}
+{"Time":"2018-10-28T00:06:54.00733-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/28 00:06:54 Iterating file id: 0\n"}
+{"Time":"2018-10-28T00:06:54.007389-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/28 00:06:54 Iteration took: 144.649µs\n"}
+{"Time":"2018-10-28T00:06:54.007462-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"2018/10/28 00:06:54 Iteration took: 259.316µs\n"}
+{"Time":"2018-10-28T00:06:54.503762-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch"}
+{"Time":"2018-10-28T00:06:54.503795-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Output":"=== RUN   TestCatch\n"}
+{"Time":"2018-10-28T00:06:54.503829-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve"}
+{"Time":"2018-10-28T00:06:54.503838-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"=== RUN   TestCatch/catchAndRetrieve\n"}
+{"Time":"2018-10-28T00:06:54.507445-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Output":"--- FAIL: TestCatch (0.00s)\n"}
+{"Time":"2018-10-28T00:06:54.507485-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"    --- FAIL: TestCatch/catchAndRetrieve (0.00s)\n"}
+{"Time":"2018-10-28T00:06:54.507507-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:29: got id \"ad0892h\", want empty id\n"}
+{"Time":"2018-10-28T00:06:54.507517-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:37: email id does not match: got \"69c47b65-0ad5-47d5-9346-f4f8bd22c56e\", want \"oops@example.com\"\n"}
+{"Time":"2018-10-28T00:06:54.507528-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:41: failed to mark email as read: failed to mark email id \"123\" as read: PUT \"http://localhost:8026/api/v1/emails/123/read\": expecting valid status code, got 500 Internal Server Error\n"}
+{"Time":"2018-10-28T00:06:54.507536-04:00","Action":"fail","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Elapsed":0}
+{"Time":"2018-10-28T00:06:54.507544-04:00","Action":"fail","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Elapsed":0}
+{"Time":"2018-10-28T00:06:54.507549-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat"}
+{"Time":"2018-10-28T00:06:54.507554-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat","Output":"=== RUN   TestNameFormat\n"}
+{"Time":"2018-10-28T00:06:54.507571-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat","Output":"--- PASS: TestNameFormat (0.00s)\n"}
+{"Time":"2018-10-28T00:06:54.507578-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Test":"TestNameFormat","Elapsed":0}
+{"Time":"2018-10-28T00:06:54.507583-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"FAIL\n"}
+{"Time":"2018-10-28T00:06:54.50967-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"FAIL\tgithub.com/astromail/rover/tests\t0.532s\n"}
+{"Time":"2018-10-28T00:06:54.509705-04:00","Action":"fail","Package":"github.com/astromail/rover/tests","Elapsed":0.532}
