@@ -12,13 +12,17 @@ type Package struct {
 	Summary *Event
 	Tests   []*Test
 
-	// NoTestFiles indicates whether the package contains tests:
-	// "?   \tpackage\t[no test files]\n"
+	// NoTestFiles indicates whether the package contains tests: [no test files]
+	// This only occurs at the package level
 	NoTestFiles bool
 
-	// NoTests indicates whether package contains:
-	// "[no tests to run]"
+	// NoTests indicates a package contains one or more files with no tests. This doesn't
+	// necessarily mean the file is empty or that the package doesn't have any tests.
+	// Unfortunately go test marks the package summary with [no tests to run].
 	NoTests bool
+	// NoTestSlice holds events that contain "testing: warning: no tests to run" and
+	// a non-empty test name.
+	NoTestSlice Events
 
 	// Cached indicates whether the test result was obtained from the cache.
 	Cached bool
@@ -26,6 +30,13 @@ type Package struct {
 	// Cover reports whether the package contains coverage (go test run with -cover)
 	Cover    bool
 	Coverage float64
+}
+
+func NewPackage() *Package {
+	return &Package{
+		Summary: &Event{},
+		Tests:   []*Test{},
+	}
 }
 
 // AddEvent adds the event to a test based on test name.

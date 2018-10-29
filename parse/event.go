@@ -106,6 +106,13 @@ func (e *Event) NoTestsToRun() bool {
 	return strings.HasPrefix(e.Output, "ok  \t") && strings.HasSuffix(e.Output, "[no tests to run]\n")
 }
 
+// NoTestsWarn whether the event is a test that identifies as: "testing: warning: no tests to run\n"
+//
+// NOTE: can be found in a package or test event. Must check for non-empty test name in the event.
+func (e *Event) NoTestsWarn() bool {
+	return e.Test != "" && e.Output == "testing: warning: no tests to run\n"
+}
+
 // IsCached reports special event case for cached packages:
 // "ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n"
 // "ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"

@@ -289,6 +289,8 @@ func TestNoTestFiles(t *testing.T) {
 func TestNoTestsToRun(t *testing.T) {
 	// [no test files]
 
+	// This is testing the "package" level
+
 	t.Parallel()
 
 	tt := []struct {
@@ -302,6 +304,12 @@ func TestNoTestsToRun(t *testing.T) {
 		{
 			// 1
 			`{"Time": "2018-10-28T00:06:53.511804-04:00", "Action": "output", "Package": "github.com/astromail/rover/cmd/roverd", "Output": "?   \tgithub.com/astromail/rover/cmd/roverd\t[no test files]\n"}`, false,
+		},
+		{
+			`{"Time":"2018-10-29T09:31:49.853255-04:00","Action":"output","Package":"github.com/outerspace/v1/tests","Test":"TestSatelliteTransponder","Output":"testing: warning: no tests to run\n"}`, false,
+		},
+		{
+			`{"Time":"2018-10-28T18:20:47.18358917-04:00","Action":"output","Package":"github.com/a/tests","Output":"ok  \tgithub.com/a/tests\t(cached) [no tests to run]\n"}`, true,
 		},
 	}
 
@@ -318,6 +326,56 @@ func TestNoTestsToRun(t *testing.T) {
 
 			if got != want {
 				t.Errorf("got (%t), want (%t) for no tests to run", got, want)
+				t.Logf("input: %v", test.input)
+			}
+		})
+
+	}
+}
+
+func TestNoTestsWarn(t *testing.T) {
+	// [no test files]
+
+	// This is testing the "test" level only
+	t.Skip()
+
+	t.Parallel()
+
+	tt := []struct {
+		input      string
+		wanNoTests bool
+	}{
+		{
+			// 0
+			`{"Time":"2018-10-28T18:20:47.18358917-04:00","Action":"output","Package":"github.com/awesome/james","Output":"ok  \tgithub.com/awesome/james\t(cached) [no tests to run]\n"}`, false,
+		},
+		{
+			// 1
+			`{"Time": "2018-10-28T00:06:53.511804-04:00", "Action": "output", "Package": "github.com/astromail/rover/cmd/roverd", "Output": "?   \tgithub.com/astromail/rover/cmd/roverd\t[no test files]\n"}`, false,
+		},
+		{
+			// 2
+			`{"Time":"2018-10-29T09:31:49.853255-04:00","Action":"output","Package":"github.com/outerspace/v1/tests","Test":"TestSatelliteTransponder","Output":"testing: warning: no tests to run\n"}`, true,
+		},
+		{
+			// 3
+			`{"Time":"2018-10-28T18:20:47.245658814-04:00","Action":"output","Package":"github.com/abc/tests","Output":"testing: warning: no tests to run\n"}`, false,
+		},
+	}
+
+	for i, test := range tt {
+
+		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
+			e, err := NewEvent([]byte(test.input))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			got := e.NoTestsWarn()
+			want := test.wanNoTests
+
+			if got != want {
+				t.Errorf("got (%t), want (%t) for warn no tests to run", got, want)
 				t.Logf("input: %v", test.input)
 			}
 		})
