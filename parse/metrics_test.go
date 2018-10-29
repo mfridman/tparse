@@ -1,12 +1,10 @@
-package tests
+package parse
 
 import (
 	"bytes"
 	"io/ioutil"
 	"strings"
 	"testing"
-
-	"github.com/mfridman/tparse/parse"
 )
 
 func TestMetrics(t *testing.T) {
@@ -24,7 +22,7 @@ func TestMetrics(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pkgs, err := parse.Start(bytes.NewReader(by))
+	pkgs, err := Start(bytes.NewReader(by))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -48,8 +46,8 @@ func TestMetrics(t *testing.T) {
 			t.Fatalf("package %q cannot contain nil summary", name)
 		}
 
-		if pkg.Summary.Action != parse.ActionPass {
-			t.Errorf("unexpected action %v, want %v", pkg.Summary.Action, parse.ActionPass)
+		if pkg.Summary.Action != ActionPass {
+			t.Errorf("unexpected action %v, want %v", pkg.Summary.Action, ActionPass)
 		}
 	}
 
@@ -81,17 +79,17 @@ func TestMetrics(t *testing.T) {
 				t.Fatalf("got %d total tests in package %q, want %d total tests", len(pkg.Tests), test.name, test.total)
 			}
 
-			pa := pkg.TestsByAction(parse.ActionPass)
+			pa := pkg.TestsByAction(ActionPass)
 			if len(pa) != test.passed {
 				t.Fatalf("got %d passed tests in package %q, want %d passed tests", len(pa), test.name, test.passed)
 			}
 
-			sk := pkg.TestsByAction(parse.ActionSkip)
+			sk := pkg.TestsByAction(ActionSkip)
 			if len(sk) != test.skipped {
 				t.Fatalf("got %d passed tests in package %q, want %d passed tests", len(sk), test.name, test.skipped)
 			}
 
-			fa := pkg.TestsByAction(parse.ActionFail)
+			fa := pkg.TestsByAction(ActionFail)
 			if len(fa) != test.failed {
 				t.Fatalf("got %d failed tests in package %q, want %d failed tests", len(fa), test.name, test.failed)
 			}

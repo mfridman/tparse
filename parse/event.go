@@ -94,9 +94,9 @@ func (e *Event) Summary() bool {
 	return e.Test == "" && e.Output == "" && (e.Action == ActionPass || e.Action == ActionFail)
 }
 
-// SkipLine reports special event case for packages containing no test files:
+// NoTestFiles reports special event case for packages containing no test files:
 // "?   \tpackage\t[no test files]\n"
-func (e *Event) SkipLine() bool {
+func (e *Event) NoTestFiles() bool {
 	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "[no test files]\n")
 }
 

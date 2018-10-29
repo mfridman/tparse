@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -51,6 +52,7 @@ func (p *Package) HasPanic() error {
 	for _, t := range p.Tests {
 		for i := range t.Events {
 			if strings.HasPrefix(t.Events[i].Output, "panic:") && strings.HasPrefix(t.Events[i+1].Output, "\tpanic:") {
+				fmt.Println(t.Name)
 				return &PanicErr{Test: t, Summary: t.Events[len(t.Events)-1]}
 			}
 		}

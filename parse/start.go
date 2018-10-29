@@ -53,7 +53,7 @@ func Start(r io.Reader) (Packages, error) {
 			pkgs[e.Package] = pkg
 		}
 
-		if e.SkipLine() {
+		if e.NoTestFiles() {
 			pkg.Summary = &Event{Action: ActionPass}
 			pkg.NoTestFiles = true
 		}

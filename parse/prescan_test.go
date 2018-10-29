@@ -1,0 +1,56 @@
+package parse
+
+import (
+	"bytes"
+	"encoding/json"
+	"io/ioutil"
+	"path/filepath"
+	"reflect"
+	"testing"
+
+	"github.com/pkg/errors"
+)
+
+func TestPrescan(t *testing.T) {
+
+	t.Parallel()
+
+	root := "testdata"
+	base := filepath.Join(root, "prescan")
+
+	tt := []struct {
+		name string
+		desc string
+		err  error
+	}{
+		{"input01.txt", "want <nil> err", nil},
+		{"input02.txt", "want failure after reading >50 lines of non-parsable events", &json.SyntaxError{}},
+		// logic: unparsable event(s), good event(s), at least one event = fail.
+		// Once we get a good event, we expect only good events to follow until EOF.
+		{"input03.txt", "want failure when stream contains a bad event(s) -> good event(s) -> bad event", &json.SyntaxError{}},
+	}
+
+	for _, test := range tt {
+		test := test
+
+		t.Run(test.name, func(t *testing.T) {
+
+			t.Parallel()
+
+			by, err := ioutil.ReadFile(filepath.Join(base, test.name))
+			if err != nil {
+				t.Fatal(err)
+			}
+
+			_, err = Start(bytes.NewReader(by))
+			// retrieve original error.
+			err = errors.Cause(err)
+
+			if reflect.TypeOf(err) != reflect.TypeOf(test.err) {
+				t.Fatalf("%s: got err type %T want %T: %v", test.desc, err, test.err, err)
+			}
+
+		})
+
+	}
+}
