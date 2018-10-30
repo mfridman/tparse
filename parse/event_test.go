@@ -337,7 +337,6 @@ func TestNoTestsWarn(t *testing.T) {
 	// [no test files]
 
 	// This is testing the "test" level only
-	t.Skip()
 
 	t.Parallel()
 
