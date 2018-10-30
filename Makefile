@@ -7,3 +7,7 @@ test-tparse:
 
 release:
 	goreleaser --rm-dist
+
+coverage:
+	go test ./tests ./parse -covermode=count -coverprofile=count.out
+	go tool cover -html=count.out

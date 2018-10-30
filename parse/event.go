@@ -94,9 +94,9 @@ func (e *Event) Summary() bool {
 	return e.Test == "" && e.Output == "" && (e.Action == ActionPass || e.Action == ActionFail)
 }
 
-// SkipLine reports special event case for packages containing no test files:
+// NoTestFiles reports special event case for packages containing no test files:
 // "?   \tpackage\t[no test files]\n"
-func (e *Event) SkipLine() bool {
+func (e *Event) NoTestFiles() bool {
 	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "[no test files]\n")
 }
 
@@ -104,6 +104,13 @@ func (e *Event) SkipLine() bool {
 // "ok  \tgithub.com/some/awesome/module\t4.543s [no tests to run]\n"
 func (e *Event) NoTestsToRun() bool {
 	return strings.HasPrefix(e.Output, "ok  \t") && strings.HasSuffix(e.Output, "[no tests to run]\n")
+}
+
+// NoTestsWarn whether the event is a test that identifies as: "testing: warning: no tests to run\n"
+//
+// NOTE: can be found in a package or test event. Must check for non-empty test name in the event.
+func (e *Event) NoTestsWarn() bool {
+	return e.Test != "" && e.Output == "testing: warning: no tests to run\n"
 }
 
 // IsCached reports special event case for cached packages:

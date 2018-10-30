@@ -26,22 +26,38 @@ func (p Packages) PrintSummary(showNoTests bool) {
 		"Skip",    //6
 	})
 
+	tbl.SetAutoWrapText(false)
+
 	var passed [][]string
-	var skipped [][]string
+	var notests [][]string
 
 	for name, pkg := range p {
 
 		if pkg.NoTestFiles {
-			skipped = append(skipped, []string{
-				colorize("SKIP", cYellow, true), "--", name + "\n[no test files]", "--", "--", "--", "--",
+			notests = append(notests, []string{
+				colorize("NOTEST", cYellow, true), "--", name + "\n[no test files]", "--", "--", "--", "--",
 			})
 			continue
 		}
 
 		if pkg.NoTests {
-			skipped = append(skipped, []string{
-				colorize("SKIP", cYellow, true), "--", name + "\n[no tests to run]", "--", "--", "--", "--",
-			})
+			if len(pkg.NoTestSlice) > 0 {
+				// This should capture cases where packages have a mixture of empty and non-empty test files.
+				var ss []string
+				for i, t := range pkg.NoTestSlice {
+					i++
+					ss = append(ss, strconv.Itoa(i)+"."+t.Test)
+				}
+				s := fmt.Sprintf("%s\n[no tests to run]\n%s", name, strings.Join(ss, "\n"))
+				notests = append(notests, []string{
+					colorize("NOTEST", cYellow, true), "--", s, "--", "--", "--", "--",
+				})
+			} else {
+				// This should capture cases where packages truly have no tests, but empty files.
+				notests = append(notests, []string{
+					colorize("NOTEST", cYellow, true), "--", name + "\n[no tests to run]", "--", "--", "--", "--",
+				})
+			}
 			continue
 		}
 
@@ -75,18 +91,18 @@ func (p Packages) PrintSummary(showNoTests bool) {
 		})
 	}
 
-	if len(passed) == 0 && len(skipped) == 0 {
-		RawDump()
+	if len(passed) == 0 && len(notests) == 0 {
 		return
 	}
 
 	if len(passed) > 0 {
 		tbl.AppendBulk(passed)
 		if showNoTests {
-			tbl.AppendBulk(skipped)
+			// Only display the "no tests to run" cases if users want to see them.
+			tbl.AppendBulk(notests)
 		}
 	} else {
-		tbl.AppendBulk(skipped)
+		tbl.AppendBulk(notests)
 	}
 
 	tbl.Render()
@@ -130,7 +146,7 @@ func (p Packages) PrintTests(pass, skip, trim bool) {
 	tbl.SetAutoWrapText(false)
 
 	for _, pkg := range p {
-		if pkg.NoTests || pkg.NoTestFiles {
+		if pkg.NoTestFiles {
 			continue
 		}
 

@@ -98,7 +98,7 @@ func (t *Test) Stack() string {
 		}
 	}
 
-	return strings.TrimSpace(stack.String())
+	return stack.String()
 }
 
 // Sort events by elapsed time in ascending order, i.e., oldest to newest.

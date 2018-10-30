@@ -38,7 +38,12 @@ func Start(r io.Reader) (Packages, error) {
 				return nil, err
 			}
 
-			fmt.Fprintln(os.Stderr, sc.Text())
+			// TODO(mf): do we want to return unparsable events?
+			// This should be available downstream through RawDump.
+			// Alternatively, instead of RawDump we could just print those lines
+			// out start recording once we have a good event?
+
+			// fmt.Fprintln(os.Stderr, sc.Text())
 			badLines++
 			continue
 		}
@@ -46,18 +51,19 @@ func Start(r io.Reader) (Packages, error) {
 
 		pkg, ok := pkgs[e.Package]
 		if !ok {
-			pkg = &Package{
-				Summary: &Event{},
-				Tests:   []*Test{},
-			}
+			pkg = NewPackage()
 			pkgs[e.Package] = pkg
 		}
 
-		if e.SkipLine() {
+		if e.NoTestFiles() {
 			pkg.Summary = &Event{Action: ActionPass}
 			pkg.NoTestFiles = true
 		}
 
+		if e.NoTestsWarn() {
+			pkg.NoTestSlice = append(pkg.NoTestSlice, e)
+			// The package summary line within NoTestsToRun will mark the package as [no tests to run].
+		}
 		if e.NoTestsToRun() {
 			pkg.Summary = &Event{Action: ActionPass}
 			pkg.NoTests = true
