@@ -11,3 +11,6 @@ release:
 coverage:
 	go test ./tests ./parse -covermode=count -coverprofile=count.out
 	go tool cover -html=count.out
+
+generate:
+	GIT_TAG=$$(git describe --tags) go generate ./...

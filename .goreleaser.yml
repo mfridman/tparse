@@ -3,7 +3,7 @@
 before:
   hooks:
     # you may remove this if you don't use vgo
-    # - go mod download
+    - make generate
 builds:
 - env:
   - CGO_ENABLED=0

@@ -7,6 +7,8 @@ import (
 	"io"
 	"os"
 
+	"github.com/mfridman/tparse/version"
+
 	"github.com/mfridman/tparse/parse"
 
 	"github.com/pkg/errors"
@@ -47,7 +49,7 @@ func main() {
 	flag.Parse()
 
 	if *versionPtr {
-		fmt.Println("tparse version: devel")
+		fmt.Printf("tparse version: %s\n", version.Version())
 		os.Exit(0)
 	}
 
