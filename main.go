@@ -60,8 +60,13 @@ func main() {
 
 	pkgs, err := parse.Start(r)
 	// TODO(mf): no matter what error we get, we should always allow the user to retrieve
-	// whatever we could read in Start with -dump. Currently it only gets called way below.
+	// whatever we could read in Start with -dump. Currently it gets called way below.
 	if err != nil {
+		if err == parse.ErrNoScan {
+			parse.RawDump()
+			os.Exit(1)
+		}
+
 		switch err := errors.Cause(err).(type) {
 		case *json.SyntaxError:
 			fmt.Fprint(os.Stderr, "Error: must call go test with -json flag\n\n")

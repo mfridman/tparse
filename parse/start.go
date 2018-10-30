@@ -11,6 +11,8 @@ import (
 	"github.com/pkg/errors"
 )
 
+var ErrNoScan = errors.New("no scannable events")
+
 // Start is the entry point to the parse pkg. It consumes a reader
 // and attempts to parse go test JSON output lines until EOF.
 //
@@ -94,6 +96,9 @@ func Start(r io.Reader) (Packages, error) {
 
 	if err := sc.Err(); err != nil {
 		return nil, errors.Wrap(err, "bufio scanner error")
+	}
+	if !scan {
+		return nil, ErrNoScan
 	}
 
 	// Panic means end of the world, return PanicErr.

@@ -58,7 +58,6 @@ func (p Packages) PrintSummary(showNoTests bool) {
 					colorize("NOTEST", cYellow, true), "--", name + "\n[no tests to run]", "--", "--", "--", "--",
 				})
 			}
-			continue
 		}
 
 		var elapsed string
