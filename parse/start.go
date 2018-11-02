@@ -26,6 +26,8 @@ func Start(r io.Reader) (Packages, error) {
 	var scan bool
 	var badLines int
 
+	var panics bool
+
 	rd := io.TeeReader(r, &rawdump)
 
 	sc := bufio.NewScanner(rd)
@@ -51,10 +53,24 @@ func Start(r io.Reader) (Packages, error) {
 		}
 		scan = true
 
+		if panics {
+			// Stop processing events but continue reading until EOF,
+			// Downstream we're going to dump all lines we read
+			// back to the user.
+			continue
+		}
+
 		pkg, ok := pkgs[e.Package]
 		if !ok {
 			pkg = NewPackage()
 			pkgs[e.Package] = pkg
+		}
+
+		if e.IsPanic() {
+			pkg.HasPanic = true
+
+			panics = true
+			continue
 		}
 
 		if e.NoTestFiles() {
@@ -103,8 +119,8 @@ func Start(r io.Reader) (Packages, error) {
 
 	// Panic means end of the world, return PanicErr.
 	for _, pkg := range pkgs {
-		if err := pkg.HasPanic(); err != nil {
-			return nil, err
+		if pkg.HasPanic {
+			return nil, &PanicErr{pkg}
 		}
 	}
 
@@ -124,6 +140,11 @@ func RawDump() {
 		if err != nil {
 			// We couldn't parse an event, so return the raw text.
 			fmt.Fprintln(os.Stderr, strings.TrimSpace(sc.Text()))
+			continue
+		}
+		if e.IsPanic() {
+			// Useful for debugging the line that was caught.
+			fmt.Fprint(os.Stderr, colorize(e.Output, cRed, true))
 			continue
 		}
 		fmt.Fprint(os.Stderr, e.Output)

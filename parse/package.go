@@ -1,10 +1,5 @@
 package parse
 
-import (
-	"fmt"
-	"strings"
-)
-
 // Package is the representation of a single package being tested. The
 // summary field is an event that contains all relevant information about the
 // package, namely Package (name), Elapsed and Action (big pass or fail).
@@ -30,6 +25,9 @@ type Package struct {
 	// Cover reports whether the package contains coverage (go test run with -cover)
 	Cover    bool
 	Coverage float64
+
+	// HasPanic marks the entire package as panicked. Game over.
+	HasPanic bool
 }
 
 func NewPackage() *Package {
@@ -55,21 +53,6 @@ func (p *Package) AddEvent(event *Event) {
 	t.Events = append(t.Events, event)
 
 	p.Tests = append(p.Tests, t)
-}
-
-// HasPanic reports whether a package contains a test that panicked.
-// A PanicErr is returned if a test contains a panic.
-func (p *Package) HasPanic() error {
-	for _, t := range p.Tests {
-		for i := range t.Events {
-			if strings.HasPrefix(t.Events[i].Output, "panic:") && strings.HasPrefix(t.Events[i+1].Output, "\tpanic:") {
-				fmt.Println(t.Name)
-				return &PanicErr{Test: t, Summary: t.Events[len(t.Events)-1]}
-			}
-		}
-	}
-
-	return nil
 }
 
 // TestsByAction returns all tests that identify as one of the following

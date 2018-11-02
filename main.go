@@ -74,8 +74,7 @@ func main() {
 			fmt.Fprint(os.Stderr, "Error: must call go test with -json flag\n\n")
 			flag.Usage()
 		case *parse.PanicErr:
-			// Just return the package name, test name and debug info from the panic.
-			err.PrintPanic()
+			parse.RawDump()
 			os.Exit(1)
 		default:
 			// TODO(mf):

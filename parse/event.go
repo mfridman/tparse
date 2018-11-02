@@ -142,6 +142,13 @@ func (e *Event) Cover() (float64, bool) {
 	return f, false
 }
 
+// IsPanic indicates a panic event has been detected.
+func (e *Event) IsPanic() bool {
+	// Let's see how this goes. If a user has this prefix in one of their output lines, I think it's
+	// defensible to suggest updating their output.
+	return strings.HasPrefix(e.Output, "panic: ")
+}
+
 // Action is one of a fixed set of actions describing a single emitted event.
 type Action string
 
