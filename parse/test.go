@@ -58,13 +58,6 @@ func (t *Test) Stack() string {
 	// Record it and continue adding all subsequent lines.
 	t.SortEvents()
 
-	ss := []string{
-		"--- FAIL:",
-		"--- PASS:",
-		"--- SKIP:",
-		"--- BENCH:",
-	}
-
 	var stack strings.Builder
 
 	var scan bool
@@ -79,8 +72,8 @@ func (t *Test) Stack() string {
 			continue
 		}
 
-		for i := range ss {
-			if strings.Contains(e.Output, ss[i]) {
+		for i := range reports {
+			if strings.Contains(e.Output, reports[i]) {
 				scan = true
 				stack.WriteString(e.Output)
 			}
@@ -96,3 +89,12 @@ func (t *Test) SortEvents() {
 		return t.Events[i].Time.Before(t.Events[j].Time)
 	})
 }
+
+var (
+	reports = []string{
+		"--- PASS: ",
+		"--- FAIL: ",
+		"--- SKIP: ",
+		// "--- BENCH: ", TODO(mf): implement.
+	}
+)

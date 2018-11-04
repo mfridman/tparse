@@ -57,20 +57,22 @@ type Events []*Event
 //
 // If output is not one of the above return false.
 func (e *Event) Discard() bool {
-	u := []string{
-		"=== RUN",
-		"=== PAUSE",
-		"=== CONT",
-	}
-
-	for i := range u {
-		if strings.HasPrefix(e.Output, u[i]) {
+	for i := range updates {
+		if strings.HasPrefix(e.Output, updates[i]) {
 			return true
 		}
 	}
 
 	return e.Action == ActionOutput && e.Test == ""
 }
+
+var (
+	updates = []string{
+		"=== RUN   ",
+		"=== PAUSE ",
+		"=== CONT  ",
+	}
+)
 
 // Let's try using the LastLine method to report the package result.
 // If there are issues with LastLine() we can switch to this method.
