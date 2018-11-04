@@ -217,15 +217,17 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 		}
 
 		coverage := fmt.Sprintf("%.1f%%", pkg.Coverage)
-		switch c := pkg.Coverage; {
-		case c == 0.0:
-			break
-		case c <= 50.0:
-			coverage = colorize(coverage, cRed, true)
-		case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
-			coverage = colorize(coverage, cYellow, true)
-		case pkg.Coverage >= 80.0:
-			coverage = colorize(coverage, cGreen, true)
+		if pkg.Summary.Action != parse.ActionFail {
+			switch c := pkg.Coverage; {
+			case c == 0.0:
+				break
+			case c <= 50.0:
+				coverage = colorize(coverage, cRed, true)
+			case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
+				coverage = colorize(coverage, cYellow, true)
+			case pkg.Coverage >= 80.0:
+				coverage = colorize(coverage, cGreen, true)
+			}
 		}
 
 		passed = append(passed, []string{
@@ -301,8 +303,6 @@ func printPanic(pkg *parse.Package, w io.Writer) {
 }
 
 func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
-	fmt.Fprintf(w, "\n")
-
 	// Print passed tests, sorted by elapsed. Unlike failed tests, passed tests
 	// are not grouped. Maybe bad design?
 	tbl := tablewriter.NewWriter(w)
@@ -317,7 +317,7 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 	tbl.SetAutoWrapText(false)
 
 	for _, pkg := range pkgs {
-		if pkg.NoTestFiles {
+		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
 			continue
 		}
 
@@ -371,6 +371,7 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 	}
 
 	if tbl.NumLines() > 0 {
+		fmt.Fprintf(w, "\n")
 		tbl.Render()
 	}
 }
