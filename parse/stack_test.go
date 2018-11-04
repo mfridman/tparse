@@ -39,7 +39,7 @@ func TestSingleFailStack(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			pkgs, err := Start(bytes.NewReader(by))
+			pkgs, err := Process(bytes.NewReader(by))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -61,7 +61,7 @@ func TestSingleFailStack(t *testing.T) {
 					}
 
 					// Note, when go test outputs nested failed tests it favors "spaces" instead of "tabs".
-					// If you see a failure here, start with a scan of quoted got and want strings.
+					// If you see a failure here, start with a peak at the quoted got and want strings.
 					if t.Failed() {
 						t.Logf("\ngot plain:\n%s\ngot quoted:\n%+q", got, got)
 						t.Logf("\nwant plain:\n%s\nwant quoted:\n%+q", want, want)

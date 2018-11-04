@@ -22,7 +22,7 @@ func TestMetrics(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	pkgs, err := Start(bytes.NewReader(by))
+	pkgs, err := Process(bytes.NewReader(by))
 	if err != nil {
 		t.Fatal(err)
 	}

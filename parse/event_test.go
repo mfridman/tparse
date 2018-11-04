@@ -12,12 +12,12 @@ func TestNewEvent(t *testing.T) {
 	t.Parallel()
 
 	tt := []struct {
-		event            string
-		action           Action
-		pkg              string
-		test             string
-		output           string
-		discard, summary bool
+		event             string
+		action            Action
+		pkg               string
+		test              string
+		output            string
+		discard, lastLine bool
 	}{
 		{
 			// 0
@@ -111,8 +111,8 @@ func TestNewEvent(t *testing.T) {
 			if e.Test != test.test {
 				t.Errorf("wrong test name: got %q, want %q", e.Test, test.test)
 			}
-			if e.Summary() != test.summary {
-				t.Errorf("failed summary check: got %v, want %v", e.Summary(), test.summary)
+			if e.LastLine() != test.lastLine {
+				t.Errorf("failed lastLine check: got %v, want %v", e.LastLine(), test.lastLine)
 			}
 			if e.Discard() != test.discard {
 				t.Errorf("failed discard check: got %v, want %v", e.Discard(), test.discard)

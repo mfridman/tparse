@@ -28,6 +28,8 @@ type Package struct {
 
 	// HasPanic marks the entire package as panicked. Game over.
 	HasPanic bool
+	// Once a package has been marked HasPanic all subsequent events are added to PanicEvents.
+	PanicEvents []*Event
 }
 
 func NewPackage() *Package {

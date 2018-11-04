@@ -1,0 +1,254 @@
+{"Time":"2018-11-03T10:57:25.549199-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent"}
+{"Time":"2018-11-03T10:57:25.550513-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent","Output":"=== RUN   TestNewEvent\n"}
+{"Time":"2018-11-03T10:57:25.550542-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent","Output":"=== PAUSE TestNewEvent\n"}
+{"Time":"2018-11-03T10:57:25.550555-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent"}
+{"Time":"2018-11-03T10:57:25.550563-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent"}
+{"Time":"2018-11-03T10:57:25.550609-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent","Output":"=== RUN   TestCachedEvent\n"}
+{"Time":"2018-11-03T10:57:25.550622-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent","Output":"=== PAUSE TestCachedEvent\n"}
+{"Time":"2018-11-03T10:57:25.550629-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent"}
+{"Time":"2018-11-03T10:57:25.550644-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent"}
+{"Time":"2018-11-03T10:57:25.550655-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent","Output":"=== RUN   TestCoverEvent\n"}
+{"Time":"2018-11-03T10:57:25.550663-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent","Output":"=== PAUSE TestCoverEvent\n"}
+{"Time":"2018-11-03T10:57:25.550751-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent"}
+{"Time":"2018-11-03T10:57:25.550767-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles"}
+{"Time":"2018-11-03T10:57:25.550775-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles","Output":"=== RUN   TestNoTestFiles\n"}
+{"Time":"2018-11-03T10:57:25.550783-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles","Output":"=== PAUSE TestNoTestFiles\n"}
+{"Time":"2018-11-03T10:57:25.55079-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles"}
+{"Time":"2018-11-03T10:57:25.5508-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun"}
+{"Time":"2018-11-03T10:57:25.550807-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun","Output":"=== RUN   TestNoTestsToRun\n"}
+{"Time":"2018-11-03T10:57:25.550818-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun","Output":"=== PAUSE TestNoTestsToRun\n"}
+{"Time":"2018-11-03T10:57:25.550824-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun"}
+{"Time":"2018-11-03T10:57:25.550831-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn"}
+{"Time":"2018-11-03T10:57:25.550838-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn","Output":"=== RUN   TestNoTestsWarn\n"}
+{"Time":"2018-11-03T10:57:25.550927-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn","Output":"=== PAUSE TestNoTestsWarn\n"}
+{"Time":"2018-11-03T10:57:25.550937-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn"}
+{"Time":"2018-11-03T10:57:25.550945-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestMetrics"}
+{"Time":"2018-11-03T10:57:25.550954-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestMetrics","Output":"=== RUN   TestMetrics\n"}
+{"Time":"2018-11-03T10:57:25.550963-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestMetrics","Output":"=== PAUSE TestMetrics\n"}
+{"Time":"2018-11-03T10:57:25.550977-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestMetrics"}
+{"Time":"2018-11-03T10:57:25.55099-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan"}
+{"Time":"2018-11-03T10:57:25.550996-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan","Output":"=== RUN   TestPrescan\n"}
+{"Time":"2018-11-03T10:57:25.551089-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan","Output":"=== PAUSE TestPrescan\n"}
+{"Time":"2018-11-03T10:57:25.5511-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan"}
+{"Time":"2018-11-03T10:57:25.551107-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack"}
+{"Time":"2018-11-03T10:57:25.551114-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack","Output":"=== RUN   TestSingleFailStack\n"}
+{"Time":"2018-11-03T10:57:25.551125-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack","Output":"=== PAUSE TestSingleFailStack\n"}
+{"Time":"2018-11-03T10:57:25.551132-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack"}
+{"Time":"2018-11-03T10:57:25.551143-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent"}
+{"Time":"2018-11-03T10:57:25.551148-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent","Output":"=== CONT  TestNewEvent\n"}
+{"Time":"2018-11-03T10:57:25.551152-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn"}
+{"Time":"2018-11-03T10:57:25.551156-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn","Output":"=== CONT  TestNoTestsWarn\n"}
+{"Time":"2018-11-03T10:57:25.551235-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles"}
+{"Time":"2018-11-03T10:57:25.551246-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles","Output":"=== CONT  TestNoTestFiles\n"}
+{"Time":"2018-11-03T10:57:25.551254-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_0"}
+{"Time":"2018-11-03T10:57:25.551269-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_0","Output":"=== RUN   TestNewEvent/event_0\n"}
+{"Time":"2018-11-03T10:57:25.551277-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_0"}
+{"Time":"2018-11-03T10:57:25.551284-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_0","Output":"=== RUN   TestNoTestFiles/event_0\n"}
+{"Time":"2018-11-03T10:57:25.551292-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack"}
+{"Time":"2018-11-03T10:57:25.551299-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack","Output":"=== CONT  TestSingleFailStack\n"}
+{"Time":"2018-11-03T10:57:25.551308-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_0","Output":"=== PAUSE TestNewEvent/event_0\n"}
+{"Time":"2018-11-03T10:57:25.551361-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_0"}
+{"Time":"2018-11-03T10:57:25.551371-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack/input01"}
+{"Time":"2018-11-03T10:57:25.551378-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack/input01","Output":"=== RUN   TestSingleFailStack/input01\n"}
+{"Time":"2018-11-03T10:57:25.551391-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_1"}
+{"Time":"2018-11-03T10:57:25.551398-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_1","Output":"=== RUN   TestNewEvent/event_1\n"}
+{"Time":"2018-11-03T10:57:25.551405-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_0"}
+{"Time":"2018-11-03T10:57:25.551414-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_0","Output":"=== RUN   TestNoTestsWarn/event_0\n"}
+{"Time":"2018-11-03T10:57:25.551422-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_1","Output":"=== PAUSE TestNewEvent/event_1\n"}
+{"Time":"2018-11-03T10:57:25.551429-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_1"}
+{"Time":"2018-11-03T10:57:25.551435-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_2"}
+{"Time":"2018-11-03T10:57:25.551444-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_2","Output":"=== RUN   TestNewEvent/event_2\n"}
+{"Time":"2018-11-03T10:57:25.551494-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_2","Output":"=== PAUSE TestNewEvent/event_2\n"}
+{"Time":"2018-11-03T10:57:25.551502-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_2"}
+{"Time":"2018-11-03T10:57:25.551509-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_3"}
+{"Time":"2018-11-03T10:57:25.551516-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_3","Output":"=== RUN   TestNewEvent/event_3\n"}
+{"Time":"2018-11-03T10:57:25.55154-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_3","Output":"=== PAUSE TestNewEvent/event_3\n"}
+{"Time":"2018-11-03T10:57:25.551548-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_3"}
+{"Time":"2018-11-03T10:57:25.551555-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_4"}
+{"Time":"2018-11-03T10:57:25.551559-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_4","Output":"=== RUN   TestNewEvent/event_4\n"}
+{"Time":"2018-11-03T10:57:25.551564-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_4","Output":"=== PAUSE TestNewEvent/event_4\n"}
+{"Time":"2018-11-03T10:57:25.551568-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_4"}
+{"Time":"2018-11-03T10:57:25.551641-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_5"}
+{"Time":"2018-11-03T10:57:25.551651-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_5","Output":"=== RUN   TestNewEvent/event_5\n"}
+{"Time":"2018-11-03T10:57:25.55166-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_5","Output":"=== PAUSE TestNewEvent/event_5\n"}
+{"Time":"2018-11-03T10:57:25.551667-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_5"}
+{"Time":"2018-11-03T10:57:25.551677-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_6"}
+{"Time":"2018-11-03T10:57:25.551684-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_6","Output":"=== RUN   TestNewEvent/event_6\n"}
+{"Time":"2018-11-03T10:57:25.551691-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_6","Output":"=== PAUSE TestNewEvent/event_6\n"}
+{"Time":"2018-11-03T10:57:25.551698-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_6"}
+{"Time":"2018-11-03T10:57:25.551705-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_7"}
+{"Time":"2018-11-03T10:57:25.551711-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_7","Output":"=== RUN   TestNewEvent/event_7\n"}
+{"Time":"2018-11-03T10:57:25.551722-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_7","Output":"=== PAUSE TestNewEvent/event_7\n"}
+{"Time":"2018-11-03T10:57:25.55178-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_7"}
+{"Time":"2018-11-03T10:57:25.551791-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_8"}
+{"Time":"2018-11-03T10:57:25.551798-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_8","Output":"=== RUN   TestNewEvent/event_8\n"}
+{"Time":"2018-11-03T10:57:25.551805-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_8","Output":"=== PAUSE TestNewEvent/event_8\n"}
+{"Time":"2018-11-03T10:57:25.551812-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_8"}
+{"Time":"2018-11-03T10:57:25.551818-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_9"}
+{"Time":"2018-11-03T10:57:25.551825-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_9","Output":"=== RUN   TestNewEvent/event_9\n"}
+{"Time":"2018-11-03T10:57:25.551832-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_9","Output":"=== PAUSE TestNewEvent/event_9\n"}
+{"Time":"2018-11-03T10:57:25.551838-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_9"}
+{"Time":"2018-11-03T10:57:25.551844-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent"}
+{"Time":"2018-11-03T10:57:25.551851-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent","Output":"=== CONT  TestCoverEvent\n"}
+{"Time":"2018-11-03T10:57:25.551856-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_0"}
+{"Time":"2018-11-03T10:57:25.551946-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_0","Output":"=== RUN   TestCoverEvent/event_0\n"}
+{"Time":"2018-11-03T10:57:25.551955-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_1"}
+{"Time":"2018-11-03T10:57:25.551959-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_1","Output":"=== RUN   TestNoTestFiles/event_1\n"}
+{"Time":"2018-11-03T10:57:25.551964-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_1"}
+{"Time":"2018-11-03T10:57:25.55197-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_1","Output":"=== RUN   TestNoTestsWarn/event_1\n"}
+{"Time":"2018-11-03T10:57:25.551978-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_2"}
+{"Time":"2018-11-03T10:57:25.551985-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_2","Output":"=== RUN   TestNoTestFiles/event_2\n"}
+{"Time":"2018-11-03T10:57:25.551992-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_3"}
+{"Time":"2018-11-03T10:57:25.551999-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_3","Output":"=== RUN   TestNoTestFiles/event_3\n"}
+{"Time":"2018-11-03T10:57:25.552009-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_2"}
+{"Time":"2018-11-03T10:57:25.552015-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_2","Output":"=== RUN   TestNoTestsWarn/event_2\n"}
+{"Time":"2018-11-03T10:57:25.552022-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_1"}
+{"Time":"2018-11-03T10:57:25.552029-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_1","Output":"=== RUN   TestCoverEvent/event_1\n"}
+{"Time":"2018-11-03T10:57:25.552042-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles","Output":"--- PASS: TestNoTestFiles (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552052-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_0","Output":"    --- PASS: TestNoTestFiles/event_0 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552058-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_0","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552076-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_1","Output":"    --- PASS: TestNoTestFiles/event_1 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552084-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_1","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552181-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_2","Output":"    --- PASS: TestNoTestFiles/event_2 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552191-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_2","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552196-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_3","Output":"    --- PASS: TestNoTestFiles/event_3 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552204-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles/event_3","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.55221-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestFiles","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552217-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent"}
+{"Time":"2018-11-03T10:57:25.552224-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent","Output":"=== CONT  TestCachedEvent\n"}
+{"Time":"2018-11-03T10:57:25.552231-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_0"}
+{"Time":"2018-11-03T10:57:25.552238-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_0","Output":"=== RUN   TestCachedEvent/event_0\n"}
+{"Time":"2018-11-03T10:57:25.552245-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_3"}
+{"Time":"2018-11-03T10:57:25.552263-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_3","Output":"=== RUN   TestNoTestsWarn/event_3\n"}
+{"Time":"2018-11-03T10:57:25.552271-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_2"}
+{"Time":"2018-11-03T10:57:25.552277-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_2","Output":"=== RUN   TestCoverEvent/event_2\n"}
+{"Time":"2018-11-03T10:57:25.552331-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_1"}
+{"Time":"2018-11-03T10:57:25.552341-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_1","Output":"=== RUN   TestCachedEvent/event_1\n"}
+{"Time":"2018-11-03T10:57:25.55235-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn","Output":"--- PASS: TestNoTestsWarn (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552358-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_0","Output":"    --- PASS: TestNoTestsWarn/event_0 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552365-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_0","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552373-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_1","Output":"    --- PASS: TestNoTestsWarn/event_1 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.55238-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_1","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552387-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_2","Output":"    --- PASS: TestNoTestsWarn/event_2 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552393-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_2","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552397-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_3","Output":"    --- PASS: TestNoTestsWarn/event_3 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552466-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn/event_3","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552478-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsWarn","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552485-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan"}
+{"Time":"2018-11-03T10:57:25.552491-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan","Output":"=== CONT  TestPrescan\n"}
+{"Time":"2018-11-03T10:57:25.552498-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_2"}
+{"Time":"2018-11-03T10:57:25.552505-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_2","Output":"=== RUN   TestCachedEvent/event_2\n"}
+{"Time":"2018-11-03T10:57:25.552515-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt"}
+{"Time":"2018-11-03T10:57:25.552522-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"=== RUN   TestPrescan/input01.txt\n"}
+{"Time":"2018-11-03T10:57:25.552529-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"=== PAUSE TestPrescan/input01.txt\n"}
+{"Time":"2018-11-03T10:57:25.552538-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt"}
+{"Time":"2018-11-03T10:57:25.552543-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack/input02"}
+{"Time":"2018-11-03T10:57:25.552605-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack/input02","Output":"=== RUN   TestSingleFailStack/input02\n"}
+{"Time":"2018-11-03T10:57:25.552616-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_3"}
+{"Time":"2018-11-03T10:57:25.552623-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_3","Output":"=== RUN   TestCoverEvent/event_3\n"}
+{"Time":"2018-11-03T10:57:25.552631-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input02.txt"}
+{"Time":"2018-11-03T10:57:25.552638-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input02.txt","Output":"=== RUN   TestPrescan/input02.txt\n"}
+{"Time":"2018-11-03T10:57:25.552646-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input02.txt","Output":"=== PAUSE TestPrescan/input02.txt\n"}
+{"Time":"2018-11-03T10:57:25.552653-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input02.txt"}
+{"Time":"2018-11-03T10:57:25.552659-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_3"}
+{"Time":"2018-11-03T10:57:25.552666-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_3","Output":"=== RUN   TestCachedEvent/event_3\n"}
+{"Time":"2018-11-03T10:57:25.552673-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input03.txt"}
+{"Time":"2018-11-03T10:57:25.552697-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input03.txt","Output":"=== RUN   TestPrescan/input03.txt\n"}
+{"Time":"2018-11-03T10:57:25.552704-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input03.txt","Output":"=== PAUSE TestPrescan/input03.txt\n"}
+{"Time":"2018-11-03T10:57:25.55275-04:00","Action":"pause","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input03.txt"}
+{"Time":"2018-11-03T10:57:25.552761-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun"}
+{"Time":"2018-11-03T10:57:25.552768-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun","Output":"=== CONT  TestNoTestsToRun\n"}
+{"Time":"2018-11-03T10:57:25.552775-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_0"}
+{"Time":"2018-11-03T10:57:25.552781-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_0","Output":"=== RUN   TestNoTestsToRun/event_0\n"}
+{"Time":"2018-11-03T10:57:25.55279-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_4"}
+{"Time":"2018-11-03T10:57:25.552796-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_4","Output":"=== RUN   TestCachedEvent/event_4\n"}
+{"Time":"2018-11-03T10:57:25.552803-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_1"}
+{"Time":"2018-11-03T10:57:25.552809-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_1","Output":"=== RUN   TestNoTestsToRun/event_1\n"}
+{"Time":"2018-11-03T10:57:25.552816-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_4"}
+{"Time":"2018-11-03T10:57:25.552823-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_4","Output":"=== RUN   TestCoverEvent/event_4\n"}
+{"Time":"2018-11-03T10:57:25.552888-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent","Output":"--- PASS: TestCachedEvent (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552898-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_0","Output":"    --- PASS: TestCachedEvent/event_0 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552911-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_0","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552919-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_1","Output":"    --- PASS: TestCachedEvent/event_1 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552926-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_1","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552933-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_2","Output":"    --- PASS: TestCachedEvent/event_2 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552939-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_2","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.552946-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_3","Output":"    --- PASS: TestCachedEvent/event_3 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.552954-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_3","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553012-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_4","Output":"    --- PASS: TestCachedEvent/event_4 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553024-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent/event_4","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553031-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCachedEvent","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553037-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestMetrics"}
+{"Time":"2018-11-03T10:57:25.553043-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestMetrics","Output":"=== CONT  TestMetrics\n"}
+{"Time":"2018-11-03T10:57:25.55305-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_2"}
+{"Time":"2018-11-03T10:57:25.553057-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_2","Output":"=== RUN   TestNoTestsToRun/event_2\n"}
+{"Time":"2018-11-03T10:57:25.553061-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_3"}
+{"Time":"2018-11-03T10:57:25.553067-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_3","Output":"=== RUN   TestNoTestsToRun/event_3\n"}
+{"Time":"2018-11-03T10:57:25.553074-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_5"}
+{"Time":"2018-11-03T10:57:25.553081-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_5","Output":"=== RUN   TestCoverEvent/event_5\n"}
+{"Time":"2018-11-03T10:57:25.553145-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun","Output":"--- PASS: TestNoTestsToRun (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553156-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_0","Output":"    --- PASS: TestNoTestsToRun/event_0 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553173-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_0","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553184-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_1","Output":"    --- PASS: TestNoTestsToRun/event_1 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553192-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_1","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553199-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_2","Output":"    --- PASS: TestNoTestsToRun/event_2 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553269-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_2","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553281-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_3","Output":"    --- PASS: TestNoTestsToRun/event_3 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553291-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun/event_3","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553298-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestNoTestsToRun","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553304-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_0"}
+{"Time":"2018-11-03T10:57:25.55331-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_0","Output":"=== CONT  TestNewEvent/event_0\n"}
+{"Time":"2018-11-03T10:57:25.553318-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_5"}
+{"Time":"2018-11-03T10:57:25.553324-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_5","Output":"=== CONT  TestNewEvent/event_5\n"}
+{"Time":"2018-11-03T10:57:25.55333-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent","Output":"--- PASS: TestCoverEvent (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553335-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_0","Output":"    --- PASS: TestCoverEvent/event_0 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.55334-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_0","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553344-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_1","Output":"    --- PASS: TestCoverEvent/event_1 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553419-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_1","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.55343-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_2","Output":"    --- PASS: TestCoverEvent/event_2 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553438-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_2","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553444-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_3","Output":"    --- PASS: TestCoverEvent/event_3 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553452-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_3","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553458-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_4","Output":"    --- PASS: TestCoverEvent/event_4 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553465-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_4","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553472-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_5","Output":"    --- PASS: TestCoverEvent/event_5 (0.00s)\n"}
+{"Time":"2018-11-03T10:57:25.553479-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent/event_5","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553489-04:00","Action":"pass","Package":"github.com/mfridman/tparse/parse","Test":"TestCoverEvent","Elapsed":0}
+{"Time":"2018-11-03T10:57:25.553496-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_9"}
+{"Time":"2018-11-03T10:57:25.553551-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_9","Output":"=== CONT  TestNewEvent/event_9\n"}
+{"Time":"2018-11-03T10:57:25.55356-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_8"}
+{"Time":"2018-11-03T10:57:25.553567-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_8","Output":"=== CONT  TestNewEvent/event_8\n"}
+{"Time":"2018-11-03T10:57:25.553574-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_7"}
+{"Time":"2018-11-03T10:57:25.553581-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_7","Output":"=== CONT  TestNewEvent/event_7\n"}
+{"Time":"2018-11-03T10:57:25.553588-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack/input03"}
+{"Time":"2018-11-03T10:57:25.553594-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestSingleFailStack/input03","Output":"=== RUN   TestSingleFailStack/input03\n"}
+{"Time":"2018-11-03T10:57:25.553602-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_6"}
+{"Time":"2018-11-03T10:57:25.553608-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_6","Output":"=== CONT  TestNewEvent/event_6\n"}
+{"Time":"2018-11-03T10:57:25.553615-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_3"}
+{"Time":"2018-11-03T10:57:25.553622-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_3","Output":"=== CONT  TestNewEvent/event_3\n"}
+{"Time":"2018-11-03T10:57:25.553699-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_2"}
+{"Time":"2018-11-03T10:57:25.55371-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_2","Output":"=== CONT  TestNewEvent/event_2\n"}
+{"Time":"2018-11-03T10:57:25.553735-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_4"}
+{"Time":"2018-11-03T10:57:25.553743-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_4","Output":"=== CONT  TestNewEvent/event_4\n"}
+{"Time":"2018-11-03T10:57:25.553749-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_1"}
+{"Time":"2018-11-03T10:57:25.553759-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent/event_1","Output":"=== CONT  TestNewEvent/event_1\n"}
+{"Time":"2018-11-03T10:57:25.553765-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input03.txt"}
+{"Time":"2018-11-03T10:57:25.553771-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input03.txt","Output":"=== CONT  TestPrescan/input03.txt\n"}
+{"Time":"2018-11-03T10:57:25.553777-04:00","Action":"cont","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt"}
+{"Time":"2018-11-03T10:57:25.553822-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"=== CONT  TestPrescan/input01.txt\n"}
+{"Time":"2018-11-03T10:57:25.553845-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"panic: p [recovered]\n"}
+{"Time":"2018-11-03T10:57:25.553853-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\tpanic: p\n"}
+{"Time":"2018-11-03T10:57:25.553861-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\n"}
+{"Time":"2018-11-03T10:57:25.553868-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"goroutine 53 [running]:\n"}
+{"Time":"2018-11-03T10:57:25.553878-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"testing.tRunner.func1(0xc00017a300)\n"}
+{"Time":"2018-11-03T10:57:25.553885-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\t/usr/local/go/src/testing/testing.go:792 +0x387\n"}
+{"Time":"2018-11-03T10:57:25.553968-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"panic(0x112f600, 0x1188110)\n"}
+{"Time":"2018-11-03T10:57:25.553978-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\t/usr/local/go/src/runtime/panic.go:513 +0x1b9\n"}
+{"Time":"2018-11-03T10:57:25.553986-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"github.com/mfridman/tparse/parse.TestPrescan.func1(0xc00017a300)\n"}
+{"Time":"2018-11-03T10:57:25.553996-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\t/Users/michael.fridman/go/src/github.com/mfridman/tparse/parse/prescan_test.go:43 +0x139\n"}
+{"Time":"2018-11-03T10:57:25.554004-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"testing.tRunner(0xc00017a300, 0xc0001a8000)\n"}
+{"Time":"2018-11-03T10:57:25.554011-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\t/usr/local/go/src/testing/testing.go:827 +0xbf\n"}
+{"Time":"2018-11-03T10:57:25.554019-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"created by testing.(*T).Run\n"}
+{"Time":"2018-11-03T10:57:25.554094-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"\t/usr/local/go/src/testing/testing.go:878 +0x353\n"}
+{"Time":"2018-11-03T10:57:25.554225-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Output":"FAIL\tgithub.com/mfridman/tparse/parse\t0.015s\n"}
+{"Time":"2018-11-03T10:57:25.554271-04:00","Action":"fail","Package":"github.com/mfridman/tparse/parse","Test":"TestPrescan/input01.txt","Elapsed":0.016}

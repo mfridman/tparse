@@ -2,13 +2,10 @@ package parse
 
 import (
 	"encoding/json"
-	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/pkg/errors"
 )
 
 // Event represents a single line of json output from go test with the -json flag.
@@ -42,12 +39,12 @@ type Event struct {
 }
 
 func NewEvent(data []byte) (*Event, error) {
-	var ev Event
-	if err := json.Unmarshal(data, &ev); err != nil {
-		return nil, errors.Wrap(err, "failed to unmarshal test event")
+	var e Event
+	if err := json.Unmarshal(data, &e); err != nil {
+		return nil, err
 	}
 
-	return &ev, nil
+	return &e, nil
 }
 
 // Events is a slice of events belonging to a single test based on test name.
@@ -75,22 +72,22 @@ func (e *Event) Discard() bool {
 	return e.Action == ActionOutput && e.Test == ""
 }
 
-// Let's try using the Summary method to report the package result.
-// If there are issues with Summary we can switch to this method.
+// Let's try using the LastLine method to report the package result.
+// If there are issues with LastLine() we can switch to this method.
 //
 // BigResult reports whether the package passed or failed.
 // func (e *Event) BigResult() bool {
 // 	return e.Test == "" && (e.Output == "PASS\n" || e.Output == "FAIL\n")
 // }
 
-// Summary reports whether the event is the final emitted output line summarizing the package run.
+// LastLine reports whether the event is the final emitted output line summarizing the package run.
 //
 // ok  	github.com/astromail/rover/tests	0.583s
 // {Time:2018-10-14 11:45:03.489687 -0400 EDT Action:pass Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.584}
 //
 // FAIL	github.com/astromail/rover/tests	0.534s
 // {Time:2018-10-14 11:45:23.916729 -0400 EDT Action:fail Output: Package:github.com/astromail/rover/tests Test: Elapsed:0.53}
-func (e *Event) Summary() bool {
+func (e *Event) LastLine() bool {
 	return e.Test == "" && e.Output == "" && (e.Action == ActionPass || e.Action == ActionFail)
 }
 
@@ -166,34 +163,4 @@ const (
 
 func (a Action) String() string {
 	return string(a)
-}
-
-// WithColor attempts to return a colorized string based on action:
-// pass=green, skip=yellow, fail=red, default=no color.
-func (a Action) WithColor() string {
-	s := strings.ToUpper(a.String())
-	switch a {
-	case ActionPass:
-		return colorize(s, cGreen, true)
-	case ActionSkip:
-		return colorize(s, cYellow, true)
-	case ActionFail:
-		return colorize(s, cRed, true)
-	default:
-		return s
-	}
-}
-
-const (
-	cReset  = 0
-	cRed    = 31
-	cGreen  = 32
-	cYellow = 33
-)
-
-func colorize(s string, color int, enabled bool) string {
-	if !enabled {
-		return fmt.Sprintf("%s", s)
-	}
-	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
 }

@@ -2,7 +2,6 @@ package parse
 
 import (
 	"bytes"
-	"encoding/json"
 	"io/ioutil"
 	"path/filepath"
 	"reflect"
@@ -24,10 +23,10 @@ func TestPrescan(t *testing.T) {
 		err  error
 	}{
 		{"input01.txt", "want <nil> err", nil},
-		{"input02.txt", "want failure after reading >50 lines of non-parsable events", &json.SyntaxError{}},
-		// logic: unparsable event(s), good event(s), at least one event = fail.
+		{"input02.txt", "want failure after reading >50 lines of non-parseable events", ErrNotParseable},
+		// logic: unparseable event(s), good event(s), at least one event = fail.
 		// Once we get a good event, we expect only good events to follow until EOF.
-		{"input03.txt", "want failure when stream contains a bad event(s) -> good event(s) -> bad event", &json.SyntaxError{}},
+		{"input03.txt", "want failure when stream contains a bad event(s) -> good event(s) -> bad event", ErrNotParseable},
 	}
 
 	for _, test := range tt {
@@ -42,7 +41,7 @@ func TestPrescan(t *testing.T) {
 				t.Fatal(err)
 			}
 
-			_, err = Start(bytes.NewReader(by))
+			_, err = Process(bytes.NewReader(by))
 			// retrieve original error.
 			err = errors.Cause(err)
 

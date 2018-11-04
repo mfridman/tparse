@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// enables disabling colors in test runs. Will eventually be a feature to enable users to turn on/off colors.
+// Allows disabling colors in test runs. Should be a feature where users to turn on/off colors.
 var colors = true
 
 // Test represents a single, unique, package test.
@@ -34,7 +34,7 @@ func (t *Test) Status() Action {
 	// sort by time and scan for an action in reverse order.
 	// The first action we come across (in reverse order) is
 	// the outcome of the test, which will be one of pass|fail|skip.
-	t.Sort()
+	t.SortEvents()
 
 	for i := len(t.Events) - 1; i >= 0; i-- {
 		switch t.Events[i].Action {
@@ -56,7 +56,7 @@ func (t *Test) Stack() string {
 	// Sort by time and scan for the first output containing the string
 	// "--- FAIL" or "--- SKIP"; this event marks the beginning for the "stack".
 	// Record it and continue adding all subsequent lines.
-	t.Sort()
+	t.SortEvents()
 
 	ss := []string{
 		"--- FAIL:",
@@ -79,21 +79,10 @@ func (t *Test) Stack() string {
 			continue
 		}
 
-		// this is a special case for truly end of the world runtime panics
-		if strings.HasPrefix(e.Output, "panic:") && strings.Contains(e.Output, "runtime error:") {
-			stack.WriteString(e.Output)
-			scan = true
-			continue
-		}
-
 		for i := range ss {
 			if strings.Contains(e.Output, ss[i]) {
 				scan = true
-				if colors {
-					stack.WriteString(colorize(e.Output, cRed, true))
-				} else {
-					stack.WriteString(e.Output)
-				}
+				stack.WriteString(e.Output)
 			}
 		}
 	}
@@ -101,8 +90,8 @@ func (t *Test) Stack() string {
 	return stack.String()
 }
 
-// Sort events by elapsed time in ascending order, i.e., oldest to newest.
-func (t *Test) Sort() {
+// SortEvents sorts test events by elapsed time in ascending order, i.e., oldest to newest.
+func (t *Test) SortEvents() {
 	sort.Slice(t.Events, func(i, j int) bool {
 		return t.Events[i].Time.Before(t.Events[j].Time)
 	})
