@@ -88,27 +88,34 @@ func main() {
 		os.Exit(0)
 	}
 
-	if *topPtr {
-		printSummary(os.Stdout, pkgs, *showNoTestsPtr)
-	}
-
-	parse.RawDump(os.Stderr, *dumpPtr)
-
-	// Print all failed tests per package (if any).
-	printFailed(os.Stderr, pkgs)
-
-	if *allPtr {
-		printTests(os.Stdout, pkgs, true, true, *smallScreenPtr)
-	} else if *passPtr {
-		printTests(os.Stdout, pkgs, true, false, *smallScreenPtr)
-	} else if *skipPtr {
-		printTests(os.Stdout, pkgs, false, true, *smallScreenPtr)
-	}
-
-	// Prints packages summary table.
-	// TODO: think about using functional options?
 	if !*topPtr {
+		parse.RawDump(os.Stderr, *dumpPtr)
+
+		if *allPtr {
+			printTests(os.Stdout, pkgs, true, true, *smallScreenPtr)
+		} else if *passPtr {
+			printTests(os.Stdout, pkgs, true, false, *smallScreenPtr)
+		} else if *skipPtr {
+			printTests(os.Stdout, pkgs, false, true, *smallScreenPtr)
+		}
+		// Print all failed tests per package (if any).
+		printFailed(os.Stderr, pkgs)
+
 		printSummary(os.Stdout, pkgs, *showNoTestsPtr)
+	} else {
+		printSummary(os.Stdout, pkgs, *showNoTestsPtr)
+
+		// Print all failed tests per package (if any).
+		printFailed(os.Stderr, pkgs)
+
+		if *allPtr {
+			printTests(os.Stdout, pkgs, true, true, *smallScreenPtr)
+		} else if *passPtr {
+			printTests(os.Stdout, pkgs, true, false, *smallScreenPtr)
+		} else if *skipPtr {
+			printTests(os.Stdout, pkgs, false, true, *smallScreenPtr)
+		}
+		parse.RawDump(os.Stderr, *dumpPtr)
 	}
 
 	// Return an exit code that's inline with what go test would have returned otherwise.

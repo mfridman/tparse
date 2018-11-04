@@ -32,6 +32,7 @@ type Package struct {
 	PanicEvents []*Event
 }
 
+// NewPackage initializes and returns a Package.
 func NewPackage() *Package {
 	return &Package{
 		Summary: &Event{},

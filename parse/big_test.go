@@ -80,7 +80,7 @@ func TestBigOutcome(t *testing.T) {
 					for k := range test.registry {
 						t.Log(k)
 					}
-					t.Fatalf("got unmapped package name %q. Check input file and record all unique package names in registery", name)
+					t.Fatalf("got unmapped package name %q. Check input file and record all unique package names in registry", name)
 				}
 
 				if pkg.Summary.Action != want {

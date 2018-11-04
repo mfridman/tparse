@@ -38,6 +38,7 @@ type Event struct {
 	Elapsed float64
 }
 
+// NewEvent attempts to decode data into an Event.
 func NewEvent(data []byte) (*Event, error) {
 	var e Event
 	if err := json.Unmarshal(data, &e); err != nil {
