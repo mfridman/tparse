@@ -400,7 +400,7 @@ const (
 
 func colorize(s string, color int, enabled bool) string {
 	if !enabled {
-		return fmt.Sprintf("%s", s)
+		return s
 	}
 	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
 }
