@@ -248,7 +248,7 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 		})
 	}
 
-	if len(passed) == 0 && len(notests) == 0 {
+	if tbl.NumLines() == 0 && len(passed) == 0 && len(notests) == 0 {
 		return
 	}
 
