@@ -1,4 +1,4 @@
-# tparse  [![Build Status](https://travis-ci.com/mfridman/tparse.svg?branch=master)](https://travis-ci.com/mfridman/tparse)
+# tparse  [![Build Status](https://travis-ci.com/mfridman/tparse.svg?branch=master)](https://travis-ci.com/mfridman/tparse) [![Coverage](http://gocover.io/_badge/github.com/mfridman/tparse/parse)](http://gocover.io/github.com/mfridman/tparse/parse)
 
 A command line tool for analyzing and summarizing `go test` output.
 
