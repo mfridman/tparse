@@ -32,6 +32,10 @@ type Package struct {
 	PanicEvents []*Event
 }
 
+// Packages is a collection of packages being tested.
+// TODO: this should really be a consoleWriter... would benefit from a nice refactor.
+type Packages map[string]*Package
+
 // NewPackage initializes and returns a Package.
 func NewPackage() *Package {
 	return &Package{

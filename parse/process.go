@@ -15,10 +15,6 @@ import (
 // by the Process func.
 var ErrNotParseable = errors.New("failed to parse events")
 
-// Packages is a collection of packages being tested.
-// TODO: this should really be a consoleWriter... would benefit from a nice refactor.
-type Packages map[string]*Package
-
 // Process is the entry point to the parse pkg. It consumes a reader
 // and attempts to parse go test JSON output lines until EOF.
 //
