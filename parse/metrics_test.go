@@ -100,3 +100,61 @@ func TestMetrics(t *testing.T) {
 		})
 	}
 }
+
+func TestElapsed(t *testing.T) {
+
+	t.Parallel()
+
+	// This test depends on elapsed_test.json, which contains the output of 2 std lib tests
+	// with known elapsed time.
+	// go test -count=1 strings -run="^(TestCompareStrings|TestCaseConsistency$)" -json -cover
+
+	expected := map[string]float64{
+		"TestCompareStrings":  3.49,
+		"TestCaseConsistency": 0.17,
+	}
+
+	f := "./testdata/elapsed_test.json"
+	by, err := ioutil.ReadFile(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pkgs, err := Process(bytes.NewReader(by))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(pkgs) != 1 {
+		for n := range pkgs {
+			t.Log("got pkg name:", n)
+		}
+		t.Fatalf("got %d packages, want one package: strings", len(pkgs))
+	}
+
+	pkg, ok := pkgs["strings"]
+	if !ok {
+		t.Fatalf("got unexpected pkg: %v\nwant strings", pkg)
+	}
+
+	if len(pkg.Tests) != 2 {
+		t.Fatalf("got %d tests, want two", len(pkg.Tests))
+	}
+
+	for _, test := range pkg.Tests {
+		wantElapsed, ok := expected[test.Name]
+		if !ok {
+			t.Errorf("got unknown test name %q", test.Name)
+		}
+		if test.Elapsed() != wantElapsed {
+			t.Errorf("got %v elapsed time for test: %q, want %v", test.Elapsed(), test.Name, wantElapsed)
+		}
+	}
+
+	if t.Failed() {
+		t.Log("expected test names:")
+		for name := range expected {
+			t.Log(name)
+		}
+	}
+}

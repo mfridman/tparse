@@ -1,7 +1,10 @@
 package parse
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
+	"strings"
 	"testing"
 
 	"github.com/pkg/errors"
@@ -379,5 +382,130 @@ func TestNoTestsWarn(t *testing.T) {
 			}
 		})
 
+	}
+}
+
+func TestActionString(t *testing.T) {
+
+	t.Parallel()
+
+	tt := []struct {
+		Action
+		want string
+	}{
+		{ActionRun, "RUN"},
+		{ActionPause, "PAUSE"},
+		{ActionCont, "CONT"},
+		{ActionPass, "PASS"},
+		{ActionFail, "FAIL"},
+		{ActionOutput, "OUTPUT"},
+		{ActionSkip, "SKIP"},
+	}
+
+	for _, tc := range tt {
+		upper := strings.ToUpper(tc.String())
+		if upper != tc.want {
+			t.Errorf("got %q, want %q", upper, tc.want)
+		}
+	}
+}
+
+func TestPackageCache(t *testing.T) {
+
+	t.Parallel()
+
+	// This test depends on cached_test.json, which contains the output of 4 std lib packages.
+	// go clean -testcache
+	// go test strings fmt -json
+	// go test strings fmt mime time -json
+
+	// Where bool indicates whether the package is expected to be marked as cached.
+	expected := map[string]bool{
+		"strings": true,
+		"fmt":     true,
+		"time":    false,
+		"mime":    false,
+	}
+
+	f := "./testdata/cached_test.json"
+	by, err := ioutil.ReadFile(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pkgs, err := Process(bytes.NewReader(by))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(pkgs) != 4 {
+		for n := range pkgs {
+			t.Log("got pkg name:", n)
+		}
+		t.Fatalf("got %d packages, want four packages", len(pkgs))
+	}
+
+	for name, pkg := range pkgs {
+		t.Run(name, func(t *testing.T) {
+			wantCached, ok := expected[name]
+			if !ok {
+				t.Fatalf("got unexpected package name: %q", name)
+			}
+
+			if pkg.Cached != wantCached {
+				t.Fatalf("got %t, want package %q to have cached field marked %t", pkg.Cached, name, wantCached)
+			}
+		})
+	}
+}
+
+func TestPackageCover(t *testing.T) {
+
+	t.Parallel()
+
+	// This test depends on cover_test.json, which contains the output of 3 std lib packages.
+	// go test bytes log sort -json -cover
+
+	// Where bool indicates whether the package is expected to have coverage.
+	expected := map[string]float64{
+		"log":   68.0,
+		"bytes": 86.7,
+		"sort":  60.8,
+	}
+
+	f := "./testdata/cover_test.json"
+	by, err := ioutil.ReadFile(f)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	pkgs, err := Process(bytes.NewReader(by))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(pkgs) != 3 {
+		for n := range pkgs {
+			t.Log("got pkg name:", n)
+		}
+		t.Fatalf("got %d packages, want three packages", len(pkgs))
+	}
+
+	for name, pkg := range pkgs {
+		t.Run(name, func(t *testing.T) {
+			wantCover, ok := expected[name]
+			if !ok {
+				t.Fatalf("got unexpected package name: %q", name)
+			}
+
+			if pkg.Coverage != wantCover {
+				t.Fatalf("got cover %v, want package %q cover to be %v", pkg.Coverage, name, wantCover)
+			}
+
+			var f float64
+			if pkg.Coverage > f && !pkg.Cover {
+				t.Fatalf("got %v, want package %q to have cover field marked as true when coverage %v>%v", pkg.Cover, name, pkg.Coverage, f)
+			}
+		})
 	}
 }
