@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"flag"
 	"fmt"
 	"io"
@@ -66,7 +68,9 @@ func main() {
 	}
 	defer r.Close()
 
-	pkgs, err := parse.Process(r)
+	tr := io.TeeReader(r, &rawdump)
+
+	pkgs, err := parse.Process(tr)
 	// TODO(mf): no matter what error we get, we should always allow the user to retrieve
 	// whatever Process was able to read with -dump. Currently it gets called way below.
 	if err != nil {
@@ -79,17 +83,17 @@ func main() {
 		// - Does it make sense to display error and usage
 		// back to the user when there is a scan error?
 		fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
-		parse.RawDump(os.Stderr, *dumpPtr)
+		RawDump(os.Stderr, *dumpPtr)
 		flag.Usage()
 	}
 
 	if len(pkgs) == 0 {
-		parse.RawDump(os.Stderr, true)
+		RawDump(os.Stderr, true)
 		os.Exit(0)
 	}
 
 	if !*topPtr {
-		parse.RawDump(os.Stderr, *dumpPtr)
+		RawDump(os.Stderr, *dumpPtr)
 
 		if *allPtr {
 			printTests(os.Stdout, pkgs, true, true, *smallScreenPtr)
@@ -115,7 +119,7 @@ func main() {
 		} else if *skipPtr {
 			printTests(os.Stdout, pkgs, false, true, *smallScreenPtr)
 		}
-		parse.RawDump(os.Stderr, *dumpPtr)
+		RawDump(os.Stderr, *dumpPtr)
 	}
 
 	// Return an exit code that's inline with what go test would have returned otherwise.
@@ -323,15 +327,20 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 
 	tbl.SetAutoWrapText(false)
 
-	numPkgs := len(pkgs)
-	numScanned := 0
+	var sp []*parse.Package
 
 	for _, pkg := range pkgs {
-		numScanned += 1
-
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
 			continue
 		}
+		sp = append(sp, pkg)
+	}
+
+	numPkgs := len(sp)
+	numScanned := 0
+
+	for _, pkg := range sp {
+		numScanned++
 
 		var all []*parse.Test
 		if skip {
@@ -417,4 +426,32 @@ func colorize(s string, color int, enabled bool) string {
 		return s
 	}
 	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
+}
+
+// rawdump holds all original incoming events.
+var rawdump bytes.Buffer
+
+// RawDump prints back all lines that Process func reads into the specified writer.
+// Each line is parsed as an parse.Event and the output is printed. If an error occurs
+// parsing an event the raw line of text is printed.
+func RawDump(w io.Writer, dump bool) {
+	if !dump {
+		return
+	}
+	fmt.Fprintf(w, "\n")
+
+	sc := bufio.NewScanner(&rawdump)
+	for sc.Scan() {
+		e, err := parse.NewEvent(sc.Bytes())
+		if err != nil {
+			// We couldn't parse an event, so return the raw text.
+			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
+			continue
+		}
+		fmt.Fprint(w, e.Output)
+	}
+
+	if err := sc.Err(); err != nil {
+		fmt.Fprintf(w, "tparse scan error: %v\n", err)
+	}
 }

@@ -2,11 +2,8 @@ package parse
 
 import (
 	"bufio"
-	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
-	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -28,9 +25,7 @@ func Process(r io.Reader) (Packages, error) {
 	var scan bool
 	var badLines int
 
-	tr := io.TeeReader(r, &rawdump)
-
-	sc := bufio.NewScanner(tr)
+	sc := bufio.NewScanner(r)
 	for sc.Scan() {
 		// Scan up-to 50 lines for a parseable event, if we get one, expect
 		// no errors to follow until EOF.
@@ -114,33 +109,4 @@ func Process(r io.Reader) (Packages, error) {
 	}
 
 	return pkgs, nil
-}
-
-// rawdump is written to within the Process function. It holds all original incoming
-// events.
-var rawdump bytes.Buffer
-
-// RawDump prints back all lines that Process func reads into the specified writer.
-// Each line is parsed as an Event and output is printed. If an error occurs
-// parsing an event the raw line of text is printed.
-func RawDump(w io.Writer, dump bool) {
-	if !dump {
-		return
-	}
-	fmt.Fprintf(w, "\n")
-
-	sc := bufio.NewScanner(&rawdump)
-	for sc.Scan() {
-		e, err := NewEvent(sc.Bytes())
-		if err != nil {
-			// We couldn't parse an event, so return the raw text.
-			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
-			continue
-		}
-		fmt.Fprint(w, e.Output)
-	}
-
-	if err := sc.Err(); err != nil {
-		fmt.Fprintf(w, "tparse scan error: %v\n", err)
-	}
 }
