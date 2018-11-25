@@ -18,11 +18,13 @@ To get additional info on passed tests run `tparse` with `-pass` flag. Tests are
 
     go get github.com/mfridman/tparse
 
+Or download the latest pre-built binary [here](https://github.com/mfridman/tparse/releases/latest).
+
 ## Usage
 
 Once `tparse` is installed there are 2 ways to use it:
 
-1. Run `go test` as you normally would, but add `-json` flag and pipe output to `tparse`.
+1. Run `go test` as normal, but add `-json` flag and pipe output to `tparse`.
 
 ```
 go test fmt -json | tparse -all
@@ -41,19 +43,19 @@ Tip: run `tparse -h` to get usage and options.
 
 `go test` is awesome, but a bit verbose. Sometimes one just wants failures, grouped by package, printed with a dash of color and bubbled to the top.
 
-`tparse` attempts to do just that; return all failed tests and panics, if any, followed by a single package-level summary.
+`tparse` attempts to do just that; return failed tests and panics, if any, followed by a single package-level summary.
 
-But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) we can get additional info, such as which tests were skipped and elapsed time of each passed test.
+But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) can get additional info, such as which tests were skipped and elapsed time of each passed test.
 
 `tparse` comes with a `-dump` flag to replay everything that would have otherwise been printed. Enabling users to retrieve original `go test` output. Eliminating the need for `tee /dev/tty` between pipes.
 
-The default order is:
+The default print order is:
 - `go test` output (if adding `-dump` flag)
 - passed/skipped table (if adding `-all`, `-skip` or `-pass` flag)
 - failed tests and panics
 - summary
 
-Default order can be reversed with `-top` flag.
+The default print order can be reversed with `-top` flag.
 
 For narrow displays the `-smallscreen` flag may be useful, dividing a long test name and making it vertical heavy:
 
@@ -66,10 +68,10 @@ TestSubtests
  /win
  ```
 
-`tparse` aims to provide a simply alternative to one-liner bash functions.
+`tparse` aims to be a simply alternative to one-liner bash functions.
 
 ---
 
-P.S. `tparse` uses itself in travis [travis pipeline](https://travis-ci.com/mfridman/tparse/jobs/156185520):
+P.S. `tparse` uses itself in the [travis pipeline](https://travis-ci.com/mfridman/tparse/jobs/160641080#L557):
 
 <img src="https://www.dropbox.com/s/x9cva17f3ko82gb/travis-ci.png?raw=1" />
