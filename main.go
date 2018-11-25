@@ -323,7 +323,12 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 
 	tbl.SetAutoWrapText(false)
 
+	numPkgs := len(pkgs)
+	numScanned := 0
+
 	for _, pkg := range pkgs {
+		numScanned += 1
+
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
 			continue
 		}
@@ -372,9 +377,10 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 			})
 		}
 
-		// Add empty line between package groups.
-		// TODO(mf): don't add line to last item
-		tbl.Append([]string{"", "", "", ""})
+		// Add empty line between package groups except the last package
+		if numScanned < numPkgs {
+			tbl.Append([]string{"", "", "", ""})
+		}
 	}
 
 	if tbl.NumLines() > 0 {
