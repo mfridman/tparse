@@ -3,7 +3,9 @@ package parse
 import (
 	"bufio"
 	"encoding/json"
+	"fmt"
 	"io"
+	"strings"
 
 	"github.com/pkg/errors"
 )
@@ -109,4 +111,27 @@ func Process(r io.Reader) (Packages, error) {
 	}
 
 	return pkgs, nil
+}
+
+// ReplayOutput parses events lines from r and returns the output actions to w.
+// If an error occurs parsing an event and the output action cannot be retrieved
+// the raw line of text is printed.
+//
+// Used to parse JSON lines into their raw output, i.e., what go test output
+// would have been without -json.
+func ReplayOutput(w io.Writer, r io.Reader) {
+	sc := bufio.NewScanner(r)
+	for sc.Scan() {
+		e, err := NewEvent(sc.Bytes())
+		if err != nil {
+			// We couldn't parse an event, so return the raw text.
+			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
+			continue
+		}
+		fmt.Fprint(w, e.Output)
+	}
+
+	if err := sc.Err(); err != nil {
+		fmt.Fprintf(w, "tparse scan error: %v\n", err)
+	}
 }

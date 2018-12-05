@@ -1,17 +1,18 @@
 package main
 
 import (
-	"bufio"
 	"bytes"
 	"flag"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strconv"
 	"strings"
 
+	colorable "github.com/mattn/go-colorable"
 	"github.com/mfridman/tparse/version"
 	"github.com/olekukonko/tablewriter"
 
@@ -27,9 +28,10 @@ var (
 	passPtr        = flag.Bool("pass", false, "")
 	skipPtr        = flag.Bool("skip", false, "")
 	showNoTestsPtr = flag.Bool("notests", false, "")
-	dumpPtr        = flag.Bool("dump", false, "")
+	dumpPtr        = flag.Bool("dump", false, "") // TODO(mf): rename this to -replay with v1
 	smallScreenPtr = flag.Bool("smallscreen", false, "")
-	topPtr         = flag.Bool("top", false, "")
+	topPtr         = flag.Bool("top", false, "") // TODO(mf): rename this to -reverse with v1
+	noColorPtr     = flag.Bool("nocolor", false, "")
 )
 
 var usage = `Usage:
@@ -49,6 +51,11 @@ Options:
 	-top		Display summary table towards top.
 `
 
+type consoleWriter struct {
+	Color  bool
+	Output io.Writer
+}
+
 func main() {
 	flag.Usage = func() {
 		fmt.Fprint(os.Stderr, fmt.Sprint(usage))
@@ -61,77 +68,100 @@ func main() {
 		os.Exit(0)
 	}
 
-	r, err := getReader()
+	r, err := newReader()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
 		flag.Usage()
 	}
 	defer r.Close()
 
-	tr := io.TeeReader(r, &rawdump)
+	var replayBuf bytes.Buffer
+	tr := io.TeeReader(r, &replayBuf)
 
 	pkgs, err := parse.Process(tr)
-	// TODO(mf): no matter what error we get, we should always allow the user to retrieve
-	// whatever Process was able to read with -dump. Currently it gets called way below.
 	if err != nil {
 		if err == parse.ErrNotParseable {
-			fmt.Fprintf(os.Stderr, "tparse error: no parseable events: call go test with -json flag\n")
+			fmt.Fprintf(os.Stderr, "tparse error: no parseable events: call go test with -json flag\n\n")
+			if *dumpPtr {
+				parse.ReplayOutput(os.Stderr, &replayBuf)
+			}
 			os.Exit(1)
 		}
 
-		// TODO(mf):
-		// - Does it make sense to display error and usage
-		// back to the user when there is a scan error?
 		fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
-		RawDump(os.Stderr, *dumpPtr)
-		flag.Usage()
+		parse.ReplayOutput(os.Stderr, &replayBuf)
+		os.Exit(1)
 	}
 
 	if len(pkgs) == 0 {
-		RawDump(os.Stderr, true)
-		os.Exit(0)
+		fmt.Fprintf(os.Stdout, "tparse: no go packages to parse\n\n")
+		parse.ReplayOutput(os.Stderr, &replayBuf)
+		os.Exit(1)
 	}
 
-	if !*topPtr {
-		RawDump(os.Stderr, *dumpPtr)
+	// Use this value to print to either stdout (0) or stderr (>=1)
+	exitCode := pkgs.ExitCode()
 
-		if *allPtr {
-			printTests(os.Stdout, pkgs, true, true, *smallScreenPtr)
-		} else if *passPtr {
-			printTests(os.Stdout, pkgs, true, false, *smallScreenPtr)
-		} else if *skipPtr {
-			printTests(os.Stdout, pkgs, false, true, *smallScreenPtr)
+	w := newWriter(exitCode)
+
+	opts := testsTableOptions{
+		trim: *smallScreenPtr,
+	}
+	if *allPtr {
+		opts.pass, opts.skip = true, true
+	} else if *passPtr {
+		opts.pass, opts.skip = true, false
+	} else if *skipPtr {
+		opts.pass, opts.skip = false, true
+	}
+
+	if *topPtr {
+		w.SummaryTable(pkgs, *showNoTestsPtr)
+		w.PrintFailed(pkgs)
+		w.TestsTable(pkgs, opts)
+		if *dumpPtr {
+			parse.ReplayOutput(os.Stderr, &replayBuf)
 		}
-		// Print all failed tests per package (if any).
-		printFailed(os.Stderr, pkgs)
-
-		printSummary(os.Stdout, pkgs, *showNoTestsPtr)
 	} else {
-		printSummary(os.Stdout, pkgs, *showNoTestsPtr)
-
-		// Print all failed tests per package (if any).
-		printFailed(os.Stderr, pkgs)
-
-		if *allPtr {
-			printTests(os.Stdout, pkgs, true, true, *smallScreenPtr)
-		} else if *passPtr {
-			printTests(os.Stdout, pkgs, true, false, *smallScreenPtr)
-		} else if *skipPtr {
-			printTests(os.Stdout, pkgs, false, true, *smallScreenPtr)
+		// Default.
+		if *dumpPtr {
+			parse.ReplayOutput(os.Stderr, &replayBuf)
 		}
-		RawDump(os.Stderr, *dumpPtr)
+		w.TestsTable(pkgs, opts)
+		w.PrintFailed(pkgs)
+		w.SummaryTable(pkgs, *showNoTestsPtr)
 	}
 
-	// Return an exit code that's inline with what go test would have returned otherwise.
-	for _, p := range pkgs {
-		if p.HasPanic || p.Summary.Action == parse.ActionFail {
-			os.Exit(1)
-		}
-	}
+	// Return proper exit code. This must be consistent with what go test would have
+	// returned without tparse.
+	os.Exit(exitCode)
 }
 
-// getReader returns a reader; either a named pipe or open file.
-func getReader() (io.ReadCloser, error) {
+func newWriter(exitCode int) *consoleWriter {
+	w := consoleWriter{
+		Color: !*noColorPtr, // Color enabled by default.
+	}
+
+	switch runtime.GOOS {
+	case "windows":
+		if exitCode == 0 {
+			w.Output = colorable.NewColorableStdout()
+			break
+		}
+		w.Output = colorable.NewColorableStderr()
+	default:
+		if exitCode == 0 {
+			w.Output = os.Stdout
+			break
+		}
+		w.Output = os.Stderr
+	}
+
+	return &w
+}
+
+// newReader returns a reader; either a named pipe or open file.
+func newReader() (io.ReadCloser, error) {
 
 	switch flag.NArg() {
 	case 0: // Get FileInfo interface and fail everything except a named pipe (FIFO).
@@ -159,18 +189,18 @@ func getReader() (io.ReadCloser, error) {
 	}
 }
 
-func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
-	fmt.Fprintf(w, "\n")
+func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool) {
+	fmt.Fprintln(w.Output)
 
-	tbl := tablewriter.NewWriter(w)
+	tbl := tablewriter.NewWriter(w.Output)
 	tbl.SetHeader([]string{
-		"Status",  //0
-		"Elapsed", //1
-		"Package", //2
-		"Cover",   //3
-		"Pass",    //4
-		"Fail",    //5
-		"Skip",    //6
+		"Status",  // 0
+		"Elapsed", // 1
+		"Package", // 2
+		"Cover",   // 3
+		"Pass",    // 4
+		"Fail",    // 5
+		"Skip",    // 6
 	})
 
 	tbl.SetAutoWrapText(false)
@@ -189,14 +219,14 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 
 		if pkg.HasPanic {
 			tbl.Append([]string{
-				colorize("PANIC", cRed, true), elapsed, name, "--", "--", "--", "--",
+				colorize("PANIC", cRed, w.Color), elapsed, name, "--", "--", "--", "--",
 			})
 			continue
 		}
 
 		if pkg.NoTestFiles {
 			notests = append(notests, []string{
-				colorize("NOTEST", cYellow, true), elapsed, name + "\n[no test files]", "--", "--", "--", "--",
+				colorize("NOTEST", cYellow, w.Color), elapsed, name + "\n[no test files]", "--", "--", "--", "--",
 			})
 			continue
 		}
@@ -211,7 +241,7 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 				}
 				s := fmt.Sprintf("%s\n[no tests to run]\n%s", name, strings.Join(ss, "\n"))
 				notests = append(notests, []string{
-					colorize("NOTEST", cYellow, true), elapsed, s, "--", "--", "--", "--",
+					colorize("NOTEST", cYellow, w.Color), elapsed, s, "--", "--", "--", "--",
 				})
 
 				if len(pkg.TestsByAction(parse.ActionPass)) == len(pkg.NoTestSlice) {
@@ -221,7 +251,7 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 			} else {
 				// This should capture cases where packages truly have no tests, but empty files.
 				notests = append(notests, []string{
-					colorize("NOTEST", cYellow, true), elapsed, name + "\n[no tests to run]", "--", "--", "--", "--",
+					colorize("NOTEST", cYellow, w.Color), elapsed, name + "\n[no tests to run]", "--", "--", "--", "--",
 				})
 				continue
 			}
@@ -233,19 +263,19 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 			case c == 0.0:
 				break
 			case c <= 50.0:
-				coverage = colorize(coverage, cRed, true)
+				coverage = colorize(coverage, cRed, w.Color)
 			case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
-				coverage = colorize(coverage, cYellow, true)
+				coverage = colorize(coverage, cYellow, w.Color)
 			case pkg.Coverage >= 80.0:
-				coverage = colorize(coverage, cGreen, true)
+				coverage = colorize(coverage, cGreen, w.Color)
 			}
 		}
 
 		passed = append(passed, []string{
-			withColor(pkg.Summary.Action), //0
-			elapsed,                       //1
-			name,                          //2
-			coverage,                      //3
+			withColor(pkg.Summary.Action, w.Color), //0
+			elapsed,                                //1
+			name,                                   //2
+			coverage,                               //3
 			strconv.Itoa(len(pkg.TestsByAction(parse.ActionPass))), //4
 			strconv.Itoa(len(pkg.TestsByAction(parse.ActionFail))), //5
 			strconv.Itoa(len(pkg.TestsByAction(parse.ActionSkip))), //6
@@ -270,53 +300,14 @@ func printSummary(w io.Writer, pkgs parse.Packages, showNoTests bool) {
 	tbl.Render()
 }
 
-func printFailed(w io.Writer, pkgs parse.Packages) {
-	// Print all failed tests per package (if any). Panic is an exception.
-	for _, pkg := range pkgs {
-
-		if pkg.HasPanic {
-			// may or may not be associated with tests, so we print it separately.
-			printPanic(pkg, os.Stderr)
-			continue
-		}
-
-		failed := pkg.TestsByAction(parse.ActionFail)
-		if len(failed) == 0 {
-			continue
-		}
-
-		s := fmt.Sprintf("\nFAIL: %s", pkg.Summary.Package)
-		n := make([]string, len(s))
-		sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
-
-		fmt.Fprintf(w, colorize(sn, cRed, true))
-
-		for i, t := range failed {
-			t.SortEvents()
-
-			fmt.Fprintf(w, "%s", t.Stack())
-			if i < len(failed)-1 {
-				fmt.Fprintf(w, "\n")
-			}
-		}
-	}
+type testsTableOptions struct {
+	pass, skip, trim bool
 }
 
-func printPanic(pkg *parse.Package, w io.Writer) {
-	s := fmt.Sprintf("\nPANIC: %s: %s", pkg.Summary.Package, pkg.Summary.Test)
-	n := make([]string, len(s)+1)
-	sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
-	fmt.Fprintf(w, colorize(sn, cRed, true))
-
-	for _, e := range pkg.PanicEvents {
-		fmt.Fprint(w, e.Output)
-	}
-}
-
-func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
+func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOptions) {
 	// Print passed tests, sorted by elapsed. Unlike failed tests, passed tests
 	// are not grouped. Maybe bad design?
-	tbl := tablewriter.NewWriter(w)
+	tbl := tablewriter.NewWriter(w.Output)
 
 	tbl.SetHeader([]string{
 		"Status",
@@ -343,11 +334,11 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 		numScanned++
 
 		var all []*parse.Test
-		if skip {
+		if options.skip {
 			skipped := pkg.TestsByAction(parse.ActionSkip)
 			all = append(all, skipped...)
 		}
-		if pass {
+		if options.pass {
 			passed := pkg.TestsByAction(parse.ActionPass)
 
 			// Sort tests within a package by elapsed time in descending order, longest on top.
@@ -366,7 +357,7 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 
 			var testName strings.Builder
 			testName.WriteString(t.Name)
-			if trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
+			if options.trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
 				testName.Reset()
 				ss := strings.Split(t.Name, "/")
 				testName.WriteString(ss[0] + "\n")
@@ -379,7 +370,7 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 			}
 
 			tbl.Append([]string{
-				withColor(t.Status()),
+				withColor(t.Status(), w.Color),
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
 				testName.String(),
 				filepath.Base(t.Package),
@@ -393,15 +384,61 @@ func printTests(w io.Writer, pkgs parse.Packages, pass, skip, trim bool) {
 	}
 
 	if tbl.NumLines() > 0 {
-		fmt.Fprintf(w, "\n")
+		fmt.Fprintf(w.Output, "\n")
 		tbl.Render()
 	}
 }
 
-// withColor attempts to return a colorized string based on action:
+func (w *consoleWriter) PrintFailed(pkgs parse.Packages) {
+	// Print all failed tests per package (if any). Panic is an exception.
+	for _, pkg := range pkgs {
+
+		if pkg.HasPanic {
+			// may or may not be associated with tests, so we print it separately.
+			w.PrintPanic(pkg)
+			continue
+		}
+
+		failed := pkg.TestsByAction(parse.ActionFail)
+		if len(failed) == 0 {
+			continue
+		}
+
+		s := fmt.Sprintf("\nFAIL: %s", pkg.Summary.Package)
+		n := make([]string, len(s))
+		sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
+
+		fmt.Fprintf(w.Output, colorize(sn, cRed, w.Color))
+
+		for i, t := range failed {
+			t.SortEvents()
+
+			fmt.Fprintf(w.Output, "%s", t.Stack())
+			if i < len(failed)-1 {
+				fmt.Fprintf(w.Output, "\n")
+			}
+		}
+	}
+}
+
+func (w *consoleWriter) PrintPanic(pkg *parse.Package) {
+	s := fmt.Sprintf("\nPANIC: %s: %s", pkg.Summary.Package, pkg.Summary.Test)
+	n := make([]string, len(s)+1)
+	sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
+	fmt.Fprintf(w.Output, colorize(sn, cRed, w.Color))
+
+	for _, e := range pkg.PanicEvents {
+		fmt.Fprint(w.Output, e.Output)
+	}
+}
+
+// withColor attempts to return a colorized string based on action if enabled:
 // pass=green, skip=yellow, fail=red, default=no color.
-func withColor(a parse.Action) string {
+func withColor(a parse.Action, enabled bool) string {
 	s := strings.ToUpper(a.String())
+	if !enabled {
+		return s
+	}
 	switch a {
 	case parse.ActionPass:
 		return colorize(s, cGreen, true)
@@ -426,32 +463,4 @@ func colorize(s string, color int, enabled bool) string {
 		return s
 	}
 	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
-}
-
-// rawdump holds all original incoming events.
-var rawdump bytes.Buffer
-
-// RawDump prints back all lines that Process func reads into the specified writer.
-// Each line is parsed as an parse.Event and the output is printed. If an error occurs
-// parsing an event the raw line of text is printed.
-func RawDump(w io.Writer, dump bool) {
-	if !dump {
-		return
-	}
-	fmt.Fprintf(w, "\n")
-
-	sc := bufio.NewScanner(&rawdump)
-	for sc.Scan() {
-		e, err := parse.NewEvent(sc.Bytes())
-		if err != nil {
-			// We couldn't parse an event, so return the raw text.
-			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
-			continue
-		}
-		fmt.Fprint(w, e.Output)
-	}
-
-	if err := sc.Err(); err != nil {
-		fmt.Fprintf(w, "tparse scan error: %v\n", err)
-	}
 }
