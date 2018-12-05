@@ -41,13 +41,14 @@ var usage = `Usage:
 Options:
 	-h		Show help.
 	-v		Show version.
-	-all		Display table event for pass, skip and fail. (Failed items are always displayed)
+	-all		Display table event for pass and skip. (Failed items displayed regardless)
 	-pass		Display table for passed tests.
 	-skip		Display table for skipped tests.
 	-notests	Display packages containing no test files or empty test files in summary.
 	-dump		Enables recovering go test output in non-JSON format.
 	-smallscreen	Split subtest names vertically to fit on smaller screens.
 	-top		Display summary table towards top.
+	-nocolor	Disable all colors.
 `
 
 type consoleWriter struct {
