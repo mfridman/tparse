@@ -1,3 +1,12 @@
+.PHONY: \
+	imports \
+	test \
+	tidy \
+	vendor \
+
+imports:
+	@goimports -local github.com/mfridman/rover/ -w $(shell find . -type f -name '*.go')
+
 test:
 	go test ./parse
 
@@ -15,8 +24,11 @@ coverage:
 	go test ./parse -covermode=count -coverprofile=count.out
 	go tool cover -html=count.out
 
+tidy:
+	GO111MODULE=on go mod tidy
+
 vendor:
 	GO111MODULE=on go mod vendor && GO111MODULE=on go mod tidy
-
+	
 generate:
 	GIT_TAG=$$(git describe --tags) go generate ./...
