@@ -7,7 +7,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"runtime"
 	"sort"
 	"strconv"
 	"strings"
@@ -139,22 +138,13 @@ func main() {
 
 func newWriter(exitCode int) *consoleWriter {
 	w := consoleWriter{
-		Color: !*noColorPtr, // Color enabled by default.
+		Color:  !*noColorPtr, // Color enabled by default.
+		Output: colorable.NewColorableStdout(),
 	}
 
-	switch runtime.GOOS {
-	case "windows":
-		if exitCode == 0 {
-			w.Output = colorable.NewColorableStdout()
-			break
-		}
+	// retrn all output for non-zero exit codes to std err
+	if exitCode != 0 {
 		w.Output = colorable.NewColorableStderr()
-	default:
-		if exitCode == 0 {
-			w.Output = os.Stdout
-			break
-		}
-		w.Output = os.Stderr
 	}
 
 	return &w
