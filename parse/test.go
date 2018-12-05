@@ -5,9 +5,6 @@ import (
 	"strings"
 )
 
-// Allows disabling colors in test runs. Should be a feature where users to turn on/off colors.
-var colors = true
-
 // Test represents a single, unique, package test.
 type Test struct {
 	Name    string

@@ -5,7 +5,7 @@
 	vendor \
 
 imports:
-	@goimports -local github.com/mfridman/rover/ -w $(shell find . -type f -name '*.go')
+	@goimports -local github.com/mfridman/tparse/ -w $(shell find . -type f -name '*.go' -not -path './vendor/*')
 
 test:
 	go test ./parse
@@ -29,6 +29,6 @@ tidy:
 
 vendor:
 	GO111MODULE=on go mod vendor && GO111MODULE=on go mod tidy
-	
+
 generate:
 	GIT_TAG=$$(git describe --tags) go generate ./...

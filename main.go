@@ -12,12 +12,11 @@ import (
 	"strconv"
 	"strings"
 
-	colorable "github.com/mattn/go-colorable"
-	"github.com/mfridman/tparse/version"
-	"github.com/olekukonko/tablewriter"
-
 	"github.com/mfridman/tparse/parse"
+	"github.com/mfridman/tparse/version"
 
+	colorable "github.com/mattn/go-colorable"
+	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 )
 
