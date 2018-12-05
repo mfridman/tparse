@@ -1,0 +1,42 @@
+{"Time":"2018-12-04T22:42:29.634612-05:00","Action":"run","Package":"debug/tparse-24","Test":"TestRace"}
+{"Time":"2018-12-04T22:42:29.634912-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"=== RUN   TestRace\n"}
+{"Time":"2018-12-04T22:42:29.635129-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"==================\n"}
+{"Time":"2018-12-04T22:42:29.635163-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"WARNING: DATA RACE\n"}
+{"Time":"2018-12-04T22:42:29.635172-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Write at 0x00c000090090 by goroutine 7:\n"}
+{"Time":"2018-12-04T22:42:29.635205-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  debug/tparse-24.TestRace.func1()\n"}
+{"Time":"2018-12-04T22:42:29.635213-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:7 +0x38\n"}
+{"Time":"2018-12-04T22:42:29.635226-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"\n"}
+{"Time":"2018-12-04T22:42:29.635236-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Previous write at 0x00c000090090 by goroutine 6:\n"}
+{"Time":"2018-12-04T22:42:29.635254-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  debug/tparse-24.TestRace()\n"}
+{"Time":"2018-12-04T22:42:29.63527-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x88\n"}
+{"Time":"2018-12-04T22:42:29.635283-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.tRunner()\n"}
+{"Time":"2018-12-04T22:42:29.63529-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
+{"Time":"2018-12-04T22:42:29.635302-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"\n"}
+{"Time":"2018-12-04T22:42:29.635322-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Goroutine 7 (running) created at:\n"}
+{"Time":"2018-12-04T22:42:29.635334-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  debug/tparse-24.TestRace()\n"}
+{"Time":"2018-12-04T22:42:29.635341-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:7 +0x7a\n"}
+{"Time":"2018-12-04T22:42:29.635348-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.tRunner()\n"}
+{"Time":"2018-12-04T22:42:29.635354-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
+{"Time":"2018-12-04T22:42:29.635361-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"\n"}
+{"Time":"2018-12-04T22:42:29.635367-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Goroutine 6 (running) created at:\n"}
+{"Time":"2018-12-04T22:42:29.635376-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.(*T).Run()\n"}
+{"Time":"2018-12-04T22:42:29.635382-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:878 +0x650\n"}
+{"Time":"2018-12-04T22:42:29.635388-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.runTests.func1()\n"}
+{"Time":"2018-12-04T22:42:29.635397-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:1119 +0xa8\n"}
+{"Time":"2018-12-04T22:42:29.635403-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.tRunner()\n"}
+{"Time":"2018-12-04T22:42:29.635409-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
+{"Time":"2018-12-04T22:42:29.635415-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.runTests()\n"}
+{"Time":"2018-12-04T22:42:29.635422-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:1117 +0x4ee\n"}
+{"Time":"2018-12-04T22:42:29.635448-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.(*M).Run()\n"}
+{"Time":"2018-12-04T22:42:29.635465-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:1034 +0x2ee\n"}
+{"Time":"2018-12-04T22:42:29.635472-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  main.main()\n"}
+{"Time":"2018-12-04T22:42:29.635478-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      _testmain.go:42 +0x221\n"}
+{"Time":"2018-12-04T22:42:29.635485-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"==================\n"}
+{"Time":"2018-12-04T22:42:29.635807-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"--- FAIL: TestRace (0.00s)\n"}
+{"Time":"2018-12-04T22:42:29.635821-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"    some_test.go:9: 64\n"}
+{"Time":"2018-12-04T22:42:29.635829-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"    testing.go:771: race detected during execution of test\n"}
+{"Time":"2018-12-04T22:42:29.636065-05:00","Action":"fail","Package":"debug/tparse-24","Test":"TestRace","Elapsed":0}
+{"Time":"2018-12-04T22:42:29.636085-05:00","Action":"output","Package":"debug/tparse-24","Output":"FAIL\n"}
+{"Time":"2018-12-04T22:42:29.63706-05:00","Action":"output","Package":"debug/tparse-24","Output":"exit status 1\n"}
+{"Time":"2018-12-04T22:42:29.637098-05:00","Action":"output","Package":"debug/tparse-24","Output":"FAIL\tdebug/tparse-24\t0.020s\n"}
+{"Time":"2018-12-04T22:42:29.637108-05:00","Action":"fail","Package":"debug/tparse-24","Elapsed":0.02}
