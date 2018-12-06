@@ -144,7 +144,7 @@ func newWriter(exitCode int) *consoleWriter {
 		Output: colorable.NewColorableStdout(),
 	}
 
-	// retrn all output for non-zero exit codes to std err
+	// return output for non-zero exit codes to stderr
 	if exitCode != 0 {
 		w.Output = colorable.NewColorableStderr()
 	}
