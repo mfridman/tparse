@@ -128,6 +128,7 @@ func ReplayOutput(w io.Writer, r io.Reader) {
 			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
 			continue
 		}
+		// Output expected to be terminated by a newline.
 		fmt.Fprint(w, e.Output)
 	}
 
