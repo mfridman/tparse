@@ -33,8 +33,18 @@ type Package struct {
 }
 
 // Packages is a collection of packages being tested.
-// TODO: this should really be a consoleWriter... would benefit from a nice refactor.
 type Packages map[string]*Package
+
+// ExitCode returns 1 if at least one package is marked as panic or failed,
+// othewrwise return 0.
+func (p Packages) ExitCode() int {
+	for _, pkg := range p {
+		if pkg.HasPanic || pkg.Summary.Action == ActionFail {
+			return 1
+		}
+	}
+	return 0
+}
 
 // NewPackage initializes and returns a Package.
 func NewPackage() *Package {

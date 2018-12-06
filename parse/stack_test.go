@@ -9,9 +9,6 @@ import (
 
 func TestSingleFailStack(t *testing.T) {
 
-	// disable colors when testing.
-	colors = false
-
 	t.Parallel()
 
 	root := "testdata"
