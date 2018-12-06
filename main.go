@@ -136,6 +136,8 @@ func main() {
 	os.Exit(exitCode)
 }
 
+// newWriter initializes a console writer based on a given exit code.
+// 0 writes to stdout, >=1 writes to stderr
 func newWriter(exitCode int) *consoleWriter {
 	w := consoleWriter{
 		Color:  !*noColorPtr, // Color enabled by default.
