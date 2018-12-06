@@ -98,7 +98,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Use this value to print to either stdout (0) or stderr (>=1)
+	// Use this value to print to stdout (0) or stderr (>=1)
 	exitCode := pkgs.ExitCode()
 
 	w := newWriter(exitCode)
