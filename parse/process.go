@@ -113,7 +113,7 @@ func Process(r io.Reader) (Packages, error) {
 	return pkgs, nil
 }
 
-// ReplayOutput parses events lines from r and returns the output actions to w.
+// ReplayOutput takes json event lines from r and returns output actions to w.
 // If an error occurs parsing an event and the output action cannot be retrieved
 // the raw line of text is printed.
 //
