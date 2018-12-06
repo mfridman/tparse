@@ -18,13 +18,14 @@ func TestBigOutcome(t *testing.T) {
 	base := filepath.Join(root, "big")
 
 	tt := []struct {
-		name string
+		name     string
+		exitCode int
 		registry
 	}{
-		{"input01.json", registry{
+		{"input01.json", 1, registry{
 			"github.com/mfridman/tparse/tests": ActionFail,
 		}},
-		{"input02.json", registry{
+		{"input02.json", 1, registry{
 			"github.com/astromail/rover/tests":          ActionFail,
 			"github.com/astromail/rover/cmd/roverd":     ActionPass,
 			"github.com/astromail/rover/smtp":           ActionPass,
@@ -33,22 +34,22 @@ func TestBigOutcome(t *testing.T) {
 			"github.com/astromail/rover/storage/badger": ActionPass,
 			"github.com/astromail/rover":                ActionPass,
 		}},
-		{"input03.json", registry{
+		{"input03.json", 0, registry{
 			"fmt": ActionPass,
 		}},
-		{"input04.json", registry{
+		{"input04.json", 0, registry{
 			"github.com/astromail/rover/tests": ActionPass,
 		}},
-		{"input05.json", registry{
+		{"input05.json", 0, registry{
 			"github.com/astromail/rover/tests": ActionPass,
 		}},
-		{"input06.json", registry{
+		{"input06.json", 0, registry{
 			"fmt": ActionPass,
 		}},
-		{"input07.json", registry{
+		{"input07.json", 0, registry{
 			"debug/errorcause": ActionPass,
 		}},
-		{"input08.json", registry{
+		{"input08.json", 0, registry{
 			"github.com/awesome/pkg": ActionPass,
 		}},
 	}
@@ -70,6 +71,12 @@ func TestBigOutcome(t *testing.T) {
 
 			if len(pkgs) == 0 {
 				t.Fatal("got zero packages, want at least one or more packages")
+			}
+
+			exitCode := pkgs.ExitCode()
+			// if pkgs contains at least one failing pkg exit code must return 1.
+			if exitCode != test.exitCode {
+				t.Fatalf("got exit code %d, want %d", exitCode, test.exitCode)
 			}
 
 			for name, pkg := range pkgs {
