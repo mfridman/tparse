@@ -159,6 +159,7 @@ func ReplayOutput(w io.Writer, r io.Reader) {
 // The race output is non-detertministc.
 // https://github.com/golang/go/issues/29156#issuecomment-445486381
 func ReplayRaceOutput(w io.Writer, r io.Reader) {
+
 	var raceStarted bool
 
 	sc := bufio.NewScanner(r)
@@ -175,6 +176,7 @@ func ReplayRaceOutput(w io.Writer, r io.Reader) {
 				continue
 			}
 			fmt.Fprint(w, e.Output)
+			continue
 		}
 
 		if strings.Contains(e.Output, "==================") {
