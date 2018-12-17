@@ -79,16 +79,19 @@ func main() {
 
 	pkgs, err := parse.Process(tr)
 	if err != nil {
-		if err == parse.ErrNotParseable {
+		switch {
+		case err == parse.ErrNotParseable:
 			fmt.Fprintf(os.Stderr, "tparse error: no parseable events: call go test with -json flag\n\n")
 			if *dumpPtr {
 				parse.ReplayOutput(os.Stderr, &replayBuf)
 			}
-			os.Exit(1)
+		case err == parse.ErrRaceDetected:
+			fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
+			parse.ReplayRaceOutput(os.Stderr, &replayBuf)
+		default:
+			fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
+			parse.ReplayOutput(os.Stderr, &replayBuf)
 		}
-
-		fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
-		parse.ReplayOutput(os.Stderr, &replayBuf)
 		os.Exit(1)
 	}
 

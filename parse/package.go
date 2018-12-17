@@ -56,20 +56,28 @@ func NewPackage() *Package {
 
 // AddEvent adds the event to a test based on test name.
 func (p *Package) AddEvent(event *Event) {
+	var t *Test
+	if t = p.GetTest(event.Test); t == nil {
+		// Test does not exist, add it to pkg.
+		t = &Test{
+			Name:    event.Test,
+			Package: event.Package,
+		}
+		p.Tests = append(p.Tests, t)
+	}
+
+	t.Events = append(t.Events, event)
+}
+
+// GetTest retuns a test based on given name, if no test is found
+// return nil
+func (p *Package) GetTest(name string) *Test {
 	for _, t := range p.Tests {
-		if t.Name == event.Test {
-			t.Events = append(t.Events, event)
-			return
+		if t.Name == name {
+			return t
 		}
 	}
-
-	t := &Test{
-		Name:    event.Test,
-		Package: event.Package,
-	}
-	t.Events = append(t.Events, event)
-
-	p.Tests = append(p.Tests, t)
+	return nil
 }
 
 // TestsByAction returns all tests that identify as one of the following
