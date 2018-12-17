@@ -3,7 +3,7 @@ sudo: false
 language: go
 
 before_install:
-  - go get github.com/mfridman/tparse
+  - go get -u github.com/mfridman/tparse
 
 go:
   - "1.10"
@@ -15,4 +15,4 @@ branches:
     - devel
 
 script:
-  - go test -v ./parse -json -cover | tparse -all -smallscreen
+  - go test -race -v ./parse -json -cover | tparse -all -smallscreen

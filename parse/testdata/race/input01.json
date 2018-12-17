@@ -1,0 +1,53 @@
+{"Time":"2018-12-16T20:28:29.256021-05:00","Action":"run","Package":"command-line-arguments","Test":"TestRace1"}
+{"Time":"2018-12-16T20:28:29.256317-05:00","Action":"output","Package":"command-line-arguments","Test":"TestRace1","Output":"=== RUN   TestRace1\n"}
+{"Time":"2018-12-16T20:28:29.256347-05:00","Action":"output","Package":"command-line-arguments","Test":"TestRace1","Output":"=== PAUSE TestRace1\n"}
+{"Time":"2018-12-16T20:28:29.256355-05:00","Action":"pause","Package":"command-line-arguments","Test":"TestRace1"}
+{"Time":"2018-12-16T20:28:29.256363-05:00","Action":"run","Package":"command-line-arguments","Test":"TestA"}
+{"Time":"2018-12-16T20:28:29.25637-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"=== RUN   TestA\n"}
+{"Time":"2018-12-16T20:28:29.256377-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"=== PAUSE TestA\n"}
+{"Time":"2018-12-16T20:28:29.256384-05:00","Action":"pause","Package":"command-line-arguments","Test":"TestA"}
+{"Time":"2018-12-16T20:28:29.256538-05:00","Action":"cont","Package":"command-line-arguments","Test":"TestA"}
+{"Time":"2018-12-16T20:28:29.256559-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"=== CONT  TestA\n"}
+{"Time":"2018-12-16T20:28:29.256572-05:00","Action":"cont","Package":"command-line-arguments","Test":"TestRace1"}
+{"Time":"2018-12-16T20:28:29.256579-05:00","Action":"output","Package":"command-line-arguments","Test":"TestRace1","Output":"=== CONT  TestRace1\n"}
+{"Time":"2018-12-16T20:28:29.256742-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"--- PASS: TestA (0.00s)\n"}
+{"Time":"2018-12-16T20:28:29.256827-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"==================\n"}
+{"Time":"2018-12-16T20:28:29.256859-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"WARNING: DATA RACE\n"}
+{"Time":"2018-12-16T20:28:29.256868-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"Write at 0x00c0000be010 by goroutine 9:\n"}
+{"Time":"2018-12-16T20:28:29.25689-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  command-line-arguments.TestRace1.func1()\n"}
+{"Time":"2018-12-16T20:28:29.256899-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x38\n"}
+{"Time":"2018-12-16T20:28:29.256915-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"\n"}
+{"Time":"2018-12-16T20:28:29.256929-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"Previous write at 0x00c0000be010 by goroutine 6:\n"}
+{"Time":"2018-12-16T20:28:29.256936-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  command-line-arguments.TestRace1()\n"}
+{"Time":"2018-12-16T20:28:29.256942-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:9 +0x96\n"}
+{"Time":"2018-12-16T20:28:29.256948-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.tRunner()\n"}
+{"Time":"2018-12-16T20:28:29.256961-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
+{"Time":"2018-12-16T20:28:29.256968-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"\n"}
+{"Time":"2018-12-16T20:28:29.256974-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"Goroutine 9 (running) created at:\n"}
+{"Time":"2018-12-16T20:28:29.25698-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  command-line-arguments.TestRace1()\n"}
+{"Time":"2018-12-16T20:28:29.256986-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x88\n"}
+{"Time":"2018-12-16T20:28:29.256993-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.tRunner()\n"}
+{"Time":"2018-12-16T20:28:29.257034-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
+{"Time":"2018-12-16T20:28:29.257044-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"\n"}
+{"Time":"2018-12-16T20:28:29.257097-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"Goroutine 6 (running) created at:\n"}
+{"Time":"2018-12-16T20:28:29.257111-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.(*T).Run()\n"}
+{"Time":"2018-12-16T20:28:29.257121-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:878 +0x650\n"}
+{"Time":"2018-12-16T20:28:29.257127-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.runTests.func1()\n"}
+{"Time":"2018-12-16T20:28:29.257134-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:1119 +0xa8\n"}
+{"Time":"2018-12-16T20:28:29.25714-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.tRunner()\n"}
+{"Time":"2018-12-16T20:28:29.257146-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
+{"Time":"2018-12-16T20:28:29.257153-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.runTests()\n"}
+{"Time":"2018-12-16T20:28:29.257162-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:1117 +0x4ee\n"}
+{"Time":"2018-12-16T20:28:29.25717-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  testing.(*M).Run()\n"}
+{"Time":"2018-12-16T20:28:29.257187-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      /usr/local/go/src/testing/testing.go:1034 +0x2ee\n"}
+{"Time":"2018-12-16T20:28:29.257196-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"  main.main()\n"}
+{"Time":"2018-12-16T20:28:29.257209-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"      _testmain.go:44 +0x221\n"}
+{"Time":"2018-12-16T20:28:29.257216-05:00","Action":"output","Package":"command-line-arguments","Test":"TestA","Output":"==================\n"}
+{"Time":"2018-12-16T20:28:29.257467-05:00","Action":"pass","Package":"command-line-arguments","Test":"TestA","Elapsed":0}
+{"Time":"2018-12-16T20:28:29.257487-05:00","Action":"output","Package":"command-line-arguments","Test":"TestRace1","Output":"--- FAIL: TestRace1 (0.00s)\n"}
+{"Time":"2018-12-16T20:28:29.257498-05:00","Action":"output","Package":"command-line-arguments","Test":"TestRace1","Output":"    some_test.go:10: 64\n"}
+{"Time":"2018-12-16T20:28:29.257508-05:00","Action":"output","Package":"command-line-arguments","Test":"TestRace1","Output":"    testing.go:771: race detected during execution of test\n"}
+{"Time":"2018-12-16T20:28:29.257518-05:00","Action":"fail","Package":"command-line-arguments","Test":"TestRace1","Elapsed":0}
+{"Time":"2018-12-16T20:28:29.257524-05:00","Action":"output","Package":"command-line-arguments","Output":"FAIL\n"}
+{"Time":"2018-12-16T20:28:29.258518-05:00","Action":"output","Package":"command-line-arguments","Output":"FAIL\tcommand-line-arguments\t0.016s\n"}
+{"Time":"2018-12-16T20:28:29.258549-05:00","Action":"fail","Package":"command-line-arguments","Elapsed":0.017}
