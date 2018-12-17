@@ -53,7 +53,9 @@ func NewEvent(data []byte) (*Event, error) {
 type Events []*Event
 
 // Discard reports whether an "output" action:
-// 1. is an update action: RUN, PAUSE, CONT.
+//
+// 1. is an update action: RUN, PAUSE, CONT
+//
 // 2. has no test name
 //
 // If output is not one of the above return false.
@@ -140,6 +142,11 @@ func (e *Event) Cover() (float64, bool) {
 	}
 
 	return f, false
+}
+
+// IsRace indicates a race event has been detected.
+func (e *Event) IsRace() bool {
+	return strings.HasPrefix(e.Output, "WARNING: DATA RACE")
 }
 
 // IsPanic indicates a panic event has been detected.

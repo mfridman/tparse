@@ -12,10 +12,10 @@ test:
 
 # eating our own dog food :)
 test-tparse-full:
-	go test -count=1 -v ./... -json -cover | go run main.go -all -smallscreen -notests
+	go test -race-count=1 -v ./... -json -cover | go run main.go -all -smallscreen -notests
 
 test-tparse:
-	go test -count=1 ./parse -json -cover | go run main.go
+	go test -race -count=1 ./parse -json -cover | go run main.go
 
 release:
 	goreleaser --rm-dist

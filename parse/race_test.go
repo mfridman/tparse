@@ -8,10 +8,10 @@ import (
 	"testing"
 )
 
-func TestReplay(t *testing.T) {
+func TestRaceReplay(t *testing.T) {
 
 	root := "testdata"
-	base := filepath.Join(root, "replay")
+	base := filepath.Join(root, "race")
 
 	tt := []struct {
 		name, input, output string
@@ -34,10 +34,10 @@ func TestReplay(t *testing.T) {
 			}
 
 			var buf bytes.Buffer
-			ReplayOutput(&buf, f)
+			ReplayRaceOutput(&buf, f)
 
 			if !bytes.Equal(buf.Bytes(), want) {
-				t.Error("replay input does not match expected output; diff files in replay dir suffixed with .FAIL to debug")
+				t.Error("race input does not match expected output; diff files in race dir suffixed with .FAIL to debug")
 				t.Logf("diff %v %v", "parse/"+test.input+".FAIL", "parse/"+test.output+".FAIL")
 				if err := ioutil.WriteFile(test.input+".FAIL", buf.Bytes(), 0644); err != nil {
 					t.Fatal(err)
@@ -46,6 +46,15 @@ func TestReplay(t *testing.T) {
 					t.Fatal(err)
 				}
 			}
+
+			if _, err := f.Seek(0, 0); err != nil {
+				t.Fatalf("failed to seek back to begining of file: %v", err)
+			}
+
+			if _, err := Process(f); err != ErrRaceDetected {
+				t.Fatalf("got wrong opaque error %q; want ErrRaceDetected", err)
+			}
+
 		})
 
 	}

@@ -14,6 +14,10 @@ import (
 // by the Process func.
 var ErrNotParseable = errors.New("failed to parse events")
 
+// ErrRaceDetected indicates a race condition has been detected during execution.
+// Returned by the Process func.
+var ErrRaceDetected = errors.New("race detected")
+
 // Process is the entry point to the parse pkg. It consumes a reader
 // and attempts to parse go test JSON output lines until EOF.
 //
@@ -23,6 +27,8 @@ var ErrNotParseable = errors.New("failed to parse events")
 func Process(r io.Reader) (Packages, error) {
 
 	pkgs := Packages{}
+
+	var hasRace bool
 
 	var scan bool
 	var badLines int
@@ -58,9 +64,14 @@ func Process(r io.Reader) (Packages, error) {
 			pkg.Summary.Package = e.Package
 			pkg.Summary.Test = e.Test
 		}
+		// Short circuit output when panic is detected.
 		if pkg.HasPanic {
 			pkg.PanicEvents = append(pkg.PanicEvents, e)
 			continue
+		}
+
+		if e.IsRace() {
+			hasRace = true
 		}
 
 		if e.IsCached() {
@@ -109,6 +120,9 @@ func Process(r io.Reader) (Packages, error) {
 	if !scan {
 		return nil, ErrNotParseable
 	}
+	if hasRace {
+		return nil, ErrRaceDetected
+	}
 
 	return pkgs, nil
 }
@@ -130,6 +144,45 @@ func ReplayOutput(w io.Writer, r io.Reader) {
 		}
 		// Output expected to be terminated by a newline.
 		fmt.Fprint(w, e.Output)
+	}
+
+	if err := sc.Err(); err != nil {
+		fmt.Fprintf(w, "tparse scan error: %v\n", err)
+	}
+}
+
+// ReplayRaceOutput takes json event lines from r and returns partial output
+// to w. Specifically, once a race is detected all discard and PASS events will
+// be ignored. This is to keep output as close as possible to what
+// go test (without -v) would have otherwise returned.
+//
+// The race output is non-detertministc.
+// https://github.com/golang/go/issues/29156#issuecomment-445486381
+func ReplayRaceOutput(w io.Writer, r io.Reader) {
+
+	var raceStarted bool
+
+	sc := bufio.NewScanner(r)
+	for sc.Scan() {
+		e, err := NewEvent(sc.Bytes())
+		if err != nil {
+			// We couldn't parse an event, so return the raw text.
+			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
+			continue
+		}
+
+		if raceStarted {
+			if e.Discard() || strings.Contains(e.Output, "--- PASS:") {
+				continue
+			}
+			fmt.Fprint(w, e.Output)
+			continue
+		}
+
+		if strings.Contains(e.Output, "==================") {
+			raceStarted = true
+			fmt.Fprint(w, e.Output)
+		}
 	}
 
 	if err := sc.Err(); err != nil {

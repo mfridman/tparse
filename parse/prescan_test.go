@@ -27,6 +27,7 @@ func TestPrescan(t *testing.T) {
 		// logic: unparseable event(s), good event(s), at least one event = fail.
 		// Once we get a good event, we expect only good events to follow until EOF.
 		{"input03.txt", "want failure when stream contains a bad event(s) -> good event(s) -> bad event", ErrNotParseable},
+		{"input04.txt", "want failure reading <50 lines of non-parseable events", ErrNotParseable},
 	}
 
 	for _, test := range tt {
@@ -45,8 +46,13 @@ func TestPrescan(t *testing.T) {
 			// retrieve original error.
 			err = errors.Cause(err)
 
+			// dirty, but does the job.
 			if reflect.TypeOf(err) != reflect.TypeOf(test.err) {
 				t.Fatalf("%s: got err type %T want %T: %v", test.desc, err, test.err, err)
+			}
+
+			if err != nil && err != test.err {
+				t.Fatalf("got wrong opaque error %q; want ErrNotParseable", err)
 			}
 
 		})
