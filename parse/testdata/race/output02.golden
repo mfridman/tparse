@@ -99,3 +99,6 @@ Goroutine 25 (running) created at:
     testing.go:771: race detected during execution of test
 --- FAIL: TestPackageCache (0.22s)
     testing.go:771: race detected during execution of test
+FAIL
+coverage: 93.6% of statements
+FAIL	github.com/mfridman/tparse/parse	0.391s

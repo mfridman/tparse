@@ -152,8 +152,8 @@ func ReplayOutput(w io.Writer, r io.Reader) {
 }
 
 // ReplayRaceOutput takes json event lines from r and returns partial output
-// to w. Specifically, once a race is detected all discard and PASS events will
-// be ignored. This is to keep output as close as possible to what
+// to w. Specifically, once a race is detected all PASS events and update events
+// will be ignored. This is to keep output as close as possible to what
 // go test (without -v) would have otherwise returned.
 //
 // The race output is non-detertministc.
@@ -161,8 +161,9 @@ func ReplayOutput(w io.Writer, r io.Reader) {
 func ReplayRaceOutput(w io.Writer, r io.Reader) {
 
 	var raceStarted bool
-
 	sc := bufio.NewScanner(r)
+
+Loop:
 	for sc.Scan() {
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
@@ -172,9 +173,12 @@ func ReplayRaceOutput(w io.Writer, r io.Reader) {
 		}
 
 		if raceStarted {
-			if e.Discard() || strings.Contains(e.Output, "--- PASS:") {
-				continue
+			for i := range updates {
+				if strings.HasPrefix(e.Output, updates[i]) || strings.Contains(e.Output, "--- PASS:") {
+					continue Loop
+				}
 			}
+
 			fmt.Fprint(w, e.Output)
 			continue
 		}

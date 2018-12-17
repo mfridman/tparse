@@ -1,22 +1,22 @@
 ==================
 WARNING: DATA RACE
-Write at 0x00c0000be010 by goroutine 9:
-  command-line-arguments.TestRace1.func1()
+Write at 0x00c0000c8010 by goroutine 9:
+  debug/tparse-24.TestRace1.func1()
       /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x38
 
-Previous write at 0x00c0000be010 by goroutine 6:
-  command-line-arguments.TestRace1()
+Previous write at 0x00c0000c8010 by goroutine 6:
+  debug/tparse-24.TestRace1()
       /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:9 +0x96
   testing.tRunner()
       /usr/local/go/src/testing/testing.go:827 +0x162
 
 Goroutine 9 (running) created at:
-  command-line-arguments.TestRace1()
+  debug/tparse-24.TestRace1()
       /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x88
   testing.tRunner()
       /usr/local/go/src/testing/testing.go:827 +0x162
 
-Goroutine 6 (running) created at:
+Goroutine 6 (finished) created at:
   testing.(*T).Run()
       /usr/local/go/src/testing/testing.go:878 +0x650
   testing.runTests.func1()
@@ -30,8 +30,5 @@ Goroutine 6 (running) created at:
   main.main()
       _testmain.go:44 +0x221
 ==================
---- FAIL: TestRace1 (0.00s)
-    some_test.go:10: 64
-    testing.go:771: race detected during execution of test
-FAIL
-FAIL	command-line-arguments	0.016s
+Found 1 data race(s)
+FAIL	debug/tparse-24	1.017s

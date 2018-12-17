@@ -18,6 +18,7 @@ func TestRaceReplay(t *testing.T) {
 	}{
 		{"input01", filepath.Join(base, "input01.json"), filepath.Join(base, "output01.golden")},
 		{"input02", filepath.Join(base, "input02.json"), filepath.Join(base, "output02.golden")},
+		{"input03", filepath.Join(base, "input03.json"), filepath.Join(base, "output03.golden")},
 	}
 
 	for _, test := range tt {
