@@ -166,13 +166,13 @@ type Action string
 // Prefixed with Action for convenience.
 const (
 	ActionRun    Action = "run"    // test has started running
-	ActionPause         = "pause"  // test has been paused
-	ActionCont          = "cont"   // the test has continued running
-	ActionPass          = "pass"   // test passed
-	ActionBench         = "bench"  // benchmark printed log output but did not fail
-	ActionFail          = "fail"   // test or benchmark failed
-	ActionOutput        = "output" // test printed output
-	ActionSkip          = "skip"   // test was skipped or the package contained no tests
+	ActionPause  Action = "pause"  // test has been paused
+	ActionCont   Action = "cont"   // the test has continued running
+	ActionPass   Action = "pass"   // test passed
+	ActionBench  Action = "bench"  // benchmark printed log output but did not fail
+	ActionFail   Action = "fail"   // test or benchmark failed
+	ActionOutput Action = "output" // test printed output
+	ActionSkip   Action = "skip"   // test was skipped or the package contained no tests
 )
 
 func (a Action) String() string {

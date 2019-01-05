@@ -21,7 +21,8 @@ import (
 
 // Flags.
 var (
-	versionPtr     = flag.Bool("v", false, "")
+	vPtr           = flag.Bool("v", false, "")
+	versionPtr     = flag.Bool("version", false, "")
 	allPtr         = flag.Bool("all", false, "")
 	passPtr        = flag.Bool("pass", false, "")
 	skipPtr        = flag.Bool("skip", false, "")
@@ -62,7 +63,7 @@ func main() {
 	}
 	flag.Parse()
 
-	if *versionPtr {
+	if *vPtr || *versionPtr {
 		fmt.Fprintf(os.Stdout, "tparse version: %s\n", version.Version())
 		os.Exit(0)
 	}
@@ -447,7 +448,6 @@ func withColor(a parse.Action, enabled bool) string {
 }
 
 const (
-	cReset  = 0
 	cRed    = 31
 	cGreen  = 32
 	cYellow = 33
