@@ -47,7 +47,8 @@ func TestMetrics(t *testing.T) {
 		}
 
 		if pkg.Summary.Action != ActionPass {
-			t.Errorf("unexpected action %v, want %v", pkg.Summary.Action, ActionPass)
+			t.Logf("failed pkg: %v", name)
+			t.Errorf("unexpected action %q, want %q", pkg.Summary.Action, ActionPass)
 		}
 	}
 

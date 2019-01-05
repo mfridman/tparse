@@ -151,9 +151,13 @@ func (e *Event) IsRace() bool {
 
 // IsPanic indicates a panic event has been detected.
 func (e *Event) IsPanic() bool {
-	// Let's see how this goes. If a user has this prefix in one of their output lines, I think it's
+	// Let's see how this goes. If a user has this in one of their output lines, I think it's
 	// defensible to suggest updating their output.
-	return strings.HasPrefix(e.Output, "panic: ")
+	//
+	// The Go tests occasionally output these "keywords" along with "as expected"
+	// time_test.go:1359: panic in goroutine 7, as expected, with "runtime error: racy use of timers"
+	return strings.HasPrefix(e.Output, "panic: ") ||
+		(strings.Contains(e.Output, "runtime error:") && !strings.Contains(e.Output, "as expected"))
 }
 
 // Action is one of a fixed set of actions describing a single emitted event.
