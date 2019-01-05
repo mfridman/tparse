@@ -1,3 +1,19 @@
+# to get a specific version from https://golang.org/dl/
+# go get golang.org/dl/go1.11.4 && go1.11.4 download
+# 
+GO_VERSION=go1.11.4
+# GO_VERSION=go1.12beta1
+# GO_VERSION=gotip
+GO=$$HOME/go/bin/$(GO_VERSION)
+
+ROOT := github.com/mfridman/tparse
+
+vet: | test
+	$(GO) vet $(PKGS)
+
+go-version:
+	$(GO) version
+
 .PHONY: \
 	imports \
 	test \
@@ -5,30 +21,30 @@
 	vendor \
 
 imports:
-	@goimports -local github.com/mfridman/tparse/ -w $(shell find . -type f -name '*.go' -not -path './vendor/*')
+	@goimports -local $(ROOT) -w $(shell find . -type f -name '*.go' -not -path './vendor/*')
 
 test:
-	go test ./parse
+	$(GO) test -count=1 ./parse
+
+test-tparse:
+	$(GO) test -race -count=1 ./parse -json -cover | $(GO) run main.go
 
 # eating our own dog food :)
 test-tparse-full:
-	go test -race-count=1 -v ./... -json -cover | go run main.go -all -smallscreen -notests
-
-test-tparse:
-	go test -race -count=1 ./parse -json -cover | go run main.go
+	$(GO) test -race-count=1 -v ./... -json -cover | $(GO) run main.go -all -smallscreen -notests
 
 release:
 	goreleaser --rm-dist
 
 coverage:
-	go test ./parse -covermode=count -coverprofile=count.out
-	go tool cover -html=count.out
+	$(GO) test ./parse -covermode=count -coverprofile=count.out
+	$(GO) tool cover -html=count.out
 
 tidy:
-	GO111MODULE=on go mod tidy
+	GO111MODULE=on $(GO) mod tidy && GO111MODULE=on $(GO) mod verify
 
-vendor:
-	GO111MODULE=on go mod vendor && GO111MODULE=on go mod tidy
+update-patch:
+	GO111MODULE=on $(GO) get -u=patch
 
 generate:
-	GIT_TAG=$$(git describe --tags) go generate ./...
+	GIT_TAG=$$(git describe --tags) $(GO) generate ./...
