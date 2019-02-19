@@ -314,9 +314,17 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 
 	tbl.SetAutoWrapText(false)
 
-	var sp []*parse.Package
+	// sort packages alphabetically
+	var pkgsKeys []string
+	for k := range pkgs {
+		pkgsKeys = append(pkgsKeys, k)
+	}
+	sort.Strings(pkgsKeys)
 
-	for _, pkg := range pkgs {
+	// discard packages
+	var sp []*parse.Package
+	for _, p := range pkgsKeys {
+		pkg := pkgs[p]
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
 			continue
 		}
