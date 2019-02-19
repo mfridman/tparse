@@ -31,6 +31,7 @@ var (
 	smallScreenPtr = flag.Bool("smallscreen", false, "")
 	topPtr         = flag.Bool("top", false, "") // TODO(mf): rename this to -reverse with v1
 	noColorPtr     = flag.Bool("nocolor", false, "")
+	slowPtr        = flag.Int("slow", 0, "")
 )
 
 var usage = `Usage:
@@ -48,6 +49,7 @@ Options:
 	-dump		Enables recovering go test output in non-JSON format.
 	-smallscreen	Split subtest names vertically to fit on smaller screens.
 	-top		Display summary table towards top.
+	-slow		Number of slowest tests to display. Default is 0, display all.
 	-nocolor	Disable all colors.
 `
 
@@ -109,6 +111,7 @@ func main() {
 
 	opts := testsTableOptions{
 		trim: *smallScreenPtr,
+		slow: *slowPtr,
 	}
 	if *allPtr {
 		opts.pass, opts.skip = true, true
@@ -298,11 +301,11 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool) {
 
 type testsTableOptions struct {
 	pass, skip, trim bool
+	slow             int
 }
 
 func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOptions) {
-	// Print passed tests, sorted by elapsed. Unlike failed tests, passed tests
-	// are not grouped. Maybe bad design?
+	// Print passed tests, sorted by elapsed. Grouped by alphabetically sorted pkgs.
 	tbl := tablewriter.NewWriter(w.Output)
 
 	tbl.SetHeader([]string{
@@ -354,6 +357,10 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 		}
 		if len(all) == 0 {
 			continue
+		}
+
+		if options.slow > 0 && len(all) > options.slow {
+			all = all[:options.slow]
 		}
 
 		for _, t := range all {
