@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"io"
@@ -10,6 +11,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/mfridman/tparse/parse"
 	"github.com/mfridman/tparse/version"
@@ -21,17 +23,18 @@ import (
 
 // Flags.
 var (
-	vPtr           = flag.Bool("v", false, "")
-	versionPtr     = flag.Bool("version", false, "")
-	allPtr         = flag.Bool("all", false, "")
-	passPtr        = flag.Bool("pass", false, "")
-	skipPtr        = flag.Bool("skip", false, "")
-	showNoTestsPtr = flag.Bool("notests", false, "")
-	dumpPtr        = flag.Bool("dump", false, "") // TODO(mf): rename this to -replay with v1
-	smallScreenPtr = flag.Bool("smallscreen", false, "")
-	topPtr         = flag.Bool("top", false, "") // TODO(mf): rename this to -reverse with v1
-	noColorPtr     = flag.Bool("nocolor", false, "")
-	slowPtr        = flag.Int("slow", 0, "")
+	vPtr             = flag.Bool("v", false, "")
+	versionPtr       = flag.Bool("version", false, "")
+	allPtr           = flag.Bool("all", false, "")
+	passPtr          = flag.Bool("pass", false, "")
+	skipPtr          = flag.Bool("skip", false, "")
+	showNoTestsPtr   = flag.Bool("notests", false, "")
+	dumpPtr          = flag.Bool("dump", false, "") // TODO(mf): rename this to -replay with v1
+	smallScreenPtr   = flag.Bool("smallscreen", false, "")
+	topPtr           = flag.Bool("top", false, "") // TODO(mf): rename this to -reverse with v1
+	noColorPtr       = flag.Bool("nocolor", false, "")
+	slowPtr          = flag.Int("slow", 0, "")
+	pulseIntervalPtr = flag.Duration("pulse", 0, "")
 )
 
 var usage = `Usage:
@@ -80,6 +83,8 @@ func main() {
 	var replayBuf bytes.Buffer
 	tr := io.TeeReader(r, &replayBuf)
 
+	stopPulse := newPulse(".")
+
 	pkgs, err := parse.Process(tr)
 	if err != nil {
 		switch err {
@@ -97,6 +102,8 @@ func main() {
 		}
 		os.Exit(1)
 	}
+
+	stopPulse()
 
 	if len(pkgs) == 0 {
 		fmt.Fprintf(os.Stdout, "tparse: no go packages to parse\n\n")
@@ -473,4 +480,32 @@ func colorize(s string, color int, enabled bool) string {
 		return s
 	}
 	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
+}
+
+func newPulse(symbol string) (stop func()) {
+	var done chan struct{}
+	ctx, cancel := context.WithCancel(context.Background())
+	if *pulseIntervalPtr > 0 {
+		done = make(chan struct{})
+		go func() {
+			defer close(done)
+
+			ticker := time.NewTicker(*pulseIntervalPtr)
+			defer ticker.Stop()
+			defer fmt.Println()
+
+			for {
+				select {
+				case <-ctx.Done():
+					return
+				case <-ticker.C:
+					fmt.Print(".")
+				}
+			}
+		}()
+	}
+	return func() {
+		cancel()
+		<-done
+	}
 }
