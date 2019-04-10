@@ -83,7 +83,7 @@ func main() {
 	var replayBuf bytes.Buffer
 	tr := io.TeeReader(r, &replayBuf)
 
-	stopPulse := newPulse(".")
+	stopPulse := newPulse(*pulseIntervalPtr, ".")
 
 	pkgs, err := parse.Process(tr)
 	if err != nil {
@@ -482,28 +482,31 @@ func colorize(s string, color int, enabled bool) string {
 	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
 }
 
-func newPulse(symbol string) (stop func()) {
-	var done chan struct{}
-	ctx, cancel := context.WithCancel(context.Background())
-	if *pulseIntervalPtr > 0 {
-		done = make(chan struct{})
-		go func() {
-			defer close(done)
-
-			ticker := time.NewTicker(*pulseIntervalPtr)
-			defer ticker.Stop()
-			defer fmt.Println()
-
-			for {
-				select {
-				case <-ctx.Done():
-					return
-				case <-ticker.C:
-					fmt.Print(".")
-				}
-			}
-		}()
+func newPulse(interval time.Duration, symbol string) (stop func()) {
+	if interval <= 0 {
+		return func() {}
 	}
+
+	done := make(chan struct{})
+
+	ctx, cancel := context.WithCancel(context.Background())
+	go func() {
+		defer close(done)
+
+		ticker := time.NewTicker(*pulseIntervalPtr)
+		defer ticker.Stop()
+		defer fmt.Println()
+
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				fmt.Print(".")
+			}
+		}
+	}()
+
 	return func() {
 		cancel()
 		<-done
