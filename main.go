@@ -334,16 +334,11 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 		sp = append(sp, pkg)
 	}
 
-	numPkgs := len(sp)
-	numScanned := 0
-
 	if options.slow != 0 {
 		var skipped []*parse.Test
 		var passed []*parse.Test
 
 		for _, pkg := range sp {
-			numScanned++
-
 			if options.skip {
 				skipped = append(skipped, pkg.TestsByAction(parse.ActionSkip)...)
 			}
@@ -389,9 +384,7 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 			})
 		}
 	} else {
-		for _, pkg := range sp {
-			numScanned++
-
+		for i, pkg := range sp {
 			var all []*parse.Test
 			if options.skip {
 				skipped := pkg.TestsByAction(parse.ActionSkip)
@@ -437,7 +430,7 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 			}
 
 			// Add empty line between package groups except the last package
-			if numScanned < numPkgs {
+			if i+1 < len(sp) {
 				tbl.Append([]string{"", "", "", ""})
 			}
 		}
