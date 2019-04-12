@@ -342,34 +342,30 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 		sp = append(sp, pkg)
 	}
 
-	numPkgs := len(sp)
-	numScanned := 0
+	if options.slow != 0 {
+		var skipped []*parse.Test
+		var passed []*parse.Test
 
-	for _, pkg := range sp {
-		numScanned++
+		for _, pkg := range sp {
+			if options.skip {
+				skipped = append(skipped, pkg.TestsByAction(parse.ActionSkip)...)
+			}
+			if options.pass {
+				passed = append(passed, pkg.TestsByAction(parse.ActionPass)...)
+			}
+		}
+
+		// Sort tests within a package by elapsed time in descending order, longest on top.
+		sort.Slice(passed, func(i, j int) bool {
+			return passed[i].Elapsed() > passed[j].Elapsed()
+		})
+		if options.slow > 0 && len(passed) > options.slow {
+			passed = passed[:options.slow]
+		}
 
 		var all []*parse.Test
-		if options.skip {
-			skipped := pkg.TestsByAction(parse.ActionSkip)
-			all = append(all, skipped...)
-		}
-		if options.pass {
-			passed := pkg.TestsByAction(parse.ActionPass)
-
-			// Sort tests within a package by elapsed time in descending order, longest on top.
-			sort.Slice(passed, func(i, j int) bool {
-				return passed[i].Elapsed() > passed[j].Elapsed()
-			})
-
-			all = append(all, passed...)
-		}
-		if len(all) == 0 {
-			continue
-		}
-
-		if options.slow > 0 && len(all) > options.slow {
-			all = all[:options.slow]
-		}
+		all = append(all, skipped...)
+		all = append(all, passed...)
 
 		for _, t := range all {
 			t.SortEvents()
@@ -395,10 +391,56 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 				filepath.Base(t.Package),
 			})
 		}
+	} else {
+		for i, pkg := range sp {
+			var all []*parse.Test
+			if options.skip {
+				skipped := pkg.TestsByAction(parse.ActionSkip)
+				all = append(all, skipped...)
+			}
+			if options.pass {
+				passed := pkg.TestsByAction(parse.ActionPass)
 
-		// Add empty line between package groups except the last package
-		if numScanned < numPkgs {
-			tbl.Append([]string{"", "", "", ""})
+				// Sort tests within a package by elapsed time in descending order, longest on top.
+				sort.Slice(passed, func(i, j int) bool {
+					return passed[i].Elapsed() > passed[j].Elapsed()
+				})
+
+				all = append(all, passed...)
+			}
+			if len(all) == 0 {
+				continue
+			}
+
+			for _, t := range all {
+				t.SortEvents()
+
+				var testName strings.Builder
+				testName.WriteString(t.Name)
+				if options.trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
+					testName.Reset()
+					ss := strings.Split(t.Name, "/")
+					testName.WriteString(ss[0] + "\n")
+					for i, s := range ss[1:] {
+						testName.WriteString(" /" + s)
+						if i != len(ss[1:])-1 {
+							testName.WriteString("\n")
+						}
+					}
+				}
+
+				tbl.Append([]string{
+					withColor(t.Status(), w.Color),
+					strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
+					testName.String(),
+					filepath.Base(t.Package),
+				})
+			}
+
+			// Add empty line between package groups except the last package
+			if i+1 < len(sp) {
+				tbl.Append([]string{"", "", "", ""})
+			}
 		}
 	}
 
