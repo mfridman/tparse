@@ -54,6 +54,7 @@ Options:
 	-top		Display summary table towards top.
 	-slow		Number of slowest tests to display. Default is 0, display all.
 	-nocolor	Disable all colors.
+	-pulse		Print "." every interval. Default is 0, disabled.
 `
 
 type consoleWriter struct {
