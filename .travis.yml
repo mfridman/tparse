@@ -6,8 +6,8 @@ before_install:
   - go get -u github.com/mfridman/tparse
 
 go:
-  - "1.10"
   - "1.11"
+  - "1.12"
 
 branches:
   only:
@@ -15,4 +15,5 @@ branches:
     - devel
 
 script:
+  - tparse --version
   - go test -race -v ./parse -json -cover | tparse -all -smallscreen
