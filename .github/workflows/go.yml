@@ -27,8 +27,8 @@ jobs:
       - name: tparse Version
         run: ./tparse --version
 
-      - name: run tests
-        run: go test -race -v ./parse -json -cover | ./tparse -all -smallscreen -dump
-
       - name: run Go std lib tests
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
+
+      - name: run tests
+        run: go test -race -v ./parse -json -cover | ./tparse -all -smallscreen -dump
