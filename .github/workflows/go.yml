@@ -1,8 +1,8 @@
-name: Go
+name: tparse CI
 on: [push]
 jobs:
   build:
-    name: Build Go
+    name: testing tparse with tparse
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go 1.12
@@ -29,3 +29,6 @@ jobs:
 
       - name: run tests
         run: go test -race -v ./parse -json -cover | ./tparse -all -smallscreen -dump
+
+      - name: run Go std lib tests
+        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
