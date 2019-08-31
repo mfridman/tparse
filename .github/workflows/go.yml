@@ -28,4 +28,4 @@ jobs:
         run: ./tparse --version
 
       - name: run tests
-        run: go test -race -v ./parse -json -cover | ./tparse -all -smallscreen
+        run: go test -race -v ./parse -json -cover | ./tparse -all -smallscreen -dump
