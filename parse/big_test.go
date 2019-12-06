@@ -57,7 +57,7 @@ func TestBigOutcome(t *testing.T) {
 	for _, test := range tt {
 
 		t.Run(test.name, func(t *testing.T) {
-			t.Log(test.name, len(test.registry))
+			// t.Log(test.name, len(test.registry))
 
 			by, err := ioutil.ReadFile(filepath.Join(base, test.name))
 			if err != nil {
