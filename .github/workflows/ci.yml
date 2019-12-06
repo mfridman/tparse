@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    name: Build and test
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 10
+      matrix:
+        go: ['1.11','1.12','1.13']
+    env:
+      VERBOSE: 1
+
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Checkout code
+        uses: actions/checkout@v1
+        
+      - name: Build
+        run: go build -v .
+
+      - name: Run tests
+        run: go test -count=1 -race ./parse -json -cover | ./tparse -all -top
+
+      - name: Run tparse w/ std lib
+        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
