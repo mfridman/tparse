@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"strings"
 	"testing"
-
-	"github.com/pkg/errors"
 )
 
 func TestMetrics(t *testing.T) {
@@ -119,7 +117,6 @@ func TestElapsed(t *testing.T) {
 
 	f := "./testdata/elapsed_test.json"
 	by, err := ioutil.ReadFile(f)
-	err = errors.New("some bogus error to test CI :)")
 	if err != nil {
 		t.Fatal(err)
 	}
