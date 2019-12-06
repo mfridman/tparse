@@ -1,4 +1,4 @@
-# tparse  [![Build Status](https://travis-ci.com/mfridman/tparse.svg?branch=master)](https://travis-ci.com/mfridman/tparse) [![Coverage](http://gocover.io/_badge/github.com/mfridman/tparse/parse)](http://gocover.io/github.com/mfridman/tparse/parse)
+# tparse  [![Actions](https://github.com/mfridman/tparse/workflows/CI/badge.svg)](https://github.com/mfridman/tparse) [![Coverage](http://gocover.io/_badge/github.com/mfridman/tparse/parse)](http://gocover.io/github.com/mfridman/tparse/parse)
 
 A command line tool for analyzing and summarizing `go test` output.
 
@@ -72,6 +72,6 @@ TestSubtests
 
 ---
 
-P.S. `tparse` uses itself in the [travis pipeline](https://travis-ci.com/mfridman/tparse/jobs/160641080#L557):
+P.S. `tparse` uses itself in [GitHub actions](https://github.com/mfridman/tparse/commit/eb87ddcaa52ed83692b01f6e30f3bd98aee036a3/checks?check_suite_id=345829033#step:5:11):
 
-<img src="https://www.dropbox.com/s/x9cva17f3ko82gb/travis-ci.png?raw=1" />
+<img src="https://res.cloudinary.com/mfridman/image/upload/v1575645347/projects/tparse/Screen_Shot_2019-12-06_at_10.15.22_AM_itviiy.png" />
