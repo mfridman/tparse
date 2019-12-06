@@ -33,8 +33,5 @@ jobs:
       - name: Build
         run: go build -v .
 
-      - name: tparse Version
-        run: ./tparse --version
-
       - name: run tests
-        run: go test -race -v ./parse -json -cover | ./tparse -all -smallscreen -dump
+        run: go test -race -v ./parse -json -cover | ./tparse -all -dump -top
