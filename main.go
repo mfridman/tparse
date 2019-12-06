@@ -545,7 +545,7 @@ func newPulse(interval time.Duration, symbol string) (stop func()) {
 			case <-ctx.Done():
 				return
 			case <-ticker.C:
-				fmt.Print(".")
+				fmt.Print(symbol)
 			}
 		}
 	}()
