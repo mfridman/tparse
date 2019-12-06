@@ -26,12 +26,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
         
-      # - name: Get dependencies
-      #   run: |
-      #     go get -v -t -d ./...
-
       - name: Build
         run: go build -v .
 
-      - name: run tests
-        run: go test -race ./parse -json -cover | ./tparse -all -top
+      - name: Run tests
+        run: go test -count=1 -race ./parse -json -cover | ./tparse -all -top
+
+      - name: Run tparse w/ std lib
+        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
