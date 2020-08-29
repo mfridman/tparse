@@ -11,21 +11,20 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 10
       matrix:
-        go: ['1.11','1.12','1.13']
+        go: ['1.13', '1.14', '1.15']
     env:
       VERBOSE: 1
 
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@v2
         with:
           go-version: ${{ matrix.go }}
 
       - name: Checkout code
-        uses: actions/checkout@v1
-        
+        uses: actions/checkout@v2
+
       - name: Build
         run: go build -v .
 
