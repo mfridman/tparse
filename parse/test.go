@@ -49,32 +49,16 @@ func (t *Test) Status() Action {
 
 // Stack returns debugging information from output events for failed or skipped tests.
 func (t *Test) Stack() string {
-
-	// Sort by time and scan for the first output containing the string
-	// "--- FAIL" or "--- SKIP"; this event marks the beginning for the "stack".
-	// Record it and continue adding all subsequent lines.
 	t.SortEvents()
-
 	var stack strings.Builder
 
-	var scan bool
 	for _, e := range t.Events {
 		// Only output events have useful information. Skip everything else.
 		if e.Action != ActionOutput {
 			continue
 		}
 
-		if scan {
-			stack.WriteString(e.Output)
-			continue
-		}
-
-		for i := range reports {
-			if strings.Contains(e.Output, reports[i]) {
-				scan = true
-				stack.WriteString(e.Output)
-			}
-		}
+		stack.WriteString(e.Output)
 	}
 
 	return stack.String()
