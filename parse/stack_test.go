@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestSingleFailStack(t *testing.T) {
+func TestSingleTestFailStack(t *testing.T) {
 
 	t.Parallel()
 
@@ -21,6 +21,7 @@ func TestSingleFailStack(t *testing.T) {
 		{"input02", filepath.Join(base, "input02.json"), filepath.Join(base, "output02.golden")},
 		{"input03", filepath.Join(base, "input03.json"), filepath.Join(base, "output03.golden")},
 		{"input04", filepath.Join(base, "input04.json"), filepath.Join(base, "output04.golden")},
+		{"input05", filepath.Join(base, "input05.json"), filepath.Join(base, "output05.golden")},
 	}
 
 	for _, test := range tt {
