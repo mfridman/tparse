@@ -6,7 +6,7 @@ A command line tool for analyzing and summarizing `go test` output.
 
 Pass            |  Fail
 :-------------------------:|:-------------------------:
-<img src="https://www.dropbox.com/s/c6v4u9d0huvjelk/pass.png?raw=1" />  |  <img src="https://www.dropbox.com/s/k4lgoekqef7tbsy/fail.png?raw=1" />
+<img src="https://res.cloudinary.com/mfridman/image/upload/q_auto/v1600038958/projects/tparse/passed_rlnd0i.png" />  |  <img src="https://res.cloudinary.com/mfridman/image/upload/q_auto/v1600038958/projects/tparse/failed_zdka7h.png" />
 
 By default, `tparse` will always return test failures and panics, if any, followed by a package-level summary table.
 
