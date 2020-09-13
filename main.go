@@ -55,7 +55,7 @@ Options:
 	-top		Display summary table towards top.
 	-slow		Number of slowest tests to display. Default is 0, display all.
 	-nocolor	Disable all colors.
-	-noborders	Don't print summary table's borders.
+	-noborders	Don't print tables' borders.
 	-pulse d	Print "." every interval d, specified as a time.Duration. Default is 0, disabled.
 `
 
@@ -331,6 +331,13 @@ func (w *consoleWriter) TestsTable(pkgs parse.Packages, options testsTableOption
 		"Test",
 		"Package",
 	})
+
+	if *noBordersPtr {
+		tbl.SetBorder(false)
+		tbl.SetRowSeparator("")
+		tbl.SetColumnSeparator("")
+		tbl.SetHeaderLine(false)
+	}
 
 	tbl.SetAutoWrapText(false)
 
