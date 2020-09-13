@@ -35,6 +35,7 @@ var (
 	noColorPtr       = flag.Bool("nocolor", false, "")
 	slowPtr          = flag.Int("slow", 0, "")
 	pulseIntervalPtr = flag.Duration("pulse", 0, "")
+	noBordersPtr     = flag.Bool("noborders", false, "")
 )
 
 var usage = `Usage:
@@ -54,6 +55,7 @@ Options:
 	-top		Display summary table towards top.
 	-slow		Number of slowest tests to display. Default is 0, display all.
 	-nocolor	Disable all colors.
+	-noborders	Don't print summary table's borders.
 	-pulse d	Print "." every interval d, specified as a time.Duration. Default is 0, disabled.
 `
 
@@ -209,6 +211,13 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool) {
 		"Fail",    // 5
 		"Skip",    // 6
 	})
+
+	if *noBordersPtr {
+		tbl.SetBorder(false)
+		tbl.SetRowSeparator("")
+		tbl.SetColumnSeparator("")
+		tbl.SetHeaderLine(false)
+	}
 
 	tbl.SetAutoWrapText(false)
 
