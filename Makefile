@@ -39,7 +39,7 @@ test:
 test-tparse:
 	$(GO) test -race -count=1 ./parse -json -cover | $(GO) run main.go
 
-# eating our own dog food :)
+# dogfooding :)
 test-tparse-full:
 	$(GO) test -race -count=1 -v ./... -json -cover | $(GO) run main.go -all -smallscreen -notests
 
@@ -55,6 +55,3 @@ tidy:
 
 update-patch:
 	GO111MODULE=on $(GO) get -u=patch
-
-generate:
-	GIT_TAG=$$(git describe --tags) $(GO) generate ./...
