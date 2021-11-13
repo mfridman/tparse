@@ -8,13 +8,13 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"sort"
 	"strconv"
 	"strings"
 	"time"
 
 	"github.com/mfridman/tparse/parse"
-	"github.com/mfridman/tparse/version"
 
 	colorable "github.com/mattn/go-colorable"
 	"github.com/olekukonko/tablewriter"
@@ -64,6 +64,10 @@ type consoleWriter struct {
 	Output io.Writer
 }
 
+var (
+	tparseVersion = ""
+)
+
 func main() {
 	flag.Usage = func() {
 		fmt.Fprint(os.Stderr, fmt.Sprint(usage))
@@ -72,8 +76,11 @@ func main() {
 	flag.Parse()
 
 	if *vPtr || *versionPtr {
-		fmt.Fprintf(os.Stdout, "tparse version: %s\n", version.Version())
-		os.Exit(0)
+		if buildInfo, ok := debug.ReadBuildInfo(); ok && buildInfo != nil && tparseVersion == "" {
+			tparseVersion = buildInfo.Main.Version
+		}
+		fmt.Fprintf(os.Stdout, "tparse version: %s\n", tparseVersion)
+		return
 	}
 
 	r, err := newReader()
