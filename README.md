@@ -16,7 +16,7 @@ To get additional info on passed tests run `tparse` with `-pass` flag. Tests are
 
 ## Installation
 
-    go get github.com/mfridman/tparse
+    go install github.com/mfridman/tparse@latest
 
 Or download the latest pre-built binary [here](https://github.com/mfridman/tparse/releases/latest).
 
