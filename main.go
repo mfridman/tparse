@@ -485,7 +485,7 @@ func (w *consoleWriter) PrintFailed(pkgs parse.Packages) {
 		n := make([]string, len(s))
 		sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
 
-		fmt.Fprintf(w.Output, colorize(sn, cRed, w.Color))
+		fmt.Fprint(w.Output, colorize(sn, cRed, w.Color))
 
 		for i, t := range failed {
 			t.SortEvents()
@@ -502,7 +502,7 @@ func (w *consoleWriter) PrintPanic(pkg *parse.Package) {
 	s := fmt.Sprintf("\nPANIC: %s: %s", pkg.Summary.Package, pkg.Summary.Test)
 	n := make([]string, len(s)+1)
 	sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
-	fmt.Fprintf(w.Output, colorize(sn, cRed, w.Color))
+	fmt.Fprint(w.Output, colorize(sn, cRed, w.Color))
 
 	for _, e := range pkg.PanicEvents {
 		fmt.Fprint(w.Output, e.Output)

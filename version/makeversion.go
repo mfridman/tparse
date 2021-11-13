@@ -1,4 +1,4 @@
-// +build ignore
+//go:build ignore
 
 // The makeversion program is run by go generate to compile a git tag
 // into the tparse binary. It does nothing unless $GIT_TAG is set.
