@@ -27,7 +27,7 @@ Once `tparse` is installed there are 2 ways to use it:
 1. Run `go test` as normal, but add `-json` flag and pipe output to `tparse`.
 
 ```
-go test fmt -json | tparse -all
+set -o pipefail && go test fmt -json | tparse -all
 ```
 
 2. Save the output of `go test` with `-json` flag into a file and call `tparse` with filename as an argument.
