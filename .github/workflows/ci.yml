@@ -33,3 +33,6 @@ jobs:
 
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
+
+      - name: Run tparse w/ std lib into markdown file
+        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse >> $GITHUB_STEP_SUMMARY

@@ -139,7 +139,7 @@ func main() {
 	}
 
 	if *topPtr {
-		w.SummaryTable(pkgs, *showNoTestsPtr)
+		w.SummaryTable(pkgs, *showNoTestsPtr, true)
 		w.PrintFailed(pkgs)
 		w.TestsTable(pkgs, opts)
 		if *dumpPtr {
@@ -152,7 +152,7 @@ func main() {
 		}
 		w.TestsTable(pkgs, opts)
 		w.PrintFailed(pkgs)
-		w.SummaryTable(pkgs, *showNoTestsPtr)
+		w.SummaryTable(pkgs, *showNoTestsPtr, true)
 	}
 
 	// Return proper exit code. This must be consistent with what go test would have
@@ -205,7 +205,7 @@ func newReader() (io.ReadCloser, error) {
 	}
 }
 
-func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool) {
+func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool, asMarkdown bool) {
 	fmt.Fprintln(w.Output)
 
 	tbl := tablewriter.NewWriter(w.Output)
@@ -224,6 +224,11 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool) {
 		tbl.SetRowSeparator("")
 		tbl.SetColumnSeparator("")
 		tbl.SetHeaderLine(false)
+	}
+
+	if asMarkdown {
+		tbl.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
+		tbl.SetCenterSeparator("|")
 	}
 
 	tbl.SetAutoWrapText(false)
