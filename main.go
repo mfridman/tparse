@@ -247,14 +247,14 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool, asMa
 
 		if pkg.HasPanic {
 			tbl.Append([]string{
-				colorize("PANIC", cRed, w.Color), elapsed, name, "--", "--", "--", "--",
+				colorize("PANIC", cRed, w.Color, true), elapsed, name, "--", "--", "--", "--",
 			})
 			continue
 		}
 
 		if pkg.NoTestFiles {
 			notests = append(notests, []string{
-				colorize("NOTEST", cYellow, w.Color), elapsed, name + "\n[no test files]", "--", "--", "--", "--",
+				colorize("NOTEST", cYellow, w.Color, true), elapsed, name + "\n[no test files]", "--", "--", "--", "--",
 			})
 			continue
 		}
@@ -269,7 +269,7 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool, asMa
 				}
 				s := fmt.Sprintf("%s\n[no tests to run]\n%s", name, strings.Join(ss, "\n"))
 				notests = append(notests, []string{
-					colorize("NOTEST", cYellow, w.Color), elapsed, s, "--", "--", "--", "--",
+					colorize("NOTEST", cYellow, w.Color, true), elapsed, s, "--", "--", "--", "--",
 				})
 
 				if len(pkg.TestsByAction(parse.ActionPass)) == len(pkg.NoTestSlice) {
@@ -279,7 +279,7 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool, asMa
 			} else {
 				// This should capture cases where packages truly have no tests, but empty files.
 				notests = append(notests, []string{
-					colorize("NOTEST", cYellow, w.Color), elapsed, name + "\n[no tests to run]", "--", "--", "--", "--",
+					colorize("NOTEST", cYellow, w.Color, true), elapsed, name + "\n[no tests to run]", "--", "--", "--", "--",
 				})
 				continue
 			}
@@ -291,11 +291,11 @@ func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool, asMa
 			case c == 0.0:
 				break
 			case c <= 50.0:
-				coverage = colorize(coverage, cRed, w.Color)
+				coverage = colorize(coverage, cRed, w.Color, true)
 			case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
-				coverage = colorize(coverage, cYellow, w.Color)
+				coverage = colorize(coverage, cYellow, w.Color, true)
 			case pkg.Coverage >= 80.0:
-				coverage = colorize(coverage, cGreen, w.Color)
+				coverage = colorize(coverage, cGreen, w.Color, true)
 			}
 		}
 
@@ -497,7 +497,7 @@ func (w *consoleWriter) PrintFailed(pkgs parse.Packages) {
 		n := make([]string, len(s))
 		sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
 
-		fmt.Fprint(w.Output, colorize(sn, cRed, w.Color))
+		fmt.Fprint(w.Output, colorize(sn, cRed, w.Color, true))
 
 		for i, t := range failed {
 			t.SortEvents()
@@ -514,14 +514,14 @@ func (w *consoleWriter) PrintPanic(pkg *parse.Package) {
 	s := fmt.Sprintf("\nPANIC: %s: %s", pkg.Summary.Package, pkg.Summary.Test)
 	n := make([]string, len(s)+1)
 	sn := fmt.Sprintf("%s\n%s\n", s, strings.Join(n, "-"))
-	fmt.Fprint(w.Output, colorize(sn, cRed, w.Color))
+	fmt.Fprint(w.Output, colorize(sn, cRed, w.Color, true))
 
 	for _, e := range pkg.PanicEvents {
 		fmt.Fprint(w.Output, e.Output)
 	}
 }
 
-// withColor attempts to return a colorized string based on action if enabled:
+// withColor attempts to return a colorized string based on action if enabled,true:
 // pass=green, skip=yellow, fail=red, default=no color.
 func withColor(a parse.Action, enabled bool) string {
 	s := strings.ToUpper(a.String())
@@ -530,11 +530,11 @@ func withColor(a parse.Action, enabled bool) string {
 	}
 	switch a {
 	case parse.ActionPass:
-		return colorize(s, cGreen, true)
+		return colorize(s, cGreen, enabled, true)
 	case parse.ActionSkip:
-		return colorize(s, cYellow, true)
+		return colorize(s, cYellow, enabled, true)
 	case parse.ActionFail:
-		return colorize(s, cRed, true)
+		return colorize(s, cRed, enabled, true)
 	default:
 		return s
 	}
@@ -546,8 +546,19 @@ const (
 	cYellow = 33
 )
 
-func colorize(s string, color int, enabled bool) string {
+func colorize(s string, color int, enabled bool, useEmoji bool) string {
 	if !enabled {
+		return s
+	}
+	if useEmoji {
+		switch color {
+		case cRed:
+			return "🔴 " + s
+		case cYellow:
+			return "🟡 " + s
+		case cGreen:
+			return "🟢 " + s
+		}
 		return s
 	}
 	return fmt.Sprintf("\x1b[1;%dm%s\x1b[0m", color, s)
