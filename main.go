@@ -14,6 +14,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/parse"
 
 	colorable "github.com/mattn/go-colorable"
@@ -36,6 +37,10 @@ var (
 	slowPtr          = flag.Int("slow", 0, "")
 	pulseIntervalPtr = flag.Duration("pulse", 0, "")
 	noBordersPtr     = flag.Bool("noborders", false, "")
+
+	// TODO(mf): document
+	followPtr   = flag.Bool("follow", false, "")
+	fileNamePtr = flag.String("file", "", "")
 )
 
 var usage = `Usage:
@@ -70,7 +75,7 @@ var (
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprint(os.Stderr, fmt.Sprint(usage))
+		fmt.Fprint(os.Stderr, usage)
 		os.Exit(2)
 	}
 	flag.Parse()
@@ -82,6 +87,25 @@ func main() {
 		fmt.Fprintf(os.Stdout, "tparse version: %s\n", tparseVersion)
 		return
 	}
+
+	options := app.Options{
+		// Show colors by default.
+		DisableColor: false,
+		FollowOutput: *followPtr,
+		FileName:     *fileNamePtr,
+	}
+	if _, ok := os.LookupEnv("NO_COLOR"); ok || *noColorPtr {
+		options.DisableColor = true
+	}
+	if err := app.Run(os.Stdout, options); err != nil {
+		msg := err.Error()
+		if errors.Is(err, parse.ErrNotParseable) {
+			msg = "no parseable events: run go test with -json flag"
+		}
+		fmt.Fprintln(os.Stdout, msg)
+		os.Exit(1)
+	}
+	os.Exit(0)
 
 	r, err := newReader()
 	if err != nil {
@@ -100,15 +124,11 @@ func main() {
 		switch err {
 		case parse.ErrNotParseable:
 			fmt.Fprintf(os.Stderr, "tparse error: no parseable events: call go test with -json flag\n\n")
-			if *dumpPtr {
-				parse.ReplayOutput(os.Stderr, &replayBuf)
-			}
 		case parse.ErrRaceDetected:
 			fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
 			parse.ReplayRaceOutput(os.Stderr, &replayBuf)
 		default:
 			fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
-			parse.ReplayOutput(os.Stderr, &replayBuf)
 		}
 		os.Exit(1)
 	}
@@ -117,7 +137,6 @@ func main() {
 
 	if len(pkgs) == 0 {
 		fmt.Fprintf(os.Stdout, "tparse: no go packages to parse\n\n")
-		parse.ReplayOutput(os.Stderr, &replayBuf)
 		os.Exit(1)
 	}
 
@@ -142,14 +161,8 @@ func main() {
 		w.SummaryTable(pkgs, *showNoTestsPtr)
 		w.PrintFailed(pkgs)
 		w.TestsTable(pkgs, opts)
-		if *dumpPtr {
-			parse.ReplayOutput(os.Stderr, &replayBuf)
-		}
+
 	} else {
-		// Default.
-		if *dumpPtr {
-			parse.ReplayOutput(os.Stderr, &replayBuf)
-		}
 		w.TestsTable(pkgs, opts)
 		w.PrintFailed(pkgs)
 		w.SummaryTable(pkgs, *showNoTestsPtr)

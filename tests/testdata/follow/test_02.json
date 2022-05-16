@@ -1,0 +1,89 @@
+{"Time":"2018-12-16T20:40:10.995055-05:00","Action":"output","Package":"github.com/mfridman/rover","Output":"?   \tgithub.com/mfridman/rover\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:10.995321-05:00","Action":"skip","Package":"github.com/mfridman/rover","Elapsed":0}
+{"Time":"2018-12-16T20:40:10.995346-05:00","Action":"output","Package":"github.com/mfridman/rover/cmd/assets","Output":"?   \tgithub.com/mfridman/rover/cmd/assets\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:10.995468-05:00","Action":"skip","Package":"github.com/mfridman/rover/cmd/assets","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.051713-05:00","Action":"output","Package":"github.com/mfridman/rover/cmd/roverd","Output":"?   \tgithub.com/mfridman/rover/cmd/roverd\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.051783-05:00","Action":"skip","Package":"github.com/mfridman/rover/cmd/roverd","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.060625-05:00","Action":"run","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager"}
+{"Time":"2018-12-16T20:40:11.060774-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager","Output":"=== RUN   TestStringPager\n"}
+{"Time":"2018-12-16T20:40:11.060818-05:00","Action":"run","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/PageableWithLimit"}
+{"Time":"2018-12-16T20:40:11.060873-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/PageableWithLimit","Output":"=== RUN   TestStringPager/PageableWithLimit\n"}
+{"Time":"2018-12-16T20:40:11.06093-05:00","Action":"run","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/NonPageable"}
+{"Time":"2018-12-16T20:40:11.060946-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/NonPageable","Output":"=== RUN   TestStringPager/NonPageable\n"}
+{"Time":"2018-12-16T20:40:11.061077-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager","Output":"--- PASS: TestStringPager (0.00s)\n"}
+{"Time":"2018-12-16T20:40:11.06115-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/PageableWithLimit","Output":"    --- PASS: TestStringPager/PageableWithLimit (0.00s)\n"}
+{"Time":"2018-12-16T20:40:11.061193-05:00","Action":"pass","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/PageableWithLimit","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.061204-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/NonPageable","Output":"    --- PASS: TestStringPager/NonPageable (0.00s)\n"}
+{"Time":"2018-12-16T20:40:11.06121-05:00","Action":"pass","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager/NonPageable","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.061216-05:00","Action":"pass","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Test":"TestStringPager","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.061222-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Output":"PASS\n"}
+{"Time":"2018-12-16T20:40:11.061235-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Output":"coverage: 100.0% of statements\n"}
+{"Time":"2018-12-16T20:40:11.063706-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Output":"ok  \tgithub.com/mfridman/rover/pkg/paging/stringpager\t0.033s\tcoverage: 100.0% of statements\n"}
+{"Time":"2018-12-16T20:40:11.063734-05:00","Action":"pass","Package":"github.com/mfridman/rover/pkg/paging/stringpager","Elapsed":0.033}
+{"Time":"2018-12-16T20:40:11.392671-05:00","Action":"output","Package":"github.com/mfridman/rover/pkg/web","Output":"?   \tgithub.com/mfridman/rover/pkg/web\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.39271-05:00","Action":"skip","Package":"github.com/mfridman/rover/pkg/web","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.392737-05:00","Action":"output","Package":"github.com/mfridman/rover/rpc/mailer","Output":"?   \tgithub.com/mfridman/rover/rpc/mailer\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.392745-05:00","Action":"skip","Package":"github.com/mfridman/rover/rpc/mailer","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.392763-05:00","Action":"output","Package":"github.com/mfridman/rover/smtp","Output":"?   \tgithub.com/mfridman/rover/smtp\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.392771-05:00","Action":"skip","Package":"github.com/mfridman/rover/smtp","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.392787-05:00","Action":"output","Package":"github.com/mfridman/rover/smtp/smtpserver","Output":"?   \tgithub.com/mfridman/rover/smtp/smtpserver\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.392799-05:00","Action":"skip","Package":"github.com/mfridman/rover/smtp/smtpserver","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.392849-05:00","Action":"output","Package":"github.com/mfridman/rover/storage","Output":"?   \tgithub.com/mfridman/rover/storage\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.392859-05:00","Action":"skip","Package":"github.com/mfridman/rover/storage","Elapsed":0}
+{"Time":"2018-12-16T20:40:11.392882-05:00","Action":"output","Package":"github.com/mfridman/rover/storage/badger","Output":"?   \tgithub.com/mfridman/rover/storage/badger\t[no test files]\n"}
+{"Time":"2018-12-16T20:40:11.39289-05:00","Action":"skip","Package":"github.com/mfridman/rover/storage/badger","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.044953-05:00","Action":"run","Package":"github.com/mfridman/rover/tests/helper","Test":"TestNameFormat"}
+{"Time":"2018-12-16T20:40:12.045003-05:00","Action":"output","Package":"github.com/mfridman/rover/tests/helper","Test":"TestNameFormat","Output":"=== RUN   TestNameFormat\n"}
+{"Time":"2018-12-16T20:40:12.045042-05:00","Action":"output","Package":"github.com/mfridman/rover/tests/helper","Test":"TestNameFormat","Output":"--- PASS: TestNameFormat (0.00s)\n"}
+{"Time":"2018-12-16T20:40:12.045075-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests/helper","Test":"TestNameFormat","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.045093-05:00","Action":"output","Package":"github.com/mfridman/rover/tests/helper","Output":"PASS\n"}
+{"Time":"2018-12-16T20:40:12.045101-05:00","Action":"output","Package":"github.com/mfridman/rover/tests/helper","Output":"coverage: 0.0% of statements\n"}
+{"Time":"2018-12-16T20:40:12.045966-05:00","Action":"output","Package":"github.com/mfridman/rover/tests/helper","Output":"ok  \tgithub.com/mfridman/rover/tests/helper\t0.030s\tcoverage: 0.0% of statements\n"}
+{"Time":"2018-12-16T20:40:12.045999-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests/helper","Elapsed":0.03}
+{"Time":"2018-12-16T20:40:12.236286-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"2018/12/16 20:40:12 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n"}
+{"Time":"2018-12-16T20:40:12.236372-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"2018/12/16 20:40:12 Iterating file id: 0\n"}
+{"Time":"2018-12-16T20:40:12.236401-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"2018/12/16 20:40:12 Iteration took: 80.538µs\n"}
+{"Time":"2018-12-16T20:40:12.238659-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"2018/12/16 20:40:12 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n"}
+{"Time":"2018-12-16T20:40:12.238682-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"2018/12/16 20:40:12 Iterating file id: 0\n"}
+{"Time":"2018-12-16T20:40:12.238693-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"2018/12/16 20:40:12 Iteration took: 43.759µs\n"}
+{"Time":"2018-12-16T20:40:12.238882-05:00","Action":"run","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail"}
+{"Time":"2018-12-16T20:40:12.238893-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail","Output":"=== RUN   TestAddEmail\n"}
+{"Time":"2018-12-16T20:40:12.238957-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail","Output":"=== PAUSE TestAddEmail\n"}
+{"Time":"2018-12-16T20:40:12.238979-05:00","Action":"pause","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail"}
+{"Time":"2018-12-16T20:40:12.238995-05:00","Action":"run","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail"}
+{"Time":"2018-12-16T20:40:12.239015-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail","Output":"=== RUN   TestDeleteEmail\n"}
+{"Time":"2018-12-16T20:40:12.239024-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail","Output":"=== PAUSE TestDeleteEmail\n"}
+{"Time":"2018-12-16T20:40:12.23903-05:00","Action":"pause","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail"}
+{"Time":"2018-12-16T20:40:12.239043-05:00","Action":"run","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead"}
+{"Time":"2018-12-16T20:40:12.23905-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead","Output":"=== RUN   TestMarkAsRead\n"}
+{"Time":"2018-12-16T20:40:12.239059-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead","Output":"=== PAUSE TestMarkAsRead\n"}
+{"Time":"2018-12-16T20:40:12.239065-05:00","Action":"pause","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead"}
+{"Time":"2018-12-16T20:40:12.239076-05:00","Action":"run","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead"}
+{"Time":"2018-12-16T20:40:12.239083-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead","Output":"=== RUN   TestMarkAsUnRead\n"}
+{"Time":"2018-12-16T20:40:12.239217-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead","Output":"=== PAUSE TestMarkAsUnRead\n"}
+{"Time":"2018-12-16T20:40:12.239228-05:00","Action":"pause","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead"}
+{"Time":"2018-12-16T20:40:12.239237-05:00","Action":"cont","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail"}
+{"Time":"2018-12-16T20:40:12.239243-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail","Output":"=== CONT  TestAddEmail\n"}
+{"Time":"2018-12-16T20:40:12.23926-05:00","Action":"cont","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead"}
+{"Time":"2018-12-16T20:40:12.239267-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead","Output":"=== CONT  TestMarkAsUnRead\n"}
+{"Time":"2018-12-16T20:40:12.239274-05:00","Action":"cont","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead"}
+{"Time":"2018-12-16T20:40:12.23928-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead","Output":"=== CONT  TestMarkAsRead\n"}
+{"Time":"2018-12-16T20:40:12.239287-05:00","Action":"cont","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail"}
+{"Time":"2018-12-16T20:40:12.239293-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail","Output":"=== CONT  TestDeleteEmail\n"}
+{"Time":"2018-12-16T20:40:12.242303-05:00","Action":"run","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail/retrieveEmail"}
+{"Time":"2018-12-16T20:40:12.242325-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail/retrieveEmail","Output":"=== RUN   TestAddEmail/retrieveEmail\n"}
+{"Time":"2018-12-16T20:40:12.242623-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail","Output":"--- PASS: TestAddEmail (0.00s)\n"}
+{"Time":"2018-12-16T20:40:12.242654-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail/retrieveEmail","Output":"    --- PASS: TestAddEmail/retrieveEmail (0.00s)\n"}
+{"Time":"2018-12-16T20:40:12.242998-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail/retrieveEmail","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.243014-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests","Test":"TestAddEmail","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.243021-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail","Output":"--- PASS: TestDeleteEmail (0.00s)\n"}
+{"Time":"2018-12-16T20:40:12.243303-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests","Test":"TestDeleteEmail","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.24332-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead","Output":"--- PASS: TestMarkAsRead (0.00s)\n"}
+{"Time":"2018-12-16T20:40:12.243971-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsRead","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.243995-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead","Output":"--- PASS: TestMarkAsUnRead (0.00s)\n"}
+{"Time":"2018-12-16T20:40:12.244006-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests","Test":"TestMarkAsUnRead","Elapsed":0}
+{"Time":"2018-12-16T20:40:12.244021-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"PASS\n"}
+{"Time":"2018-12-16T20:40:12.24403-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"coverage: 0.0% of statements\n"}
+{"Time":"2018-12-16T20:40:12.244036-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"server closed\n"}
+{"Time":"2018-12-16T20:40:12.246183-05:00","Action":"output","Package":"github.com/mfridman/rover/tests","Output":"ok  \tgithub.com/mfridman/rover/tests\t0.046s\tcoverage: 0.0% of statements\n"}
+{"Time":"2018-12-16T20:40:12.246208-05:00","Action":"pass","Package":"github.com/mfridman/rover/tests","Elapsed":0.046}

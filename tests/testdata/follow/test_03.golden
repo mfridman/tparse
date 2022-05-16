@@ -1,0 +1,243 @@
+=== RUN   TestNotAllowMissing
+=== PAUSE TestNotAllowMissing
+=== RUN   TestAllowMissingUpWithRedo
+=== PAUSE TestAllowMissingUpWithRedo
+=== RUN   TestNowAllowMissingUpByOne
+=== PAUSE TestNowAllowMissingUpByOne
+=== RUN   TestAllowMissingUpWithReset
+=== PAUSE TestAllowMissingUpWithReset
+=== RUN   TestAllowMissingUpByOne
+=== PAUSE TestAllowMissingUpByOne
+=== RUN   TestMigrateAllowMissingDown
+=== PAUSE TestMigrateAllowMissingDown
+=== RUN   TestMigrateUpWithReset
+=== PAUSE TestMigrateUpWithReset
+=== RUN   TestMigrateUpWithRedo
+=== PAUSE TestMigrateUpWithRedo
+=== RUN   TestMigrateUpTo
+=== PAUSE TestMigrateUpTo
+=== RUN   TestMigrateUpByOne
+=== PAUSE TestMigrateUpByOne
+=== RUN   TestMigrateFull
+=== PAUSE TestMigrateFull
+=== RUN   TestNoVersioning
+2022/05/15 22:06:57 OK    00001_a.sql
+2022/05/15 22:06:57 OK    00002_b.sql
+2022/05/15 22:06:57 OK    00003_c.sql
+2022/05/15 22:06:57 OK    00004_d.sql
+2022/05/15 22:06:57 OK    00005_e.sql
+2022/05/15 22:06:57 OK    00006_f.sql
+2022/05/15 22:06:58 OK    00007_g.sql
+2022/05/15 22:06:58 OK    00008_h.sql
+2022/05/15 22:06:58 OK    00009_i.sql
+2022/05/15 22:06:58 OK    00010_j.sql
+2022/05/15 22:06:58 OK    00011_k.sql
+2022/05/15 22:06:58 goose: no migrations to run. current version: 11
+=== RUN   TestNoVersioning/seed-up-down-to-zero
+2022/05/15 22:06:58 OK    00001_a.sql
+2022/05/15 22:06:58 OK    00002_b.sql
+2022/05/15 22:06:58 goose: up to current file version: 2
+2022/05/15 22:06:58 OK    00002_b.sql
+2022/05/15 22:06:58 OK    00001_a.sql
+2022/05/15 22:06:58 goose: down to current file version: 0
+=== RUN   TestNoVersioning/test-seed-up-reset
+2022/05/15 22:06:58 OK    00001_a.sql
+2022/05/15 22:06:58 OK    00002_b.sql
+2022/05/15 22:06:58 goose: up to current file version: 2
+2022/05/15 22:06:58 OK    00002_b.sql
+2022/05/15 22:06:58 OK    00001_a.sql
+2022/05/15 22:06:58 goose: down to current file version: 0
+=== RUN   TestNoVersioning/test-seed-up-redo
+2022/05/15 22:06:58 OK    00001_a.sql
+2022/05/15 22:06:58 OK    00002_b.sql
+2022/05/15 22:06:58 goose: up to current file version: 2
+2022/05/15 22:06:58 OK    00002_b.sql
+2022/05/15 22:06:58 OK    00002_b.sql
+--- PASS: TestNoVersioning (2.43s)
+    --- PASS: TestNoVersioning/seed-up-down-to-zero (0.02s)
+    --- PASS: TestNoVersioning/test-seed-up-reset (0.02s)
+    --- PASS: TestNoVersioning/test-seed-up-redo (0.02s)
+=== CONT  TestNotAllowMissing
+=== CONT  TestMigrateUpWithReset
+=== CONT  TestAllowMissingUpWithReset
+=== CONT  TestNowAllowMissingUpByOne
+=== CONT  TestMigrateFull
+=== CONT  TestAllowMissingUpWithRedo
+=== CONT  TestMigrateAllowMissingDown
+=== CONT  TestAllowMissingUpByOne
+2022/05/15 22:07:01 OK    00001_a.sql
+2022/05/15 22:07:01 OK    00002_b.sql
+2022/05/15 22:07:01 OK    00003_c.sql
+2022/05/15 22:07:01 OK    00004_d.sql
+2022/05/15 22:07:01 OK    00005_e.sql
+2022/05/15 22:07:01 OK    00007_g.sql
+2022/05/15 22:07:01 OK    00006_f.sql
+2022/05/15 22:07:01 OK    00008_h.sql
+--- PASS: TestAllowMissingUpByOne (3.18s)
+=== CONT  TestMigrateUpWithRedo
+2022/05/15 22:07:01 OK    00001_a.sql
+2022/05/15 22:07:01 OK    00002_b.sql
+2022/05/15 22:07:01 OK    00003_c.sql
+2022/05/15 22:07:01 OK    00004_d.sql
+2022/05/15 22:07:01 OK    00005_e.sql
+2022/05/15 22:07:01 OK    00007_g.sql
+--- PASS: TestNowAllowMissingUpByOne (3.70s)
+=== CONT  TestMigrateUpByOne
+2022/05/15 22:07:02 OK    00001_a.sql
+2022/05/15 22:07:02 OK    00002_b.sql
+2022/05/15 22:07:02 OK    00003_c.sql
+2022/05/15 22:07:02 OK    00004_d.sql
+2022/05/15 22:07:02 OK    00005_e.sql
+2022/05/15 22:07:02 OK    00007_g.sql
+2022/05/15 22:07:02 OK    00006_f.sql
+2022/05/15 22:07:02 OK    00008_h.sql
+2022/05/15 22:07:02 OK    00008_h.sql
+2022/05/15 22:07:02 OK    00006_f.sql
+2022/05/15 22:07:02 OK    00007_g.sql
+2022/05/15 22:07:02 OK    00001_a.sql
+2022/05/15 22:07:02 OK    00002_b.sql
+2022/05/15 22:07:02 OK    00003_c.sql
+2022/05/15 22:07:02 OK    00004_d.sql
+2022/05/15 22:07:02 OK    00005_e.sql
+2022/05/15 22:07:02 OK    00006_f.sql
+2022/05/15 22:07:02 OK    00007_g.sql
+2022/05/15 22:07:02 OK    00008_h.sql
+--- PASS: TestMigrateAllowMissingDown (4.08s)
+=== CONT  TestMigrateUpTo
+2022/05/15 22:07:02 OK    00009_i.sql
+2022/05/15 22:07:02 OK    00010_j.sql
+2022/05/15 22:07:02 OK    00011_k.sql
+2022/05/15 22:07:02 goose: no migrations to run. current version: 11
+2022/05/15 22:07:02 OK    00011_k.sql
+2022/05/15 22:07:02 OK    00010_j.sql
+2022/05/15 22:07:02 OK    00009_i.sql
+2022/05/15 22:07:02 OK    00008_h.sql
+2022/05/15 22:07:02 OK    00007_g.sql
+2022/05/15 22:07:02 OK    00006_f.sql
+2022/05/15 22:07:02 OK    00005_e.sql
+2022/05/15 22:07:02 OK    00004_d.sql
+2022/05/15 22:07:02 OK    00003_c.sql
+2022/05/15 22:07:02 OK    00002_b.sql
+2022/05/15 22:07:02 OK    00001_a.sql
+2022/05/15 22:07:02 goose: no migrations to run. current version: 0
+--- PASS: TestMigrateFull (4.40s)
+2022/05/15 22:07:02 OK    00001_a.sql
+2022/05/15 22:07:02 OK    00002_b.sql
+2022/05/15 22:07:02 OK    00003_c.sql
+2022/05/15 22:07:02 OK    00004_d.sql
+2022/05/15 22:07:02 OK    00005_e.sql
+2022/05/15 22:07:02 OK    00001_a.sql
+2022/05/15 22:07:02 OK    00002_b.sql
+2022/05/15 22:07:02 OK    00007_g.sql
+2022/05/15 22:07:02 OK    00003_c.sql
+2022/05/15 22:07:02 OK    00004_d.sql
+2022/05/15 22:07:02 OK    00005_e.sql
+2022/05/15 22:07:02 OK    00006_f.sql
+2022/05/15 22:07:02 OK    00008_h.sql
+2022/05/15 22:07:02 OK    00007_g.sql
+2022/05/15 22:07:02 OK    00009_i.sql
+2022/05/15 22:07:03 OK    00010_j.sql
+2022/05/15 22:07:03 OK    00011_k.sql
+2022/05/15 22:07:03 goose: no migrations to run. current version: 11
+2022/05/15 22:07:03 OK    00011_k.sql
+2022/05/15 22:07:03 OK    00010_j.sql
+2022/05/15 22:07:03 OK    00009_i.sql
+2022/05/15 22:07:03 OK    00008_h.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00006_f.sql
+2022/05/15 22:07:03 OK    00005_e.sql
+2022/05/15 22:07:03 OK    00004_d.sql
+2022/05/15 22:07:03 OK    00003_c.sql
+2022/05/15 22:07:03 OK    00002_b.sql
+2022/05/15 22:07:03 OK    00001_a.sql
+--- PASS: TestNotAllowMissing (4.95s)
+2022/05/15 22:07:03 OK    00001_a.sql
+2022/05/15 22:07:03 OK    00002_b.sql
+2022/05/15 22:07:03 OK    00003_c.sql
+2022/05/15 22:07:03 OK    00004_d.sql
+2022/05/15 22:07:03 OK    00005_e.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00006_f.sql
+2022/05/15 22:07:03 OK    00006_f.sql
+--- PASS: TestAllowMissingUpWithReset (5.07s)
+2022/05/15 22:07:03 OK    00006_f.sql
+2022/05/15 22:07:03 OK    00001_a.sql
+2022/05/15 22:07:03 OK    00002_b.sql
+2022/05/15 22:07:03 OK    00003_c.sql
+2022/05/15 22:07:03 OK    00004_d.sql
+2022/05/15 22:07:03 OK    00005_e.sql
+2022/05/15 22:07:03 OK    00006_f.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00008_h.sql
+2022/05/15 22:07:03 OK    00009_i.sql
+2022/05/15 22:07:03 OK    00010_j.sql
+--- PASS: TestAllowMissingUpWithRedo (5.22s)
+2022/05/15 22:07:03 OK    00011_k.sql
+2022/05/15 22:07:03 goose: no migrations to run. current version: 11
+2022/05/15 22:07:03 OK    00011_k.sql
+2022/05/15 22:07:03 OK    00010_j.sql
+2022/05/15 22:07:03 OK    00009_i.sql
+2022/05/15 22:07:03 OK    00008_h.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00006_f.sql
+2022/05/15 22:07:03 OK    00005_e.sql
+2022/05/15 22:07:03 OK    00004_d.sql
+2022/05/15 22:07:03 OK    00003_c.sql
+2022/05/15 22:07:03 OK    00002_b.sql
+2022/05/15 22:07:03 OK    00001_a.sql
+--- PASS: TestMigrateUpWithReset (5.43s)
+2022/05/15 22:07:03 OK    00001_a.sql
+2022/05/15 22:07:03 OK    00002_b.sql
+2022/05/15 22:07:03 OK    00003_c.sql
+2022/05/15 22:07:03 OK    00004_d.sql
+2022/05/15 22:07:03 OK    00005_e.sql
+2022/05/15 22:07:03 OK    00006_f.sql
+2022/05/15 22:07:03 OK    00007_g.sql
+2022/05/15 22:07:03 OK    00008_h.sql
+2022/05/15 22:07:03 OK    00009_i.sql
+2022/05/15 22:07:03 OK    00010_j.sql
+2022/05/15 22:07:03 OK    00011_k.sql
+2022/05/15 22:07:03 goose: no migrations to run. current version: 11
+--- PASS: TestMigrateUpByOne (2.09s)
+2022/05/15 22:07:04 OK    00001_a.sql
+2022/05/15 22:07:04 OK    00001_a.sql
+2022/05/15 22:07:04 OK    00001_a.sql
+2022/05/15 22:07:04 OK    00002_b.sql
+2022/05/15 22:07:04 OK    00002_b.sql
+2022/05/15 22:07:04 OK    00002_b.sql
+2022/05/15 22:07:04 OK    00003_c.sql
+2022/05/15 22:07:04 OK    00003_c.sql
+2022/05/15 22:07:04 OK    00003_c.sql
+2022/05/15 22:07:04 OK    00004_d.sql
+2022/05/15 22:07:04 OK    00004_d.sql
+2022/05/15 22:07:04 OK    00004_d.sql
+2022/05/15 22:07:04 OK    00005_e.sql
+2022/05/15 22:07:04 OK    00005_e.sql
+2022/05/15 22:07:04 OK    00005_e.sql
+2022/05/15 22:07:04 OK    00006_f.sql
+2022/05/15 22:07:04 OK    00006_f.sql
+2022/05/15 22:07:04 OK    00006_f.sql
+2022/05/15 22:07:04 OK    00007_g.sql
+2022/05/15 22:07:04 OK    00007_g.sql
+2022/05/15 22:07:04 OK    00007_g.sql
+2022/05/15 22:07:04 OK    00008_h.sql
+2022/05/15 22:07:04 OK    00008_h.sql
+2022/05/15 22:07:04 OK    00008_h.sql
+2022/05/15 22:07:04 OK    00009_i.sql
+2022/05/15 22:07:04 OK    00009_i.sql
+2022/05/15 22:07:04 OK    00009_i.sql
+2022/05/15 22:07:04 OK    00010_j.sql
+2022/05/15 22:07:04 OK    00010_j.sql
+2022/05/15 22:07:04 OK    00010_j.sql
+2022/05/15 22:07:04 OK    00001_a.sql
+2022/05/15 22:07:04 OK    00002_b.sql
+2022/05/15 22:07:04 goose: no migrations to run. current version: 2
+2022/05/15 22:07:04 OK    00011_k.sql
+2022/05/15 22:07:04 OK    00011_k.sql
+2022/05/15 22:07:04 OK    00011_k.sql
+--- PASS: TestMigrateUpTo (2.10s)
+--- PASS: TestMigrateUpWithRedo (3.03s)
+PASS
+ok  	github.com/pressly/goose/v3/tests/e2e	(cached)

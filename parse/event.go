@@ -55,7 +55,6 @@ type Events []*Event
 // Discard reports whether an "output" action:
 //
 // 1. is an update action: RUN, PAUSE, CONT
-//
 // 2. has no test name
 //
 // If output is not one of the above return false.
@@ -69,13 +68,11 @@ func (e *Event) Discard() bool {
 	return e.Action == ActionOutput && e.Test == ""
 }
 
-var (
-	updates = []string{
-		"=== RUN   ",
-		"=== PAUSE ",
-		"=== CONT  ",
-	}
-)
+var updates = []string{
+	"=== RUN   ",
+	"=== PAUSE ",
+	"=== CONT  ",
+}
 
 // Let's try using the LastLine method to report the package result.
 // If there are issues with LastLine() we can switch to this method.

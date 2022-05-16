@@ -7,8 +7,9 @@ require (
 )
 
 require (
-	github.com/mattn/go-runewidth v0.0.13 // indirect
-	golang.org/x/sys v0.0.0-20220330033206-e17cdc41300f // indirect
+	github.com/charmbracelet/lipgloss v0.5.0
+	github.com/muesli/reflow v0.3.0 // indirect
+	golang.org/x/sys v0.0.0-20220513210249-45d2b4557a2a // indirect
 )
 
 go 1.16

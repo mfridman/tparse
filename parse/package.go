@@ -46,8 +46,8 @@ func (p Packages) ExitCode() int {
 	return 0
 }
 
-// NewPackage initializes and returns a Package.
-func NewPackage() *Package {
+// newPackage initializes and returns a Package.
+func newPackage() *Package {
 	return &Package{
 		Summary: &Event{},
 		Tests:   []*Test{},
