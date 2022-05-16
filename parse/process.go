@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -65,7 +66,13 @@ func Process(r io.Reader, opts ...OptionsFunc) (Packages, error) {
 			if started || badLines > 50 {
 				switch err.(type) {
 				case *json.SyntaxError:
-					return nil, fmt.Errorf("line %d json error: %s: %w", badLines, err.Error(), ErrNotParseable)
+					err = fmt.Errorf("line %d json error: %s: %w", badLines, err.Error(), ErrNotParseable)
+					if option.debug {
+						// In debug mode we can surface a more verbose error message which
+						// contains the current line number and exact JSON parsing error.
+						log.Println(err.Error())
+					}
+					return nil, err
 				default:
 					return nil, err
 				}

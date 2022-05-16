@@ -41,8 +41,6 @@ func Run(w io.Writer, option Options) error {
 		parse.WithWriter(w),
 	)
 	if err != nil {
-		// TODO(mf): in debug mode we can surface a more verbose error message
-		// which contains the number of lines and exact JSON parsing error.
 		return err
 	}
 	if len(packages) == 0 {
