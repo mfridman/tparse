@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"flag"
 	"fmt"
@@ -17,7 +16,6 @@ import (
 	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/parse"
 
-	colorable "github.com/mattn/go-colorable"
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/errors"
 )
@@ -115,116 +113,6 @@ func main() {
 		os.Exit(1)
 	}
 	os.Exit(0)
-
-	r, err := newReader()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error: %v\n\n", err)
-		flag.Usage()
-	}
-	defer r.Close()
-
-	var replayBuf bytes.Buffer
-	tr := io.TeeReader(r, &replayBuf)
-
-	stopPulse := newPulse(*pulseIntervalPtr, ".")
-
-	pkgs, err := parse.Process(tr)
-	if err != nil {
-		switch err {
-		case parse.ErrNotParseable:
-			fmt.Fprintf(os.Stderr, "tparse error: no parseable events: call go test with -json flag\n\n")
-		case parse.ErrRaceDetected:
-			fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
-			parse.ReplayRaceOutput(os.Stderr, &replayBuf)
-		default:
-			fmt.Fprintf(os.Stderr, "tparse error: %v\n\n", err)
-		}
-		os.Exit(1)
-	}
-
-	stopPulse()
-
-	if len(pkgs) == 0 {
-		fmt.Fprintf(os.Stdout, "tparse: no go packages to parse\n\n")
-		os.Exit(1)
-	}
-
-	// Use this value to print to stdout (0) or stderr (>=1)
-	exitCode := pkgs.ExitCode()
-
-	w := newWriter(exitCode)
-
-	opts := testsTableOptions{
-		trim: *smallScreenPtr,
-		slow: *slowPtr,
-	}
-	if *allPtr {
-		opts.pass, opts.skip = true, true
-	} else if *passPtr {
-		opts.pass, opts.skip = true, false
-	} else if *skipPtr {
-		opts.pass, opts.skip = false, true
-	}
-
-	if *topPtr {
-		w.SummaryTable(pkgs, *showNoTestsPtr)
-		w.PrintFailed(pkgs)
-		w.TestsTable(pkgs, opts)
-
-	} else {
-		w.TestsTable(pkgs, opts)
-		w.PrintFailed(pkgs)
-		w.SummaryTable(pkgs, *showNoTestsPtr)
-	}
-
-	// Return proper exit code. This must be consistent with what go test would have
-	// returned without tparse.
-	os.Exit(exitCode)
-}
-
-// newWriter initializes a console writer based on a given exit code.
-// 0 writes to stdout, >=1 writes to stderr
-func newWriter(exitCode int) *consoleWriter {
-	w := consoleWriter{
-		Color:  !*noColorPtr, // Color enabled by default.
-		Output: colorable.NewColorableStdout(),
-	}
-
-	// return output for non-zero exit codes to stderr
-	if exitCode != 0 {
-		w.Output = colorable.NewColorableStderr()
-	}
-
-	return &w
-}
-
-// newReader returns a reader; either a named pipe or open file.
-func newReader() (io.ReadCloser, error) {
-
-	switch flag.NArg() {
-	case 0: // Get FileInfo interface and fail everything except a named pipe (FIFO).
-
-		finfo, err := os.Stdin.Stat()
-
-		if err != nil {
-			return nil, err
-		}
-
-		// Check file mode bits to test for named pipe as stdin.
-		if finfo.Mode()&os.ModeNamedPipe != 0 {
-			return os.Stdin, nil
-		}
-
-		return nil, errors.New("when no files are supplied as arguments stdin must be a named pipe")
-
-	default: // Attempt to read from a file.
-		f, err := os.Open(os.Args[len(os.Args)-flag.NArg()]) // 🦄
-		if err != nil {
-			return nil, err
-		}
-
-		return f, nil
-	}
 }
 
 func (w *consoleWriter) SummaryTable(pkgs parse.Packages, showNoTests bool) {

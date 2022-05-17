@@ -1,7 +1,6 @@
 module github.com/mfridman/tparse
 
 require (
-	github.com/mattn/go-colorable v0.1.12
 	github.com/olekukonko/tablewriter v0.0.5
 	github.com/pkg/errors v0.9.1
 )
