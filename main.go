@@ -87,12 +87,21 @@ func main() {
 		fmt.Fprintf(os.Stdout, "tparse version: %s\n", tparseVersion)
 		return
 	}
-
+	if *allPtr {
+		*passPtr = true
+		*skipPtr = true
+	}
 	options := app.Options{
 		// Show colors by default.
 		DisableColor: false,
 		FollowOutput: *followPtr,
 		FileName:     *fileNamePtr,
+		TestTableOptions: app.TestTableOptions{
+			Pass: *passPtr,
+			Skip: *skipPtr,
+			Trim: *smallScreenPtr,
+			Slow: *slowPtr,
+		},
 	}
 	if _, ok := os.LookupEnv("NO_COLOR"); ok || *noColorPtr {
 		options.DisableColor = true

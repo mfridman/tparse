@@ -10,45 +10,7 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-type summaryRow struct {
-	status      string
-	elapsed     string
-	packageName string
-	cover       string
-	pass        string
-	fail        string
-	skip        string
-}
-
-func (r summaryRow) toRow() []string {
-	return []string{
-		r.status,
-		r.elapsed,
-		r.packageName,
-		r.cover,
-		r.pass,
-		r.fail,
-		r.skip,
-	}
-}
-
-type orderBy int
-
-const (
-	ASC orderBy = iota + 1
-	DESC
-)
-
-func sortSummaryRows(rows []summaryRow, order orderBy) {
-	sort.Slice(rows, func(i, j int) bool {
-		if order == ASC {
-			return rows[i].packageName < rows[j].packageName
-		}
-		return rows[i].packageName > rows[j].packageName
-	})
-}
-
-func (c *consoleWriter) SummaryTable(packages parse.Packages, showNoTests bool) {
+func (c *consoleWriter) summaryTable(packages parse.Packages, showNoTests bool) {
 	fmt.Fprintln(c.w)
 
 	tbl := tablewriter.NewWriter(c.w)
@@ -184,7 +146,7 @@ func (c *consoleWriter) SummaryTable(packages parse.Packages, showNoTests bool) 
 	}
 	// Sort package tests by name ASC.
 	// TODO(mf): what about sorting by elapsed, probably DESC, to quickly gauge
-	// slow running tests?
+	// slow running tests? Too many knobs makes this tool more complicated to use.
 	sortSummaryRows(passed, ASC)
 	sortSummaryRows(notests, ASC)
 
@@ -200,4 +162,42 @@ func (c *consoleWriter) SummaryTable(packages parse.Packages, showNoTests bool) 
 	}
 
 	tbl.Render()
+}
+
+type summaryRow struct {
+	status      string
+	elapsed     string
+	packageName string
+	cover       string
+	pass        string
+	fail        string
+	skip        string
+}
+
+func (r summaryRow) toRow() []string {
+	return []string{
+		r.status,
+		r.elapsed,
+		r.packageName,
+		r.cover,
+		r.pass,
+		r.fail,
+		r.skip,
+	}
+}
+
+type orderBy int
+
+const (
+	ASC orderBy = iota + 1
+	DESC
+)
+
+func sortSummaryRows(rows []summaryRow, order orderBy) {
+	sort.Slice(rows, func(i, j int) bool {
+		if order == ASC {
+			return rows[i].packageName < rows[j].packageName
+		}
+		return rows[i].packageName > rows[j].packageName
+	})
 }

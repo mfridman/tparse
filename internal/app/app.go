@@ -17,6 +17,9 @@ type Options struct {
 	ShowNoTests        bool
 	FileName           string
 
+	// Test table options
+	TestTableOptions TestTableOptions
+
 	// TODO(mf): implement
 	Progress bool
 }
