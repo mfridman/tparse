@@ -4,7 +4,6 @@ import (
 	"io"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mfridman/tparse/parse"
 )
 
 type OutputFormat int
@@ -49,17 +48,4 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		cw.yellow = newColor(lipgloss.Color("11"))
 	}
 	return cw
-}
-
-func (c *consoleWriter) PrintFailed(packages parse.Packages) {
-
-}
-
-type testTableOptions struct {
-	pass, skip, trim bool
-	slow             int
-}
-
-func (c *consoleWriter) TestsTable(packages parse.Packages, option testTableOptions) {
-
 }

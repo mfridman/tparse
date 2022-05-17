@@ -30,7 +30,7 @@ func Run(w io.Writer, option Options) error {
 		}
 	} else {
 		if reader, err = newPipeReader(); err != nil {
-			return errors.New("stdin must be a pipe or use -file to open a go test output file")
+			return errors.New("stdin must be a pipe, or use -file to open go test output file")
 		}
 	}
 	defer reader.Close()
