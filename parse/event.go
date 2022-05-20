@@ -2,10 +2,13 @@ package parse
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/charmbracelet/lipgloss"
 )
 
 // Event represents a single line of json output from go test with the -json flag.
@@ -36,6 +39,31 @@ type Event struct {
 	// Elapsed is time elapsed (in seconds) for the specific test or
 	// the overall package test that passed or failed.
 	Elapsed float64
+}
+
+func (e *Event) String() string {
+	subtleColor := lipgloss.AdaptiveColor{Light: "#D9DCCF", Dark: "#383838"}
+	descStyle := lipgloss.NewStyle().
+		MarginTop(0).
+		BorderStyle(lipgloss.NormalBorder()).
+		BorderBottom(true).
+		BorderForeground(subtleColor)
+	title := fmt.Sprintf(
+		"%-6s - %s - %s elapsed[%.2f] - time[%d]",
+		strings.ToUpper(e.Action.String()),
+		e.Package,
+		e.Test,
+		e.Elapsed,
+		e.Time.UnixMicro(),
+	)
+	items := []string{
+		descStyle.Render(title),
+	}
+	if e.Output != "" {
+		output := lipgloss.NewStyle().Foreground(lipgloss.Color("9")).Render(e.Output)
+		items = append(items, output)
+	}
+	return lipgloss.JoinVertical(lipgloss.Left, items...)
 }
 
 // NewEvent attempts to decode data into an Event.

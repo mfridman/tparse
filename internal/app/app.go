@@ -49,7 +49,7 @@ func Run(w io.Writer, option Options) error {
 	if len(packages) == 0 {
 		return fmt.Errorf("found no go test packages")
 	}
-	// Useful for tests when we don't need additional output.
+	// Useful for tests that don't need additional output.
 	if option.DisableTableOutput {
 		return nil
 	}
@@ -66,4 +66,17 @@ func newPipeReader() (io.ReadCloser, error) {
 		return os.Stdin, nil
 	}
 	return nil, errors.New("stdin must be a pipe")
+}
+
+func display(w io.Writer, packages parse.Packages, option Options) error {
+	cw := newConsoleWriter(w, option.Format, option.DisableColor)
+	// Only print the tests table if either pass or skip is true.
+	if option.TestTableOptions.Pass || option.TestTableOptions.Skip {
+		cw.testsTable(packages, option.TestTableOptions)
+	}
+	// Failures (if any) and summary table are always printed.
+	cw.printFailed(packages)
+	cw.summaryTable(packages, option.ShowNoTests)
+
+	return nil
 }
