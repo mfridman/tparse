@@ -3,12 +3,11 @@ package parse
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"strings"
-
-	"github.com/pkg/errors"
 )
 
 // ErrNotParseable indicates the event line was not parseable.

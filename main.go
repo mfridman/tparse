@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -8,8 +9,6 @@ import (
 
 	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/parse"
-
-	"github.com/pkg/errors"
 )
 
 // Flags.

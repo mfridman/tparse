@@ -1,9 +1,6 @@
 module github.com/mfridman/tparse
 
-require (
-	github.com/olekukonko/tablewriter v0.0.5
-	github.com/pkg/errors v0.9.1
-)
+require github.com/olekukonko/tablewriter v0.0.5
 
 require (
 	github.com/charmbracelet/lipgloss v0.4.0

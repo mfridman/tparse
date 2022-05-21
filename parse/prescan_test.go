@@ -2,12 +2,11 @@ package parse
 
 import (
 	"bytes"
+	"errors"
 	"io/ioutil"
 	"path/filepath"
 	"reflect"
 	"testing"
-
-	"github.com/pkg/errors"
 )
 
 func TestPrescan(t *testing.T) {
@@ -44,7 +43,7 @@ func TestPrescan(t *testing.T) {
 
 			_, err = Process(bytes.NewReader(by))
 			// retrieve original error.
-			err = errors.Cause(err)
+			err = errors.Unwrap(err)
 
 			// dirty, but does the job.
 			if reflect.TypeOf(err) != reflect.TypeOf(test.err) {

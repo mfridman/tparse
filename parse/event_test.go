@@ -6,8 +6,6 @@ import (
 	"io/ioutil"
 	"strings"
 	"testing"
-
-	"github.com/pkg/errors"
 )
 
 func TestNewEvent(t *testing.T) {
@@ -99,7 +97,7 @@ func TestNewEvent(t *testing.T) {
 
 			e, err := NewEvent([]byte(test.event))
 			if err != nil {
-				t.Error(errors.Wrapf(err, "failed to parse test event:\n%v", test.event))
+				t.Errorf("%s: failed to parse test event:\n%v", test.event, err)
 			}
 
 			if e.Action != test.action {
