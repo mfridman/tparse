@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/charmbracelet/lipgloss"
 	"github.com/mfridman/tparse/parse"
-	"github.com/olekukonko/tablewriter"
 )
 
 var (
@@ -33,7 +33,8 @@ type TestTableOptions struct {
 
 func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOptions) {
 	// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-	tbl := tablewriter.NewWriter(c.w)
+	var tableString strings.Builder
+	tbl := newTableWriter(&tableString, c.format)
 
 	header := testRow{
 		status:      "Status",
@@ -42,18 +43,6 @@ func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOpti
 		packageName: "Package",
 	}
 	tbl.SetHeader(header.toRow())
-
-	switch c.format {
-	case OutputFormatPlain:
-		tbl.SetBorder(false)
-		tbl.SetRowSeparator("")
-		tbl.SetColumnSeparator("")
-		tbl.SetHeaderLine(false)
-	case OutputFormatMarkdown:
-		tbl.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		tbl.SetCenterSeparator("|")
-	}
-	tbl.SetAutoWrapText(false)
 
 	// Sort packages alphabetically by name ASC.
 	var packageNames []string
@@ -132,16 +121,23 @@ func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOpti
 			}
 			tbl.Append(row.toRow())
 		}
-		// Add empty line between package groups except the last package
-		if l := len(packageNames); l > 1 && i < l-1 {
-			// TODO(mf): is it possible to add a divider or separator here?
+		if i != (len(packageNames) - 1) {
+			// TODO(mf): is it possible to add a custom separator with tablewriter instead of empty space?
 			tbl.Append(testRow{}.toRow())
 		}
 	}
 
 	if tbl.NumLines() > 0 {
-		fmt.Fprintln(c.w)
+		// The table gets written to a strings builder so we can further modify the output
+		// with lipgloss.
 		tbl.Render()
+		output := tableString.String()
+		if c.format == OutputFormatBasic {
+			output = lipgloss.NewStyle().
+				Border(lipgloss.NormalBorder()).
+				Render(strings.TrimSuffix(tableString.String(), "\n"))
+		}
+		fmt.Fprintln(c.w, output)
 	}
 }
 

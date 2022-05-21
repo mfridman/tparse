@@ -21,19 +21,24 @@ type consoleWriter struct {
 	format OutputFormat
 	w      io.Writer
 
-	red    func(string, bool) string
-	green  func(string, bool) string
-	yellow func(string, bool) string
+	red    colorOptionFunc
+	green  colorOptionFunc
+	yellow colorOptionFunc
 }
 
+type colorOptionFunc func(s string, bold bool) string
+
 // newColor is a helper function to set the base color.
-func newColor(color lipgloss.TerminalColor) func(text string, bold bool) string {
+func newColor(color lipgloss.TerminalColor) colorOptionFunc {
 	return func(text string, bold bool) string {
 		return lipgloss.NewStyle().Bold(bold).Foreground(color).Render(text)
 	}
 }
 
 func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *consoleWriter {
+	if format == 0 {
+		format = OutputFormatBasic
+	}
 	cw := &consoleWriter{
 		w:      w,
 		format: format,

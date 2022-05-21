@@ -6,14 +6,14 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/charmbracelet/lipgloss"
 	"github.com/mfridman/tparse/parse"
-	"github.com/olekukonko/tablewriter"
 )
 
 func (c *consoleWriter) summaryTable(packages parse.Packages, showNoTests bool) {
-	fmt.Fprintln(c.w)
+	var tableString strings.Builder
+	tbl := newTableWriter(&tableString, c.format)
 
-	tbl := tablewriter.NewWriter(c.w)
 	header := summaryRow{
 		status:      "Status",
 		elapsed:     "Elapsed",
@@ -24,18 +24,6 @@ func (c *consoleWriter) summaryTable(packages parse.Packages, showNoTests bool) 
 		skip:        "Skip",
 	}
 	tbl.SetHeader(header.toRow())
-
-	switch c.format {
-	case OutputFormatPlain:
-		tbl.SetBorder(false)
-		tbl.SetRowSeparator("")
-		tbl.SetColumnSeparator("")
-		tbl.SetHeaderLine(false)
-	case OutputFormatMarkdown:
-		tbl.SetBorders(tablewriter.Border{Left: true, Top: false, Right: true, Bottom: false})
-		tbl.SetCenterSeparator("|")
-	}
-	tbl.SetAutoWrapText(false)
 
 	var passed, notests []summaryRow
 
@@ -160,8 +148,16 @@ func (c *consoleWriter) summaryTable(packages parse.Packages, showNoTests bool) 
 			tbl.Append(p.toRow())
 		}
 	}
-
+	// The table gets written to a strings builder so we can further modify the output
+	// with lipgloss.
 	tbl.Render()
+	output := tableString.String()
+	if c.format == OutputFormatBasic {
+		output = lipgloss.NewStyle().
+			Border(lipgloss.NormalBorder()).
+			Render(strings.TrimSuffix(tableString.String(), "\n"))
+	}
+	fmt.Fprintln(c.w, output)
 }
 
 type summaryRow struct {
