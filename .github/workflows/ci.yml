@@ -34,7 +34,7 @@ jobs:
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
 
-      - name: Run tparse w/ std lib
+      - name: Run tparse w/ std lib (GITHUB_STEP_SUMMARY)
         env:
           NO_COLOR: 1
         run: |
