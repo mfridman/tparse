@@ -96,7 +96,7 @@ func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOpti
 					}
 				}
 			}
-			status := t.Status().String()
+			status := strings.ToUpper(t.Status().String())
 			switch t.Status() {
 			case parse.ActionPass:
 				status = c.green(status, false)

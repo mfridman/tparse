@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
 
@@ -29,12 +29,12 @@ jobs:
         run: go build -v .
 
       - name: Run tests
-        run: go test -count=1 -race ./parse -json -cover | ./tparse -notests -follow
+        run: go test -count=1 -race ./parse -json -cover | ./tparse -notests -follow -all
 
       - name: Run tparse w/ std lib
-        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
+        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
 
       - name: Run tparse w/ std lib
         run: |
           go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover |\
-            ./tparse  -notests -follow -format=markdown -all >> $GITHUB_STEP_SUMMARY
+            ./tparse -format=markdown >> $GITHUB_STEP_SUMMARY
