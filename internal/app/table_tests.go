@@ -135,7 +135,7 @@ func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOpti
 		if c.format == OutputFormatBasic {
 			output = lipgloss.NewStyle().
 				Border(lipgloss.NormalBorder()).
-				Render(strings.TrimSuffix(tableString.String(), "\n"))
+				Render(strings.TrimSuffix(output, "\n"))
 		}
 		fmt.Fprintln(c.w, output)
 	}

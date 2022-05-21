@@ -53,6 +53,9 @@ func (c *consoleWriter) printFailed(packages parse.Packages) {
 }
 
 func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event) string {
+	if testName != "" {
+		packageName = packageName + " • " + testName
+	}
 	styledPackageHeader := styledHeader(
 		"PANIC",
 		packageName,
