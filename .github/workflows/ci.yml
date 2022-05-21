@@ -35,6 +35,8 @@ jobs:
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
 
       - name: Run tparse w/ std lib
+        env:
+          NO_COLOR: 1
         run: |
           go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover |\
             ./tparse -format=markdown >> $GITHUB_STEP_SUMMARY
