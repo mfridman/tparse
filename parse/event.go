@@ -49,12 +49,12 @@ func (e *Event) String() string {
 		BorderBottom(true).
 		BorderForeground(subtleColor)
 	title := fmt.Sprintf(
-		"%-6s - %s - %s elapsed[%.2f] - time[%d]",
+		"%-6s - %s - %s elapsed[%.2f] - time[%s]",
 		strings.ToUpper(e.Action.String()),
 		e.Package,
 		e.Test,
 		e.Elapsed,
-		e.Time.UnixMicro(),
+		e.Time.Format(time.StampMicro),
 	)
 	items := []string{
 		descStyle.Render(title),
