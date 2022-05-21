@@ -38,7 +38,7 @@ func (c *consoleWriter) printFailed(packages parse.Packages) {
 			strings.TrimSpace(pkg.Summary.Package),
 		)
 		fmt.Fprintln(c.w, styledPackageHeader)
-
+		fmt.Fprintln(c.w)
 		/*
 			Failed tests are all the individual tests, where the subtests are not separated.
 
@@ -48,11 +48,21 @@ func (c *consoleWriter) printFailed(packages parse.Packages) {
 			return failedTests[i].Name < failedTests[j].Name
 		})
 
-		// TODO(mf): should the tests be sorted, probably alphabetically ASC?
+		divider := lipgloss.NewStyle().
+			BorderStyle(lipgloss.NormalBorder()).
+			BorderTop(true).
+			Faint(true).
+			Width(96)
+
+		var key string
 		for i, t := range failedTests {
-			// Add bottom border to all tests except the last one.
-			addBorder := (i != len(failedTests)-1)
-			fmt.Fprintln(c.w, prepareStyledTest(t, addBorder))
+			// Add top drivder to all tests except first one.
+			base, _, _ := strings.Cut(t.Name, "/")
+			if i > 0 && key != base {
+				fmt.Fprintln(c.w, divider.String())
+			}
+			key = base
+			fmt.Fprintln(c.w, prepareStyledTest(t))
 		}
 	}
 }
@@ -90,7 +100,6 @@ func styledHeader(status, packageName string) string {
 		BorderForeground(lipgloss.Color("103"))
 	statusStyle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color("9")).
-		Bold(true).
 		PaddingLeft(3).
 		PaddingRight(2)
 	packageNameStyle := lipgloss.NewStyle().
@@ -103,7 +112,7 @@ func styledHeader(status, packageName string) string {
 	return headerStyle.Render(headerRow)
 }
 
-func prepareStyledTest(t *parse.Test, bottomBorder bool) string {
+func prepareStyledTest(t *parse.Test) string {
 	t.SortEvents()
 
 	var rows, headerRows strings.Builder
@@ -115,33 +124,17 @@ func prepareStyledTest(t *parse.Test, bottomBorder bool) string {
 			continue
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
-			header := lipgloss.NewStyle().
-				Foreground(lipgloss.Color("1")).
-				Render(e.Output)
+			header := lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
 			headerRows.WriteString(header)
 			continue
 		}
-		rows.WriteString(e.Output)
+		if e.Output != "" {
+			rows.WriteString(e.Output)
+		}
 	}
-	// if rows.Len() == 0 {
-	// 	return headerRows.String()
-	// }
-	// return headerRows.String() + "\n" + rows.String()
-
-	combined := []string{headerRows.String()}
+	out := headerRows.String()
 	if rows.Len() > 0 {
-		combined = append(combined, rows.String())
+		out += "\n" + rows.String()
 	}
-	output := lipgloss.JoinVertical(
-		lipgloss.Left,
-		combined...,
-	)
-	border := lipgloss.NormalBorder()
-	if !bottomBorder {
-		border = lipgloss.HiddenBorder()
-	}
-	return lipgloss.NewStyle().
-		BorderTop(bottomBorder).
-		BorderStyle(border).
-		Render(output)
+	return out
 }
