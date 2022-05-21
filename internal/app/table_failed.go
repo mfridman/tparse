@@ -35,20 +35,25 @@ func (c *consoleWriter) printFailed(packages parse.Packages) {
 
 		styledPackageHeader := styledHeader(
 			strings.ToUpper(pkg.Summary.Action.String()),
-			pkg.Summary.Package,
+			strings.TrimSpace(pkg.Summary.Package),
 		)
+		fmt.Fprintln(c.w, styledPackageHeader)
+
+		/*
+			Failed tests are all the individual tests, where the subtests are not separated.
+
+			We need to sort the tests by name to ensure they are grouped together
+		*/
+		sort.Slice(failedTests, func(i, j int) bool {
+			return failedTests[i].Name < failedTests[j].Name
+		})
+
 		// TODO(mf): should the tests be sorted, probably alphabetically ASC?
-		styledTestStrings := make([]string, 0, len(failedTests))
 		for i, t := range failedTests {
 			// Add bottom border to all tests except the last one.
 			addBorder := (i != len(failedTests)-1)
-			styledTestStrings = append(styledTestStrings, prepareStyledTest(t, addBorder))
+			fmt.Fprintln(c.w, prepareStyledTest(t, addBorder))
 		}
-		combined := append(
-			[]string{styledPackageHeader}, // Package header (1 row)
-			styledTestStrings...,          // Tests (multiple rows)
-		)
-		fmt.Fprintln(c.w, lipgloss.JoinVertical(lipgloss.Left, combined...))
 	}
 }
 
@@ -109,7 +114,7 @@ func prepareStyledTest(t *parse.Test, bottomBorder bool) string {
 		if e.Action != parse.ActionOutput {
 			continue
 		}
-		if strings.HasPrefix(e.Output, "--- FAIL: ") {
+		if strings.Contains(e.Output, "--- FAIL: ") {
 			header := lipgloss.NewStyle().
 				Foreground(lipgloss.Color("1")).
 				Render(e.Output)
@@ -118,17 +123,25 @@ func prepareStyledTest(t *parse.Test, bottomBorder bool) string {
 		}
 		rows.WriteString(e.Output)
 	}
-	combined := lipgloss.JoinVertical(
+	// if rows.Len() == 0 {
+	// 	return headerRows.String()
+	// }
+	// return headerRows.String() + "\n" + rows.String()
+
+	combined := []string{headerRows.String()}
+	if rows.Len() > 0 {
+		combined = append(combined, rows.String())
+	}
+	output := lipgloss.JoinVertical(
 		lipgloss.Left,
-		headerRows.String(),
-		rows.String(),
+		combined...,
 	)
 	border := lipgloss.NormalBorder()
 	if !bottomBorder {
 		border = lipgloss.HiddenBorder()
 	}
 	return lipgloss.NewStyle().
-		BorderBottom(true).
+		BorderTop(bottomBorder).
 		BorderStyle(border).
-		Render(combined)
+		Render(output)
 }
