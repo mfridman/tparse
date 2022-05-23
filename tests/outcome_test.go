@@ -52,10 +52,8 @@ func TestFinalOutcome(t *testing.T) {
 			"github.com/awesome/pkg": parse.ActionPass,
 		}},
 	}
-
 	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
-			// t.Log(test.name, len(test.registry))
 			f, err := os.Open(filepath.Join(base, tc.name))
 			if err != nil {
 				t.Fatal(err)
@@ -118,7 +116,6 @@ func TestFinalOutcome(t *testing.T) {
 					// Catch all, should never get this.
 					t.Fatalf("got package summary action %q, want pass or fail", pkg.Summary.Action)
 				}
-
 			}
 		})
 	}

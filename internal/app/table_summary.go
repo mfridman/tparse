@@ -11,12 +11,6 @@ import (
 )
 
 func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool) {
-	fmt.Println("===================")
-	fmt.Println(len(packages[0].Tests))
-	for _, t := range packages[0].Tests {
-		fmt.Println(t.Name)
-	}
-	fmt.Println("===================")
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
 

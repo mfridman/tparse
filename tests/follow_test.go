@@ -12,6 +12,8 @@ import (
 )
 
 func TestFollow(t *testing.T) {
+	t.Parallel()
+
 	base := filepath.Join("testdata", "follow")
 
 	tt := []struct {

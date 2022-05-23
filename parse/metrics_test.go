@@ -15,7 +15,8 @@ func TestMetrics(t *testing.T) {
 
 	expected := []string{"fmt", "strings", "bytes", "bufio", "crypto", "log", "mime", "sort", "time"}
 
-	f, err := os.Open("./testdata/metrics_test.json")
+	fileName := "./testdata/metrics_test.json"
+	f, err := os.Open(fileName)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -23,9 +24,8 @@ func TestMetrics(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-
 	if l := len(summary.Packages); l != 9 {
-		t.Logf("file: %s", f)
+		t.Logf("file: %s", fileName)
 		t.Fatalf("got %d packages, want 9 packages (known ahead of time)", l)
 	}
 

@@ -161,6 +161,11 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 			pkg.Coverage = cover
 		}
 	}
+	// We captured all the necessary package-level information, if the event
+	// is output and does not have a test name, discard it.
+	if e.Action == ActionOutput && e.Test == "" {
+		return
+	}
 	pkg.AddEvent(e)
 }
 
