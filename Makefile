@@ -34,10 +34,10 @@ imports:
 	goimports -local $(ROOT) -w $(shell find . -type f -name '*.go' -not -path './vendor/*')
 
 test:
-	$(GO) test -count=1 ./parse
+	$(GO) test -count=1 ./...
 
 test-tparse:
-	$(GO) test -race -count=1 ./parse -json -cover | $(GO) run main.go
+	$(GO) test -race -count=1 ./... -json -cover | $(GO) run main.go
 
 # dogfooding :)
 test-tparse-full:

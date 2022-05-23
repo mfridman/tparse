@@ -1,8 +1,0 @@
-{"Time":"2020-08-29T12:56:10.668125-04:00","Action":"run","Package":"github.com/mfridman/tparse/parse","Test":"TestIssue_43"}
-{"Time":"2020-08-29T12:56:10.668391-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestIssue_43","Output":"=== RUN   TestIssue_43\n"}
-{"Time":"2020-08-29T12:56:10.668421-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestIssue_43","Output":"    bug_fix_test.go:16: unexpected end of JSON input\n"}
-{"Time":"2020-08-29T12:56:10.668448-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestIssue_43","Output":"--- FAIL: TestIssue_43 (0.00s)\n"}
-{"Time":"2020-08-29T12:56:10.668456-04:00","Action":"fail","Package":"github.com/mfridman/tparse/parse","Test":"TestIssue_43","Elapsed":0}
-{"Time":"2020-08-29T12:56:10.668471-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Output":"FAIL\n"}
-{"Time":"2020-08-29T12:56:10.668679-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Output":"FAIL\tgithub.com/mfridman/tparse/parse\t0.054s\n"}
-{"Time":"2020-08-29T12:56:10.668715-04:00","Action":"fail","Package":"github.com/mfridman/tparse/parse","Elapsed":0.054}

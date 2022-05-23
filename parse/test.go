@@ -2,7 +2,6 @@ package parse
 
 import (
 	"sort"
-	"strings"
 )
 
 // Test represents a single, unique, package test.
@@ -45,23 +44,6 @@ func (t *Test) Status() Action {
 	}
 
 	return ActionFail
-}
-
-// Stack returns debugging information from output events for failed or skipped tests.
-func (t *Test) Stack() string {
-	t.SortEvents()
-	var stack strings.Builder
-
-	for _, e := range t.Events {
-		// Only output events have useful information. Skip everything else.
-		if e.Action != ActionOutput {
-			continue
-		}
-
-		stack.WriteString(e.Output)
-	}
-
-	return stack.String()
 }
 
 // SortEvents sorts test events by elapsed time in ascending order, i.e., oldest to newest.

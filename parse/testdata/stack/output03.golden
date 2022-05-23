@@ -1,4 +1,0 @@
-    --- FAIL: TestCatch/catchAndRetrieve (0.00s)
-        catch_test.go:29: got id "ad0892h", want empty id
-        catch_test.go:37: email id does not match: got "69c47b65-0ad5-47d5-9346-f4f8bd22c56e", want "oops@example.com"
-        catch_test.go:41: failed to mark email as read: failed to mark email id "123" as read: PUT "http://localhost:8026/api/v1/emails/123/read": expecting valid status code, got 500 Internal Server Error

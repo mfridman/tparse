@@ -1,2 +1,0 @@
---- FAIL: TestStatus (0.00s)
-    status_test.go:91: got no failed tests, want one or more tests to be marked as "fail"

@@ -1,24 +1,24 @@
-package parse
+package parsetest
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/app/check"
+	"github.com/mfridman/tparse/internal/check"
 	"github.com/mfridman/tparse/parse"
 )
 
 func TestRaceDetected(t *testing.T) {
 	t.Parallel()
 
-	// Where key is the package name, and the value may be zero, one or more test name(s).
+	// Key is the package name, and the value may be zero, one or more test name(s).
 	// Not all data races may be associated with a test.
 	type expected map[string][]string
 
 	base := filepath.Join("testdata", "race")
 
-	var raceTestFiles = []struct {
+	var tt = []struct {
 		name string
 		expected
 	}{
@@ -53,7 +53,7 @@ func TestRaceDetected(t *testing.T) {
 		},
 	}
 
-	for _, tc := range raceTestFiles {
+	for _, tc := range tt {
 		t.Run(tc.name, func(t *testing.T) {
 			intputFile := filepath.Join(base, tc.name+".json")
 			f, err := os.Open(intputFile)

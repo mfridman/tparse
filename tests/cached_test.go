@@ -1,11 +1,11 @@
-package parse_test
+package parsetest
 
 import (
 	"os"
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/app/check"
+	"github.com/mfridman/tparse/internal/check"
 	"github.com/mfridman/tparse/parse"
 )
 
