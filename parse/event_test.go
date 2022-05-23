@@ -115,8 +115,8 @@ func TestNewEvent(t *testing.T) {
 			if e.LastLine() != test.lastLine {
 				t.Errorf("failed lastLine check: got %v, want %v", e.LastLine(), test.lastLine)
 			}
-			if e.Discard() != test.discard {
-				t.Errorf("failed discard check: got %v, want %v", e.Discard(), test.discard)
+			if e.DiscardOutput() != test.discard {
+				t.Errorf("failed discard check: got %v, want %v", e.DiscardOutput(), test.discard)
 			}
 
 			if t.Failed() {

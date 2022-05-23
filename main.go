@@ -26,6 +26,7 @@ var (
 	formatPtr      = flag.String("format", "", "")
 	followPtr      = flag.Bool("follow", false, "")
 
+	// TODO(mf): implement this
 	ciPtr = flag.String("ci", "", "")
 
 	// Legacy flags

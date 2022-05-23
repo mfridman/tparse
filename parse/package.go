@@ -30,6 +30,16 @@ type Package struct {
 	HasPanic bool
 	// Once a package has been marked HasPanic all subsequent events are added to PanicEvents.
 	PanicEvents []*Event
+
+	// DataRace captures a package and/or tests as having a data race.
+	// TODO(mf): is there a go test flag that enables detected data races, but still
+	// pass a test?
+	DataRace []DataRace
+}
+
+type DataRace struct {
+	PackageName string
+	TestName    string
 }
 
 // Packages is a collection of packages being tested.

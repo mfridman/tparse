@@ -1,0 +1,56 @@
+{"Time":"2022-05-23T10:28:13.239864-04:00","Action":"run","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace"}
+{"Time":"2022-05-23T10:28:13.24012-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"=== RUN   TestRace\n"}
+{"Time":"2022-05-23T10:28:13.240135-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"2\n"}
+{"Time":"2022-05-23T10:28:13.240149-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"3\n"}
+{"Time":"2022-05-23T10:28:13.240422-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"==================\n"}
+{"Time":"2022-05-23T10:28:13.240433-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"WARNING: DATA RACE\n"}
+{"Time":"2022-05-23T10:28:13.240438-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"Read at 0x00c0000a8f68 by goroutine 8:\n"}
+{"Time":"2022-05-23T10:28:13.240446-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  github.com/mfridman/debug-go/pkg/racey.RaceFunc.func1()\n"}
+{"Time":"2022-05-23T10:28:13.240453-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/pkg/racey/racey.go:13 +0x3c\n"}
+{"Time":"2022-05-23T10:28:13.240468-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"\n"}
+{"Time":"2022-05-23T10:28:13.240473-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"Previous write at 0x00c0000a8f68 by goroutine 7:\n"}
+{"Time":"2022-05-23T10:28:13.240478-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  github.com/mfridman/debug-go/pkg/racey.RaceFunc()\n"}
+{"Time":"2022-05-23T10:28:13.240484-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/pkg/racey/racey.go:11 +0x88\n"}
+{"Time":"2022-05-23T10:28:13.240489-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  github.com/mfridman/debug-go/testing_test.TestRace()\n"}
+{"Time":"2022-05-23T10:28:13.240495-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/testing/main_test.go:52 +0x28\n"}
+{"Time":"2022-05-23T10:28:13.240502-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.tRunner()\n"}
+{"Time":"2022-05-23T10:28:13.240509-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1439 +0x18c\n"}
+{"Time":"2022-05-23T10:28:13.240515-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.(*T).Run.func1()\n"}
+{"Time":"2022-05-23T10:28:13.240519-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1486 +0x44\n"}
+{"Time":"2022-05-23T10:28:13.240524-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"\n"}
+{"Time":"2022-05-23T10:28:13.240528-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"Goroutine 8 (running) created at:\n"}
+{"Time":"2022-05-23T10:28:13.240533-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  github.com/mfridman/debug-go/pkg/racey.RaceFunc()\n"}
+{"Time":"2022-05-23T10:28:13.240537-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/pkg/racey/racey.go:12 +0x70\n"}
+{"Time":"2022-05-23T10:28:13.240562-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  github.com/mfridman/debug-go/testing_test.TestRace()\n"}
+{"Time":"2022-05-23T10:28:13.240566-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/testing/main_test.go:52 +0x28\n"}
+{"Time":"2022-05-23T10:28:13.240569-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.tRunner()\n"}
+{"Time":"2022-05-23T10:28:13.240572-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1439 +0x18c\n"}
+{"Time":"2022-05-23T10:28:13.240575-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.(*T).Run.func1()\n"}
+{"Time":"2022-05-23T10:28:13.240578-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1486 +0x44\n"}
+{"Time":"2022-05-23T10:28:13.240581-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"\n"}
+{"Time":"2022-05-23T10:28:13.240584-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"Goroutine 7 (running) created at:\n"}
+{"Time":"2022-05-23T10:28:13.240587-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.(*T).Run()\n"}
+{"Time":"2022-05-23T10:28:13.24059-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1486 +0x560\n"}
+{"Time":"2022-05-23T10:28:13.240593-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.runTests.func1()\n"}
+{"Time":"2022-05-23T10:28:13.240596-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1839 +0x94\n"}
+{"Time":"2022-05-23T10:28:13.240599-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.tRunner()\n"}
+{"Time":"2022-05-23T10:28:13.240602-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1439 +0x18c\n"}
+{"Time":"2022-05-23T10:28:13.240605-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.runTests()\n"}
+{"Time":"2022-05-23T10:28:13.240608-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1837 +0x6c8\n"}
+{"Time":"2022-05-23T10:28:13.240611-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  testing.(*M).Run()\n"}
+{"Time":"2022-05-23T10:28:13.240614-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      /opt/homebrew/Cellar/go/1.18.1/libexec/src/testing/testing.go:1719 +0x878\n"}
+{"Time":"2022-05-23T10:28:13.240617-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"  main.main()\n"}
+{"Time":"2022-05-23T10:28:13.24062-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"      _testmain.go:47 +0x2fc\n"}
+{"Time":"2022-05-23T10:28:13.240623-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"==================\n"}
+{"Time":"2022-05-23T10:28:13.240626-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"3\n"}
+{"Time":"2022-05-23T10:28:13.240635-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"4\n"}
+{"Time":"2022-05-23T10:28:13.240638-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"5\n"}
+{"Time":"2022-05-23T10:28:13.240641-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"    testing.go:1312: race detected during execution of test\n"}
+{"Time":"2022-05-23T10:28:13.240651-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Output":"--- FAIL: TestRace (0.00s)\n"}
+{"Time":"2022-05-23T10:28:13.240655-04:00","Action":"fail","Package":"github.com/mfridman/debug-go/testing","Test":"TestRace","Elapsed":0}
+{"Time":"2022-05-23T10:28:13.240659-04:00","Action":"cont","Package":"github.com/mfridman/debug-go/testing"}
+{"Time":"2022-05-23T10:28:13.240664-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"=== CONT  \n"}
+{"Time":"2022-05-23T10:28:13.240667-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"    testing.go:1312: race detected during execution of test\n"}
+{"Time":"2022-05-23T10:28:13.24067-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"FAIL\n"}
+{"Time":"2022-05-23T10:28:13.241273-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"FAIL\tgithub.com/mfridman/debug-go/testing\t0.116s\n"}
+{"Time":"2022-05-23T10:28:13.241305-04:00","Action":"fail","Package":"github.com/mfridman/debug-go/testing","Elapsed":0.116}
