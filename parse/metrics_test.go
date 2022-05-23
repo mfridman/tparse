@@ -1,8 +1,7 @@
 package parse
 
 import (
-	"bytes"
-	"io/ioutil"
+	"os"
 	"strings"
 	"testing"
 )
@@ -16,20 +15,18 @@ func TestMetrics(t *testing.T) {
 
 	expected := []string{"fmt", "strings", "bytes", "bufio", "crypto", "log", "mime", "sort", "time"}
 
-	f := "./testdata/metrics_test.json"
-	by, err := ioutil.ReadFile(f)
+	f, err := os.Open("./testdata/metrics_test.json")
+	if err != nil {
+		t.Fatal(err)
+	}
+	summary, err := Process(f)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	pkgs, err := Process(bytes.NewReader(by))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if len(pkgs) != 9 {
+	if l := len(summary.Packages); l != 9 {
 		t.Logf("file: %s", f)
-		t.Fatalf("got %d packages, want 9 packages (known ahead of time)", len(pkgs))
+		t.Fatalf("got %d packages, want 9 packages (known ahead of time)", l)
 	}
 
 	m := map[string]bool{}
@@ -37,7 +34,7 @@ func TestMetrics(t *testing.T) {
 		m[s] = true
 	}
 
-	for name, pkg := range pkgs {
+	for name, pkg := range summary.Packages {
 		if _, ok := m[name]; !ok {
 			t.Errorf("got unknown packages %q, want one of:\n%s", name, strings.Join(expected, ", "))
 		}
@@ -74,7 +71,7 @@ func TestMetrics(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name+"_test", func(t *testing.T) {
-			pkg := pkgs[test.name]
+			pkg := summary.Packages[test.name]
 
 			if len(pkg.Tests) != test.total {
 				t.Fatalf("got %d total tests in package %q, want %d total tests", len(pkg.Tests), test.name, test.total)
@@ -115,25 +112,23 @@ func TestElapsed(t *testing.T) {
 		"TestCaseConsistency": 0.17,
 	}
 
-	f := "./testdata/elapsed_test.json"
-	by, err := ioutil.ReadFile(f)
+	fileName := "./testdata/elapsed_test.json"
+	f, err := os.Open(fileName)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	pkgs, err := Process(bytes.NewReader(by))
+	summary, err := Process(f)
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	if len(pkgs) != 1 {
-		for n := range pkgs {
+	if l := len(summary.Packages); l != 1 {
+		for n := range summary.Packages {
 			t.Log("got pkg name:", n)
 		}
-		t.Fatalf("got %d packages, want one package: strings", len(pkgs))
+		t.Fatalf("got %d packages, want one package: strings", l)
 	}
 
-	pkg, ok := pkgs["strings"]
+	pkg, ok := summary.Packages["strings"]
 	if !ok {
 		t.Fatalf("got unexpected pkg: %v\nwant strings", pkg)
 	}

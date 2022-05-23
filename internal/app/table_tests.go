@@ -31,7 +31,7 @@ type TestTableOptions struct {
 	Slow int
 }
 
-func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOptions) {
+func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
 	// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
@@ -44,15 +44,7 @@ func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOpti
 	}
 	tbl.SetHeader(header.toRow())
 
-	// Sort packages alphabetically by name ASC.
-	var packageNames []string
-	for name := range packages {
-		packageNames = append(packageNames, name)
-	}
-	sort.Strings(packageNames)
-
-	for i, name := range packageNames {
-		pkg := packages[name]
+	for i, pkg := range packages {
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
 			continue
@@ -121,7 +113,7 @@ func (c *consoleWriter) testsTable(packages parse.Packages, option TestTableOpti
 			}
 			tbl.Append(row.toRow())
 		}
-		if i != (len(packageNames) - 1) {
+		if i != (len(packages) - 1) {
 			// TODO(mf): is it possible to add a custom separator with tablewriter instead of empty space?
 			tbl.Append(testRow{}.toRow())
 		}

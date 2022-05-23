@@ -38,7 +38,7 @@ func Run(w io.Writer, option Options) error {
 	}
 	defer reader.Close()
 
-	packages, err := parse.Process(
+	summary, err := parse.Process(
 		reader,
 		parse.WithFollowOutput(option.FollowOutput),
 		parse.WithWriter(w),
@@ -46,14 +46,14 @@ func Run(w io.Writer, option Options) error {
 	if err != nil {
 		return err
 	}
-	if len(packages) == 0 {
+	if len(summary.Packages) == 0 {
 		return fmt.Errorf("found no go test packages")
 	}
 	// Useful for tests that don't need additional output.
 	if option.DisableTableOutput {
 		return nil
 	}
-	return display(w, packages, option)
+	return display(w, summary, option)
 }
 
 func newPipeReader() (io.ReadCloser, error) {
@@ -68,8 +68,10 @@ func newPipeReader() (io.ReadCloser, error) {
 	return nil, errors.New("stdin must be a pipe")
 }
 
-func display(w io.Writer, packages parse.Packages, option Options) error {
+func display(w io.Writer, summary *parse.GoTestSummary, option Options) error {
 	cw := newConsoleWriter(w, option.Format, option.DisableColor)
+	// Sort packages by name ASC.
+	packages := summary.GetSortedPackages()
 	// Only print the tests table if either pass or skip is true.
 	if option.TestTableOptions.Pass || option.TestTableOptions.Skip {
 		cw.testsTable(packages, option.TestTableOptions)

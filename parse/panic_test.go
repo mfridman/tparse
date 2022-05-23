@@ -1,8 +1,7 @@
 package parse
 
 import (
-	"bytes"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 )
@@ -48,24 +47,19 @@ func TestPanic(t *testing.T) {
 	}
 
 	for _, test := range tt {
-		test := test
-
 		t.Run(test.name, func(t *testing.T) {
-
 			t.Parallel()
-
-			by, err := ioutil.ReadFile(filepath.Join(base, test.name))
+			f, err := os.Open(filepath.Join(base, test.name))
 			if err != nil {
 				t.Fatal(err)
 			}
 
-			pkgs, err := Process(bytes.NewReader(by))
+			summary, err := Process(f)
 			if err != nil {
 				t.Fatalf("got error %[1]v of type %[1]T, want nil", err)
 			}
 
-			for name, pkg := range pkgs {
-
+			for name, pkg := range summary.Packages {
 				want, ok := test.registry[name]
 				if !ok {
 					t.Log("currently registered packages:")

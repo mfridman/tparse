@@ -41,7 +41,7 @@ func WithDebug() OptionsFunc {
 // and parses go test output in JSON format until EOF.
 //
 // Note, Process will attempt to parse up to 50 lines before returning an error.
-func Process(r io.Reader, opts ...OptionsFunc) (Packages, error) {
+func Process(r io.Reader, opts ...OptionsFunc) (*GoTestSummary, error) {
 	option := &options{}
 	for _, f := range opts {
 		f(option)
@@ -95,7 +95,7 @@ func Process(r io.Reader, opts ...OptionsFunc) (Packages, error) {
 		return nil, ErrNotParseable
 	}
 
-	return summary.Packages, nil
+	return summary, nil
 }
 
 type GoTestSummary struct {
@@ -161,6 +161,7 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 			pkg.Coverage = cover
 		}
 	}
+	pkg.AddEvent(e)
 }
 
 func (s *GoTestSummary) GetSortedPackages() []*Package {
@@ -172,4 +173,13 @@ func (s *GoTestSummary) GetSortedPackages() []*Package {
 		return packages[i].Summary.Package < packages[j].Summary.Package
 	})
 	return packages
+}
+
+func (s *GoTestSummary) ExitCode() int {
+	for _, pkg := range s.Packages {
+		if pkg.HasPanic || len(pkg.DataRace) > 0 || pkg.Summary.Action == ActionFail {
+			return 1
+		}
+	}
+	return 0
 }

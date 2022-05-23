@@ -1,9 +1,8 @@
 package parse
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"testing"
 )
@@ -425,25 +424,24 @@ func TestPackageCache(t *testing.T) {
 		"mime":    false,
 	}
 
-	f := "./testdata/cached_test.json"
-	by, err := ioutil.ReadFile(f)
+	f, err := os.Open("./testdata/cached_test.json")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	pkgs, err := Process(bytes.NewReader(by))
+	summary, err := Process(f)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(pkgs) != 4 {
-		for n := range pkgs {
+	if n := len(summary.Packages); n != 4 {
+		for n := range summary.Packages {
 			t.Log("got pkg name:", n)
 		}
-		t.Fatalf("got %d packages, want four packages", len(pkgs))
+		t.Fatalf("got %d packages, want four packages", n)
 	}
 
-	for name, pkg := range pkgs {
+	for name, pkg := range summary.Packages {
 		t.Run(name, func(t *testing.T) {
 			wantCached, ok := expected[name]
 			if !ok {
@@ -471,25 +469,24 @@ func TestPackageCover(t *testing.T) {
 		"sort":  60.8,
 	}
 
-	f := "./testdata/cover_test.json"
-	by, err := ioutil.ReadFile(f)
+	f, err := os.Open("./testdata/cover_test.json")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	pkgs, err := Process(bytes.NewReader(by))
+	summary, err := Process(f)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if len(pkgs) != 3 {
-		for n := range pkgs {
+	if l := len(summary.Packages); l != 3 {
+		for n := range summary.Packages {
 			t.Log("got pkg name:", n)
 		}
-		t.Fatalf("got %d packages, want three packages", len(pkgs))
+		t.Fatalf("got %d packages, want three packages", l)
 	}
 
-	for name, pkg := range pkgs {
+	for name, pkg := range summary.Packages {
 		t.Run(name, func(t *testing.T) {
 			wantCover, ok := expected[name]
 			if !ok {

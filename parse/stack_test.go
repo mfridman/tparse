@@ -3,6 +3,7 @@ package parse
 import (
 	"bytes"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 )
@@ -27,22 +28,20 @@ func TestSingleTestFailStack(t *testing.T) {
 	for _, test := range tt {
 
 		t.Run(test.name, func(t *testing.T) {
-			by, err := ioutil.ReadFile(test.input)
+			f, err := os.Open(test.input)
 			if err != nil {
 				t.Fatal(err)
 			}
-
 			want, err := ioutil.ReadFile(test.output)
 			if err != nil {
 				t.Fatal(err)
 			}
-
-			pkgs, err := Process(bytes.NewReader(by))
+			summary, err := Process(f)
 			if err != nil {
 				t.Fatal(err)
 			}
 
-			for _, pkg := range pkgs {
+			for _, pkg := range summary.Packages {
 				failed := pkg.TestsByAction(ActionFail)
 
 				// The input file must be composed of a single test. We're just checking the "stack" output

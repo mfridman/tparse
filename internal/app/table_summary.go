@@ -10,7 +10,13 @@ import (
 	"github.com/mfridman/tparse/parse"
 )
 
-func (c *consoleWriter) summaryTable(packages parse.Packages, showNoTests bool) {
+func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool) {
+	fmt.Println("===================")
+	fmt.Println(len(packages[0].Tests))
+	for _, t := range packages[0].Tests {
+		fmt.Println(t.Name)
+	}
+	fmt.Println("===================")
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
 
@@ -27,11 +33,12 @@ func (c *consoleWriter) summaryTable(packages parse.Packages, showNoTests bool) 
 
 	var passed, notests []summaryRow
 
-	for packageName, pkg := range packages {
+	for _, pkg := range packages {
 		elapsed := strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64) + "s"
 		if pkg.Cached {
 			elapsed = "(cached)"
 		}
+		packageName := pkg.Summary.Package
 		if pkg.HasPanic {
 			row := summaryRow{
 				status:      c.red("PANIC", true),

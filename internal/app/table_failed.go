@@ -11,16 +11,8 @@ import (
 
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.
 // Panic is an exception.
-func (c *consoleWriter) printFailed(packages parse.Packages) {
-	sortedPackages := make([]*parse.Package, 0, len(packages))
+func (c *consoleWriter) printFailed(packages []*parse.Package) {
 	for _, pkg := range packages {
-		sortedPackages = append(sortedPackages, pkg)
-	}
-	// Sort packages alphabetically.
-	sort.Slice(sortedPackages, func(i, j int) bool {
-		return sortedPackages[i].Summary.Package < sortedPackages[j].Summary.Package
-	})
-	for _, pkg := range sortedPackages {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
 			// not be associated with tests, so we print it at the package level.
