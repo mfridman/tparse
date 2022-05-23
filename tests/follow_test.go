@@ -17,8 +17,8 @@ func TestFollow(t *testing.T) {
 	base := filepath.Join("testdata", "follow")
 
 	tt := []struct {
-		name string
-		err  error
+		fileName string
+		err      error
 	}{
 		{"test_01", nil},
 		{"test_02", nil},
@@ -27,8 +27,8 @@ func TestFollow(t *testing.T) {
 		{"test_05", parse.ErrNotParseable},
 	}
 	for _, test := range tt {
-		t.Run(test.name, func(t *testing.T) {
-			intputFile := filepath.Join(base, test.name+".json")
+		t.Run(test.fileName, func(t *testing.T) {
+			intputFile := filepath.Join(base, test.fileName+".json")
 			options := app.Options{
 				FileName:           intputFile,
 				FollowOutput:       true,
@@ -38,7 +38,7 @@ func TestFollow(t *testing.T) {
 			if err := app.Run(&buf, options); err != nil && !errors.Is(err, test.err) {
 				t.Fatal(err)
 			}
-			goldenFile := filepath.Join(base, test.name+".golden")
+			goldenFile := filepath.Join(base, test.fileName+".golden")
 			want, err := ioutil.ReadFile(goldenFile)
 			if err != nil {
 				t.Fatal(err)

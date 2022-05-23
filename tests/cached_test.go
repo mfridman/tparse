@@ -60,6 +60,7 @@ func TestPackageCache(t *testing.T) {
 
 			summary, err := parse.Process(f)
 			check.NoError(t, err)
+			check.Number(t, len(summary.Packages), len(tc.expected))
 
 			for name, pkg := range summary.Packages {
 				t.Run(name, func(t *testing.T) {

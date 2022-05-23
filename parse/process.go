@@ -133,10 +133,10 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 	// Parse the raw output to add additional metadata to Package.
 	switch {
 	case e.IsRace():
-		pkg.DataRace = append(pkg.DataRace, DataRace{
-			PackageName: e.Package,
-			TestName:    e.Test,
-		})
+		pkg.HasDataRace = true
+		if e.Test != "" {
+			pkg.DataRaceTests = append(pkg.DataRaceTests, e.Test)
+		}
 	case e.IsCached():
 		pkg.Cached = true
 	case e.NoTestFiles():
@@ -182,7 +182,12 @@ func (s *GoTestSummary) GetSortedPackages() []*Package {
 
 func (s *GoTestSummary) ExitCode() int {
 	for _, pkg := range s.Packages {
-		if pkg.HasPanic || len(pkg.DataRace) > 0 || pkg.Summary.Action == ActionFail {
+		switch {
+		case pkg.HasPanic, pkg.HasDataRace:
+			return 1
+		case len(pkg.DataRaceTests) > 0:
+			return 1
+		case pkg.Summary.Action == ActionFail:
 			return 1
 		}
 	}

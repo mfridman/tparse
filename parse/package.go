@@ -31,30 +31,14 @@ type Package struct {
 	// Once a package has been marked HasPanic all subsequent events are added to PanicEvents.
 	PanicEvents []*Event
 
-	// DataRace captures a package and/or tests as having a data race.
-	// TODO(mf): is there a go test flag that enables detected data races, but still
-	// pass a test?
-	DataRace []DataRace
-}
-
-type DataRace struct {
-	PackageName string
-	TestName    string
+	// HasDataRace marks the entire package as having a data race.
+	HasDataRace bool
+	// DataRaceTests captures an individual test as having a data race.
+	DataRaceTests []string
 }
 
 // Packages is a collection of packages being tested.
 type Packages map[string]*Package
-
-// ExitCode returns 1 if at least one package is marked as panic or failed,
-// othewrwise return 0.
-func (p Packages) ExitCode() int {
-	for _, pkg := range p {
-		if pkg.HasPanic || pkg.Summary.Action == ActionFail {
-			return 1
-		}
-	}
-	return 0
-}
 
 // newPackage initializes and returns a Package.
 func newPackage() *Package {

@@ -60,7 +60,7 @@ func TestFinalOutcome(t *testing.T) {
 			}
 			summary, err := parse.Process(f)
 			check.NoError(t, err)
-			check.NumberNotZero(t, len(summary.Packages))
+			check.Number(t, len(summary.Packages), len(tc.registry))
 			check.Number(t, summary.ExitCode(), tc.exitCode)
 
 			for name, pkg := range summary.Packages {
