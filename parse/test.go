@@ -52,12 +52,3 @@ func (t *Test) SortEvents() {
 		return t.Events[i].Time.Before(t.Events[j].Time)
 	})
 }
-
-var (
-	reports = []string{
-		"--- PASS: ",
-		"--- FAIL: ",
-		"--- SKIP: ",
-		// "--- BENCH: ", TODO(mf): implement.
-	}
-)
