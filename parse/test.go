@@ -20,18 +20,15 @@ func (t *Test) Elapsed() float64 {
 			f = e.Elapsed
 		}
 	}
-
 	return f
 }
 
 // Status reports the outcome of the test represented as a single Action: pass, fail or skip.
 func (t *Test) Status() Action {
-
 	// sort by time and scan for an action in reverse order.
 	// The first action we come across (in reverse order) is
 	// the outcome of the test, which will be one of pass|fail|skip.
 	t.SortEvents()
-
 	for i := len(t.Events) - 1; i >= 0; i-- {
 		switch t.Events[i].Action {
 		case ActionPass:
@@ -42,7 +39,6 @@ func (t *Test) Status() Action {
 			return ActionFail
 		}
 	}
-
 	return ActionFail
 }
 

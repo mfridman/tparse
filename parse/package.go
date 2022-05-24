@@ -79,13 +79,11 @@ func (p *Package) GetTest(name string) *Test {
 //
 // An empty slice if returned if there are no tests.
 func (p *Package) TestsByAction(action Action) []*Test {
-	tests := []*Test{}
-
+	var tests []*Test
 	for _, t := range p.Tests {
 		if t.Status() == action {
 			tests = append(tests, t)
 		}
 	}
-
 	return tests
 }

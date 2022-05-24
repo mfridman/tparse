@@ -13,10 +13,6 @@ import (
 // ErrNotParseable indicates the event line was not parseable.
 var ErrNotParseable = errors.New("failed to parse")
 
-// ErrRaceDetected indicates a race condition has been detected during execution.
-// Returned by the Process func.
-var ErrRaceDetected = errors.New("race detected")
-
 type options struct {
 	w      io.Writer
 	follow bool
@@ -37,7 +33,7 @@ func WithDebug() OptionsFunc {
 	return func(o *options) { o.debug = true }
 }
 
-// Process is the entry point to the parse pkg. It consumes a reader
+// Process is the entry point to parse. It consumes a reader
 // and parses go test output in JSON format until EOF.
 //
 // Note, Process will attempt to parse up to 50 lines before returning an error.

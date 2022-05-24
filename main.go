@@ -44,7 +44,7 @@ Options:
 	-all		Display table event for pass and skip. (Failed items always displayed)
 	-pass		Display table for passed tests.
 	-skip		Display table for skipped tests.
-	-notests	Display packages containing no test files or empty test files in summary.
+	-notests	Display packages containing no test files or empty test files.
 	-smallscreen	Split subtest names vertically to fit on smaller screens.
 	-slow		Number of slowest tests to display. Default is 0, display all.
 	-nocolor	Disable all colors. (NO_COLOR also supported)
@@ -60,8 +60,8 @@ var (
 
 func main() {
 	flag.Usage = func() {
-		fmt.Fprint(os.Stderr, usage)
-		os.Exit(2)
+		fmt.Fprint(os.Stdout, usage)
+		os.Exit(1)
 	}
 	flag.Parse()
 
@@ -87,7 +87,7 @@ func main() {
 			format = app.OutputFormatPlain
 		}
 	default:
-		fmt.Fprintf(os.Stdout, "invalid option:%q. The -format flag must be one of: basic, plain or markdown", *formatPtr)
+		fmt.Fprintf(os.Stderr, "invalid option:%q. The -format flag must be one of: basic, plain or markdown", *formatPtr)
 		return
 	}
 	if *allPtr {
@@ -111,15 +111,16 @@ func main() {
 		},
 		Format:      format,
 		ShowNoTests: *showNoTestsPtr,
+
 		// Do not expose publically.
 		DisableTableOutput: false,
 	}
 	if err := app.Run(os.Stdout, options); err != nil {
 		msg := err.Error()
 		if errors.Is(err, parse.ErrNotParseable) {
-			msg = "no parseable events: run go test with -json flag"
+			msg = "no parseable events: Make sure to run go test with -json flag"
 		}
-		fmt.Fprintln(os.Stdout, msg)
+		fmt.Fprintln(os.Stderr, msg)
 		os.Exit(1)
 	}
 }

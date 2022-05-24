@@ -144,7 +144,9 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 	}
 	// Only display the "no tests to run" cases if users want to see them when passed
 	// tests are available.
-	if showNoTests {
+	// An exception is made if there are no passed tests and only a single no test files
+	// package. This is almost always because the user forgot to match one or more packages.
+	if showNoTests || (len(passed) == 0 && len(notests) == 1) {
 		for _, p := range notests {
 			tbl.Append(p.toRow())
 		}
