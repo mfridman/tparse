@@ -1,4 +1,4 @@
-# tparse  [![Actions](https://github.com/mfridman/tparse/workflows/CI/badge.svg)](https://github.com/mfridman/tparse) [![Coverage](http://gocover.io/_badge/github.com/mfridman/tparse/parse)](http://gocover.io/github.com/mfridman/tparse/parse)
+# tparse  [![Actions](https://github.com/mfridman/tparse/workflows/CI/badge.svg)](https://github.com/mfridman/tparse)
 
 A command line tool for analyzing and summarizing `go test` output.
 
@@ -30,32 +30,30 @@ Once `tparse` is installed there are 2 ways to use it:
 set -o pipefail && go test fmt -json | tparse -all
 ```
 
-2. Save the output of `go test` with `-json` flag into a file and call `tparse` with filename as an argument.
+1. Save the output of `go test` with `-json` flag into a file and call `tparse` with `-file` option.
 
 ```
 go test fmt -json > fmt.out
-tparse -all fmt.out
+tparse -all -file=fmt.out
 ```
 
 Tip: run `tparse -h` to get usage and options.
 
 ## But why?!
 
-`go test` is awesome, but a bit verbose. Sometimes one just wants failures, grouped by package, printed with a dash of color and bubbled to the top.
+`go test` is awesome, but verbose. Sometimes you just want failures, grouped by package, printed with a dash of color and readily available.
 
-`tparse` attempts to do just that; return failed tests and panics, if any, followed by a single package-level summary.
+`tparse` attempts to do just that; return failed tests and panics, if any, followed by a single package-level summary. No more searching for the literal string: "--- FAIL".
 
-But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) can get additional info, such as which tests were skipped and elapsed time of each passed test.
+But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) you can get additional info, such as which tests were skipped and elapsed time of each passed test.
 
-`tparse` comes with a `-dump` flag to replay everything that would have otherwise been printed. Enabling users to retrieve original `go test` output. Eliminating the need for `tee /dev/tty` between pipes.
+`tparse` comes with a `-follow` flag to output test output as text. Yep, go test pipes JSON, it's parsed and the output is printed as the raw text as if you ran go test without `-json` flag. Eliminating the need for `tee /dev/tty` between pipes.
 
 The default print order is:
-- `go test` output (if adding `-dump` flag)
+- `go test` output (if adding `-follow` flag)
 - passed/skipped table (if adding `-all`, `-skip` or `-pass` flag)
 - failed tests and panics
 - summary
-
-The default print order can be reversed with `-top` flag.
 
 For narrow displays the `-smallscreen` flag may be useful, dividing a long test name and making it vertical heavy:
 
