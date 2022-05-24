@@ -28,15 +28,17 @@ jobs:
       - name: Build
         run: go build -v .
 
-      - name: Run tests
-        run: go test -count=1 -race ./parse -json -cover | ./tparse -notests -follow -all
+      - name: Run tests with GITHUB_STEP_SUMMARY
+        run: |
+          go test -count=1 -race ./... -json -cover | tee output.json | ./tparse -notests -follow -all
+          ./tparse -format markdown -file output.json > GITHUB_STEP_SUMMARY
 
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
 
-      - name: Run tparse w/ std lib (GITHUB_STEP_SUMMARY)
-        env:
-          NO_COLOR: 1
-        run: |
-          go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover |\
-            ./tparse -format=markdown >> $GITHUB_STEP_SUMMARY
+      # - name: Run tparse w/ std lib (GITHUB_STEP_SUMMARY)
+      #   env:
+      #     NO_COLOR: 1
+      #   run: |
+      #     go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover |\
+      #       ./tparse -format=markdown >> $GITHUB_STEP_SUMMARY
