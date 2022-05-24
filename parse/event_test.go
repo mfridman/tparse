@@ -12,43 +12,44 @@ func TestNewEvent(t *testing.T) {
 	t.Parallel()
 
 	tt := []struct {
-		raw      string
-		action   Action
-		pkg      string
-		test     string
-		output   string
-		discard  bool
-		lastLine bool
+		raw                    string
+		action                 Action
+		pkg                    string
+		test                   string
+		output                 string
+		discardOutput          bool
+		lastLine               bool
+		discardEmptyTestOutput bool
 	}{
 		{
 			// 0
 			`{"Time":"2018-10-15T21:03:52.728302-04:00","Action":"run","Package":"fmt","Test":"TestFmtInterface"}`,
-			ActionRun, "fmt", "TestFmtInterface", "", false, false,
+			ActionRun, "fmt", "TestFmtInterface", "", false, false, false,
 		},
 		{
 			// 1
 			`{"Time":"2018-10-15T21:03:56.232164-04:00","Action":"output","Package":"strings","Test":"ExampleBuilder","Output":"--- PASS: ExampleBuilder (0.00s)\n"}`,
-			ActionOutput, "strings", "ExampleBuilder", "--- PASS: ExampleBuilder (0.00s)\n", false, false,
+			ActionOutput, "strings", "ExampleBuilder", "--- PASS: ExampleBuilder (0.00s)\n", false, false, false,
 		},
 		{
 			// 2
 			`{"Time":"2018-10-15T21:03:56.235807-04:00","Action":"pass","Package":"strings","Elapsed":3.5300000000000002}`,
-			ActionPass, "strings", "", "", false, true,
+			ActionPass, "strings", "", "", false, true, false,
 		},
 		{
 			// 3
 			`{"Time":"2018-10-15T21:00:51.379156-04:00","Action":"pass","Package":"fmt","Elapsed":0.066}`,
-			ActionPass, "fmt", "", "", false, true,
+			ActionPass, "fmt", "", "", false, true, false,
 		},
 		{
 			// 4
 			`{"Time":"2018-10-15T22:57:28.23799-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Elapsed":0.582}`,
-			ActionPass, "github.com/astromail/rover/tests", "", "", false, true,
+			ActionPass, "github.com/astromail/rover/tests", "", "", false, true, false,
 		},
 		{
 			// 5
 			`{"Time":"2018-10-15T21:00:38.738631-04:00","Action":"pass","Package":"strings","Test":"ExampleTrimRightFunc","Elapsed":0}`,
-			ActionPass, "strings", "ExampleTrimRightFunc", "", false, false,
+			ActionPass, "strings", "ExampleTrimRightFunc", "", false, false, false,
 		},
 		{
 			// 6
@@ -57,13 +58,14 @@ func TestNewEvent(t *testing.T) {
 			"github.com/astromail/rover/tests",
 			"",
 			"2018/10/15 23:00:27 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n",
-			true,
 			false,
+			false,
+			true,
 		},
 		{
 			// 7
 			`{"Time":"2018-10-15T23:00:28.430825-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"PASS\n"}`,
-			ActionOutput, "github.com/astromail/rover/tests", "", "PASS\n", true, false,
+			ActionOutput, "github.com/astromail/rover/tests", "", "PASS\n", false, false, true,
 		},
 		{
 			// 8
@@ -72,8 +74,9 @@ func TestNewEvent(t *testing.T) {
 			"github.com/astromail/rover/tests",
 			"",
 			"ok  \tgithub.com/astromail/rover/tests\t0.530s\n",
-			true,
 			false,
+			false,
+			true,
 		},
 		{
 			// 9
@@ -82,19 +85,17 @@ func TestNewEvent(t *testing.T) {
 			"github.com/mfridman/srfax",
 			"",
 			"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n",
-			true,
 			false,
+			false,
+			true,
 		},
 	}
 
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
-			t.Parallel()
-
 			e, err := NewEvent([]byte(tc.raw))
-			if err != nil {
-				t.Errorf("%s: failed to parse test event:\n%v", tc.raw, err)
-			}
+			check.NoError(t, err)
+
 			if e.Action != tc.action {
 				t.Errorf("wrong action: got %q, want %q", e.Action, tc.action)
 			}
@@ -110,8 +111,11 @@ func TestNewEvent(t *testing.T) {
 			if e.LastLine() != tc.lastLine {
 				t.Errorf("failed lastLine check: got %v, want %v", e.LastLine(), tc.lastLine)
 			}
-			if e.DiscardOutput() != tc.discard {
-				t.Errorf("failed discard check: got %v, want %v", e.DiscardOutput(), tc.discard)
+			if e.DiscardOutput() != tc.discardOutput {
+				t.Errorf("failed discard check: got %v, want %v", e.DiscardOutput(), tc.discardOutput)
+			}
+			if e.DiscardEmptyTestOutput() != tc.discardEmptyTestOutput {
+				t.Errorf("failed discard empty test output check: got %v, want %v", e.DiscardEmptyTestOutput(), tc.discardOutput)
 			}
 			if t.Failed() {
 				t.Logf("failed event: %v", tc.raw)
@@ -157,9 +161,8 @@ func TestCachedEvent(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			if err != nil {
-				t.Fatal(err)
-			}
+			check.NoError(t, err)
+
 			got := e.IsCached()
 			want := tc.cached
 			if got != want {
@@ -208,9 +211,8 @@ func TestCoverEvent(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			if err != nil {
-				t.Fatal(err)
-			}
+			check.NoError(t, err)
+
 			f, ok := e.Cover()
 			if ok != tc.cover {
 				t.Errorf("got (%t) non-coverage event, want %t", ok, tc.cover)
@@ -253,9 +255,8 @@ func TestNoTestFiles(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			if err != nil {
-				t.Fatal(err)
-			}
+			check.NoError(t, err)
+
 			got := e.NoTestFiles()
 			want := tc.noTestFiles
 			if got != want {
@@ -293,9 +294,8 @@ func TestNoTestsToRun(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			if err != nil {
-				t.Fatal(err)
-			}
+			check.NoError(t, err)
+
 			got := e.NoTestsToRun()
 			want := tc.noTests
 			if got != want {
@@ -335,9 +335,8 @@ func TestNoTestsWarn(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			if err != nil {
-				t.Fatal(err)
-			}
+			check.NoError(t, err)
+
 			got := e.NoTestsWarn()
 			want := tc.wanNoTests
 			if got != want {

@@ -98,6 +98,10 @@ func (e *Event) DiscardOutput() bool {
 	return false
 }
 
+func (e *Event) DiscardEmptyTestOutput() bool {
+	return e.Action == ActionOutput && e.Test == ""
+}
+
 var updates = []string{
 	"=== RUN   ",
 	"=== PAUSE ",

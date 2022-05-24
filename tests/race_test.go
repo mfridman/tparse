@@ -19,7 +19,7 @@ func TestRaceDetected(t *testing.T) {
 	base := filepath.Join("testdata", "race")
 
 	var tt = []struct {
-		name string
+		fileName string
 		expected
 	}{
 		{
@@ -54,8 +54,8 @@ func TestRaceDetected(t *testing.T) {
 	}
 
 	for _, tc := range tt {
-		t.Run(tc.name, func(t *testing.T) {
-			intputFile := filepath.Join(base, tc.name+".json")
+		t.Run(tc.fileName, func(t *testing.T) {
+			intputFile := filepath.Join(base, tc.fileName+".json")
 			f, err := os.Open(intputFile)
 			check.NoError(t, err)
 			defer f.Close()

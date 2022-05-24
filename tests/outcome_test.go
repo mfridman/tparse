@@ -17,7 +17,7 @@ func TestFinalOutcome(t *testing.T) {
 	base := filepath.Join("testdata", "outcome")
 
 	tt := []struct {
-		name     string
+		fileName string
 		exitCode int
 		registry
 	}{
@@ -53,8 +53,8 @@ func TestFinalOutcome(t *testing.T) {
 		}},
 	}
 	for _, tc := range tt {
-		t.Run(tc.name, func(t *testing.T) {
-			f, err := os.Open(filepath.Join(base, tc.name))
+		t.Run(tc.fileName, func(t *testing.T) {
+			f, err := os.Open(filepath.Join(base, tc.fileName))
 			if err != nil {
 				t.Fatal(err)
 			}

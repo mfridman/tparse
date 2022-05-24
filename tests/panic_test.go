@@ -18,7 +18,7 @@ func TestPanic(t *testing.T) {
 	base := filepath.Join("testdata", "panic")
 
 	tt := []struct {
-		name string
+		fileName string
 		expected
 	}{
 		{
@@ -63,8 +63,8 @@ func TestPanic(t *testing.T) {
 	}
 
 	for _, tc := range tt {
-		t.Run(tc.name, func(t *testing.T) {
-			f, err := os.Open(filepath.Join(base, tc.name))
+		t.Run(tc.fileName, func(t *testing.T) {
+			f, err := os.Open(filepath.Join(base, tc.fileName))
 			check.NoError(t, err)
 
 			summary, err := parse.Process(f)
