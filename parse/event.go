@@ -7,8 +7,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
-	"github.com/charmbracelet/lipgloss"
 )
 
 var (
@@ -46,28 +44,16 @@ type Event struct {
 }
 
 func (e *Event) String() string {
-	subtleColor := lipgloss.AdaptiveColor{Light: "#D9DCCF", Dark: "#383838"}
-	descStyle := lipgloss.NewStyle().
-		MarginTop(0).
-		BorderStyle(lipgloss.NormalBorder()).
-		BorderBottom(true).
-		BorderForeground(subtleColor)
 	title := fmt.Sprintf(
-		"%-6s - %s - %s elapsed[%.2f] - time[%s]",
+		"%-6s - %s - %s elapsed[%.2f] - time[%s]\n%v",
 		strings.ToUpper(e.Action.String()),
 		e.Package,
 		e.Test,
 		e.Elapsed,
 		e.Time.Format(time.StampMicro),
+		e.Output,
 	)
-	items := []string{
-		descStyle.Render(title),
-	}
-	if e.Output != "" {
-		output := lipgloss.NewStyle().Foreground(lipgloss.Color("9")).Render(e.Output)
-		items = append(items, output)
-	}
-	return lipgloss.JoinVertical(lipgloss.Left, items...)
+	return title
 }
 
 // NewEvent attempts to decode data into an Event.
@@ -156,20 +142,18 @@ func (e *Event) IsCached() bool {
 // Cover reports special event case for package coverage:
 // "ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"
 // "ok  \tgithub.com/mfridman/srfax\t0.027s\tcoverage: 28.8% of statements\n"
+// "ok  \tgithub.com/mfridman/tparse/tests\t0.516s\tcoverage: 34.5% of statements in ./...\n"
 func (e *Event) Cover() (float64, bool) {
 	var f float64
 	var err error
-
-	if strings.Contains(e.Output, "coverage:") && strings.HasSuffix(e.Output, "of statements\n") {
+	if strings.Contains(e.Output, "coverage:") && strings.Contains(e.Output, "of statements") {
 		s := coverRe.FindString(e.Output)
 		f, err = strconv.ParseFloat(strings.TrimRight(s, "%"), 64)
 		if err != nil {
 			return f, false
 		}
-
 		return f, true
 	}
-
 	return f, false
 }
 

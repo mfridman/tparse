@@ -206,6 +206,10 @@ func TestCoverEvent(t *testing.T) {
 			// 5
 			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: .0% of statements\n"}`, false, zero,
 		},
+		{
+			// 6
+			`{"Time":"2022-05-23T23:07:54.485803-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t0.516s\tcoverage: 34.5% of statements in ./...\n"}`, true, 34.5,
+		},
 	}
 
 	for i, tc := range tt {
