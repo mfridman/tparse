@@ -51,7 +51,6 @@ Options:
 	-format		The output format for tables [basic, plain, markdown]. Default is basic.
 	-file		Read test output from a file.
 	-follow		Follow raw output as go test is running.
-	-ci			Custom markdown for CI/CD. (GitHub only. Inteded output: $GITHUB_STEP_SUMMARY)
 `
 
 var (
