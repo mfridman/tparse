@@ -31,7 +31,7 @@ jobs:
       - name: Run tests with GITHUB_STEP_SUMMARY
         run: |
           go test -count=1 -race ./... -json -cover -coverpkg=./... | tee output.json | ./tparse -notests -follow -all
-          ./tparse -format markdown -file output.json -all > $GITHUB_STEP_SUMMARY
+          NO_COLOR=1 ./tparse -format markdown -file output.json -all > $GITHUB_STEP_SUMMARY
 
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
