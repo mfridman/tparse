@@ -1,0 +1,5 @@
+=== RUN   TestFollow
+--- PASS: TestFollow (0.00s)
+testing: warning: no tests to run
+PASS
+ok  	github.com/mfridman/tparse/tests	(cached) [no tests to run]

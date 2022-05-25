@@ -2,14 +2,13 @@ package parse
 
 import (
 	"sort"
-	"strings"
 )
 
 // Test represents a single, unique, package test.
 type Test struct {
 	Name    string
 	Package string
-	Events
+	Events  []*Event
 }
 
 // Elapsed indicates how long a given test ran (in seconds), by scanning for the largest
@@ -21,18 +20,15 @@ func (t *Test) Elapsed() float64 {
 			f = e.Elapsed
 		}
 	}
-
 	return f
 }
 
 // Status reports the outcome of the test represented as a single Action: pass, fail or skip.
 func (t *Test) Status() Action {
-
 	// sort by time and scan for an action in reverse order.
 	// The first action we come across (in reverse order) is
 	// the outcome of the test, which will be one of pass|fail|skip.
 	t.SortEvents()
-
 	for i := len(t.Events) - 1; i >= 0; i-- {
 		switch t.Events[i].Action {
 		case ActionPass:
@@ -43,25 +39,7 @@ func (t *Test) Status() Action {
 			return ActionFail
 		}
 	}
-
 	return ActionFail
-}
-
-// Stack returns debugging information from output events for failed or skipped tests.
-func (t *Test) Stack() string {
-	t.SortEvents()
-	var stack strings.Builder
-
-	for _, e := range t.Events {
-		// Only output events have useful information. Skip everything else.
-		if e.Action != ActionOutput {
-			continue
-		}
-
-		stack.WriteString(e.Output)
-	}
-
-	return stack.String()
 }
 
 // SortEvents sorts test events by elapsed time in ascending order, i.e., oldest to newest.
@@ -70,12 +48,3 @@ func (t *Test) SortEvents() {
 		return t.Events[i].Time.Before(t.Events[j].Time)
 	})
 }
-
-var (
-	reports = []string{
-		"--- PASS: ",
-		"--- FAIL: ",
-		"--- SKIP: ",
-		// "--- BENCH: ", TODO(mf): implement.
-	}
-)

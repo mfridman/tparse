@@ -1,0 +1,8 @@
+{"Time":"2022-05-15T22:44:38.670279-04:00","Action":"run","Package":"github.com/mfridman/tparse/tests","Test":"TestFollow"}
+{"Time":"2022-05-15T22:44:38.670387-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestFollow","Output":"=== RUN   TestFollow\n"}
+{"Time":"2022-05-15T22:44:38.670399-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestFollow","Output":"--- PASS: TestFollow (0.00s)\n"}
+{"Time":"2022-05-15T22:44:38.670403-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Test":"TestFollow","Output":"testing: warning: no tests to run\n"}
+{"Time":"2022-05-15T22:44:38.670406-04:00","Action":"pass","Package":"github.com/mfridman/tparse/tests","Test":"TestFollow","Elapsed":0}
+{"Time":"2022-05-15T22:44:38.67041-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"PASS\n"}
+{"Time":"2022-05-15T22:44:38.670413-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t(cached) [no tests to run]\n"}
+{"Time":"2022-05-15T22:44:38.67042-04:00","Action":"pass","Package":"github.com/mfridman/tparse/tests","Elapsed":0}

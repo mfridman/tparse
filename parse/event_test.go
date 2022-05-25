@@ -1,56 +1,55 @@
 package parse
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
 	"strings"
 	"testing"
 
-	"github.com/pkg/errors"
+	"github.com/mfridman/tparse/internal/check"
 )
 
 func TestNewEvent(t *testing.T) {
-
 	t.Parallel()
 
 	tt := []struct {
-		event             string
-		action            Action
-		pkg               string
-		test              string
-		output            string
-		discard, lastLine bool
+		raw                    string
+		action                 Action
+		pkg                    string
+		test                   string
+		output                 string
+		discardOutput          bool
+		lastLine               bool
+		discardEmptyTestOutput bool
 	}{
 		{
 			// 0
 			`{"Time":"2018-10-15T21:03:52.728302-04:00","Action":"run","Package":"fmt","Test":"TestFmtInterface"}`,
-			ActionRun, "fmt", "TestFmtInterface", "", false, false,
+			ActionRun, "fmt", "TestFmtInterface", "", false, false, false,
 		},
 		{
 			// 1
 			`{"Time":"2018-10-15T21:03:56.232164-04:00","Action":"output","Package":"strings","Test":"ExampleBuilder","Output":"--- PASS: ExampleBuilder (0.00s)\n"}`,
-			ActionOutput, "strings", "ExampleBuilder", "--- PASS: ExampleBuilder (0.00s)\n", false, false,
+			ActionOutput, "strings", "ExampleBuilder", "--- PASS: ExampleBuilder (0.00s)\n", false, false, false,
 		},
 		{
 			// 2
 			`{"Time":"2018-10-15T21:03:56.235807-04:00","Action":"pass","Package":"strings","Elapsed":3.5300000000000002}`,
-			ActionPass, "strings", "", "", false, true,
+			ActionPass, "strings", "", "", false, true, false,
 		},
 		{
 			// 3
 			`{"Time":"2018-10-15T21:00:51.379156-04:00","Action":"pass","Package":"fmt","Elapsed":0.066}`,
-			ActionPass, "fmt", "", "", false, true,
+			ActionPass, "fmt", "", "", false, true, false,
 		},
 		{
 			// 4
 			`{"Time":"2018-10-15T22:57:28.23799-04:00","Action":"pass","Package":"github.com/astromail/rover/tests","Elapsed":0.582}`,
-			ActionPass, "github.com/astromail/rover/tests", "", "", false, true,
+			ActionPass, "github.com/astromail/rover/tests", "", "", false, true, false,
 		},
 		{
 			// 5
 			`{"Time":"2018-10-15T21:00:38.738631-04:00","Action":"pass","Package":"strings","Test":"ExampleTrimRightFunc","Elapsed":0}`,
-			ActionPass, "strings", "ExampleTrimRightFunc", "", false, false,
+			ActionPass, "strings", "ExampleTrimRightFunc", "", false, false, false,
 		},
 		{
 			// 6
@@ -59,13 +58,14 @@ func TestNewEvent(t *testing.T) {
 			"github.com/astromail/rover/tests",
 			"",
 			"2018/10/15 23:00:27 Replaying from value pointer: {Fid:0 Len:0 Offset:0}\n",
-			true,
 			false,
+			false,
+			true,
 		},
 		{
 			// 7
 			`{"Time":"2018-10-15T23:00:28.430825-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Output":"PASS\n"}`,
-			ActionOutput, "github.com/astromail/rover/tests", "", "PASS\n", true, false,
+			ActionOutput, "github.com/astromail/rover/tests", "", "PASS\n", false, false, true,
 		},
 		{
 			// 8
@@ -74,8 +74,9 @@ func TestNewEvent(t *testing.T) {
 			"github.com/astromail/rover/tests",
 			"",
 			"ok  \tgithub.com/astromail/rover/tests\t0.530s\n",
-			true,
 			false,
+			false,
+			true,
 		},
 		{
 			// 9
@@ -84,110 +85,100 @@ func TestNewEvent(t *testing.T) {
 			"github.com/mfridman/srfax",
 			"",
 			"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n",
-			true,
 			false,
+			false,
+			true,
 		},
 	}
 
-	for i, test := range tt {
-
-		i, test := i, test
-
+	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
+			e, err := NewEvent([]byte(tc.raw))
+			check.NoError(t, err)
 
-			t.Parallel()
-
-			e, err := NewEvent([]byte(test.event))
-			if err != nil {
-				t.Error(errors.Wrapf(err, "failed to parse test event:\n%v", test.event))
+			if e.Action != tc.action {
+				t.Errorf("wrong action: got %q, want %q", e.Action, tc.action)
 			}
-
-			if e.Action != test.action {
-				t.Errorf("wrong action: got %q, want %q", e.Action, test.action)
+			if e.Package != tc.pkg {
+				t.Errorf("wrong pkg name: got %q, want %q", e.Package, tc.pkg)
 			}
-			if e.Package != test.pkg {
-				t.Errorf("wrong pkg name: got %q, want %q", e.Package, test.pkg)
+			if e.Output != tc.output {
+				t.Errorf("wrong output: got %q, want %q", e.Output, tc.output)
 			}
-			if e.Output != test.output {
-				t.Errorf("wrong output: got %q, want %q", e.Output, test.output)
+			if e.Test != tc.test {
+				t.Errorf("wrong test name: got %q, want %q", e.Test, tc.test)
 			}
-			if e.Test != test.test {
-				t.Errorf("wrong test name: got %q, want %q", e.Test, test.test)
+			if e.LastLine() != tc.lastLine {
+				t.Errorf("failed lastLine check: got %v, want %v", e.LastLine(), tc.lastLine)
 			}
-			if e.LastLine() != test.lastLine {
-				t.Errorf("failed lastLine check: got %v, want %v", e.LastLine(), test.lastLine)
+			if e.DiscardOutput() != tc.discardOutput {
+				t.Errorf("failed discard check: got %v, want %v", e.DiscardOutput(), tc.discardOutput)
 			}
-			if e.Discard() != test.discard {
-				t.Errorf("failed discard check: got %v, want %v", e.Discard(), test.discard)
+			if e.DiscardEmptyTestOutput() != tc.discardEmptyTestOutput {
+				t.Errorf("failed discard empty test output check: got %v, want %v", e.DiscardEmptyTestOutput(), tc.discardOutput)
 			}
-
 			if t.Failed() {
-				t.Logf("failed event: %v", test.event)
+				t.Logf("failed event: %v", tc.raw)
 			}
-
 		})
-
 	}
 }
 
 func TestCachedEvent(t *testing.T) {
-
 	t.Parallel()
 
 	tt := []struct {
-		input  string
+		raw    string
 		cached bool
 	}{
 		{
 			// 0
-			`{"Time":"2018-10-24T08:30:14.566611-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n"}`, true,
+			`{"Time":"2018-10-24T08:30:14.566611-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t(cached)\n"}`,
+			true,
 		},
 		{
 			// 1
-			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"}`, true,
+			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"}`,
+			true,
 		},
 		{
 			// 2
-			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"github.com/mfridman/srfax\t(cached)"}`, false,
+			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"github.com/mfridman/srfax\t(cached)"}`,
+			false,
 		},
 		{
 			// 3
-			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"(cached)"}`, false,
+			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"(cached)"}`,
+			false,
 		},
 		{
 			// 4
-			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":""}`, false,
+			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":""}`,
+			false,
 		},
 	}
 
-	for i, test := range tt {
-
+	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
-			e, err := NewEvent([]byte(test.input))
-			if err != nil {
-				t.Fatal(err)
-			}
+			e, err := NewEvent([]byte(tc.raw))
+			check.NoError(t, err)
 
 			got := e.IsCached()
-			want := test.cached
-
+			want := tc.cached
 			if got != want {
 				t.Errorf("got non-cached output (%t), want cached output (%t)", got, want)
-				t.Logf("input: %v", test.input)
+				t.Logf("input: %v", tc.raw)
 			}
 		})
-
 	}
 }
 func TestCoverEvent(t *testing.T) {
-
 	t.Parallel()
 
-	// long live Golang zero value.
 	var zero float64
 
 	tt := []struct {
-		input    string
+		raw      string
 		cover    bool
 		coverage float64
 	}{
@@ -215,40 +206,36 @@ func TestCoverEvent(t *testing.T) {
 			// 5
 			`{"Time":"2018-10-24T08:48:23.634909-04:00","Action":"output","Package":"github.com/mfridman/srfax","Output":"ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: .0% of statements\n"}`, false, zero,
 		},
+		{
+			// 6
+			`{"Time":"2022-05-23T23:07:54.485803-04:00","Action":"output","Package":"github.com/mfridman/tparse/tests","Output":"ok  \tgithub.com/mfridman/tparse/tests\t0.516s\tcoverage: 34.5% of statements in ./...\n"}`, true, 34.5,
+		},
 	}
 
-	for i, test := range tt {
-
+	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
-			e, err := NewEvent([]byte(test.input))
-			if err != nil {
-				t.Fatal(err)
-			}
+			e, err := NewEvent([]byte(tc.raw))
+			check.NoError(t, err)
 
 			f, ok := e.Cover()
-			if ok != test.cover {
-				t.Errorf("got (%t) non-coverage event, want %t", ok, test.cover)
+			if ok != tc.cover {
+				t.Errorf("got (%t) non-coverage event, want %t", ok, tc.cover)
 			}
-
-			if f != test.coverage {
-				t.Errorf("got wrong percentage for coverage %v, want %v", f, test.coverage)
+			if f != tc.coverage {
+				t.Errorf("got wrong percentage for coverage %v, want %v", f, tc.coverage)
 			}
-
 			if t.Failed() {
-				t.Logf("input: %v", test.input)
+				t.Logf("input: %v", tc.raw)
 			}
 		})
-
 	}
 }
 
 func TestNoTestFiles(t *testing.T) {
-	// [no test files]
-
 	t.Parallel()
-
+	// [no test files]
 	tt := []struct {
-		input       string
+		raw         string
 		noTestFiles bool
 	}{
 		{
@@ -269,35 +256,27 @@ func TestNoTestFiles(t *testing.T) {
 		},
 	}
 
-	for i, test := range tt {
-
+	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
-			e, err := NewEvent([]byte(test.input))
-			if err != nil {
-				t.Fatal(err)
-			}
+			e, err := NewEvent([]byte(tc.raw))
+			check.NoError(t, err)
 
 			got := e.NoTestFiles()
-			want := test.noTestFiles
-
+			want := tc.noTestFiles
 			if got != want {
 				t.Errorf("got (%t), want (%t) for no test files", got, want)
-				t.Logf("input: %v", test.input)
+				t.Logf("input: %v", tc.raw)
 			}
 		})
-
 	}
 }
 
 func TestNoTestsToRun(t *testing.T) {
-	// [no test files]
-
-	// This is testing the "package" level
-
 	t.Parallel()
-
+	// [no test files]
+	// This is testing the "package" level
 	tt := []struct {
-		input   string
+		raw     string
 		noTests bool
 	}{
 		{
@@ -316,35 +295,27 @@ func TestNoTestsToRun(t *testing.T) {
 		},
 	}
 
-	for i, test := range tt {
-
+	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
-			e, err := NewEvent([]byte(test.input))
-			if err != nil {
-				t.Fatal(err)
-			}
+			e, err := NewEvent([]byte(tc.raw))
+			check.NoError(t, err)
 
 			got := e.NoTestsToRun()
-			want := test.noTests
-
+			want := tc.noTests
 			if got != want {
 				t.Errorf("got (%t), want (%t) for no tests to run", got, want)
-				t.Logf("input: %v", test.input)
+				t.Logf("input: %v", tc.raw)
 			}
 		})
-
 	}
 }
 
 func TestNoTestsWarn(t *testing.T) {
-	// [no test files]
-
-	// This is testing the "test" level only
-
 	t.Parallel()
-
+	// [no test files]
+	// This is testing the "test" level only
 	tt := []struct {
-		input      string
+		raw        string
 		wanNoTests bool
 	}{
 		{
@@ -365,28 +336,22 @@ func TestNoTestsWarn(t *testing.T) {
 		},
 	}
 
-	for i, test := range tt {
-
+	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
-			e, err := NewEvent([]byte(test.input))
-			if err != nil {
-				t.Fatal(err)
-			}
+			e, err := NewEvent([]byte(tc.raw))
+			check.NoError(t, err)
 
 			got := e.NoTestsWarn()
-			want := test.wanNoTests
-
+			want := tc.wanNoTests
 			if got != want {
 				t.Errorf("got (%t), want (%t) for warn no tests to run", got, want)
-				t.Logf("input: %v", test.input)
+				t.Logf("input: %v", tc.raw)
 			}
 		})
-
 	}
 }
 
 func TestActionString(t *testing.T) {
-
 	t.Parallel()
 
 	tt := []struct {
@@ -401,7 +366,6 @@ func TestActionString(t *testing.T) {
 		{ActionOutput, "OUTPUT"},
 		{ActionSkip, "SKIP"},
 	}
-
 	for _, tc := range tt {
 		upper := strings.ToUpper(tc.String())
 		if upper != tc.want {
@@ -410,102 +374,22 @@ func TestActionString(t *testing.T) {
 	}
 }
 
-func TestPackageCache(t *testing.T) {
-
+func TestDiscardOutput(t *testing.T) {
 	t.Parallel()
 
-	// This test depends on cached_test.json, which contains the output of 4 std lib packages.
-	// go clean -testcache
-	// go test strings fmt -json
-	// go test strings fmt mime time -json
+	// Table test for JSON events that should be discarded
+	tt := []string{
+		`{"Time":"2018-11-24T23:18:44.381562-05:00","Action":"output","Package":"time","Test":"TestMonotonicOverflow","Output":"=== RUN   TestMonotonicOverflow\n"}`,
 
-	// Where bool indicates whether the package is expected to be marked as cached.
-	expected := map[string]bool{
-		"strings": true,
-		"fmt":     true,
-		"time":    false,
-		"mime":    false,
+		`{"Time":"2018-10-28T23:41:31.939308-04:00","Action":"output","Package":"github.com/mfridman/tparse/parse","Test":"TestNewEvent","Output":"=== PAUSE TestNewEvent\n"}`,
+
+		`{"Time":"2022-05-20T20:16:06.761846-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne","Output":"=== CONT  TestNowAllowMissingUpByOne\n"}`,
 	}
-
-	f := "./testdata/cached_test.json"
-	by, err := ioutil.ReadFile(f)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	pkgs, err := Process(bytes.NewReader(by))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if len(pkgs) != 4 {
-		for n := range pkgs {
-			t.Log("got pkg name:", n)
+	for _, tc := range tt {
+		e, err := NewEvent([]byte(tc))
+		check.NoError(t, err)
+		if e.DiscardOutput() != true {
+			t.Errorf("%s - %s failed discard check: got:%v, want:%v", e.Package, e.Test, e.DiscardOutput(), true)
 		}
-		t.Fatalf("got %d packages, want four packages", len(pkgs))
-	}
-
-	for name, pkg := range pkgs {
-		t.Run(name, func(t *testing.T) {
-			wantCached, ok := expected[name]
-			if !ok {
-				t.Fatalf("got unexpected package name: %q", name)
-			}
-
-			if pkg.Cached != wantCached {
-				t.Fatalf("got %t, want package %q to have cached field marked %t", pkg.Cached, name, wantCached)
-			}
-		})
-	}
-}
-
-func TestPackageCover(t *testing.T) {
-
-	t.Parallel()
-
-	// This test depends on cover_test.json, which contains the output of 3 std lib packages.
-	// go test bytes log sort -json -cover
-
-	// Where bool indicates whether the package is expected to have coverage.
-	expected := map[string]float64{
-		"log":   68.0,
-		"bytes": 86.7,
-		"sort":  60.8,
-	}
-
-	f := "./testdata/cover_test.json"
-	by, err := ioutil.ReadFile(f)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	pkgs, err := Process(bytes.NewReader(by))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if len(pkgs) != 3 {
-		for n := range pkgs {
-			t.Log("got pkg name:", n)
-		}
-		t.Fatalf("got %d packages, want three packages", len(pkgs))
-	}
-
-	for name, pkg := range pkgs {
-		t.Run(name, func(t *testing.T) {
-			wantCover, ok := expected[name]
-			if !ok {
-				t.Fatalf("got unexpected package name: %q", name)
-			}
-
-			if pkg.Coverage != wantCover {
-				t.Fatalf("got cover %v, want package %q cover to be %v", pkg.Coverage, name, wantCover)
-			}
-
-			var f float64
-			if pkg.Coverage > f && !pkg.Cover {
-				t.Fatalf("got %v, want package %q to have cover field marked as true when coverage %v>%v", pkg.Cover, name, pkg.Coverage, f)
-			}
-		})
 	}
 }

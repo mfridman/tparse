@@ -1,0 +1,28 @@
+{"Time":"2022-05-23T10:22:27.087816-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"testing: warning: no tests to run\n"}
+{"Time":"2022-05-23T10:22:27.088274-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"PASS\n"}
+{"Time":"2022-05-23T10:22:27.088645-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"2\n"}
+{"Time":"2022-05-23T10:22:27.089042-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"==================\n"}
+{"Time":"2022-05-23T10:22:27.089065-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"WARNING: DATA RACE\n"}
+{"Time":"2022-05-23T10:22:27.08908-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"Read at 0x00c0000b0178 by goroutine 7:\n"}
+{"Time":"2022-05-23T10:22:27.089102-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"  github.com/mfridman/debug-go/testing_test.TestMain.func1()\n"}
+{"Time":"2022-05-23T10:22:27.089119-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/testing/main_test.go:16 +0x3c\n"}
+{"Time":"2022-05-23T10:22:27.089138-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"\n"}
+{"Time":"2022-05-23T10:22:27.089151-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"Previous write at 0x00c0000b0178 by main goroutine:\n"}
+{"Time":"2022-05-23T10:22:27.089163-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"  github.com/mfridman/debug-go/testing_test.TestMain()\n"}
+{"Time":"2022-05-23T10:22:27.089175-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/testing/main_test.go:14 +0x98\n"}
+{"Time":"2022-05-23T10:22:27.089187-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"  main.main()\n"}
+{"Time":"2022-05-23T10:22:27.089198-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"      _testmain.go:47 +0x304\n"}
+{"Time":"2022-05-23T10:22:27.08921-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"\n"}
+{"Time":"2022-05-23T10:22:27.089222-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"Goroutine 7 (running) created at:\n"}
+{"Time":"2022-05-23T10:22:27.089256-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"  github.com/mfridman/debug-go/testing_test.TestMain()\n"}
+{"Time":"2022-05-23T10:22:27.089269-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"      /Users/mfridman/src/github.com/mfridman/debug-go/testing/main_test.go:15 +0x80\n"}
+{"Time":"2022-05-23T10:22:27.089282-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"  main.main()\n"}
+{"Time":"2022-05-23T10:22:27.089293-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"      _testmain.go:47 +0x304\n"}
+{"Time":"2022-05-23T10:22:27.089305-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"==================\n"}
+{"Time":"2022-05-23T10:22:27.089317-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"2\n"}
+{"Time":"2022-05-23T10:22:27.089338-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"2\n"}
+{"Time":"2022-05-23T10:22:27.08935-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"4\n"}
+{"Time":"2022-05-23T10:22:27.089364-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"5\n"}
+{"Time":"2022-05-23T10:22:27.10081-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"Found 1 data race(s)\n"}
+{"Time":"2022-05-23T10:22:27.101697-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"FAIL\tgithub.com/mfridman/debug-go/testing\t0.173s\n"}
+{"Time":"2022-05-23T10:22:27.101757-04:00","Action":"fail","Package":"github.com/mfridman/debug-go/testing","Elapsed":0.173}

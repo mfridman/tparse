@@ -1,2 +1,0 @@
-    bug_fix_test.go:16: unexpected end of JSON input
---- FAIL: TestIssue_43 (0.00s)

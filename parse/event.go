@@ -2,10 +2,15 @@ package parse
 
 import (
 	"encoding/json"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
+)
+
+var (
+	coverRe = regexp.MustCompile(`[0-9]{1,3}\.[0-9]{1}\%`)
 )
 
 // Event represents a single line of json output from go test with the -json flag.
@@ -38,44 +43,51 @@ type Event struct {
 	Elapsed float64
 }
 
+func (e *Event) String() string {
+	return fmt.Sprintf(
+		"%-6s - %s - %s elapsed[%.2f] - time[%s]\n%v",
+		strings.ToUpper(e.Action.String()),
+		e.Package,
+		e.Test,
+		e.Elapsed,
+		e.Time.Format(time.StampMicro),
+		e.Output,
+	)
+}
+
 // NewEvent attempts to decode data into an Event.
 func NewEvent(data []byte) (*Event, error) {
 	var e Event
 	if err := json.Unmarshal(data, &e); err != nil {
 		return nil, err
 	}
-
 	return &e, nil
 }
 
-// Events is a slice of events belonging to a single test based on test name.
-// All events must belong to a single test and thus a single package.
-type Events []*Event
-
-// Discard reports whether an "output" action:
-//
-// 1. is an update action: RUN, PAUSE, CONT
-//
-// 2. has no test name
-//
-// If output is not one of the above return false.
-func (e *Event) Discard() bool {
+// DiscardOutput reports whether to discard output that belongs to one of
+// the output update actions:
+// === RUN
+// === PAUSE
+// === CONT
+// If output is none one of the above return false.
+func (e *Event) DiscardOutput() bool {
 	for i := range updates {
 		if strings.HasPrefix(e.Output, updates[i]) {
 			return true
 		}
 	}
+	return false
+}
 
+func (e *Event) DiscardEmptyTestOutput() bool {
 	return e.Action == ActionOutput && e.Test == ""
 }
 
-var (
-	updates = []string{
-		"=== RUN   ",
-		"=== PAUSE ",
-		"=== CONT  ",
-	}
-)
+var updates = []string{
+	"=== RUN   ",
+	"=== PAUSE ",
+	"=== CONT  ",
+}
 
 // Let's try using the LastLine method to report the package result.
 // If there are issues with LastLine() we can switch to this method.
@@ -125,22 +137,18 @@ func (e *Event) IsCached() bool {
 // Cover reports special event case for package coverage:
 // "ok  \tgithub.com/mfridman/srfax\t(cached)\tcoverage: 28.8% of statements\n"
 // "ok  \tgithub.com/mfridman/srfax\t0.027s\tcoverage: 28.8% of statements\n"
+// "ok  \tgithub.com/mfridman/tparse/tests\t0.516s\tcoverage: 34.5% of statements in ./...\n"
 func (e *Event) Cover() (float64, bool) {
-	var re = regexp.MustCompile(`[0-9]{1,3}\.[0-9]{1}\%`)
-
 	var f float64
 	var err error
-
-	if strings.Contains(e.Output, "coverage:") && strings.HasSuffix(e.Output, "of statements\n") {
-		s := re.FindString(e.Output)
+	if strings.Contains(e.Output, "coverage:") && strings.Contains(e.Output, "of statements") {
+		s := coverRe.FindString(e.Output)
 		f, err = strconv.ParseFloat(strings.TrimRight(s, "%"), 64)
 		if err != nil {
 			return f, false
 		}
-
 		return f, true
 	}
-
 	return f, false
 }
 
@@ -153,11 +161,16 @@ func (e *Event) IsRace() bool {
 func (e *Event) IsPanic() bool {
 	// Let's see how this goes. If a user has this in one of their output lines, I think it's
 	// defensible to suggest updating their output.
-	//
-	// The Go tests occasionally output these "keywords" along with "as expected"
+	if strings.HasPrefix(e.Output, "panic: ") {
+		return true
+	}
+	// The golang/go test suite occasionally outputs these keywords along with "as expected":
 	// time_test.go:1359: panic in goroutine 7, as expected, with "runtime error: racy use of timers"
-	return strings.HasPrefix(e.Output, "panic: ") ||
-		(strings.Contains(e.Output, "runtime error:") && !strings.Contains(e.Output, "as expected"))
+	if strings.Contains(e.Output, "runtime error:") && !strings.Contains(e.Output, "as expected") {
+		return true
+	}
+	return false
+
 }
 
 // Action is one of a fixed set of actions describing a single emitted event.

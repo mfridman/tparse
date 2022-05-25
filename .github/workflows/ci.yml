@@ -12,24 +12,33 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: ["1.16", "1.17", "1.18"]
+        go: ["1.18"]
     env:
       VERBOSE: 1
 
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go }}
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build
         run: go build -v .
 
-      - name: Run tests
-        run: go test -count=1 -race ./parse -json -cover | ./tparse -all -top
+      - name: Run tests with GITHUB_STEP_SUMMARY
+        run: |
+          go test -count=1 -race ./... -json -cover -coverpkg=./... | tee output.json | ./tparse -notests -follow -all
+          NO_COLOR=1 ./tparse -format markdown -file output.json -all > $GITHUB_STEP_SUMMARY
 
       - name: Run tparse w/ std lib
-        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -pass
+        run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
+
+      # - name: Run tparse w/ std lib (GITHUB_STEP_SUMMARY)
+      #   env:
+      #     NO_COLOR: 1
+      #   run: |
+      #     go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover |\
+      #       ./tparse -format=markdown >> $GITHUB_STEP_SUMMARY

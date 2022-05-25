@@ -1,0 +1,296 @@
+{"Time":"2022-05-15T22:45:41.641493-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing"}
+{"Time":"2022-05-15T22:45:41.641544-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"=== RUN   TestNotAllowMissing\n"}
+{"Time":"2022-05-15T22:45:41.641552-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"=== PAUSE TestNotAllowMissing\n"}
+{"Time":"2022-05-15T22:45:41.641555-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing"}
+{"Time":"2022-05-15T22:45:41.641558-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo"}
+{"Time":"2022-05-15T22:45:41.641563-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"=== RUN   TestAllowMissingUpWithRedo\n"}
+{"Time":"2022-05-15T22:45:41.641568-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"=== PAUSE TestAllowMissingUpWithRedo\n"}
+{"Time":"2022-05-15T22:45:41.641571-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo"}
+{"Time":"2022-05-15T22:45:41.641577-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne"}
+{"Time":"2022-05-15T22:45:41.64158-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne","Output":"=== RUN   TestNowAllowMissingUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641583-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne","Output":"=== PAUSE TestNowAllowMissingUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641585-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne"}
+{"Time":"2022-05-15T22:45:41.641588-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset"}
+{"Time":"2022-05-15T22:45:41.641591-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"=== RUN   TestAllowMissingUpWithReset\n"}
+{"Time":"2022-05-15T22:45:41.641593-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"=== PAUSE TestAllowMissingUpWithReset\n"}
+{"Time":"2022-05-15T22:45:41.641596-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset"}
+{"Time":"2022-05-15T22:45:41.641599-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne"}
+{"Time":"2022-05-15T22:45:41.641601-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"=== RUN   TestAllowMissingUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641604-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"=== PAUSE TestAllowMissingUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641607-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne"}
+{"Time":"2022-05-15T22:45:41.641609-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown"}
+{"Time":"2022-05-15T22:45:41.641612-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown","Output":"=== RUN   TestMigrateAllowMissingDown\n"}
+{"Time":"2022-05-15T22:45:41.641615-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown","Output":"=== PAUSE TestMigrateAllowMissingDown\n"}
+{"Time":"2022-05-15T22:45:41.641617-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown"}
+{"Time":"2022-05-15T22:45:41.64162-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset"}
+{"Time":"2022-05-15T22:45:41.641627-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"=== RUN   TestMigrateUpWithReset\n"}
+{"Time":"2022-05-15T22:45:41.64163-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"=== PAUSE TestMigrateUpWithReset\n"}
+{"Time":"2022-05-15T22:45:41.641633-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset"}
+{"Time":"2022-05-15T22:45:41.641636-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo"}
+{"Time":"2022-05-15T22:45:41.641638-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"=== RUN   TestMigrateUpWithRedo\n"}
+{"Time":"2022-05-15T22:45:41.641641-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"=== PAUSE TestMigrateUpWithRedo\n"}
+{"Time":"2022-05-15T22:45:41.641644-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo"}
+{"Time":"2022-05-15T22:45:41.641646-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo"}
+{"Time":"2022-05-15T22:45:41.641649-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"=== RUN   TestMigrateUpTo\n"}
+{"Time":"2022-05-15T22:45:41.641652-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"=== PAUSE TestMigrateUpTo\n"}
+{"Time":"2022-05-15T22:45:41.641654-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo"}
+{"Time":"2022-05-15T22:45:41.641657-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne"}
+{"Time":"2022-05-15T22:45:41.641659-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"=== RUN   TestMigrateUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641662-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"=== PAUSE TestMigrateUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641665-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne"}
+{"Time":"2022-05-15T22:45:41.641667-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull"}
+{"Time":"2022-05-15T22:45:41.64167-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"=== RUN   TestMigrateFull\n"}
+{"Time":"2022-05-15T22:45:41.641673-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"=== PAUSE TestMigrateFull\n"}
+{"Time":"2022-05-15T22:45:41.641675-04:00","Action":"pause","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull"}
+{"Time":"2022-05-15T22:45:41.641677-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning"}
+{"Time":"2022-05-15T22:45:41.64168-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"=== RUN   TestNoVersioning\n"}
+{"Time":"2022-05-15T22:45:41.641686-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:57 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641689-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:57 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641691-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:57 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.641694-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:57 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.641701-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:57 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.641704-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:57 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.641707-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:58 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.641709-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:58 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.641712-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:58 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.641714-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:58 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.641717-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:58 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.64172-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"2022/05/15 22:06:58 goose: no migrations to run. current version: 11\n"}
+{"Time":"2022-05-15T22:45:41.641724-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero"}
+{"Time":"2022-05-15T22:45:41.641727-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"=== RUN   TestNoVersioning/seed-up-down-to-zero\n"}
+{"Time":"2022-05-15T22:45:41.64173-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"2022/05/15 22:06:58 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641735-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641737-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"2022/05/15 22:06:58 goose: up to current file version: 2\n"}
+{"Time":"2022-05-15T22:45:41.641741-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641744-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"2022/05/15 22:06:58 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641746-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"2022/05/15 22:06:58 goose: down to current file version: 0\n"}
+{"Time":"2022-05-15T22:45:41.641749-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset"}
+{"Time":"2022-05-15T22:45:41.641752-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"=== RUN   TestNoVersioning/test-seed-up-reset\n"}
+{"Time":"2022-05-15T22:45:41.641754-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"2022/05/15 22:06:58 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641757-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641763-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"2022/05/15 22:06:58 goose: up to current file version: 2\n"}
+{"Time":"2022-05-15T22:45:41.641766-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641769-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"2022/05/15 22:06:58 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641772-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"2022/05/15 22:06:58 goose: down to current file version: 0\n"}
+{"Time":"2022-05-15T22:45:41.641775-04:00","Action":"run","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo"}
+{"Time":"2022-05-15T22:45:41.641778-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"=== RUN   TestNoVersioning/test-seed-up-redo\n"}
+{"Time":"2022-05-15T22:45:41.641783-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"2022/05/15 22:06:58 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641785-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641788-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"2022/05/15 22:06:58 goose: up to current file version: 2\n"}
+{"Time":"2022-05-15T22:45:41.641791-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641793-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"2022/05/15 22:06:58 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641797-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Output":"--- PASS: TestNoVersioning (2.43s)\n"}
+{"Time":"2022-05-15T22:45:41.6418-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Output":"    --- PASS: TestNoVersioning/seed-up-down-to-zero (0.02s)\n"}
+{"Time":"2022-05-15T22:45:41.641803-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/seed-up-down-to-zero","Elapsed":0.02}
+{"Time":"2022-05-15T22:45:41.64181-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Output":"    --- PASS: TestNoVersioning/test-seed-up-reset (0.02s)\n"}
+{"Time":"2022-05-15T22:45:41.641813-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-reset","Elapsed":0.02}
+{"Time":"2022-05-15T22:45:41.641816-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Output":"    --- PASS: TestNoVersioning/test-seed-up-redo (0.02s)\n"}
+{"Time":"2022-05-15T22:45:41.641818-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning/test-seed-up-redo","Elapsed":0.02}
+{"Time":"2022-05-15T22:45:41.641821-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNoVersioning","Elapsed":2.43}
+{"Time":"2022-05-15T22:45:41.641823-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing"}
+{"Time":"2022-05-15T22:45:41.641826-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"=== CONT  TestNotAllowMissing\n"}
+{"Time":"2022-05-15T22:45:41.641834-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset"}
+{"Time":"2022-05-15T22:45:41.641837-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"=== CONT  TestMigrateUpWithReset\n"}
+{"Time":"2022-05-15T22:45:41.641839-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset"}
+{"Time":"2022-05-15T22:45:41.641842-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"=== CONT  TestAllowMissingUpWithReset\n"}
+{"Time":"2022-05-15T22:45:41.641845-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne"}
+{"Time":"2022-05-15T22:45:41.641847-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne","Output":"=== CONT  TestNowAllowMissingUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.64185-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull"}
+{"Time":"2022-05-15T22:45:41.641852-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"=== CONT  TestMigrateFull\n"}
+{"Time":"2022-05-15T22:45:41.641855-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo"}
+{"Time":"2022-05-15T22:45:41.641857-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"=== CONT  TestAllowMissingUpWithRedo\n"}
+{"Time":"2022-05-15T22:45:41.64186-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown"}
+{"Time":"2022-05-15T22:45:41.641862-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown","Output":"=== CONT  TestMigrateAllowMissingDown\n"}
+{"Time":"2022-05-15T22:45:41.641864-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne"}
+{"Time":"2022-05-15T22:45:41.641867-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"=== CONT  TestAllowMissingUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.641869-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641872-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641874-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.641877-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.641879-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.641882-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.641884-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.641886-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"2022/05/15 22:07:01 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.641889-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Output":"--- PASS: TestAllowMissingUpByOne (3.18s)\n"}
+{"Time":"2022-05-15T22:45:41.641896-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpByOne","Elapsed":3.18}
+{"Time":"2022-05-15T22:45:41.641898-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo"}
+{"Time":"2022-05-15T22:45:41.641901-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"=== CONT  TestMigrateUpWithRedo\n"}
+{"Time":"2022-05-15T22:45:41.641903-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"2022/05/15 22:07:01 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641906-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"2022/05/15 22:07:01 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641908-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"2022/05/15 22:07:01 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.641911-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"2022/05/15 22:07:01 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.641913-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"2022/05/15 22:07:01 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.641916-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"2022/05/15 22:07:01 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.64192-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne","Output":"--- PASS: TestNowAllowMissingUpByOne (3.70s)\n"}
+{"Time":"2022-05-15T22:45:41.641922-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNowAllowMissingUpByOne","Elapsed":3.7}
+{"Time":"2022-05-15T22:45:41.641925-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne"}
+{"Time":"2022-05-15T22:45:41.641927-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"=== CONT  TestMigrateUpByOne\n"}
+{"Time":"2022-05-15T22:45:41.64193-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641932-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641935-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.641937-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.64194-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.641942-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.641946-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.641948-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.641951-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.641957-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.64196-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.641963-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.641965-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.641969-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.641972-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.641974-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.641977-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.641979-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.641983-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:02 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.641986-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown","Output":"--- PASS: TestMigrateAllowMissingDown (4.08s)\n"}
+{"Time":"2022-05-15T22:45:41.641989-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateAllowMissingDown","Elapsed":4.08}
+{"Time":"2022-05-15T22:45:41.641991-04:00","Action":"cont","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo"}
+{"Time":"2022-05-15T22:45:41.641993-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"=== CONT  TestMigrateUpTo\n"}
+{"Time":"2022-05-15T22:45:41.641996-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.641999-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642001-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642003-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 goose: no migrations to run. current version: 11\n"}
+{"Time":"2022-05-15T22:45:41.642006-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642008-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642011-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642013-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.64202-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642022-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642025-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642027-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.64203-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642032-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642035-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642037-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"2022/05/15 22:07:02 goose: no migrations to run. current version: 0\n"}
+{"Time":"2022-05-15T22:45:41.64204-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"--- PASS: TestMigrateFull (4.40s)\n"}
+{"Time":"2022-05-15T22:45:41.642042-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642046-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642048-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642051-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642053-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642056-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642058-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.64206-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642063-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642065-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642068-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642072-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642079-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642082-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642084-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:02 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642087-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642089-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642092-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 goose: no migrations to run. current version: 11\n"}
+{"Time":"2022-05-15T22:45:41.642094-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642097-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642101-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642104-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642106-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642108-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642111-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642113-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642116-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.64212-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642126-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Output":"2022/05/15 22:07:03 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642129-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateFull","Elapsed":4.4}
+{"Time":"2022-05-15T22:45:41.642132-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"--- PASS: TestNotAllowMissing (4.95s)\n"}
+{"Time":"2022-05-15T22:45:41.642135-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642137-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.64214-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642146-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642148-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642151-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642153-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642156-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642158-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642161-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642163-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestNotAllowMissing","Elapsed":4.95}
+{"Time":"2022-05-15T22:45:41.642166-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"--- PASS: TestAllowMissingUpWithReset (5.07s)\n"}
+{"Time":"2022-05-15T22:45:41.642169-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642173-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642176-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642178-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.64218-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642183-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642185-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642188-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.64219-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642193-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642195-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Output":"2022/05/15 22:07:03 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642198-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithReset","Elapsed":5.07}
+{"Time":"2022-05-15T22:45:41.642204-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"--- PASS: TestAllowMissingUpWithRedo (5.22s)\n"}
+{"Time":"2022-05-15T22:45:41.642207-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.64221-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 goose: no migrations to run. current version: 11\n"}
+{"Time":"2022-05-15T22:45:41.642212-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642214-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642217-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642219-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642222-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642224-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642227-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642229-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642231-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642234-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642236-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Output":"2022/05/15 22:07:03 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642239-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestAllowMissingUpWithRedo","Elapsed":5.22}
+{"Time":"2022-05-15T22:45:41.642243-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"--- PASS: TestMigrateUpWithReset (5.43s)\n"}
+{"Time":"2022-05-15T22:45:41.642246-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642249-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642251-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642254-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642256-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642262-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642265-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642267-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.64227-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642272-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642275-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642277-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Output":"2022/05/15 22:07:03 goose: no migrations to run. current version: 11\n"}
+{"Time":"2022-05-15T22:45:41.64228-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithReset","Elapsed":5.43}
+{"Time":"2022-05-15T22:45:41.642282-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"--- PASS: TestMigrateUpByOne (2.09s)\n"}
+{"Time":"2022-05-15T22:45:41.642285-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642288-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.64229-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642292-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642295-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642297-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.6423-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642302-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642305-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00003_c.sql\n"}
+{"Time":"2022-05-15T22:45:41.642307-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.64231-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.642312-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00004_d.sql\n"}
+{"Time":"2022-05-15T22:45:41.64232-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642322-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642325-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00005_e.sql\n"}
+{"Time":"2022-05-15T22:45:41.642327-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.64233-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642332-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00006_f.sql\n"}
+{"Time":"2022-05-15T22:45:41.642335-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642337-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.64234-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00007_g.sql\n"}
+{"Time":"2022-05-15T22:45:41.642344-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642346-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642348-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00008_h.sql\n"}
+{"Time":"2022-05-15T22:45:41.642351-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642353-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642356-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00009_i.sql\n"}
+{"Time":"2022-05-15T22:45:41.642358-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642361-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642363-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00010_j.sql\n"}
+{"Time":"2022-05-15T22:45:41.642366-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00001_a.sql\n"}
+{"Time":"2022-05-15T22:45:41.642368-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00002_b.sql\n"}
+{"Time":"2022-05-15T22:45:41.642371-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 goose: no migrations to run. current version: 2\n"}
+{"Time":"2022-05-15T22:45:41.642373-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.64238-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642382-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Output":"2022/05/15 22:07:04 OK    00011_k.sql\n"}
+{"Time":"2022-05-15T22:45:41.642385-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpByOne","Elapsed":2.09}
+{"Time":"2022-05-15T22:45:41.642387-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Output":"--- PASS: TestMigrateUpTo (2.10s)\n"}
+{"Time":"2022-05-15T22:45:41.64239-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpTo","Elapsed":2.1}
+{"Time":"2022-05-15T22:45:41.642393-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Output":"--- PASS: TestMigrateUpWithRedo (3.03s)\n"}
+{"Time":"2022-05-15T22:45:41.642395-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Test":"TestMigrateUpWithRedo","Elapsed":3.03}
+{"Time":"2022-05-15T22:45:41.642398-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Output":"PASS\n"}
+{"Time":"2022-05-15T22:45:41.6424-04:00","Action":"output","Package":"github.com/pressly/goose/v3/tests/e2e","Output":"ok  \tgithub.com/pressly/goose/v3/tests/e2e\t(cached)\n"}
+{"Time":"2022-05-15T22:45:41.642408-04:00","Action":"pass","Package":"github.com/pressly/goose/v3/tests/e2e","Elapsed":0.001}

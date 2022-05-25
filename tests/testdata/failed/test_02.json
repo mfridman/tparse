@@ -1,0 +1,18 @@
+{"Time":"2022-05-20T09:24:29.849233-04:00","Action":"run","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever"}
+{"Time":"2022-05-20T09:24:29.849381-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"=== RUN   TestWhatever\n"}
+{"Time":"2022-05-20T09:24:29.849391-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"    main_test.go:13: assert error\n"}
+{"Time":"2022-05-20T09:24:29.8494-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"    main_test.go:14: \n"}
+{"Time":"2022-05-20T09:24:29.849402-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \tError Trace:\tmain_test.go:14\n"}
+{"Time":"2022-05-20T09:24:29.849404-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \tError:      \t\"does not contain\" does not contain \"ostriche\"\n"}
+{"Time":"2022-05-20T09:24:29.849412-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \tTest:       \tTestWhatever\n"}
+{"Time":"2022-05-20T09:24:29.849435-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"    main_test.go:15: \n"}
+{"Time":"2022-05-20T09:24:29.849556-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \tError Trace:\tmain_test.go:15\n"}
+{"Time":"2022-05-20T09:24:29.849562-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \tError:      \tReceived unexpected error:\n"}
+{"Time":"2022-05-20T09:24:29.849569-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \t            \tmake the errorss..\n"}
+{"Time":"2022-05-20T09:24:29.849571-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"        \tTest:       \tTestWhatever\n"}
+{"Time":"2022-05-20T09:24:30.850912-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"    main_test.go:17: skdhjfg\n"}
+{"Time":"2022-05-20T09:24:30.851026-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Output":"--- FAIL: TestWhatever (1.00s)\n"}
+{"Time":"2022-05-20T09:24:30.851526-04:00","Action":"fail","Package":"github.com/mfridman/debug-go/testing","Test":"TestWhatever","Elapsed":1}
+{"Time":"2022-05-20T09:24:30.851551-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"FAIL\n"}
+{"Time":"2022-05-20T09:24:30.854596-04:00","Action":"output","Package":"github.com/mfridman/debug-go/testing","Output":"FAIL\tgithub.com/mfridman/debug-go/testing\t1.113s\n"}
+{"Time":"2022-05-20T09:24:30.854827-04:00","Action":"fail","Package":"github.com/mfridman/debug-go/testing","Elapsed":1.114}

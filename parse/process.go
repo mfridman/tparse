@@ -3,193 +3,177 @@ package parse
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
-	"strings"
-
-	"github.com/pkg/errors"
+	"os"
+	"sort"
 )
 
-// ErrNotParseable indicates the event line was not parseable. It is returned only
-// by the Process func.
-var ErrNotParseable = errors.New("failed to parse events")
+// ErrNotParseable indicates the event line was not parseable.
+var ErrNotParseable = errors.New("failed to parse")
 
-// ErrRaceDetected indicates a race condition has been detected during execution.
-// Returned by the Process func.
-var ErrRaceDetected = errors.New("race detected")
-
-// Process is the entry point to the parse pkg. It consumes a reader
-// and attempts to parse go test JSON output lines until EOF.
+// Process is the entry point to parse. It consumes a reader
+// and parses go test output in JSON format until EOF.
 //
 // Note, Process will attempt to parse up to 50 lines before returning an error.
-//
-// Returns PanicErr on the first package containing a test that panics.
-func Process(r io.Reader) (Packages, error) {
-
-	pkgs := Packages{}
-
-	var hasRace bool
-
-	var scan bool
-	var badLines int
+func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
+	option := &options{}
+	for _, f := range optionsFunc {
+		f(option)
+	}
+	summary := &GoTestSummary{
+		Packages: make(map[string]*Package),
+	}
 
 	sc := bufio.NewScanner(r)
+	var started bool
+	var badLines int
 	for sc.Scan() {
 		// Scan up-to 50 lines for a parseable event, if we get one, expect
 		// no errors to follow until EOF.
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
 			badLines++
-			if scan || badLines > 50 {
+			if started || badLines > 50 {
 				switch err.(type) {
 				case *json.SyntaxError:
-					return nil, ErrNotParseable
+					err = fmt.Errorf("line %d json error: %s: %w", badLines, err.Error(), ErrNotParseable)
+					if option.debug {
+						// In debug mode we can surface a more verbose error message which
+						// contains the current line number and exact JSON parsing error.
+						fmt.Fprintf(os.Stderr, "debug: %s", err.Error())
+					}
+					return nil, err
 				default:
 					return nil, err
 				}
 			}
+			if option.follow && option.w != nil {
+				fmt.Fprintf(option.w, "%s\n", sc.Bytes())
+			}
 			continue
 		}
-		scan = true
+		started = true
 
-		pkg, ok := pkgs[e.Package]
-		if !ok {
-			pkg = NewPackage()
-			pkgs[e.Package] = pkg
-		}
+		// TODO(mf): when running tparse locally it's very useful to see progress for long
+		// running test suites. Since we have access to the event we can send it on a chan
+		// or just directly update a spinner-like component. This cannot be run with the
+		// follow option. Lastly, need to consider what local vs CI behaviour would be like.
+		// Depending how often the frames update, this could cause a lot of noise, so maybe
+		// we need to expose an interval option, so in CI it would update infrequently.
 
-		if e.IsPanic() {
-			pkg.HasPanic = true
-			pkg.Summary.Action = ActionFail
-			pkg.Summary.Package = e.Package
-			pkg.Summary.Test = e.Test
-		}
-		// Short circuit output when panic is detected.
-		if pkg.HasPanic {
-			pkg.PanicEvents = append(pkg.PanicEvents, e)
-			continue
+		// Optionally, as test output is piped to us we write the plain
+		// text Output as if go test was run without the -json flag.
+		if option.follow && option.w != nil {
+			fmt.Fprint(option.w, e.Output)
 		}
 
-		if e.IsRace() {
-			hasRace = true
-		}
+		summary.AddEvent(e)
+	}
+	if err := sc.Err(); err != nil {
+		return nil, fmt.Errorf("received scanning error: %w", err)
+	}
+	// Entire input has been scanned and no go test json output was found.
+	if !started {
+		return nil, ErrNotParseable
+	}
 
-		if e.IsCached() {
-			pkg.Cached = true
-		}
+	return summary, nil
+}
 
-		if e.NoTestFiles() {
-			pkg.NoTestFiles = true
-			// Manually mark [no test files] as "pass", because the go test tool reports the
-			// package Summary action as "skip".
-			pkg.Summary.Package = e.Package
-			pkg.Summary.Action = ActionPass
-		}
-		if e.NoTestsWarn() {
-			// One or more tests within the package contains no tests.
-			pkg.NoTestSlice = append(pkg.NoTestSlice, e)
-		}
+type GoTestSummary struct {
+	Packages map[string]*Package
+}
 
-		if e.NoTestsToRun() {
-			// Only packages marked as "pass" will contain a summary line appended with [no tests to run].
-			// This indicates one or more tests is marked as having no tests to run.
-			pkg.NoTests = true
-			pkg.Summary.Package = e.Package
-			pkg.Summary.Action = ActionPass
+func (s *GoTestSummary) AddEvent(e *Event) {
+	// Discard noisy output such as "=== CONT", "=== RUN", etc. These add
+	// no value to the go test output, unless you care to follow how often
+	// tests are paused and for what duration.
+	if e.Action == ActionOutput && e.DiscardOutput() {
+		return
+	}
+	pkg, ok := s.Packages[e.Package]
+	if !ok {
+		pkg = newPackage()
+		s.Packages[e.Package] = pkg
+	}
+	// Special case panics.
+	if e.IsPanic() {
+		pkg.HasPanic = true
+		pkg.Summary.Action = ActionFail
+		pkg.Summary.Package = e.Package
+		pkg.Summary.Test = e.Test
+	}
+	// Short circuit output when panic is detected.
+	if pkg.HasPanic {
+		pkg.PanicEvents = append(pkg.PanicEvents, e)
+		return
+	}
+	if e.LastLine() {
+		pkg.Summary = e
+		return
+	}
+	// Parse the raw output to add additional metadata to Package.
+	switch {
+	case e.IsRace():
+		pkg.HasDataRace = true
+		if e.Test != "" {
+			pkg.DataRaceTests = append(pkg.DataRaceTests, e.Test)
 		}
-
-		if e.LastLine() {
-			pkg.Summary = e
-			continue
-		}
-
-		cover, ok := e.Cover()
-		if ok {
+	case e.IsCached():
+		pkg.Cached = true
+	case e.NoTestFiles():
+		pkg.NoTestFiles = true
+		// Manually mark [no test files] as "pass", because the go test tool reports the
+		// package Summary action as "skip".
+		// TODO(mf): revisit this behaviour?
+		pkg.Summary.Package = e.Package
+		pkg.Summary.Action = ActionPass
+	case e.NoTestsWarn():
+		// One or more tests within the package contains no tests.
+		pkg.NoTestSlice = append(pkg.NoTestSlice, e)
+	case e.NoTestsToRun():
+		// Only packages marked as "pass" will contain a summary line appended with [no tests to run].
+		// This indicates one or more tests is marked as having no tests to run.
+		pkg.NoTests = true
+		pkg.Summary.Package = e.Package
+		pkg.Summary.Action = ActionPass
+	default:
+		if cover, ok := e.Cover(); ok {
 			pkg.Cover = true
 			pkg.Coverage = cover
 		}
-
-		if !e.Discard() {
-			pkg.AddEvent(e)
-		}
 	}
-
-	if err := sc.Err(); err != nil {
-		return nil, errors.Wrap(err, "bufio scanner error")
+	// We captured all the necessary package-level information, if the event
+	// is output and does not have a test name, discard it.
+	if e.DiscardEmptyTestOutput() {
+		return
 	}
-	if !scan {
-		return nil, ErrNotParseable
-	}
-	if hasRace {
-		return nil, ErrRaceDetected
-	}
-
-	return pkgs, nil
+	pkg.AddEvent(e)
 }
 
-// ReplayOutput takes json event lines from r and returns output actions to w.
-// If an error occurs parsing an event and the output action cannot be retrieved
-// the raw line of text is printed.
-//
-// Used to parse JSON lines into their raw output, i.e., what go test output
-// would have been without -json.
-func ReplayOutput(w io.Writer, r io.Reader) {
-	sc := bufio.NewScanner(r)
-	for sc.Scan() {
-		e, err := NewEvent(sc.Bytes())
-		if err != nil {
-			// We couldn't parse an event, so return the raw text.
-			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
-			continue
-		}
-		// Output expected to be terminated by a newline.
-		fmt.Fprint(w, e.Output)
+func (s *GoTestSummary) GetSortedPackages() []*Package {
+	packages := make([]*Package, 0, len(s.Packages))
+	for _, pkg := range s.Packages {
+		packages = append(packages, pkg)
 	}
-
-	if err := sc.Err(); err != nil {
-		fmt.Fprintf(w, "tparse scan error: %v\n", err)
-	}
+	sort.Slice(packages, func(i, j int) bool {
+		return packages[i].Summary.Package < packages[j].Summary.Package
+	})
+	return packages
 }
 
-// ReplayRaceOutput takes json event lines from r and returns partial output
-// to w. Specifically, once a race is detected all PASS events and update events
-// will be ignored. This is to keep output as close as possible to what
-// go test (without -v) would have otherwise returned.
-//
-// The race output is non-detertministc.
-// https://github.com/golang/go/issues/29156#issuecomment-445486381
-func ReplayRaceOutput(w io.Writer, r io.Reader) {
-
-	var raceStarted bool
-	sc := bufio.NewScanner(r)
-
-Loop:
-	for sc.Scan() {
-		e, err := NewEvent(sc.Bytes())
-		if err != nil {
-			// We couldn't parse an event, so return the raw text.
-			fmt.Fprintln(w, strings.TrimSpace(sc.Text()))
-			continue
-		}
-
-		if raceStarted {
-			for i := range updates {
-				if strings.HasPrefix(e.Output, updates[i]) || strings.Contains(e.Output, "--- PASS:") {
-					continue Loop
-				}
-			}
-
-			fmt.Fprint(w, e.Output)
-			continue
-		}
-
-		if strings.Contains(e.Output, "==================") {
-			raceStarted = true
-			fmt.Fprint(w, e.Output)
+func (s *GoTestSummary) ExitCode() int {
+	for _, pkg := range s.Packages {
+		switch {
+		case pkg.HasPanic, pkg.HasDataRace:
+			return 1
+		case len(pkg.DataRaceTests) > 0:
+			return 1
+		case pkg.Summary.Action == ActionFail:
+			return 1
 		}
 	}
-
-	if err := sc.Err(); err != nil {
-		fmt.Fprintf(w, "tparse scan error: %v\n", err)
-	}
+	return 0
 }

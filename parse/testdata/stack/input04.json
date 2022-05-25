@@ -1,4 +1,0 @@
-{"Time":"2018-10-28T00:06:54.503762-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch"}
-{"Time":"2018-10-28T00:06:54.503795-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Output":"=== RUN   TestCatch\n"}
-{"Time":"2018-10-28T00:06:54.507445-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Output":"--- FAIL: TestCatch (0.00s)\n"}
-{"Time":"2018-10-28T00:06:54.507544-04:00","Action":"fail","Package":"github.com/astromail/rover/tests","Test":"TestCatch","Elapsed":0}

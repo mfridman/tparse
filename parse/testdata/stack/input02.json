@@ -1,5 +1,0 @@
-{"Time":"2018-10-17T22:49:13.689691-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve"}
-{"Time":"2018-10-17T22:49:13.689709-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"=== RUN   TestCatch/catchAndRetrieve\n"}
-{"Time":"2018-10-17T22:49:13.694812-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"    --- FAIL: TestCatch/catchAndRetrieve (0.01s)\n"}
-{"Time":"2018-10-17T22:49:13.694844-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:37: email id does not match: got \"2502e1fe-6d40-42ae-a21a-89b52a1be84c\", want \"123@example.com\"\n"}
-{"Time":"2018-10-17T22:49:13.695157-04:00","Action":"fail","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Elapsed":0.01}

@@ -17,7 +17,7 @@ type Package struct {
 	NoTests bool
 	// NoTestSlice holds events that contain "testing: warning: no tests to run" and
 	// a non-empty test name.
-	NoTestSlice Events
+	NoTestSlice []*Event
 
 	// Cached indicates whether the test result was obtained from the cache.
 	Cached bool
@@ -30,24 +30,15 @@ type Package struct {
 	HasPanic bool
 	// Once a package has been marked HasPanic all subsequent events are added to PanicEvents.
 	PanicEvents []*Event
+
+	// HasDataRace marks the entire package as having a data race.
+	HasDataRace bool
+	// DataRaceTests captures an individual test names as having a data race.
+	DataRaceTests []string
 }
 
-// Packages is a collection of packages being tested.
-type Packages map[string]*Package
-
-// ExitCode returns 1 if at least one package is marked as panic or failed,
-// othewrwise return 0.
-func (p Packages) ExitCode() int {
-	for _, pkg := range p {
-		if pkg.HasPanic || pkg.Summary.Action == ActionFail {
-			return 1
-		}
-	}
-	return 0
-}
-
-// NewPackage initializes and returns a Package.
-func NewPackage() *Package {
+// newPackage initializes and returns a Package.
+func newPackage() *Package {
 	return &Package{
 		Summary: &Event{},
 		Tests:   []*Test{},
@@ -85,13 +76,11 @@ func (p *Package) GetTest(name string) *Test {
 //
 // An empty slice if returned if there are no tests.
 func (p *Package) TestsByAction(action Action) []*Test {
-	tests := []*Test{}
-
+	var tests []*Test
 	for _, t := range p.Tests {
 		if t.Status() == action {
 			tests = append(tests, t)
 		}
 	}
-
 	return tests
 }

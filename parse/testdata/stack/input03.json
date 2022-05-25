@@ -1,7 +1,0 @@
-{"Time":"2018-10-28T00:06:54.503829-04:00","Action":"run","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve"}
-{"Time":"2018-10-28T00:06:54.503838-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"=== RUN   TestCatch/catchAndRetrieve\n"}
-{"Time":"2018-10-28T00:06:54.507485-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"    --- FAIL: TestCatch/catchAndRetrieve (0.00s)\n"}
-{"Time":"2018-10-28T00:06:54.507507-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:29: got id \"ad0892h\", want empty id\n"}
-{"Time":"2018-10-28T00:06:54.507517-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:37: email id does not match: got \"69c47b65-0ad5-47d5-9346-f4f8bd22c56e\", want \"oops@example.com\"\n"}
-{"Time":"2018-10-28T00:06:54.507528-04:00","Action":"output","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Output":"        catch_test.go:41: failed to mark email as read: failed to mark email id \"123\" as read: PUT \"http://localhost:8026/api/v1/emails/123/read\": expecting valid status code, got 500 Internal Server Error\n"}
-{"Time":"2018-10-28T00:06:54.507536-04:00","Action":"fail","Package":"github.com/astromail/rover/tests","Test":"TestCatch/catchAndRetrieve","Elapsed":0}

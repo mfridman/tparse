@@ -1,0 +1,61 @@
+{"Time":"2022-05-21T09:04:11.074034-04:00","Action":"run","Package":"command-line-arguments","Test":"TestWhatever"}
+{"Time":"2022-05-21T09:04:11.074252-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"=== RUN   TestWhatever\n"}
+{"Time":"2022-05-21T09:04:11.074268-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"    main_test.go:12: assert error\n"}
+{"Time":"2022-05-21T09:04:11.074275-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"    main_test.go:13: \n"}
+{"Time":"2022-05-21T09:04:11.07428-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tError Trace:\tmain_test.go:13\n"}
+{"Time":"2022-05-21T09:04:11.074284-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tError:      \t\"does not contain\" does not contain \"ostriche\"\n"}
+{"Time":"2022-05-21T09:04:11.07429-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tTest:       \tTestWhatever\n"}
+{"Time":"2022-05-21T09:04:12.075418-04:00","Action":"run","Package":"command-line-arguments","Test":"TestWhatever/foo"}
+{"Time":"2022-05-21T09:04:12.075597-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo","Output":"=== RUN   TestWhatever/foo\n"}
+{"Time":"2022-05-21T09:04:12.075641-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo","Output":"    main_test.go:17: some random output from foo only\n"}
+{"Time":"2022-05-21T09:04:12.075689-04:00","Action":"run","Package":"command-line-arguments","Test":"TestWhatever/foo/bar"}
+{"Time":"2022-05-21T09:04:12.075718-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar","Output":"=== RUN   TestWhatever/foo/bar\n"}
+{"Time":"2022-05-21T09:04:12.075748-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar","Output":"=== PAUSE TestWhatever/foo/bar\n"}
+{"Time":"2022-05-21T09:04:12.075774-04:00","Action":"pause","Package":"command-line-arguments","Test":"TestWhatever/foo/bar"}
+{"Time":"2022-05-21T09:04:12.075799-04:00","Action":"run","Package":"command-line-arguments","Test":"TestWhatever/foo/baz"}
+{"Time":"2022-05-21T09:04:12.075823-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz","Output":"=== RUN   TestWhatever/foo/baz\n"}
+{"Time":"2022-05-21T09:04:12.075849-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz","Output":"=== PAUSE TestWhatever/foo/baz\n"}
+{"Time":"2022-05-21T09:04:12.075873-04:00","Action":"pause","Package":"command-line-arguments","Test":"TestWhatever/foo/baz"}
+{"Time":"2022-05-21T09:04:12.075935-04:00","Action":"cont","Package":"command-line-arguments","Test":"TestWhatever/foo/bar"}
+{"Time":"2022-05-21T09:04:12.075964-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar","Output":"=== CONT  TestWhatever/foo/bar\n"}
+{"Time":"2022-05-21T09:04:12.07599-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar","Output":"    main_test.go:20: some random output from bar only\n"}
+{"Time":"2022-05-21T09:04:12.076047-04:00","Action":"run","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar"}
+{"Time":"2022-05-21T09:04:12.076076-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar","Output":"=== RUN   TestWhatever/foo/bar/inner-bar\n"}
+{"Time":"2022-05-21T09:04:12.076103-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar","Output":"=== PAUSE TestWhatever/foo/bar/inner-bar\n"}
+{"Time":"2022-05-21T09:04:12.076127-04:00","Action":"pause","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar"}
+{"Time":"2022-05-21T09:04:12.076152-04:00","Action":"cont","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar"}
+{"Time":"2022-05-21T09:04:12.076177-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar","Output":"=== CONT  TestWhatever/foo/bar/inner-bar\n"}
+{"Time":"2022-05-21T09:04:12.076291-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar","Output":"    main_test.go:23: another inner-bar\n"}
+{"Time":"2022-05-21T09:04:12.076317-04:00","Action":"cont","Package":"command-line-arguments","Test":"TestWhatever/foo/baz"}
+{"Time":"2022-05-21T09:04:12.076336-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz","Output":"=== CONT  TestWhatever/foo/baz\n"}
+{"Time":"2022-05-21T09:04:12.076355-04:00","Action":"run","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz"}
+{"Time":"2022-05-21T09:04:12.076373-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz","Output":"=== RUN   TestWhatever/foo/baz/inner-baz\n"}
+{"Time":"2022-05-21T09:04:12.076393-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz","Output":"=== PAUSE TestWhatever/foo/baz/inner-baz\n"}
+{"Time":"2022-05-21T09:04:12.07641-04:00","Action":"pause","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz"}
+{"Time":"2022-05-21T09:04:12.076428-04:00","Action":"cont","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz"}
+{"Time":"2022-05-21T09:04:12.076446-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz","Output":"=== CONT  TestWhatever/foo/baz/inner-baz\n"}
+{"Time":"2022-05-21T09:04:12.076465-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz","Output":"    main_test.go:30: some inner-baz error\n"}
+{"Time":"2022-05-21T09:04:12.076504-04:00","Action":"cont","Package":"command-line-arguments","Test":"TestWhatever"}
+{"Time":"2022-05-21T09:04:12.076524-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"=== CONT  TestWhatever\n"}
+{"Time":"2022-05-21T09:04:12.07657-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"    main_test.go:35: \n"}
+{"Time":"2022-05-21T09:04:12.076594-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tError Trace:\tmain_test.go:35\n"}
+{"Time":"2022-05-21T09:04:12.076614-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tError:      \tNot equal: \n"}
+{"Time":"2022-05-21T09:04:12.076632-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \t            \texpected: 7823456\n"}
+{"Time":"2022-05-21T09:04:12.076651-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \t            \tactual  : 1\n"}
+{"Time":"2022-05-21T09:04:12.076669-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tTest:       \tTestWhatever\n"}
+{"Time":"2022-05-21T09:04:12.076688-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"        \tMessages:   \tnot what I was expecting\n"}
+{"Time":"2022-05-21T09:04:12.076716-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever","Output":"--- FAIL: TestWhatever (1.00s)\n"}
+{"Time":"2022-05-21T09:04:12.076737-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo","Output":"    --- FAIL: TestWhatever/foo (0.00s)\n"}
+{"Time":"2022-05-21T09:04:12.07676-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar","Output":"        --- FAIL: TestWhatever/foo/bar (0.00s)\n"}
+{"Time":"2022-05-21T09:04:12.076781-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar","Output":"            --- FAIL: TestWhatever/foo/bar/inner-bar (0.00s)\n"}
+{"Time":"2022-05-21T09:04:12.076825-04:00","Action":"fail","Package":"command-line-arguments","Test":"TestWhatever/foo/bar/inner-bar","Elapsed":0}
+{"Time":"2022-05-21T09:04:12.076874-04:00","Action":"fail","Package":"command-line-arguments","Test":"TestWhatever/foo/bar","Elapsed":0}
+{"Time":"2022-05-21T09:04:12.076892-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz","Output":"        --- FAIL: TestWhatever/foo/baz (0.00s)\n"}
+{"Time":"2022-05-21T09:04:12.076912-04:00","Action":"output","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz","Output":"            --- FAIL: TestWhatever/foo/baz/inner-baz (0.00s)\n"}
+{"Time":"2022-05-21T09:04:12.076934-04:00","Action":"fail","Package":"command-line-arguments","Test":"TestWhatever/foo/baz/inner-baz","Elapsed":0}
+{"Time":"2022-05-21T09:04:12.076952-04:00","Action":"fail","Package":"command-line-arguments","Test":"TestWhatever/foo/baz","Elapsed":0}
+{"Time":"2022-05-21T09:04:12.07697-04:00","Action":"fail","Package":"command-line-arguments","Test":"TestWhatever/foo","Elapsed":0}
+{"Time":"2022-05-21T09:04:12.076986-04:00","Action":"fail","Package":"command-line-arguments","Test":"TestWhatever","Elapsed":1}
+{"Time":"2022-05-21T09:04:12.077054-04:00","Action":"output","Package":"command-line-arguments","Output":"FAIL\n"}
+{"Time":"2022-05-21T09:04:12.078217-04:00","Action":"output","Package":"command-line-arguments","Output":"FAIL\tcommand-line-arguments\t1.127s\n"}
+{"Time":"2022-05-21T09:04:12.078255-04:00","Action":"fail","Package":"command-line-arguments","Elapsed":1.127}

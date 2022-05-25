@@ -1,2 +1,0 @@
-    --- FAIL: TestCatch/catchAndRetrieve (0.01s)
-        catch_test.go:37: email id does not match: got "2502e1fe-6d40-42ae-a21a-89b52a1be84c", want "123@example.com"
