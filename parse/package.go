@@ -17,7 +17,7 @@ type Package struct {
 	NoTests bool
 	// NoTestSlice holds events that contain "testing: warning: no tests to run" and
 	// a non-empty test name.
-	NoTestSlice Events
+	NoTestSlice []*Event
 
 	// Cached indicates whether the test result was obtained from the cache.
 	Cached bool
@@ -33,12 +33,9 @@ type Package struct {
 
 	// HasDataRace marks the entire package as having a data race.
 	HasDataRace bool
-	// DataRaceTests captures an individual test as having a data race.
+	// DataRaceTests captures an individual test names as having a data race.
 	DataRaceTests []string
 }
-
-// Packages is a collection of packages being tested.
-type Packages map[string]*Package
 
 // newPackage initializes and returns a Package.
 func newPackage() *Package {

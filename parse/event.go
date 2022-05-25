@@ -44,7 +44,7 @@ type Event struct {
 }
 
 func (e *Event) String() string {
-	title := fmt.Sprintf(
+	return fmt.Sprintf(
 		"%-6s - %s - %s elapsed[%.2f] - time[%s]\n%v",
 		strings.ToUpper(e.Action.String()),
 		e.Package,
@@ -53,7 +53,6 @@ func (e *Event) String() string {
 		e.Time.Format(time.StampMicro),
 		e.Output,
 	)
-	return title
 }
 
 // NewEvent attempts to decode data into an Event.
@@ -62,15 +61,11 @@ func NewEvent(data []byte) (*Event, error) {
 	if err := json.Unmarshal(data, &e); err != nil {
 		return nil, err
 	}
-
 	return &e, nil
 }
 
-// Events is a slice of events belonging to a single test based on test name.
-// All events must belong to a single test and thus a single package.
-type Events []*Event
-
-// DiscardOutput reports whether to discard output that belongs to one of the update actions:
+// DiscardOutput reports whether to discard output that belongs to one of
+// the output update actions:
 // === RUN
 // === PAUSE
 // === CONT

@@ -8,7 +8,7 @@ import (
 type Test struct {
 	Name    string
 	Package string
-	Events
+	Events  []*Event
 }
 
 // Elapsed indicates how long a given test ran (in seconds), by scanning for the largest

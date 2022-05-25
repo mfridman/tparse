@@ -6,44 +6,24 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"log"
+	"os"
 	"sort"
 )
 
 // ErrNotParseable indicates the event line was not parseable.
 var ErrNotParseable = errors.New("failed to parse")
 
-type options struct {
-	w      io.Writer
-	follow bool
-	debug  bool
-}
-
-type OptionsFunc func(o *options)
-
-func WithFollowOutput(b bool) OptionsFunc {
-	return func(o *options) { o.follow = b }
-}
-
-func WithWriter(w io.Writer) OptionsFunc {
-	return func(o *options) { o.w = w }
-}
-
-func WithDebug() OptionsFunc {
-	return func(o *options) { o.debug = true }
-}
-
 // Process is the entry point to parse. It consumes a reader
 // and parses go test output in JSON format until EOF.
 //
 // Note, Process will attempt to parse up to 50 lines before returning an error.
-func Process(r io.Reader, opts ...OptionsFunc) (*GoTestSummary, error) {
+func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 	option := &options{}
-	for _, f := range opts {
+	for _, f := range optionsFunc {
 		f(option)
 	}
 	summary := &GoTestSummary{
-		Packages: make(Packages),
+		Packages: make(map[string]*Package),
 	}
 
 	sc := bufio.NewScanner(r)
@@ -62,7 +42,7 @@ func Process(r io.Reader, opts ...OptionsFunc) (*GoTestSummary, error) {
 					if option.debug {
 						// In debug mode we can surface a more verbose error message which
 						// contains the current line number and exact JSON parsing error.
-						log.Println("debug: ", err.Error())
+						fmt.Fprintf(os.Stderr, "debug: %s", err.Error())
 					}
 					return nil, err
 				default:
@@ -75,6 +55,14 @@ func Process(r io.Reader, opts ...OptionsFunc) (*GoTestSummary, error) {
 			continue
 		}
 		started = true
+
+		// TODO(mf): when running tparse locally it's very useful to see progress for long
+		// running test suites. Since we have access to the event we can send it on a chan
+		// or just directly update a spinner-like component. This cannot be run with the
+		// follow option. Lastly, need to consider what local vs CI behaviour would be like.
+		// Depending how often the frames update, this could cause a lot of noise, so maybe
+		// we need to expose an interval option, so in CI it would update infrequently.
+
 		// Optionally, as test output is piped to us we write the plain
 		// text Output as if go test was run without the -json flag.
 		if option.follow && option.w != nil {
@@ -95,7 +83,7 @@ func Process(r io.Reader, opts ...OptionsFunc) (*GoTestSummary, error) {
 }
 
 type GoTestSummary struct {
-	Packages Packages
+	Packages map[string]*Package
 }
 
 func (s *GoTestSummary) AddEvent(e *Event) {
