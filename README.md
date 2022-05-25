@@ -30,7 +30,7 @@ Once `tparse` is installed there are 2 ways to use it:
 set -o pipefail && go test fmt -json | tparse -all
 ```
 
-1. Save the output of `go test` with `-json` flag into a file and call `tparse` with `-file` option.
+2. Save the output of `go test` with `-json` flag into a file and call `tparse` with `-file` option.
 
 ```
 go test fmt -json > fmt.out
@@ -41,13 +41,13 @@ Tip: run `tparse -h` to get usage and options.
 
 ## But why?!
 
-`go test` is awesome, but verbose. Sometimes you just want failures, grouped by package, printed with a dash of color and readily available.
+`go test` is awesome, but verbose. Sometimes you just want readily available failures, grouped by package, printed with a dash of color.
 
 `tparse` attempts to do just that; return failed tests and panics, if any, followed by a single package-level summary. No more searching for the literal string: "--- FAIL".
 
-But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) you can get additional info, such as which tests were skipped and elapsed time of each passed test.
+But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) you can get additional info, such as skipped tests and elapsed time of each passed test.
 
-`tparse` comes with a `-follow` flag to output test output as text. Yep, go test pipes JSON, it's parsed and the output is printed as the raw text as if you ran go test without `-json` flag. Eliminating the need for `tee /dev/tty` between pipes.
+`tparse` comes with a `-follow` flag to print raw output. Yep, go test pipes JSON, it's parsed and the output is printed back out as if you ran go test without `-json` flag. Eliminating the need for `tee /dev/tty` between pipes.
 
 The default print order is:
 - `go test` output (if adding `-follow` flag)
@@ -67,9 +67,3 @@ TestSubtests
  ```
 
 `tparse` aims to be a simply alternative to one-liner bash functions.
-
----
-
-P.S. `tparse` uses itself in [GitHub actions](https://github.com/mfridman/tparse/commit/eb87ddcaa52ed83692b01f6e30f3bd98aee036a3/checks?check_suite_id=345829033#step:5:11):
-
-<img src="https://res.cloudinary.com/mfridman/image/upload/v1575645347/projects/tparse/Screen_Shot_2019-12-06_at_10.15.22_AM_itviiy.png" />
