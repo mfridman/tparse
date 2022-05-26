@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	coverRe = regexp.MustCompile(`[0-9]{1,3}\.[0-9]{1}\%`)
+	coverRe              = regexp.MustCompile(`[0-9]{1,3}\.[0-9]{1}\%`)
+	failedBuildOrSetupRe = regexp.MustCompile(`^FAIL(.*)\[(build failed|setup failed)\]`)
 )
 
 // Event represents a single line of json output from go test with the -json flag.

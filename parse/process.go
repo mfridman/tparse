@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"io"
 	"os"
-	"regexp"
 	"sort"
 	"strings"
 )
@@ -36,24 +35,9 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		// no errors to follow until EOF.
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
-			// Even though the output line was not a go test JSON event, there are special
-			// cases for failed builds, etc. Let's special case those.
-			if strings.HasPrefix(sc.Text(), "FAIL") {
-				var re = regexp.MustCompile(`^FAIL(.*)\[(build failed|setup failed)\]`)
-				out := re.FindStringSubmatch(sc.Text())
-				if len(out) == 3 {
-					pkg := strings.TrimSpace(out[1])
-					failMessage := strings.TrimSpace(out[2])
-					summary.Packages[pkg] = &Package{
-						Summary: &Event{
-							Package: pkg,
-							Action:  ActionFail,
-							Output:  failMessage,
-						},
-						HasFailedBuildOrSetup: true,
-					}
-				}
-			}
+			// We failed to parse a go test JSON event, but there are special cases for failed
+			// builds, setup, etc. Let's special case these and bubble them up in the summary.
+			summary.AddRawEvent(sc.Text())
 
 			badLines++
 			if started || badLines > 50 {
@@ -105,6 +89,24 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 type GoTestSummary struct {
 	Packages map[string]*Package
+}
+
+func (s *GoTestSummary) AddRawEvent(str string) {
+	if strings.HasPrefix(str, "FAIL") {
+		ss := failedBuildOrSetupRe.FindStringSubmatch(str)
+		if len(ss) == 3 {
+			pkgName, failMessage := strings.TrimSpace(ss[1]), strings.TrimSpace(ss[2])
+			pkg, ok := s.Packages[pkgName]
+			if !ok {
+				pkg = newPackage()
+				s.Packages[pkgName] = pkg
+			}
+			pkg.Summary.Package = pkgName
+			pkg.Summary.Action = ActionFail
+			pkg.Summary.Output = failMessage
+			pkg.HasFailedBuildOrSetup = true
+		}
+	}
 }
 
 func (s *GoTestSummary) AddEvent(e *Event) {

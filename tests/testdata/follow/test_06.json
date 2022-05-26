@@ -1,0 +1,10 @@
+# github.com/marco-m/tparse-bugs [github.com/marco-m/tparse-bugs.test]
+./a_test.go:6:2: undefined: hello
+FAIL	github.com/marco-m/tparse-bugs [build failed]
+{"Time":"2022-05-25T23:11:20.775252-04:00","Action":"run","Package":"github.com/marco-m/tparse-bugs/b","Test":"TestB"}
+{"Time":"2022-05-25T23:11:20.775449-04:00","Action":"output","Package":"github.com/marco-m/tparse-bugs/b","Test":"TestB","Output":"=== RUN   TestB\n"}
+{"Time":"2022-05-25T23:11:20.775462-04:00","Action":"output","Package":"github.com/marco-m/tparse-bugs/b","Test":"TestB","Output":"--- PASS: TestB (0.00s)\n"}
+{"Time":"2022-05-25T23:11:20.775464-04:00","Action":"pass","Package":"github.com/marco-m/tparse-bugs/b","Test":"TestB","Elapsed":0}
+{"Time":"2022-05-25T23:11:20.775467-04:00","Action":"output","Package":"github.com/marco-m/tparse-bugs/b","Output":"PASS\n"}
+{"Time":"2022-05-25T23:11:20.7755-04:00","Action":"output","Package":"github.com/marco-m/tparse-bugs/b","Output":"ok  \tgithub.com/marco-m/tparse-bugs/b\t0.098s\n"}
+{"Time":"2022-05-25T23:11:20.77551-04:00","Action":"pass","Package":"github.com/marco-m/tparse-bugs/b","Elapsed":0.098}

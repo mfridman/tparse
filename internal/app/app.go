@@ -50,11 +50,9 @@ func Run(w io.Writer, option Options) (int, error) {
 		return 1, fmt.Errorf("found no go test packages")
 	}
 	// Useful for tests that don't need additional output.
-	if option.DisableTableOutput {
-		return 0, nil
+	if !option.DisableTableOutput {
+		display(w, summary, option)
 	}
-	display(w, summary, option)
-
 	return summary.ExitCode(), nil
 }
 

@@ -22,11 +22,14 @@ func TestFollow(t *testing.T) {
 		err      error
 		exitCode int
 	}{
-		{"test_01", nil, 0},
+		// race detected
+		{"test_01", nil, 1},
 		{"test_02", nil, 0},
 		{"test_03", nil, 0},
 		{"test_04", nil, 0},
 		{"test_05", parse.ErrNotParseable, 1},
+		// build failure in one package
+		{"test_06", nil, 2},
 	}
 	for _, tc := range tt {
 		t.Run(tc.fileName, func(t *testing.T) {

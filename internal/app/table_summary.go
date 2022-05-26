@@ -25,6 +25,9 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 	}
 	tbl.SetHeader(header.toRow())
 
+	// Capture as separate slices because notests are optional when passed tests are available.
+	// The only exception is if passed=0 and notests=1, then we display them regardless. This
+	// is almost always the user matching on the wrong package.
 	var passed, notests []summaryRow
 
 	for _, pkg := range packages {
@@ -38,10 +41,17 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 				status:      c.red("PANIC", true),
 				elapsed:     elapsed,
 				packageName: packageName,
-				cover:       "--",
-				pass:        "--",
-				fail:        "--",
-				skip:        "--",
+				cover:       "--", pass: "--", fail: "--", skip: "--",
+			}
+			tbl.Append(row.toRow())
+			continue
+		}
+		if pkg.HasFailedBuildOrSetup {
+			row := summaryRow{
+				status:      c.red(strings.ToUpper(pkg.Summary.Action.String()), true),
+				elapsed:     elapsed,
+				packageName: packageName + "\n[" + pkg.Summary.Output + "]",
+				cover:       "--", pass: "--", fail: "--", skip: "--",
 			}
 			tbl.Append(row.toRow())
 			continue
@@ -51,25 +61,9 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 				status:      c.yellow("NOTEST", true),
 				elapsed:     elapsed,
 				packageName: packageName + "\n[no test files]",
-				cover:       "--",
-				pass:        "--",
-				fail:        "--",
-				skip:        "--",
+				cover:       "--", pass: "--", fail: "--", skip: "--",
 			}
 			notests = append(notests, row)
-			continue
-		}
-		if pkg.HasFailedBuildOrSetup {
-			row := summaryRow{
-				status:      c.red("FAIL", true),
-				elapsed:     elapsed,
-				packageName: packageName + "\n[" + pkg.Summary.Output + "]",
-				cover:       "--",
-				pass:        "--",
-				fail:        "--",
-				skip:        "--",
-			}
-			passed = append(notests, row)
 			continue
 		}
 		if pkg.NoTests {
@@ -79,10 +73,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 					status:      c.yellow("NOTEST", true),
 					elapsed:     elapsed,
 					packageName: packageName + "\n[no tests to run]",
-					cover:       "--",
-					pass:        "--",
-					fail:        "--",
-					skip:        "--",
+					cover:       "--", pass: "--", fail: "--", skip: "--",
 				}
 				notests = append(notests, row)
 				continue
@@ -98,10 +89,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 				status:      c.yellow("NOTEST", true),
 				elapsed:     elapsed,
 				packageName: packageName,
-				cover:       "--",
-				pass:        "--",
-				fail:        "--",
-				skip:        "--",
+				cover:       "--", pass: "--", fail: "--", skip: "--",
 			}
 			notests = append(notests, row)
 
