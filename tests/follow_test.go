@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/mfridman/tparse/internal/app"
+	"github.com/mfridman/tparse/internal/check"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -19,27 +20,29 @@ func TestFollow(t *testing.T) {
 	tt := []struct {
 		fileName string
 		err      error
+		exitCode int
 	}{
-		{"test_01", nil},
-		{"test_02", nil},
-		{"test_03", nil},
-		{"test_04", nil},
-		{"test_05", parse.ErrNotParseable},
+		{"test_01", nil, 0},
+		{"test_02", nil, 0},
+		{"test_03", nil, 0},
+		{"test_04", nil, 0},
+		{"test_05", parse.ErrNotParseable, 1},
 	}
-	for _, test := range tt {
-		t.Run(test.fileName, func(t *testing.T) {
-			intputFile := filepath.Join(base, test.fileName+".json")
+	for _, tc := range tt {
+		t.Run(tc.fileName, func(t *testing.T) {
+			intputFile := filepath.Join(base, tc.fileName+".json")
 			options := app.Options{
 				FileName:           intputFile,
 				FollowOutput:       true,
 				DisableTableOutput: true,
 			}
 			var buf bytes.Buffer
-			_, err := app.Run(&buf, options)
-			if err != nil && !errors.Is(err, test.err) {
+			gotExitCode, err := app.Run(&buf, options)
+			if err != nil && !errors.Is(err, tc.err) {
 				t.Fatal(err)
 			}
-			goldenFile := filepath.Join(base, test.fileName+".golden")
+			check.Number(t, gotExitCode, tc.exitCode)
+			goldenFile := filepath.Join(base, tc.fileName+".golden")
 			want, err := ioutil.ReadFile(goldenFile)
 			if err != nil {
 				t.Fatal(err)
