@@ -4,6 +4,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"runtime/debug"
 
@@ -15,6 +16,8 @@ import (
 var (
 	vPtr           = flag.Bool("v", false, "")
 	versionPtr     = flag.Bool("version", false, "")
+	hPtr           = flag.Bool("h", false, "")
+	helpPtr        = flag.Bool("help", false, "")
 	allPtr         = flag.Bool("all", false, "")
 	passPtr        = flag.Bool("pass", false, "")
 	skipPtr        = flag.Bool("skip", false, "")
@@ -58,9 +61,9 @@ var (
 )
 
 func main() {
+	log.SetFlags(0)
 	flag.Usage = func() {
-		fmt.Fprint(os.Stdout, usage)
-		os.Exit(1)
+		fmt.Fprint(flag.CommandLine.Output(), usage)
 	}
 	flag.Parse()
 
@@ -69,6 +72,10 @@ func main() {
 			tparseVersion = buildInfo.Main.Version
 		}
 		fmt.Fprintf(os.Stdout, "tparse version: %s\n", tparseVersion)
+		return
+	}
+	if *hPtr || *helpPtr {
+		fmt.Print(usage)
 		return
 	}
 	var format app.OutputFormat
