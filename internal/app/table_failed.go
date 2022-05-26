@@ -48,8 +48,8 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 
 		var key string
 		for i, t := range failedTests {
-			// Add top drivder to all tests except first one.
-			base, _, _ := strings.Cut(t.Name, "/")
+			// Add top divider to all tests except first one.
+			base, _, _ := cut(t.Name, "/")
 			if i > 0 && key != base {
 				fmt.Fprintln(c.w, divider.String())
 			}
@@ -57,6 +57,15 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			fmt.Fprintln(c.w, prepareStyledTest(t))
 		}
 	}
+}
+
+// copied directly from strings.Cut (go1.18) to support older Go versions.
+// In the future, replace this with the upstream function.
+func cut(s, sep string) (before, after string, found bool) {
+	if i := strings.Index(s, sep); i >= 0 {
+		return s[:i], s[i+len(sep):], true
+	}
+	return s, "", false
 }
 
 func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event) string {
