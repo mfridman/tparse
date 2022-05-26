@@ -48,7 +48,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		}
 		if pkg.HasFailedBuildOrSetup {
 			row := summaryRow{
-				status:      c.red(strings.ToUpper(pkg.Summary.Action.String()), true),
+				status:      c.red("FAIL", true),
 				elapsed:     elapsed,
 				packageName: packageName + "\n[" + pkg.Summary.Output + "]",
 				cover:       "--", pass: "--", fail: "--", skip: "--",
