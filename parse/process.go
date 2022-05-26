@@ -36,7 +36,8 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
 			// We failed to parse a go test JSON event, but there are special cases for failed
-			// builds, setup, etc. Let's special case these and bubble them up in the summary.
+			// builds, setup, etc. Let's special case these and bubble them up in the summary
+			// if the output belongs to a package.
 			summary.AddRawEvent(sc.Text())
 
 			badLines++
