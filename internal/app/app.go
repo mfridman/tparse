@@ -24,16 +24,16 @@ type Options struct {
 	Progress bool
 }
 
-func Run(w io.Writer, option Options) error {
+func Run(w io.Writer, option Options) (int, error) {
 	var reader io.ReadCloser
 	var err error
 	if option.FileName != "" {
 		if reader, err = os.Open(option.FileName); err != nil {
-			return err
+			return 1, err
 		}
 	} else {
 		if reader, err = newPipeReader(); err != nil {
-			return errors.New("stdin must be a pipe, or use -file to open go test output file")
+			return 1, errors.New("stdin must be a pipe, or use -file to open go test output file")
 		}
 	}
 	defer reader.Close()
@@ -44,16 +44,16 @@ func Run(w io.Writer, option Options) error {
 		parse.WithWriter(w),
 	)
 	if err != nil {
-		return err
+		return 1, err
 	}
 	if len(summary.Packages) == 0 {
-		return fmt.Errorf("found no go test packages")
+		return 1, fmt.Errorf("found no go test packages")
 	}
 	// Useful for tests that don't need additional output.
-	if option.DisableTableOutput {
-		return nil
+	if !option.DisableTableOutput {
+		display(w, summary, option)
 	}
-	return display(w, summary, option)
+	return summary.ExitCode(), nil
 }
 
 func newPipeReader() (io.ReadCloser, error) {
@@ -68,7 +68,7 @@ func newPipeReader() (io.ReadCloser, error) {
 	return nil, errors.New("stdin must be a pipe")
 }
 
-func display(w io.Writer, summary *parse.GoTestSummary, option Options) error {
+func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	cw := newConsoleWriter(w, option.Format, option.DisableColor)
 	// Sort packages by name ASC.
 	packages := summary.GetSortedPackages()
@@ -79,6 +79,4 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) error {
 	// Failures (if any) and summary table are always printed.
 	cw.printFailed(packages)
 	cw.summaryTable(packages, option.ShowNoTests)
-
-	return nil
 }

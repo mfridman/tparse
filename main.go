@@ -114,12 +114,13 @@ func main() {
 		// Do not expose publically.
 		DisableTableOutput: false,
 	}
-	if err := app.Run(os.Stdout, options); err != nil {
+	exitCode, err := app.Run(os.Stdout, options)
+	if err != nil {
 		msg := err.Error()
 		if errors.Is(err, parse.ErrNotParseable) {
 			msg = "no parseable events: Make sure to run go test with -json flag"
 		}
 		fmt.Fprintln(os.Stderr, msg)
-		os.Exit(1)
 	}
+	os.Exit(exitCode)
 }

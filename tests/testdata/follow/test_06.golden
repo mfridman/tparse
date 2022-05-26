@@ -1,0 +1,7 @@
+# github.com/marco-m/tparse-bugs [github.com/marco-m/tparse-bugs.test]
+./a_test.go:6:2: undefined: hello
+FAIL	github.com/marco-m/tparse-bugs [build failed]
+=== RUN   TestB
+--- PASS: TestB (0.00s)
+PASS
+ok  	github.com/marco-m/tparse-bugs/b	0.098s

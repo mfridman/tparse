@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"sort"
+	"strings"
 )
 
 // ErrNotParseable indicates the event line was not parseable.
@@ -34,6 +35,11 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		// no errors to follow until EOF.
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
+			// We failed to parse a go test JSON event, but there are special cases for failed
+			// builds, setup, etc. Let's special case these and bubble them up in the summary
+			// if the output belongs to a package.
+			summary.AddRawEvent(sc.Text())
+
 			badLines++
 			if started || badLines > 50 {
 				switch err.(type) {
@@ -84,6 +90,24 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 type GoTestSummary struct {
 	Packages map[string]*Package
+}
+
+func (s *GoTestSummary) AddRawEvent(str string) {
+	if strings.HasPrefix(str, "FAIL") {
+		ss := failedBuildOrSetupRe.FindStringSubmatch(str)
+		if len(ss) == 3 {
+			pkgName, failMessage := strings.TrimSpace(ss[1]), strings.TrimSpace(ss[2])
+			pkg, ok := s.Packages[pkgName]
+			if !ok {
+				pkg = newPackage()
+				s.Packages[pkgName] = pkg
+			}
+			pkg.Summary.Package = pkgName
+			pkg.Summary.Action = ActionFail
+			pkg.Summary.Output = failMessage
+			pkg.HasFailedBuildOrSetup = true
+		}
+	}
 }
 
 func (s *GoTestSummary) AddEvent(e *Event) {
@@ -167,6 +191,8 @@ func (s *GoTestSummary) GetSortedPackages() []*Package {
 func (s *GoTestSummary) ExitCode() int {
 	for _, pkg := range s.Packages {
 		switch {
+		case pkg.HasFailedBuildOrSetup:
+			return 2
 		case pkg.HasPanic, pkg.HasDataRace:
 			return 1
 		case len(pkg.DataRaceTests) > 0:
