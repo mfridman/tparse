@@ -7,7 +7,9 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"regexp"
 	"sort"
+	"strings"
 )
 
 // ErrNotParseable indicates the event line was not parseable.
@@ -34,6 +36,25 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		// no errors to follow until EOF.
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
+			// Even though the output line was not a go test JSON event, there are special
+			// cases for failed builds, etc. Let's special case those.
+			if strings.HasPrefix(sc.Text(), "FAIL") {
+				var re = regexp.MustCompile(`^FAIL(.*)\[(build failed|setup failed)\]`)
+				out := re.FindStringSubmatch(sc.Text())
+				if len(out) == 3 {
+					pkg := strings.TrimSpace(out[1])
+					failMessage := strings.TrimSpace(out[2])
+					summary.Packages[pkg] = &Package{
+						Summary: &Event{
+							Package: pkg,
+							Action:  ActionFail,
+							Output:  failMessage,
+						},
+						HasFailedBuildOrSetup: true,
+					}
+				}
+			}
+
 			badLines++
 			if started || badLines > 50 {
 				switch err.(type) {
@@ -167,6 +188,8 @@ func (s *GoTestSummary) GetSortedPackages() []*Package {
 func (s *GoTestSummary) ExitCode() int {
 	for _, pkg := range s.Packages {
 		switch {
+		case pkg.HasFailedBuildOrSetup:
+			return 2
 		case pkg.HasPanic, pkg.HasDataRace:
 			return 1
 		case len(pkg.DataRaceTests) > 0:

@@ -35,6 +35,8 @@ type Package struct {
 	HasDataRace bool
 	// DataRaceTests captures an individual test names as having a data race.
 	DataRaceTests []string
+
+	HasFailedBuildOrSetup bool
 }
 
 // newPackage initializes and returns a Package.

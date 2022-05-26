@@ -35,7 +35,8 @@ func TestFollow(t *testing.T) {
 				DisableTableOutput: true,
 			}
 			var buf bytes.Buffer
-			if err := app.Run(&buf, options); err != nil && !errors.Is(err, test.err) {
+			_, err := app.Run(&buf, options)
+			if err != nil && !errors.Is(err, test.err) {
 				t.Fatal(err)
 			}
 			goldenFile := filepath.Join(base, test.fileName+".golden")

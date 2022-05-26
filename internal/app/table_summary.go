@@ -59,6 +59,19 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 			notests = append(notests, row)
 			continue
 		}
+		if pkg.HasFailedBuildOrSetup {
+			row := summaryRow{
+				status:      c.red("FAIL", true),
+				elapsed:     elapsed,
+				packageName: packageName + "\n[" + pkg.Summary.Output + "]",
+				cover:       "--",
+				pass:        "--",
+				fail:        "--",
+				skip:        "--",
+			}
+			passed = append(notests, row)
+			continue
+		}
 		if pkg.NoTests {
 			// This should capture cases where packages truly have no tests, but empty files.
 			if len(pkg.NoTestSlice) == 0 {
