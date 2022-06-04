@@ -121,6 +121,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 				}
 			}
 		}
+
 		status := strings.ToUpper(pkg.Summary.Action.String())
 		switch pkg.Summary.Action {
 		case parse.ActionPass:
