@@ -28,6 +28,7 @@ var (
 	fileNamePtr    = flag.String("file", "", "")
 	formatPtr      = flag.String("format", "", "")
 	followPtr      = flag.Bool("follow", false, "")
+	sortPtr        = flag.String("sort", "name", "")
 
 	// TODO(mf): implement this
 	ciPtr = flag.String("ci", "", "")
@@ -50,6 +51,7 @@ Options:
 	-notests	Display packages containing no test files or empty test files.
 	-smallscreen	Split subtest names vertically to fit on smaller screens.
 	-slow		Number of slowest tests to display. Default is 0, display all.
+	-sort           Sort table output by attribute [name]. Default is name.
 	-nocolor	Disable all colors. (NO_COLOR also supported)
 	-format		The output format for tables [basic, plain, markdown]. Default is basic.
 	-file		Read test output from a file.
@@ -96,6 +98,15 @@ func main() {
 		fmt.Fprintf(os.Stderr, "invalid option:%q. The -format flag must be one of: basic, plain or markdown", *formatPtr)
 		return
 	}
+	var sorter parse.PackageSorter
+	switch *sortPtr {
+	case "name":
+		sorter = parse.SortByPackageName
+	default:
+		fmt.Fprintf(os.Stderr, "invalid option:%q. The -sort flag must be one of: name\n", *sortPtr)
+		return
+	}
+
 	if *allPtr {
 		*passPtr = true
 		*skipPtr = true
@@ -116,6 +127,7 @@ func main() {
 			Slow: *slowPtr,
 		},
 		Format:      format,
+		Sorter:      sorter,
 		ShowNoTests: *showNoTestsPtr,
 
 		// Do not expose publically.
