@@ -8,12 +8,21 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mfridman/tparse/parse"
+	"github.com/olekukonko/tablewriter"
 )
 
 func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool) {
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
-
+	tbl.SetColumnAlignment([]int{
+		tablewriter.ALIGN_LEFT,
+		tablewriter.ALIGN_CENTER,
+		tablewriter.ALIGN_LEFT,
+		tablewriter.ALIGN_CENTER,
+		tablewriter.ALIGN_CENTER,
+		tablewriter.ALIGN_CENTER,
+		tablewriter.ALIGN_CENTER,
+	})
 	header := summaryRow{
 		status:      "Status",
 		elapsed:     "Elapsed",
@@ -98,18 +107,20 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 			}
 		}
 
-		coverage := fmt.Sprintf("%.1f%%", pkg.Coverage)
-		if pkg.Summary.Action != parse.ActionFail {
-			switch cover := pkg.Coverage; {
-			case cover > 0.0 && cover <= 50.0:
-				coverage = c.red(coverage, false)
-			case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
-				coverage = c.yellow(coverage, false)
-			case pkg.Coverage >= 80.0:
-				coverage = c.green(coverage, false)
+		coverage := "--"
+		if pkg.Cover {
+			coverage = fmt.Sprintf("%.1f%%", pkg.Coverage)
+			if pkg.Summary.Action != parse.ActionFail {
+				switch cover := pkg.Coverage; {
+				case cover > 0.0 && cover <= 50.0:
+					coverage = c.red(coverage, false)
+				case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
+					coverage = c.yellow(coverage, false)
+				case pkg.Coverage >= 80.0:
+					coverage = c.green(coverage, false)
+				}
 			}
 		}
-
 		status := strings.ToUpper(pkg.Summary.Action.String())
 		switch pkg.Summary.Action {
 		case parse.ActionPass:
