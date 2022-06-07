@@ -1,4 +1,0 @@
-{"Time":"2018-10-17T22:01:48.798229-04:00","Action":"output","Package":"fmt","Output":"testing: warning: no tests to run\n"}
-{"Time":"2018-10-17T22:01:48.798553-04:00","Action":"output","Package":"fmt","Output":"PASS\n"}
-{"Time":"2018-10-17T22:01:48.798617-04:00","Action":"output","Package":"fmt","Output":"ok  \tfmt\t0.011s [no tests to run]\n"}
-{"Time":"2018-10-17T22:01:48.798647-04:00","Action":"pass","Package":"fmt","Elapsed":0.011}
