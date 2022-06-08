@@ -1,0 +1,29 @@
+site_name: tparse docs
+site_url: https://mfridman.github.io/tparse/
+site_description: >-
+  tparse docs: A command line tool for analyzing and summarizing go test output.
+
+# Repository
+repo_name: mfridman/tparse
+repo_url: https://github.com/mfridman/tparse
+edit_uri: ""
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    # - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - toc.follow
+    - navigation.top
+
+markdown_extensions:
+  - meta
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+nav:
+  - index.md

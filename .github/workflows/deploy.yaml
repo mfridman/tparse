@@ -1,0 +1,19 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - gh-docs
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.event.repository.fork == false
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - run: pip install git+https://${PAT_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git
+      - run: mkdocs gh-deploy --force
+env:
+  PAT_TOKEN: ${{ secrets.PAT_TOKEN }} 
