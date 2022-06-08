@@ -51,7 +51,7 @@ Options:
 	-notests	Display packages containing no test files or empty test files.
 	-smallscreen	Split subtest names vertically to fit on smaller screens.
 	-slow		Number of slowest tests to display. Default is 0, display all.
-	-sort           Sort table output by attribute [name]. Default is name.
+	-sort           Sort table output by attribute [name, elapsed, cover]. Default is name.
 	-nocolor	Disable all colors. (NO_COLOR also supported)
 	-format		The output format for tables [basic, plain, markdown]. Default is basic.
 	-file		Read test output from a file.
@@ -102,8 +102,12 @@ func main() {
 	switch *sortPtr {
 	case "name":
 		sorter = parse.SortByPackageName
+	case "elapsed":
+		sorter = parse.SortByElapsed
+	case "cover":
+		sorter = parse.SortByCoverage
 	default:
-		fmt.Fprintf(os.Stderr, "invalid option:%q. The -sort flag must be one of: name\n", *sortPtr)
+		fmt.Fprintf(os.Stderr, "invalid option:%q. The -sort flag must be one of: name, elapsed or cover\n", *sortPtr)
 		return
 	}
 
