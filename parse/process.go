@@ -177,14 +177,12 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 	pkg.AddEvent(e)
 }
 
-func (s *GoTestSummary) GetSortedPackages() []*Package {
+func (s *GoTestSummary) GetSortedPackages(sorter PackageSorter) []*Package {
 	packages := make([]*Package, 0, len(s.Packages))
 	for _, pkg := range s.Packages {
 		packages = append(packages, pkg)
 	}
-	sort.Slice(packages, func(i, j int) bool {
-		return packages[i].Summary.Package < packages[j].Summary.Package
-	})
+	sort.Sort(sorter(packages))
 	return packages
 }
 

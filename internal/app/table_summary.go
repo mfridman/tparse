@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -146,11 +145,6 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 	if tbl.NumLines() == 0 && len(passed) == 0 && len(notests) == 0 {
 		return
 	}
-	// Sort package tests by name ASC.
-	// TODO(mf): what about sorting by elapsed, probably DESC, to quickly gauge
-	// slow running tests? Too many knobs makes this tool more complicated to use.
-	sortSummaryRows(passed, ASC)
-	sortSummaryRows(notests, ASC)
 
 	for _, p := range passed {
 		tbl.Append(p.toRow())
@@ -196,20 +190,4 @@ func (r summaryRow) toRow() []string {
 		r.fail,
 		r.skip,
 	}
-}
-
-type orderBy int
-
-const (
-	ASC orderBy = iota + 1
-	DESC
-)
-
-func sortSummaryRows(rows []summaryRow, order orderBy) {
-	sort.Slice(rows, func(i, j int) bool {
-		if order == ASC {
-			return rows[i].packageName < rows[j].packageName
-		}
-		return rows[i].packageName > rows[j].packageName
-	})
 }

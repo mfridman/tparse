@@ -14,6 +14,7 @@ type Options struct {
 	FollowOutput       bool
 	DisableColor       bool
 	Format             OutputFormat
+	Sorter             parse.PackageSorter
 	ShowNoTests        bool
 	FileName           string
 
@@ -71,7 +72,7 @@ func newPipeReader() (io.ReadCloser, error) {
 func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	cw := newConsoleWriter(w, option.Format, option.DisableColor)
 	// Sort packages by name ASC.
-	packages := summary.GetSortedPackages()
+	packages := summary.GetSortedPackages(option.Sorter)
 	// Only print the tests table if either pass or skip is true.
 	if option.TestTableOptions.Pass || option.TestTableOptions.Skip {
 		cw.testsTable(packages, option.TestTableOptions)
