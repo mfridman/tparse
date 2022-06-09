@@ -16,7 +16,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
 			// not be associated with tests, so we print it at the package level.
-			output := prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents)
+			output := c.prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents)
 			fmt.Fprintln(c.w, output)
 			continue
 		}
@@ -24,10 +24,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		if len(failedTests) == 0 {
 			continue
 		}
-
-		styledPackageHeader := styledHeader(
-			strings.ToUpper(pkg.Summary.Action.String()),
-			strings.TrimSpace(pkg.Summary.Package),
+		styledPackageHeader := c.styledHeader(
+			pkg.Summary.Action.String(),
+			pkg.Summary.Package,
 		)
 		fmt.Fprintln(c.w, styledPackageHeader)
 		fmt.Fprintln(c.w)
@@ -40,12 +39,24 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			return failedTests[i].Name < failedTests[j].Name
 		})
 
+		// TODO(mf): this might need to be markdown-specific.
 		divider := lipgloss.NewStyle().
 			BorderStyle(lipgloss.NormalBorder()).
 			BorderTop(true).
 			Faint(true).
 			Width(96)
 
+		// The output here might be a nested (think tabbed) line. Example:
+		//
+		// --- FAIL: Test (0.05s)
+		//     --- FAIL: Test/test_01 (0.01s)
+		//         --- FAIL: Test/test_01/sort (0.00s)
+		//
+		// This poses a problem when rendering markdown, because the subtest
+		// output will render as inlined code fences.
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprintln(c.w, fencedCodeBlock)
+		}
 		var key string
 		for i, t := range failedTests {
 			// Add top divider to all tests except first one.
@@ -54,10 +65,17 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 				fmt.Fprintln(c.w, divider.String())
 			}
 			key = base
-			fmt.Fprintln(c.w, prepareStyledTest(t))
+			fmt.Fprintln(c.w, c.prepareStyledTest(t))
+		}
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
 		}
 	}
 }
+
+const (
+	fencedCodeBlock string = "```"
+)
 
 // copied directly from strings.Cut (go1.18) to support older Go versions.
 // In the future, replace this with the upstream function.
@@ -68,14 +86,15 @@ func cut(s, sep string) (before, after string, found bool) {
 	return s, "", false
 }
 
-func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event) string {
+func (c *consoleWriter) prepareStyledPanic(
+	packageName string,
+	testName string,
+	panicEvents []*parse.Event,
+) string {
 	if testName != "" {
 		packageName = packageName + " • " + testName
 	}
-	styledPackageHeader := styledHeader(
-		"PANIC",
-		packageName,
-	)
+	styledPackageHeader := c.styledHeader("PANIC", packageName)
 	// TODO(mf): can we pass this panic stack to another package and either by default,
 	// or optionally, build human-readable panic output with:
 	// https://github.com/maruel/panicparse
@@ -89,31 +108,45 @@ func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event
 	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, rows.String())
 }
 
-// styledHeader styles a header based on the status and package name:
-//
-// ╭───────────────────────────────────────────────────────────╮
-// │   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
-// ╰───────────────────────────────────────────────────────────╯
-//
-func styledHeader(status, packageName string) string {
-	headerStyle := lipgloss.NewStyle().
-		BorderStyle(lipgloss.ThickBorder()).
-		BorderForeground(lipgloss.Color("103"))
-	statusStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("9")).
-		PaddingLeft(3).
-		PaddingRight(2)
-	packageNameStyle := lipgloss.NewStyle().
-		PaddingRight(3)
-	headerRow := lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		statusStyle.Render(status),
-		packageNameStyle.Render("package: "+packageName),
-	)
-	return headerStyle.Render(headerRow)
+func (c *consoleWriter) styledHeader(status, packageName string) string {
+	// TODO(mf):
+	msg := fmt.Sprintf("%s • %s", c.red(strings.ToUpper(status)), strings.TrimSpace(packageName))
+	n := make([]string, len(msg))
+	div := strings.Join(n, "─")
+	return fmt.Sprintf("%s\n%s\n%s", div, msg, div)
+
+	/*
+		The previous implementation looked something like this:
+
+		╭───────────────────────────────────────────────────────────╮
+		│   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
+		╰───────────────────────────────────────────────────────────╯
+
+		But this doesn't render nicely, especially in markdown. Need to rethink
+		how to best support multiple output formats across CI and local development.
+
+		See https://github.com/mfridman/tparse/issues/71
+
+		headerStyle := lipgloss.NewStyle().
+			BorderStyle(lipgloss.ThickBorder()).
+			BorderForeground(lipgloss.Color("103"))
+		statusStyle := lipgloss.NewStyle().
+			Foreground(lipgloss.Color("9")).
+			PaddingLeft(3).
+			PaddingRight(2)
+		packageNameStyle := lipgloss.NewStyle().
+			PaddingRight(3)
+		headerRow := lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			statusStyle.Render(status),
+			packageNameStyle.Render("package: "+packageName),
+		)
+		return headerStyle.Render(headerRow)
+	*/
+
 }
 
-func prepareStyledTest(t *parse.Test) string {
+func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 	t.SortEvents()
 
 	var rows, headerRows strings.Builder
@@ -125,10 +158,15 @@ func prepareStyledTest(t *parse.Test) string {
 			continue
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
-			header := lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
+			header := e.Output
+			// Avoid colorizing this output so it renders properly in markdown.
+			if c.format != OutputFormatMarkdown {
+				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
+			}
 			headerRows.WriteString(header)
 			continue
 		}
+
 		if e.Output != "" {
 			rows.WriteString(e.Output)
 		}

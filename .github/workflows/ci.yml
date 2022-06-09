@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
   pull_request:
 
 jobs:
@@ -28,17 +26,17 @@ jobs:
       - name: Build
         run: go build -v .
 
+      - name: Dump env
+        run: env
+
       - name: Run tests with GITHUB_STEP_SUMMARY
-        run: |
-          go test -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse  | tee output.json | ./tparse -notests -follow -all
-          NO_COLOR=1 ./tparse -format markdown -file output.json -all -slow 5 > $GITHUB_STEP_SUMMARY
+      # Note the use of  || true. This so the job doesn't fail at that line. We want to preserve -follow
+      # as part of the test output, but not output it to the summary page, which is done in the proceeding
+      # command when we parse the output.json file.
+        run: | 
+          go test -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse \
+            | tee output.json | ./tparse -notests -follow -all || true
+          ./tparse -format markdown -file output.json -all -slow 5 > $GITHUB_STEP_SUMMARY
 
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
-
-      # - name: Run tparse w/ std lib (GITHUB_STEP_SUMMARY)
-      #   env:
-      #     NO_COLOR: 1
-      #   run: |
-      #     go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover |\
-      #       ./tparse -format=markdown >> $GITHUB_STEP_SUMMARY
