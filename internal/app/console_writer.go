@@ -4,7 +4,6 @@ import (
 	"io"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/muesli/termenv"
 )
 
 type OutputFormat int
@@ -36,6 +35,12 @@ func newColor(color lipgloss.TerminalColor) colorOptionFunc {
 	}
 }
 
+func noColor() colorOptionFunc {
+	return func(text string, _ bool) string {
+		return text
+	}
+}
+
 func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *consoleWriter {
 	if format == 0 {
 		format = OutputFormatBasic
@@ -45,14 +50,14 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		format: format,
 	}
 	if disableColor {
-		cw.red = newColor(lipgloss.NoColor{})
-		cw.green = newColor(lipgloss.NoColor{})
-		cw.yellow = newColor(lipgloss.NoColor{})
+		cw.red = noColor()
+		cw.green = noColor()
+		cw.yellow = noColor()
 	} else {
 		// TODO(mf): not sure why I have to do this. It's working just fine locally but in
 		// CI (GitHub Actions) it is not outputting with colors.
 		// https://github.com/charmbracelet/lipgloss/issues/74
-		lipgloss.SetColorProfile(termenv.TrueColor)
+		// lipgloss.SetColorProfile(termenv.TrueColor)
 		cw.red = newColor(lipgloss.Color("9"))
 		cw.green = newColor(lipgloss.Color("10"))
 		cw.yellow = newColor(lipgloss.Color("11"))
