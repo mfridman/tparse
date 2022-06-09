@@ -27,9 +27,11 @@ jobs:
         run: go build -v .
 
       - name: Run tests with GITHUB_STEP_SUMMARY
+        env:
+          NO_COLOR: 1
         run: |
-          go test -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse  | tee output.json | ./tparse -notests -follow -all
-          NO_COLOR=1 ./tparse -format markdown -file output.json -all -slow 5 > $GITHUB_STEP_SUMMARY
+          go test -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse  | tee output.json | ./tparse -notests -follow -all || true
+          ./tparse -format markdown -file output.json -all -slow 5 > $GITHUB_STEP_SUMMARY
 
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
