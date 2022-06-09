@@ -20,10 +20,16 @@ theme:
     - navigation.top
 
 markdown_extensions:
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
   - meta
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - md_in_html
+  - attr_list
+  - def_list
 
 nav:
   - index.md
