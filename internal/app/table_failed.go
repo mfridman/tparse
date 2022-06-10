@@ -16,7 +16,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
 			// not be associated with tests, so we print it at the package level.
-			output := prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents)
+			output := prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents, c.disableColor)
 			fmt.Fprintln(c.w, output)
 			continue
 		}
@@ -28,6 +28,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		styledPackageHeader := styledHeader(
 			strings.ToUpper(pkg.Summary.Action.String()),
 			strings.TrimSpace(pkg.Summary.Package),
+			c.disableColor,
 		)
 		fmt.Fprintln(c.w, styledPackageHeader)
 		fmt.Fprintln(c.w)
@@ -68,13 +69,14 @@ func cut(s, sep string) (before, after string, found bool) {
 	return s, "", false
 }
 
-func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event) string {
+func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event, disableColor bool) string {
 	if testName != "" {
 		packageName = packageName + " • " + testName
 	}
 	styledPackageHeader := styledHeader(
 		"PANIC",
 		packageName,
+		disableColor,
 	)
 	// TODO(mf): can we pass this panic stack to another package and either by default,
 	// or optionally, build human-readable panic output with:
@@ -95,7 +97,7 @@ func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event
 // │   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
 // ╰───────────────────────────────────────────────────────────╯
 //
-func styledHeader(status, packageName string) string {
+func styledHeader(status, packageName string, disableColor bool) string {
 	headerStyle := lipgloss.NewStyle().
 		BorderStyle(lipgloss.ThickBorder()).
 		BorderForeground(lipgloss.Color("103"))
