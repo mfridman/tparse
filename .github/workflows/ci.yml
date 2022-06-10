@@ -26,6 +26,9 @@ jobs:
       - name: Build
         run: go build -v .
 
+      - name: Dump env
+        run: env
+
       - name: Run tests with GITHUB_STEP_SUMMARY
         # env:
         #   NO_COLOR: 1

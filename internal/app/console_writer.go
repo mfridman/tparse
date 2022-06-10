@@ -36,9 +36,7 @@ func newColor(color lipgloss.TerminalColor) colorOptionFunc {
 }
 
 func noColor() colorOptionFunc {
-	return func(text string, _ bool) string {
-		return text
-	}
+	return func(text string, _ bool) string { return text }
 }
 
 func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *consoleWriter {
