@@ -24,11 +24,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		if len(failedTests) == 0 {
 			continue
 		}
-
 		styledPackageHeader := styledHeader(
-			strings.ToUpper(pkg.Summary.Action.String()),
+			c.red(strings.ToUpper(pkg.Summary.Action.String()), false),
 			strings.TrimSpace(pkg.Summary.Package),
-			c.disableColor,
 		)
 		fmt.Fprintln(c.w, styledPackageHeader)
 		fmt.Fprintln(c.w)
@@ -76,7 +74,6 @@ func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event
 	styledPackageHeader := styledHeader(
 		"PANIC",
 		packageName,
-		disableColor,
 	)
 	// TODO(mf): can we pass this panic stack to another package and either by default,
 	// or optionally, build human-readable panic output with:
@@ -97,22 +94,27 @@ func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event
 // │   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
 // ╰───────────────────────────────────────────────────────────╯
 //
-func styledHeader(status, packageName string, disableColor bool) string {
-	headerStyle := lipgloss.NewStyle().
-		BorderStyle(lipgloss.ThickBorder()).
-		BorderForeground(lipgloss.Color("103"))
-	statusStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("9")).
-		PaddingLeft(3).
-		PaddingRight(2)
-	packageNameStyle := lipgloss.NewStyle().
-		PaddingRight(3)
-	headerRow := lipgloss.JoinHorizontal(
-		lipgloss.Left,
-		statusStyle.Render(status),
-		packageNameStyle.Render("package: "+packageName),
-	)
-	return headerStyle.Render(headerRow)
+// If colors are disabled, return a plain package
+func styledHeader(status, packageName string) string {
+	msg := fmt.Sprintf("%s • %s", status, packageName)
+	n := make([]string, len(msg))
+	div := strings.Join(n, "─")
+	return fmt.Sprintf("%s\n%s\n%s", div, msg, div)
+	// headerStyle := lipgloss.NewStyle().
+	// 	BorderStyle(lipgloss.ThickBorder()).
+	// 	BorderForeground(lipgloss.Color("103"))
+	// statusStyle := lipgloss.NewStyle().
+	// 	Foreground(lipgloss.Color("9")).
+	// 	PaddingLeft(3).
+	// 	PaddingRight(2)
+	// packageNameStyle := lipgloss.NewStyle().
+	// 	PaddingRight(3)
+	// headerRow := lipgloss.JoinHorizontal(
+	// 	lipgloss.Left,
+	// 	statusStyle.Render(status),
+	// 	packageNameStyle.Render("package: "+packageName),
+	// )
+	// return headerStyle.Render(headerRow)
 }
 
 func prepareStyledTest(t *parse.Test) string {
