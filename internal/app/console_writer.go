@@ -39,6 +39,13 @@ func newColor(color lipgloss.TerminalColor) colorOptionFunc {
 	}
 }
 
+// newMarkdownColor is a helper function to set the base color for markdown.
+func newMarkdownColor(s string) colorOptionFunc {
+	return func(text string) string {
+		return s + " " + text
+	}
+}
+
 func noColor() colorOptionFunc {
 	return func(text string) string { return text }
 }
@@ -52,11 +59,11 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		format:       format,
 		disableColor: disableColor,
 	}
-	if disableColor {
-		cw.red = noColor()
-		cw.green = noColor()
-		cw.yellow = noColor()
-	} else {
+	cw.red = noColor()
+	cw.green = noColor()
+	cw.yellow = noColor()
+
+	if !disableColor {
 		// NOTE(mf): The GitHub Actions CI env (and probably others) does not have an
 		// interactive TTY, and tparse will degrade to the "best available option" ..
 		// which is no colors. We can work around this by setting the color profile
@@ -69,9 +76,16 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		if isCIEnvironment() {
 			lipgloss.SetColorProfile(termenv.TrueColor)
 		}
-		cw.red = newColor(lipgloss.Color("9"))
-		cw.green = newColor(lipgloss.Color("10"))
-		cw.yellow = newColor(lipgloss.Color("11"))
+		switch format {
+		case OutputFormatMarkdown:
+			cw.red = newMarkdownColor("🔴")
+			cw.green = newMarkdownColor("🟢")
+			cw.yellow = newMarkdownColor("🟡")
+		default:
+			cw.red = newColor(lipgloss.Color("9"))
+			cw.green = newColor(lipgloss.Color("10"))
+			cw.yellow = newColor(lipgloss.Color("11"))
+		}
 	}
 	return cw
 }
