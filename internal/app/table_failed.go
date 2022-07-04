@@ -39,12 +39,24 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			return failedTests[i].Name < failedTests[j].Name
 		})
 
+		// TODO(mf): this might need to be markdown-specific.
 		divider := lipgloss.NewStyle().
 			BorderStyle(lipgloss.NormalBorder()).
 			BorderTop(true).
 			Faint(true).
 			Width(96)
 
+		// The output here might be a nested (think tabbed) line. Example:
+		//
+		// --- FAIL: Test (0.05s)
+		//     --- FAIL: Test/test_01 (0.01s)
+		//         --- FAIL: Test/test_01/sort (0.00s)
+		//
+		// This poses a problem when rendering markdown, because the inlined
+		// code block.
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprintln(c.w, fencedCodeBlock)
+		}
 		var key string
 		for i, t := range failedTests {
 			// Add top divider to all tests except first one.
@@ -55,8 +67,15 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			key = base
 			fmt.Fprintln(c.w, c.prepareStyledTest(t))
 		}
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
+		}
 	}
 }
+
+const (
+	fencedCodeBlock string = "```"
+)
 
 // copied directly from strings.Cut (go1.18) to support older Go versions.
 // In the future, replace this with the upstream function.
@@ -139,27 +158,15 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 			continue
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
-			// The output here might be a nested (think tabbed) line. Example:
-			// --- FAIL: Test (0.05s)
-			//     --- FAIL: Test/test_01 (0.01s)
-			//         --- FAIL: Test/test_01/sort (0.00s)
-			// un
-
 			header := e.Output
 			// Avoid colorizing this output so it renders properly in markdown.
-			if c.format == OutputFormatMarkdown {
-				n := strings.Count(header, "\t")
-				if n == 0 {
-					header = strings.TrimSpace(header)
-				} else {
-					header = strings.ReplaceAll(header, "\t", "&nbsp;&nbsp;")
-				}
-			} else {
+			if c.format != OutputFormatMarkdown {
 				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
 			}
 			headerRows.WriteString(header)
 			continue
 		}
+
 		if e.Output != "" {
 			rows.WriteString(e.Output)
 		}
