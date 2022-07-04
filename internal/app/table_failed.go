@@ -52,8 +52,8 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		//     --- FAIL: Test/test_01 (0.01s)
 		//         --- FAIL: Test/test_01/sort (0.00s)
 		//
-		// This poses a problem when rendering markdown, because the inlined
-		// code block.
+		// This poses a problem when rendering markdown, because the subtest
+		// output will render as inlined code fences.
 		if c.format == OutputFormatMarkdown {
 			fmt.Fprintln(c.w, fencedCodeBlock)
 		}
