@@ -25,7 +25,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			continue
 		}
 		styledPackageHeader := styledHeader(
-			c.red(strings.ToUpper(pkg.Summary.Action.String()), false),
+			c.red(strings.ToUpper(pkg.Summary.Action.String())),
 			strings.TrimSpace(pkg.Summary.Package),
 		)
 		fmt.Fprintln(c.w, styledPackageHeader)

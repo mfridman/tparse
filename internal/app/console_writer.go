@@ -30,17 +30,17 @@ type consoleWriter struct {
 	yellow colorOptionFunc
 }
 
-type colorOptionFunc func(s string, bold bool) string
+type colorOptionFunc func(s string) string
 
 // newColor is a helper function to set the base color.
 func newColor(color lipgloss.TerminalColor) colorOptionFunc {
-	return func(text string, bold bool) string {
-		return lipgloss.NewStyle().Bold(bold).Foreground(color).Render(text)
+	return func(text string) string {
+		return lipgloss.NewStyle().Foreground(color).Render(text)
 	}
 }
 
 func noColor() colorOptionFunc {
-	return func(text string, _ bool) string { return text }
+	return func(text string) string { return text }
 }
 
 func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *consoleWriter {

@@ -91,11 +91,11 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			status := strings.ToUpper(t.Status().String())
 			switch t.Status() {
 			case parse.ActionPass:
-				status = c.green(status, false)
+				status = c.green(status)
 			case parse.ActionSkip:
-				status = c.yellow(status, false)
+				status = c.yellow(status)
 			case parse.ActionFail:
-				status = c.red(status, false)
+				status = c.red(status)
 			}
 
 			dir, packageName := path.Split(t.Package)
