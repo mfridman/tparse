@@ -78,13 +78,13 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		}
 		switch format {
 		case OutputFormatMarkdown:
-			cw.red = newMarkdownColor("🔴")
 			cw.green = newMarkdownColor("🟢")
 			cw.yellow = newMarkdownColor("🟡")
+			cw.red = newMarkdownColor("🔴")
 		default:
-			cw.red = newColor(lipgloss.Color("9"))
 			cw.green = newColor(lipgloss.Color("10"))
 			cw.yellow = newColor(lipgloss.Color("11"))
+			cw.red = newColor(lipgloss.Color("9"))
 		}
 	}
 	return cw

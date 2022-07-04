@@ -53,7 +53,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 				fmt.Fprintln(c.w, divider.String())
 			}
 			key = base
-			fmt.Fprintln(c.w, prepareStyledTest(t))
+			fmt.Fprintln(c.w, c.prepareStyledTest(t))
 		}
 	}
 }
@@ -88,36 +88,44 @@ func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event
 	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, rows.String())
 }
 
-// styledHeader styles a header based on the status and package name:
-//
-// ╭───────────────────────────────────────────────────────────╮
-// │   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
-// ╰───────────────────────────────────────────────────────────╯
-//
-// If colors are disabled, return a plain package
 func styledHeader(status, packageName string) string {
 	msg := fmt.Sprintf("%s • %s", status, packageName)
 	n := make([]string, len(msg))
 	div := strings.Join(n, "─")
 	return fmt.Sprintf("%s\n%s\n%s", div, msg, div)
-	// headerStyle := lipgloss.NewStyle().
-	// 	BorderStyle(lipgloss.ThickBorder()).
-	// 	BorderForeground(lipgloss.Color("103"))
-	// statusStyle := lipgloss.NewStyle().
-	// 	Foreground(lipgloss.Color("9")).
-	// 	PaddingLeft(3).
-	// 	PaddingRight(2)
-	// packageNameStyle := lipgloss.NewStyle().
-	// 	PaddingRight(3)
-	// headerRow := lipgloss.JoinHorizontal(
-	// 	lipgloss.Left,
-	// 	statusStyle.Render(status),
-	// 	packageNameStyle.Render("package: "+packageName),
-	// )
-	// return headerStyle.Render(headerRow)
+
+	/*
+		The previous implementation looked something like this:
+
+		╭───────────────────────────────────────────────────────────╮
+		│   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
+		╰───────────────────────────────────────────────────────────╯
+
+		But this doesn't render nicely, especially in markdown. Need to rethink
+		how to best support multiple output formats across CI and local development.
+
+		See https://github.com/mfridman/tparse/issues/71
+
+		headerStyle := lipgloss.NewStyle().
+			BorderStyle(lipgloss.ThickBorder()).
+			BorderForeground(lipgloss.Color("103"))
+		statusStyle := lipgloss.NewStyle().
+			Foreground(lipgloss.Color("9")).
+			PaddingLeft(3).
+			PaddingRight(2)
+		packageNameStyle := lipgloss.NewStyle().
+			PaddingRight(3)
+		headerRow := lipgloss.JoinHorizontal(
+			lipgloss.Left,
+			statusStyle.Render(status),
+			packageNameStyle.Render("package: "+packageName),
+		)
+		return headerStyle.Render(headerRow)
+	*/
+
 }
 
-func prepareStyledTest(t *parse.Test) string {
+func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 	t.SortEvents()
 
 	var rows, headerRows strings.Builder
@@ -129,7 +137,11 @@ func prepareStyledTest(t *parse.Test) string {
 			continue
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
-			header := lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
+			header := e.Output
+			// Avoid colorizing this output so it renders properly in markdown.
+			if c.format != OutputFormatMarkdown {
+				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
+			}
 			headerRows.WriteString(header)
 			continue
 		}
