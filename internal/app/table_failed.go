@@ -16,7 +16,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
 			// not be associated with tests, so we print it at the package level.
-			output := prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents, c.disableColor)
+			output := c.prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents)
 			fmt.Fprintln(c.w, output)
 			continue
 		}
@@ -24,9 +24,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		if len(failedTests) == 0 {
 			continue
 		}
-		styledPackageHeader := styledHeader(
-			c.red(strings.ToUpper(pkg.Summary.Action.String())),
-			strings.TrimSpace(pkg.Summary.Package),
+		styledPackageHeader := c.styledHeader(
+			pkg.Summary.Action.String(),
+			pkg.Summary.Package,
 		)
 		fmt.Fprintln(c.w, styledPackageHeader)
 		fmt.Fprintln(c.w)
@@ -67,14 +67,15 @@ func cut(s, sep string) (before, after string, found bool) {
 	return s, "", false
 }
 
-func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event, disableColor bool) string {
+func (c *consoleWriter) prepareStyledPanic(
+	packageName string,
+	testName string,
+	panicEvents []*parse.Event,
+) string {
 	if testName != "" {
 		packageName = packageName + " • " + testName
 	}
-	styledPackageHeader := styledHeader(
-		"PANIC",
-		packageName,
-	)
+	styledPackageHeader := c.styledHeader("PANIC", packageName)
 	// TODO(mf): can we pass this panic stack to another package and either by default,
 	// or optionally, build human-readable panic output with:
 	// https://github.com/maruel/panicparse
@@ -88,8 +89,9 @@ func prepareStyledPanic(packageName, testName string, panicEvents []*parse.Event
 	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, rows.String())
 }
 
-func styledHeader(status, packageName string) string {
-	msg := fmt.Sprintf("%s • %s", status, packageName)
+func (c *consoleWriter) styledHeader(status, packageName string) string {
+	// TODO(mf):
+	msg := fmt.Sprintf("%s • %s", c.red(strings.ToUpper(status)), strings.TrimSpace(packageName))
 	n := make([]string, len(msg))
 	div := strings.Join(n, "─")
 	return fmt.Sprintf("%s\n%s\n%s", div, msg, div)
@@ -137,9 +139,22 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 			continue
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
+			// The output here might be a nested (think tabbed) line. Example:
+			// --- FAIL: Test (0.05s)
+			//     --- FAIL: Test/test_01 (0.01s)
+			//         --- FAIL: Test/test_01/sort (0.00s)
+			// un
+
 			header := e.Output
 			// Avoid colorizing this output so it renders properly in markdown.
-			if c.format != OutputFormatMarkdown {
+			if c.format == OutputFormatMarkdown {
+				n := strings.Count(header, "\t")
+				if n == 0 {
+					header = strings.TrimSpace(header)
+				} else {
+					header = strings.ReplaceAll(header, "\t", "&nbsp;&nbsp;")
+				}
+			} else {
 				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
 			}
 			headerRows.WriteString(header)
