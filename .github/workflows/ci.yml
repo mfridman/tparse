@@ -26,9 +26,6 @@ jobs:
       - name: Build
         run: go build -v .
 
-      - name: Dump env
-        run: env
-
       - name: Run tests with GITHUB_STEP_SUMMARY
       # Note the use of  || true. This so the job doesn't fail at that line. We want to preserve -follow
       # as part of the test output, but not output it to the summary page, which is done in the proceeding
