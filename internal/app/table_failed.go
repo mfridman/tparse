@@ -12,6 +12,9 @@ import (
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.
 // Panic is an exception.
 func (c *consoleWriter) printFailed(packages []*parse.Package) {
+	if c.format == OutputFormatMarkdown {
+		fmt.Fprintln(c.w, fencedCodeBlock)
+	}
 	for _, pkg := range packages {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
@@ -54,9 +57,6 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		//
 		// This poses a problem when rendering markdown, because the subtest
 		// output will render as inlined code fences.
-		if c.format == OutputFormatMarkdown {
-			fmt.Fprintln(c.w, fencedCodeBlock)
-		}
 		var key string
 		for i, t := range failedTests {
 			// Add top divider to all tests except first one.
@@ -67,9 +67,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			key = base
 			fmt.Fprintln(c.w, c.prepareStyledTest(t))
 		}
-		if c.format == OutputFormatMarkdown {
-			fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
-		}
+	}
+	if c.format == OutputFormatMarkdown {
+		fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
 	}
 }
 
@@ -111,28 +111,30 @@ func (c *consoleWriter) prepareStyledPanic(
 func (c *consoleWriter) styledHeader(status, packageName string) string {
 	status = c.red(strings.ToUpper(status))
 	packageName = strings.TrimSpace(packageName)
-	// if c.format == OutputFormatMarkdown {
-	// 	msg := fmt.Sprintf("%s • %s", status, packageName)
-	// 	var divider string
-	// 	for i := 0; i < len(msg); i++ {
-	// 		divider += "─"
-	// 	}
-	// 	return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
-	// }
 
+	if c.format == OutputFormatMarkdown {
+		msg := fmt.Sprintf("%s • %s", status, packageName)
+		var divider string
+		for i := 0; i < len(msg); i++ {
+			divider += "─"
+		}
+		return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
+	}
 	/*
 		Need to rethink how to best support multiple output formats across
 		CI, local terminal development and markdown
 
 		See https://github.com/mfridman/tparse/issues/71
 	*/
-	headerStyle := lipgloss.NewStyle().BorderStyle(lipgloss.ThickBorder())
-	statusStyle := lipgloss.NewStyle().PaddingLeft(3).PaddingRight(2)
-	packageNameStyle := lipgloss.NewStyle().PaddingRight(3)
-	if c.format != OutputFormatMarkdown {
-		headerStyle = headerStyle.BorderForeground(lipgloss.Color("103"))
-		statusStyle = statusStyle.Foreground(lipgloss.Color("9"))
-	}
+	headerStyle := lipgloss.NewStyle().
+		BorderStyle(lipgloss.ThickBorder()).
+		BorderForeground(lipgloss.Color("103"))
+	statusStyle := lipgloss.NewStyle().
+		PaddingLeft(3).
+		PaddingRight(2).
+		Foreground(lipgloss.Color("9"))
+	packageNameStyle := lipgloss.NewStyle().
+		PaddingRight(3)
 	headerRow := lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		statusStyle.Render(status),
