@@ -46,7 +46,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		packageName := pkg.Summary.Package
 		if pkg.HasPanic {
 			row := summaryRow{
-				status:      c.red("PANIC", true),
+				status:      c.red("PANIC"),
 				elapsed:     elapsed,
 				packageName: packageName,
 				cover:       "--", pass: "--", fail: "--", skip: "--",
@@ -56,7 +56,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		}
 		if pkg.HasFailedBuildOrSetup {
 			row := summaryRow{
-				status:      c.red("FAIL", true),
+				status:      c.red("FAIL"),
 				elapsed:     elapsed,
 				packageName: packageName + "\n[" + pkg.Summary.Output + "]",
 				cover:       "--", pass: "--", fail: "--", skip: "--",
@@ -66,7 +66,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		}
 		if pkg.NoTestFiles {
 			row := summaryRow{
-				status:      c.yellow("NOTEST", true),
+				status:      c.yellow("NOTEST"),
 				elapsed:     elapsed,
 				packageName: packageName + "\n[no test files]",
 				cover:       "--", pass: "--", fail: "--", skip: "--",
@@ -78,7 +78,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 			// This should capture cases where packages truly have no tests, but empty files.
 			if len(pkg.NoTestSlice) == 0 {
 				row := summaryRow{
-					status:      c.yellow("NOTEST", true),
+					status:      c.yellow("NOTEST"),
 					elapsed:     elapsed,
 					packageName: packageName + "\n[no tests to run]",
 					cover:       "--", pass: "--", fail: "--", skip: "--",
@@ -94,7 +94,7 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 			}
 			packageName := fmt.Sprintf("%s\n[no tests to run]\n%s", packageName, strings.Join(ss, "\n"))
 			row := summaryRow{
-				status:      c.yellow("NOTEST", true),
+				status:      c.yellow("NOTEST"),
 				elapsed:     elapsed,
 				packageName: packageName,
 				cover:       "--", pass: "--", fail: "--", skip: "--",
@@ -109,14 +109,17 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		coverage := "--"
 		if pkg.Cover {
 			coverage = fmt.Sprintf("%.1f%%", pkg.Coverage)
-			if pkg.Summary.Action != parse.ActionFail {
+			// Showing coverage for a package that failed is a bit odd.
+			//
+			// Only colorize the coverage when everything passed AND the output is not markdown.
+			if pkg.Summary.Action == parse.ActionPass && c.format != OutputFormatMarkdown {
 				switch cover := pkg.Coverage; {
 				case cover > 0.0 && cover <= 50.0:
-					coverage = c.red(coverage, false)
+					coverage = c.red(coverage)
 				case pkg.Coverage > 50.0 && pkg.Coverage < 80.0:
-					coverage = c.yellow(coverage, false)
+					coverage = c.yellow(coverage)
 				case pkg.Coverage >= 80.0:
-					coverage = c.green(coverage, false)
+					coverage = c.green(coverage)
 				}
 			}
 		}
@@ -124,11 +127,11 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		status := strings.ToUpper(pkg.Summary.Action.String())
 		switch pkg.Summary.Action {
 		case parse.ActionPass:
-			status = c.green(status, false)
+			status = c.green(status)
 		case parse.ActionSkip:
-			status = c.yellow(status, false)
+			status = c.yellow(status)
 		case parse.ActionFail:
-			status = c.red(status, false)
+			status = c.red(status)
 		}
 		row := summaryRow{
 			status:      status,
