@@ -12,9 +12,6 @@ import (
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.
 // Panic is an exception.
 func (c *consoleWriter) printFailed(packages []*parse.Package) {
-	if c.format == OutputFormatMarkdown {
-		fmt.Fprintln(c.w, fencedCodeBlock)
-	}
 	for _, pkg := range packages {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
@@ -31,8 +28,14 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			pkg.Summary.Action.String(),
 			pkg.Summary.Package,
 		)
-		fmt.Fprintln(c.w, styledPackageHeader)
-		fmt.Fprintln(c.w)
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprintln(c.w, "##", styledPackageHeader)
+			fmt.Fprintf(c.w, "---\n")
+			fmt.Fprintln(c.w)
+		} else {
+			fmt.Fprintln(c.w, styledPackageHeader)
+			fmt.Fprintln(c.w)
+		}
 		/*
 			Failed tests are all the individual tests, where the subtests are not separated.
 
@@ -57,6 +60,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		//
 		// This poses a problem when rendering markdown, because the subtest
 		// output will render as inlined code fences.
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprintln(c.w, fencedCodeBlock)
+		}
 		var key string
 		for i, t := range failedTests {
 			// Add top divider to all tests except first one.
@@ -67,9 +73,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			key = base
 			fmt.Fprintln(c.w, c.prepareStyledTest(t))
 		}
-	}
-	if c.format == OutputFormatMarkdown {
-		fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
+		if c.format == OutputFormatMarkdown {
+			fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
+		}
 	}
 }
 
@@ -114,11 +120,15 @@ func (c *consoleWriter) styledHeader(status, packageName string) string {
 
 	if c.format == OutputFormatMarkdown {
 		msg := fmt.Sprintf("%s • %s", status, packageName)
-		var divider string
-		for i := 0; i < len(msg); i++ {
-			divider += "─"
-		}
-		return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
+		return msg
+		// TODO(mf): an alternative implementation is to add 2 horizontal lines above and below
+		// the package header output.
+		//
+		// var divider string
+		// for i := 0; i < len(msg); i++ {
+		// 	divider += "─"
+		// }
+		// return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
 	}
 	/*
 		Need to rethink how to best support multiple output formats across
