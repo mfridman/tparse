@@ -109,9 +109,10 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 		coverage := "--"
 		if pkg.Cover {
 			coverage = fmt.Sprintf("%.1f%%", pkg.Coverage)
-			// Only colorize the coverage when everything passed AND
-			// the output is not markdown.
-			if pkg.Summary.Action != parse.ActionFail && c.format != OutputFormatMarkdown {
+			// Showing coverage for a package that failed is a bit odd.
+			//
+			// Only colorize the coverage when everything passed AND the output is not markdown.
+			if pkg.Summary.Action == parse.ActionPass && c.format != OutputFormatMarkdown {
 				switch cover := pkg.Coverage; {
 				case cover > 0.0 && cover <= 50.0:
 					coverage = c.red(coverage)

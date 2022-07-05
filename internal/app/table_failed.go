@@ -164,8 +164,8 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 		}
 		if strings.Contains(e.Output, failLine) {
 			header := strings.TrimSuffix(e.Output, "\n")
-			// The go test adds too much prefix padding to the "--- FAIL: " output lines.
-			// Let's cut the padding by exatly half, being careful to preserve that fail
+			// go test prefixes too much padding to the "--- FAIL: " output lines.
+			// Let's cut the padding by half, being careful to preserve the fail
 			// line and the proceeding output.
 			before, after, ok := cut(header, failLine)
 			var pad string
