@@ -28,13 +28,8 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			pkg.Summary.Action.String(),
 			pkg.Summary.Package,
 		)
-		if c.format == OutputFormatMarkdown {
-			fmt.Fprintln(c.w, "##", styledPackageHeader)
-			fmt.Fprintln(c.w)
-		} else {
-			fmt.Fprintln(c.w, styledPackageHeader)
-			fmt.Fprintln(c.w)
-		}
+		fmt.Fprintln(c.w, styledPackageHeader)
+		fmt.Fprintln(c.w)
 		/*
 			Failed tests are all the individual tests, where the subtests are not separated.
 
@@ -118,7 +113,7 @@ func (c *consoleWriter) styledHeader(status, packageName string) string {
 	packageName = strings.TrimSpace(packageName)
 
 	if c.format == OutputFormatMarkdown {
-		msg := fmt.Sprintf("%s • %s", status, packageName)
+		msg := fmt.Sprintf("## %s • %s", status, packageName)
 		return msg
 		// TODO(mf): an alternative implementation is to add 2 horizontal lines above and below
 		// the package header output.
