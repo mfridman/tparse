@@ -109,16 +109,16 @@ func (c *consoleWriter) prepareStyledPanic(
 }
 
 func (c *consoleWriter) styledHeader(status, packageName string) string {
-	status = strings.ToUpper(status)
+	status = c.red(strings.ToUpper(status))
 	packageName = strings.TrimSpace(packageName)
-	if c.format == OutputFormatMarkdown {
-		msg := fmt.Sprintf("%s • %s", c.red(status), packageName)
-		var divider string
-		for i := 0; i < len(msg); i++ {
-			divider += "─"
-		}
-		return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
-	}
+	// if c.format == OutputFormatMarkdown {
+	// 	msg := fmt.Sprintf("%s • %s", status, packageName)
+	// 	var divider string
+	// 	for i := 0; i < len(msg); i++ {
+	// 		divider += "─"
+	// 	}
+	// 	return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
+	// }
 
 	/*
 		Need to rethink how to best support multiple output formats across
@@ -126,15 +126,13 @@ func (c *consoleWriter) styledHeader(status, packageName string) string {
 
 		See https://github.com/mfridman/tparse/issues/71
 	*/
-	headerStyle := lipgloss.NewStyle().
-		BorderStyle(lipgloss.ThickBorder()).
-		BorderForeground(lipgloss.Color("103"))
-	statusStyle := lipgloss.NewStyle().
-		Foreground(lipgloss.Color("9")).
-		PaddingLeft(3).
-		PaddingRight(2)
-	packageNameStyle := lipgloss.NewStyle().
-		PaddingRight(3)
+	headerStyle := lipgloss.NewStyle().BorderStyle(lipgloss.ThickBorder())
+	statusStyle := lipgloss.NewStyle().PaddingLeft(3).PaddingRight(2)
+	packageNameStyle := lipgloss.NewStyle().PaddingRight(3)
+	if c.format != OutputFormatMarkdown {
+		headerStyle = headerStyle.BorderForeground(lipgloss.Color("103"))
+		statusStyle = statusStyle.Foreground(lipgloss.Color("9"))
+	}
 	headerRow := lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		statusStyle.Render(status),
