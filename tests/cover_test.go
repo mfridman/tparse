@@ -25,13 +25,13 @@ func Test(t *testing.T) {
 		{
 			// go test -count=1 bytes log sort -json -cover
 			"test_01",
-			expected{"log": 68.0, "bytes": 86.7, "sort": 10.8},
+			expected{"log": 68.0, "bytes": 86.7, "sort": 60.8},
 		},
 		{
 			// go test -count=1 bufio bytes crypto fmt log mime net sort strings time -json -cover
 			"test_02",
 			expected{
-				"bufio":   93.2,
+				"bufio":   93.3,
 				"bytes":   95.6,
 				"crypto":  5.9,
 				"fmt":     95.2,
