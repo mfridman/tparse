@@ -109,42 +109,43 @@ func (c *consoleWriter) prepareStyledPanic(
 }
 
 func (c *consoleWriter) styledHeader(status, packageName string) string {
-	// TODO(mf):
-	msg := fmt.Sprintf("%s • %s", c.red(strings.ToUpper(status)), strings.TrimSpace(packageName))
-	n := make([]string, len(msg))
-	div := strings.Join(n, "─")
-	return fmt.Sprintf("%s\n%s\n%s", div, msg, div)
+	status = strings.ToUpper(status)
+	packageName = strings.TrimSpace(packageName)
+	if c.format == OutputFormatMarkdown {
+		msg := fmt.Sprintf("%s • %s", c.red(status), packageName)
+		var divider string
+		for i := 0; i < len(msg); i++ {
+			divider += "─"
+		}
+		return fmt.Sprintf("%s\n%s\n%s", divider, msg, divider)
+	}
 
 	/*
-		The previous implementation looked something like this:
-
-		╭───────────────────────────────────────────────────────────╮
-		│   PANIC  package: github.com/pressly/goose/v3/tests/e2e   │
-		╰───────────────────────────────────────────────────────────╯
-
-		But this doesn't render nicely, especially in markdown. Need to rethink
-		how to best support multiple output formats across CI and local development.
+		Need to rethink how to best support multiple output formats across
+		CI, local terminal development and markdown
 
 		See https://github.com/mfridman/tparse/issues/71
-
-		headerStyle := lipgloss.NewStyle().
-			BorderStyle(lipgloss.ThickBorder()).
-			BorderForeground(lipgloss.Color("103"))
-		statusStyle := lipgloss.NewStyle().
-			Foreground(lipgloss.Color("9")).
-			PaddingLeft(3).
-			PaddingRight(2)
-		packageNameStyle := lipgloss.NewStyle().
-			PaddingRight(3)
-		headerRow := lipgloss.JoinHorizontal(
-			lipgloss.Left,
-			statusStyle.Render(status),
-			packageNameStyle.Render("package: "+packageName),
-		)
-		return headerStyle.Render(headerRow)
 	*/
-
+	headerStyle := lipgloss.NewStyle().
+		BorderStyle(lipgloss.ThickBorder()).
+		BorderForeground(lipgloss.Color("103"))
+	statusStyle := lipgloss.NewStyle().
+		Foreground(lipgloss.Color("9")).
+		PaddingLeft(3).
+		PaddingRight(2)
+	packageNameStyle := lipgloss.NewStyle().
+		PaddingRight(3)
+	headerRow := lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		statusStyle.Render(status),
+		packageNameStyle.Render("package: "+packageName),
+	)
+	return headerStyle.Render(headerRow)
 }
+
+const (
+	failLine = "--- FAIL: "
+)
 
 func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 	t.SortEvents()
@@ -157,15 +158,28 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 		if e.Action != parse.ActionOutput {
 			continue
 		}
-		if strings.Contains(e.Output, "--- FAIL: ") {
+		if strings.Contains(e.Output, failLine) {
 			header := strings.TrimSuffix(e.Output, "\n")
-			n := strings.Count(header, "\t")
-			if n == 0 {
-				header = strings.TrimSpace(header)
-			} else {
-				header = strings.ReplaceAll(header, "\t", " ")
+			// The go test adds too much prefix padding to the "--- FAIL: " output lines.
+			// Let's cut the padding by exatly half, being careful to preserve that fail
+			// line and the proceeding output.
+			before, after, ok := cut(header, failLine)
+			var pad string
+			if ok {
+				var n int
+				for _, r := range before {
+					if r == 32 {
+						n++
+					}
+				}
+				for i := 0; i < n/2; i++ {
+					pad += " "
+				}
 			}
-			// Avoid colorizing this output so it renders properly in markdown.
+			header = pad + failLine + after
+
+			// Avoid colorizing markdown output so it renders properly, otherwise add a subtle
+			// red color to the test headers.
 			if c.format != OutputFormatMarkdown {
 				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(header)
 			}
@@ -177,9 +191,9 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 			rows.WriteString(e.Output)
 		}
 	}
-	out := headerRows.String() + "\n"
+	out := headerRows.String()
 	if rows.Len() > 0 {
-		out += ("\n" + rows.String())
+		out += "\n\n" + rows.String()
 	}
 	return out
 }
