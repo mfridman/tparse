@@ -23,7 +23,7 @@ func TestFollow(t *testing.T) {
 		exitCode int
 	}{
 		// race detected
-		{"test_01", nil, 1},
+		{"test_01", nil, 0},
 		{"test_02", nil, 0},
 		{"test_03", nil, 0},
 		{"test_04", nil, 0},

@@ -158,10 +158,10 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 			continue
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
-			header := e.Output
+			header := strings.TrimSuffix(e.Output, "\n")
 			// Avoid colorizing this output so it renders properly in markdown.
 			if c.format != OutputFormatMarkdown {
-				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(e.Output)
+				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(header)
 			}
 			headerRows.WriteString(header)
 			continue
@@ -173,7 +173,7 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 	}
 	out := headerRows.String()
 	if rows.Len() > 0 {
-		out += "\n" + rows.String()
+		out += "\n\n" + rows.String()
 	}
 	return out
 }
