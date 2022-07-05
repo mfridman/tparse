@@ -31,7 +31,7 @@ func TestFinalOutcome(t *testing.T) {
 			"github.com/astromail/rover/storage":        parse.ActionPass,
 			"github.com/astromail/rover/errors":         parse.ActionPass,
 			"github.com/astromail/rover/storage/badger": parse.ActionPass,
-			"github.com/astromail/rover":                parse.ActionPass,
+			"github.com/astromail/rover":                parse.ActionFail,
 		}},
 		{"test_03.json", 0, registry{
 			"fmt": parse.ActionPass,

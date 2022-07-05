@@ -89,8 +89,8 @@ func TestSortCoverage(t *testing.T) {
 			"test_01",
 			expected{
 				86.7, // "bytes"
-				68.0, // "log"
 				60.8, // "sort"
+				68.0, // "log"
 			},
 		},
 		{
