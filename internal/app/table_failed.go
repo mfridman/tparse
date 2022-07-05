@@ -39,21 +39,29 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			return failedTests[i].Name < failedTests[j].Name
 		})
 
-		// TODO(mf): this might need to be markdown-specific.
 		divider := lipgloss.NewStyle().
 			BorderStyle(lipgloss.NormalBorder()).
 			BorderTop(true).
 			Faint(c.format != OutputFormatMarkdown).
 			Width(96)
 
-		// The output here might be a nested (think tabbed) line. Example:
-		//
-		// --- FAIL: Test (0.05s)
-		//     --- FAIL: Test/test_01 (0.01s)
-		//         --- FAIL: Test/test_01/sort (0.00s)
-		//
-		// This poses a problem when rendering markdown, because the subtest
-		// output will render as inlined code fences.
+		/*
+			Note, some output such as the "--- FAIL: " line is prefixed
+			with spaces. Unfortunately when dumping this in markdown format
+			it renders as an code block.
+
+			"To produce a code block in Markdown, simply indent every line of the
+			block by at least 4 spaces or 1 tab."
+			Ref. https://daringfireball.net/projects/markdown/syntax
+
+			Example:
+			 --- FAIL: Test (0.05s)
+			    --- FAIL: Test/test_01 (0.01s)
+			        --- FAIL: Test/test_01/sort (0.00s)
+
+			This is why we wrap the entire test output in a code block.
+		*/
+
 		if c.format == OutputFormatMarkdown {
 			fmt.Fprintln(c.w, fencedCodeBlock)
 		}
