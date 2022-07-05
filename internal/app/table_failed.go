@@ -30,7 +30,6 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		)
 		if c.format == OutputFormatMarkdown {
 			fmt.Fprintln(c.w, "##", styledPackageHeader)
-			fmt.Fprintf(c.w, "\n---\n")
 			fmt.Fprintln(c.w)
 		} else {
 			fmt.Fprintln(c.w, styledPackageHeader)
