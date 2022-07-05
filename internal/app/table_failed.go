@@ -43,7 +43,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		divider := lipgloss.NewStyle().
 			BorderStyle(lipgloss.NormalBorder()).
 			BorderTop(true).
-			Faint(true).
+			Faint(c.format != OutputFormatMarkdown).
 			Width(96)
 
 		// The output here might be a nested (think tabbed) line. Example:
@@ -159,6 +159,12 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 		}
 		if strings.Contains(e.Output, "--- FAIL: ") {
 			header := strings.TrimSuffix(e.Output, "\n")
+			n := strings.Count(header, "\t")
+			if n == 0 {
+				header = strings.TrimSpace(header)
+			} else {
+				header = strings.ReplaceAll(header, "\t", " ")
+			}
 			// Avoid colorizing this output so it renders properly in markdown.
 			if c.format != OutputFormatMarkdown {
 				header = lipgloss.NewStyle().Foreground(lipgloss.Color("1")).Render(header)
@@ -171,9 +177,9 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 			rows.WriteString(e.Output)
 		}
 	}
-	out := headerRows.String()
+	out := headerRows.String() + "\n"
 	if rows.Len() > 0 {
-		out += "\n\n" + rows.String()
+		out += ("\n" + rows.String())
 	}
 	return out
 }
