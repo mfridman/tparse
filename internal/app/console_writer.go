@@ -2,8 +2,6 @@ package app
 
 import (
 	"io"
-	"os"
-	"strconv"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/termenv"
@@ -62,18 +60,14 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 	cw.yellow = noColor()
 
 	if !disableColor {
-		// NOTE(mf): The GitHub Actions CI env (and probably others) does not have an
-		// interactive TTY, and tparse will degrade to the "best available option" ..
-		// which is no colors. We can work around this by setting the color profile
-		// manually instead of relying on it to auto-detect.
+		// NOTE(mf): GitHub Actions CI env (and probably others) do not have an
+		// interactive TTY, and tparse through termenv will degrade to the
+		// "best available option" .. which is no colors. We can work around this by
+		// setting a color profile explicitly instead of relying on termenv to auto-detect.
 		// Ref: https://github.com/charmbracelet/lipgloss/issues/74
-		//
-		// TODO(mf): Should this be an explicit env variable instead? Such as TPARSE_FORCE_COLOR
-		//
-		// For now we best-effort the most common CI environments and set this manually.
-		if isCIEnvironment() {
-			lipgloss.SetColorProfile(termenv.TrueColor)
-		}
+		// Ref: https://github.com/mfridman/tparse/issues/76
+		lipgloss.SetColorProfile(termenv.TrueColor)
+
 		switch format {
 		case OutputFormatMarkdown:
 			cw.green = newMarkdownColor("🟢")
@@ -86,13 +80,4 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		}
 	}
 	return cw
-}
-
-func isCIEnvironment() bool {
-	if s := os.Getenv("CI"); s != "" {
-		if ok, err := strconv.ParseBool(s); err == nil && ok {
-			return true
-		}
-	}
-	return false
 }
