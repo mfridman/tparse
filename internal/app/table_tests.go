@@ -161,7 +161,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
 			fmt.Fprintf(c.w,
-				"showing **%d passed** (of %d) | showing **%d skipped** (of %d)\n",
+				"**%d passed** tests (out of %d) | **%d skipped** tests (out of %d)\n",
 				len(pkgTests.passed),
 				pkgTests.passedCount,
 				len(pkgTests.skipped),
