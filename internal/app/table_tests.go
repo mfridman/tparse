@@ -32,8 +32,10 @@ type TestTableOptions struct {
 }
 
 type packageTests struct {
-	skipped []*parse.Test
-	passed  []*parse.Test
+	skippedCount int
+	skipped      []*parse.Test
+	passedCount  int
+	passed       []*parse.Test
 }
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
@@ -110,43 +112,6 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	}
 }
 
-func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageTests {
-	tests := &packageTests{}
-	if option.Skip {
-		tests.skipped = append(tests.skipped, pkg.TestsByAction(parse.ActionSkip)...)
-	}
-	if option.Pass {
-		tests.passed = append(tests.passed, pkg.TestsByAction(parse.ActionPass)...)
-
-		// Order passed tests within a package by elapsed time DESC (longest on top).
-		sort.Slice(tests.passed, func(i, j int) bool {
-			return tests.passed[i].Elapsed() > tests.passed[j].Elapsed()
-		})
-		// Optionall, display only the slowest N tests by elapsed time.
-		if option.Slow > 0 && len(tests.passed) > option.Slow {
-			tests.passed = tests.passed[:option.Slow]
-		}
-	}
-	return tests
-}
-
-func shortenTestName(s string, trim bool) string {
-	var testName strings.Builder
-	testName.WriteString(s)
-	if trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
-		testName.Reset()
-		ss := strings.Split(s, "/")
-		testName.WriteString(ss[0] + "\n")
-		for i, s := range ss[1:] {
-			testName.WriteString(" /" + s)
-			if i != len(ss[1:])-1 {
-				testName.WriteString("\n")
-			}
-		}
-	}
-	return testName.String()
-}
-
 func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option TestTableOptions) {
 	for _, pkg := range packages {
 		// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
@@ -195,7 +160,13 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
-			fmt.Fprintf(c.w, "**%d passed** | **%d skipped**\n", len(pkgTests.passed), len(pkgTests.skipped))
+			fmt.Fprintf(c.w,
+				"showing **%d passed** (of %d) | showing **%d skipped** (of %d)\n",
+				len(pkgTests.passed),
+				pkgTests.passedCount,
+				len(pkgTests.skipped),
+				pkgTests.skippedCount,
+			)
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<details>")
 			fmt.Fprintln(c.w)
@@ -207,6 +178,46 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 		}
 		fmt.Fprintln(c.w)
 	}
+}
+
+func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageTests {
+	tests := &packageTests{}
+	skipped := pkg.TestsByAction(parse.ActionSkip)
+	tests.skippedCount = len(skipped)
+	passed := pkg.TestsByAction(parse.ActionPass)
+	tests.passedCount = len(passed)
+	if option.Skip {
+		tests.skipped = append(tests.skipped, skipped...)
+	}
+	if option.Pass {
+		tests.passed = append(tests.passed, passed...)
+		// Order passed tests within a package by elapsed time DESC (longest on top).
+		sort.Slice(tests.passed, func(i, j int) bool {
+			return tests.passed[i].Elapsed() > tests.passed[j].Elapsed()
+		})
+		// Optionall, display only the slowest N tests by elapsed time.
+		if option.Slow > 0 && len(tests.passed) > option.Slow {
+			tests.passed = tests.passed[:option.Slow]
+		}
+	}
+	return tests
+}
+
+func shortenTestName(s string, trim bool) string {
+	var testName strings.Builder
+	testName.WriteString(s)
+	if trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
+		testName.Reset()
+		ss := strings.Split(s, "/")
+		testName.WriteString(ss[0] + "\n")
+		for i, s := range ss[1:] {
+			testName.WriteString(" /" + s)
+			if i != len(ss[1:])-1 {
+				testName.WriteString("\n")
+			}
+		}
+	}
+	return testName.String()
 }
 
 type testRow struct {
