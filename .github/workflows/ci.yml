@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: ["1.17","1.18"]
+        go-version: [1.17, 1.18, 1.19.0-rc.2]
     env:
       VERBOSE: 1
 
@@ -21,7 +21,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: ${{ matrix.go }}
+          go-version: ${{ matrix.go-version }}
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -36,7 +36,7 @@ jobs:
         run: | 
           go test -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse \
             | tee output.json | ./tparse -notests -follow -all || true
-          ./tparse -format markdown -file output.json -all -slow 5 > $GITHUB_STEP_SUMMARY
+          ./tparse -format markdown -file output.json -all -slow 20 > $GITHUB_STEP_SUMMARY
 
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
