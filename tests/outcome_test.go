@@ -26,7 +26,7 @@ func TestFinalOutcome(t *testing.T) {
 		}},
 		{"test_02.json", 1, registry{
 			"github.com/astromail/rover/tests":          parse.ActionFail,
-			"github.com/astromail/rover/cmd/roverd":     parse.ActionFail,
+			"github.com/astromail/rover/cmd/roverd":     parse.ActionPass,
 			"github.com/astromail/rover/smtp":           parse.ActionPass,
 			"github.com/astromail/rover/storage":        parse.ActionPass,
 			"github.com/astromail/rover/errors":         parse.ActionPass,
