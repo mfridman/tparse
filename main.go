@@ -130,6 +130,9 @@ func main() {
 			Trim: *smallScreenPtr,
 			Slow: *slowPtr,
 		},
+		SummaryTableOptions: app.SummaryTableOptions{
+			Trim: *smallScreenPtr,
+		},
 		Format:      format,
 		Sorter:      sorter,
 		ShowNoTests: *showNoTestsPtr,

@@ -19,7 +19,8 @@ type Options struct {
 	FileName           string
 
 	// Test table options
-	TestTableOptions TestTableOptions
+	TestTableOptions    TestTableOptions
+	SummaryTableOptions SummaryTableOptions
 
 	// TODO(mf): implement
 	Progress bool
@@ -83,5 +84,5 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	}
 	// Failures (if any) and summary table are always printed.
 	cw.printFailed(packages)
-	cw.summaryTable(packages, option.ShowNoTests)
+	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions)
 }

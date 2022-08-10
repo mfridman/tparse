@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"path"
 	"strconv"
 	"strings"
 
@@ -10,7 +11,18 @@ import (
 	"github.com/olekukonko/tablewriter"
 )
 
-func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool) {
+type SummaryTableOptions struct {
+	// For narrow screens, remove common prefix and trim long package names vertically. Example:
+	// github.com/mfridman/tparse/app
+	// github.com/mfridman/tparse/internal/seed-up-down-to-zero
+	//
+	// tparse/app
+	// tparse
+	//  /seed-up-down-to-zero
+	Trim bool
+}
+
+func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool, options SummaryTableOptions) {
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
 	tbl.SetColumnAlignment([]int{
@@ -38,12 +50,14 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 	// is almost always the user matching on the wrong package.
 	var passed, notests []summaryRow
 
+	packagePrefix := findCommonPackagePrefix(packages)
+
 	for _, pkg := range packages {
 		elapsed := strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64) + "s"
 		if pkg.Cached {
 			elapsed = "(cached)"
 		}
-		packageName := pkg.Summary.Package
+		packageName := shortenPackageName(pkg.Summary.Package, packagePrefix, 32, options.Trim)
 		if pkg.HasPanic {
 			row := summaryRow{
 				status:      c.red("PANIC"),
@@ -193,4 +207,60 @@ func (r summaryRow) toRow() []string {
 		r.fail,
 		r.skip,
 	}
+}
+
+func findCommonPackagePrefix(packages []*parse.Package) string {
+	if len(packages) < 2 {
+		return ""
+	}
+
+	prefixLength := 0
+	for prefixLength = 0; prefixLength < len(packages[0].Summary.Package); prefixLength++ {
+		for i := 0; i < len(packages); i++ {
+			if len(packages[i].Summary.Package) == (prefixLength - 1) {
+				goto End
+			}
+			if packages[0].Summary.Package[prefixLength] != packages[i].Summary.Package[prefixLength] {
+				prefixLength--
+
+				goto End
+			}
+		}
+	}
+
+End:
+	if prefixLength <= 0 {
+		return ""
+	}
+
+	prefix := packages[0].Summary.Package[0:prefixLength]
+	lastSlash := strings.LastIndex(prefix, "/")
+	if lastSlash >= 0 {
+		prefix = prefix[0:lastSlash]
+	}
+
+	return prefix
+}
+
+func shortenPackageName(name string, prefix string, maxLength int, trim bool) string {
+	if !trim {
+		return name
+	}
+
+	if prefix == "" {
+		dir, name := path.Split(name)
+		// For SIV-style imports show the last non-versioned path identifer.
+		// Example: github.com/foo/bar/helper/v3 returns helper/v3
+		if dir != "" && versionMajorRe.MatchString(name) {
+			_, subpath := path.Split(path.Clean(dir))
+			name = path.Join(subpath, name)
+		}
+		return name
+	}
+
+	name = strings.TrimPrefix(name, prefix)
+	name = strings.TrimLeft(name, "/")
+	name = shortenTestName(name, true, maxLength)
+
+	return name
 }
