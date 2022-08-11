@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"path"
 	"regexp"
 	"sort"
 	"strconv"
@@ -51,6 +50,8 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	}
 	tbl.SetHeader(header.toRow())
 
+	packagePrefix := findCommonPackagePrefix(packages)
+
 	for i, pkg := range packages {
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
@@ -65,7 +66,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			// TODO(mf): why are we sorting this?
 			t.SortEvents()
 
-			testName := shortenTestName(t.Name, option.Trim)
+			testName := shortenTestName(t.Name, option.Trim, 32)
 
 			status := strings.ToUpper(t.Status().String())
 			switch t.Status() {
@@ -77,13 +78,8 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				status = c.red(status)
 			}
 
-			dir, packageName := path.Split(t.Package)
-			// For SIV-style imports show the last non-versioned path identifer.
-			// Example: github.com/foo/bar/helper/v3 returns helper/v3
-			if dir != "" && versionMajorRe.MatchString(packageName) {
-				_, subpath := path.Split(path.Clean(dir))
-				packageName = path.Join(subpath, packageName)
-			}
+			packageName := shortenPackageName(t.Package, packagePrefix, 16, true)
+
 			row := testRow{
 				status:      status,
 				elapsed:     strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
@@ -138,7 +134,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			// TODO(mf): why are we sorting this?
 			t.SortEvents()
 
-			testName := shortenTestName(t.Name, option.Trim)
+			testName := shortenTestName(t.Name, option.Trim, 32)
 
 			status := strings.ToUpper(t.Status().String())
 			switch t.Status() {
@@ -203,10 +199,10 @@ func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageT
 	return tests
 }
 
-func shortenTestName(s string, trim bool) string {
+func shortenTestName(s string, trim bool, maxLength int) string {
 	var testName strings.Builder
 	testName.WriteString(s)
-	if trim && testName.Len() > 32 && strings.Count(testName.String(), "/") > 0 {
+	if trim && testName.Len() > maxLength && strings.Count(testName.String(), "/") > 0 {
 		testName.Reset()
 		ss := strings.Split(s, "/")
 		testName.WriteString(ss[0] + "\n")
