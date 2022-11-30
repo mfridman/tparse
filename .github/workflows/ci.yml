@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: [1.17, 1.18, 1.19.0-rc.2]
+        go-version: [1.17, 1.18, 1.19]
     env:
       VERBOSE: 1
 
@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: ${{ matrix.go-version }}
+          check-latest: true
+          cache: true
 
       - name: Checkout code
         uses: actions/checkout@v3
@@ -30,11 +32,11 @@ jobs:
         run: go build -v .
 
       - name: Run tests with GITHUB_STEP_SUMMARY
-      # Note the use of  || true. This so the job doesn't fail at that line. We want to preserve -follow
-      # as part of the test output, but not output it to the summary page, which is done in the proceeding
-      # command when we parse the output.json file.
-        run: | 
-          go test -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse \
+        # Note the use of  || true. This so the job doesn't fail at that line. We want to preserve -follow
+        # as part of the test output, but not output it to the summary page, which is done in the proceeding
+        # command when we parse the output.json file.
+        run: |
+          go test -v -count=1 -race ./... -json -coverpkg github.com/mfridman/tparse/parse \
             | tee output.json | ./tparse -notests -follow -all || true
           ./tparse -format markdown -file output.json -all -slow 20 > $GITHUB_STEP_SUMMARY
 
