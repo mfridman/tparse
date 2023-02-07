@@ -187,6 +187,7 @@ const (
 	ActionFail   Action = "fail"   // test or benchmark failed
 	ActionOutput Action = "output" // test printed output
 	ActionSkip   Action = "skip"   // test was skipped or the package contained no tests
+	ActionStart  Action = "start"  // the start at the beginning of each test program's execution
 )
 
 func (a Action) String() string {
