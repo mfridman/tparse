@@ -117,6 +117,13 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 	if e.Action == ActionOutput && e.DiscardOutput() {
 		return
 	}
+	// Added in go1.20 to denote the begining of each test program's execution.
+	// ref: https://go.dev/doc/go1.20#tools
+	// TODO(mf): we should record this internally, but to fix malformed output
+	// this ignores this action event for now.
+	if e.Action == ActionStart {
+		return
+	}
 	pkg, ok := s.Packages[e.Package]
 	if !ok {
 		pkg = newPackage()
