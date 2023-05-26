@@ -6,6 +6,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/mfridman/tparse/parse"
@@ -35,6 +36,23 @@ type packageTests struct {
 	skipped      []*parse.Test
 	passedCount  int
 	passed       []*parse.Test
+}
+
+func (c *consoleWriter) styledLastLine(e parse.Event) string {
+	status := c.green(strings.ToUpper(string(e.Action)))
+	pkg := strings.TrimSpace(e.Package)
+	elapsed := time.Duration(e.Elapsed * float64(time.Second))
+
+	if c.format == OutputFormatMarkdown {
+		return fmt.Sprintf("## %s • %s • %s", status, pkg, elapsed)
+	}
+
+	statusStyle := lipgloss.NewStyle().
+		PaddingLeft(3).
+		PaddingRight(2).
+		Render(status)
+
+	return fmt.Sprintf("%s%s in %s", statusStyle, pkg, elapsed)
 }
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {

@@ -62,17 +62,8 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		}
 		started = true
 
-		// TODO(mf): when running tparse locally it's very useful to see progress for long
-		// running test suites. Since we have access to the event we can send it on a chan
-		// or just directly update a spinner-like component. This cannot be run with the
-		// follow option. Lastly, need to consider what local vs CI behaviour would be like.
-		// Depending how often the frames update, this could cause a lot of noise, so maybe
-		// we need to expose an interval option, so in CI it would update infrequently.
-
-		// Optionally, as test output is piped to us we write the plain
-		// text Output as if go test was run without the -json flag.
-		if option.follow && option.w != nil {
-			fmt.Fprint(option.w, e.Output)
+		if option.events != nil {
+			option.events <- *e
 		}
 
 		summary.AddEvent(e)

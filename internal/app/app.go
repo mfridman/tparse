@@ -40,10 +40,17 @@ func Run(w io.Writer, option Options) (int, error) {
 	}
 	defer reader.Close()
 
+	cw := newConsoleWriter(w, option.Format, option.DisableColor)
+	ec := make(chan parse.Event)
+	defer close(ec)
+
+	go displayEvent(cw, ec, option)
+
 	summary, err := parse.Process(
 		reader,
 		parse.WithFollowOutput(option.FollowOutput),
 		parse.WithWriter(w),
+		parse.WithEvents(ec),
 	)
 	if err != nil {
 		return 1, err
@@ -53,7 +60,7 @@ func Run(w io.Writer, option Options) (int, error) {
 	}
 	// Useful for tests that don't need additional output.
 	if !option.DisableTableOutput {
-		display(w, summary, option)
+		display(cw, summary, option)
 	}
 	return summary.ExitCode(), nil
 }
@@ -70,8 +77,7 @@ func newPipeReader() (io.ReadCloser, error) {
 	return nil, errors.New("stdin must be a pipe")
 }
 
-func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
-	cw := newConsoleWriter(w, option.Format, option.DisableColor)
+func display(cw *consoleWriter, summary *parse.GoTestSummary, option Options) {
 	// Sort packages by name ASC.
 	packages := summary.GetSortedPackages(option.Sorter)
 	// Only print the tests table if either pass or skip is true.
@@ -85,4 +91,28 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	// Failures (if any) and summary table are always printed.
 	cw.printFailed(packages)
 	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions)
+}
+
+// displayEvent reads from event channel ec and writes to cw when an event needs
+// to be displayed.
+func displayEvent(cw *consoleWriter, ec <-chan parse.Event, o Options) {
+	for e := range ec {
+		if cw.w == nil {
+			continue
+		}
+
+		// Write plain text Output as if go test was run without the -json flag.
+		if o.FollowOutput {
+			if e.Output != "" {
+				fmt.Fprint(cw.w, e.Output)
+			}
+
+			continue
+		}
+
+		// Display PASS lines for every successfully tested package.
+		if e.LastLine() && e.Action == parse.ActionPass {
+			fmt.Fprintln(cw.w, cw.styledLastLine(e))
+		}
+	}
 }
