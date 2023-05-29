@@ -22,7 +22,6 @@ type Options struct {
 	TestTableOptions    TestTableOptions
 	SummaryTableOptions SummaryTableOptions
 
-	// TODO(mf): implement
 	Progress bool
 }
 
@@ -35,7 +34,7 @@ func Run(w io.Writer, option Options) (int, error) {
 		}
 	} else {
 		if reader, err = newPipeReader(); err != nil {
-			return 1, errors.New("stdin must be a pipe, or use -file to open go test output file")
+			return 1, errors.New("stdin must be a pipe, or use -file to open a go test output file")
 		}
 	}
 	defer reader.Close()
@@ -44,6 +43,7 @@ func Run(w io.Writer, option Options) (int, error) {
 		reader,
 		parse.WithFollowOutput(option.FollowOutput),
 		parse.WithWriter(w),
+		parse.WithProgress(option.Progress),
 	)
 	if err != nil {
 		return 1, err

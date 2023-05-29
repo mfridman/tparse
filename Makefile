@@ -40,3 +40,6 @@ coverage:
 
 tidy:
 	GO111MODULE=on go mod tidy && GO111MODULE=on go mod verify
+
+build:
+	go build -o $$GOBIN/tparse main.go

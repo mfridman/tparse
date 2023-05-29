@@ -29,6 +29,7 @@ var (
 	formatPtr      = flag.String("format", "", "")
 	followPtr      = flag.Bool("follow", false, "")
 	sortPtr        = flag.String("sort", "name", "")
+	progressPtr    = flag.Bool("progress", false, "")
 
 	// TODO(mf): implement this
 	ciPtr = flag.String("ci", "", "")
@@ -38,24 +39,25 @@ var (
 )
 
 var usage = `Usage:
-	go test ./... -json | tparse [options...]
-	go test [packages...] -json | tparse [options...]
-	go test [packages...] -json > pkgs.out ; tparse [options...] -file pkgs.out
+    go test ./... -json | tparse [options...]
+    go test [packages...] -json | tparse [options...]
+    go test [packages...] -json > pkgs.out ; tparse [options...] -file pkgs.out
 
 Options:
-	-h		Show help.
-	-v		Show version.
-	-all		Display table event for pass and skip. (Failed items always displayed)
-	-pass		Display table for passed tests.
-	-skip		Display table for skipped tests.
-	-notests	Display packages containing no test files or empty test files.
-	-smallscreen	Split subtest names vertically to fit on smaller screens.
-	-slow		Number of slowest tests to display. Default is 0, display all.
-	-sort           Sort table output by attribute [name, elapsed, cover]. Default is name.
-	-nocolor	Disable all colors. (NO_COLOR also supported)
-	-format		The output format for tables [basic, plain, markdown]. Default is basic.
-	-file		Read test output from a file.
-	-follow		Follow raw output as go test is running.
+    -h             Show help.
+    -v             Show version.
+    -all           Display table event for pass and skip. (Failed items always displayed)
+    -pass          Display table for passed tests.
+    -skip          Display table for skipped tests.
+    -notests       Display packages containing no test files or empty test files.
+    -smallscreen   Split subtest names vertically to fit on smaller screens.
+    -slow          Number of slowest tests to display. Default is 0, display all.
+    -sort          Sort table output by attribute [name, elapsed, cover]. Default is name.
+    -nocolor       Disable all colors. (NO_COLOR also supported)
+    -format        The output format for tables [basic, plain, markdown]. Default is basic.
+    -file          Read test output from a file.
+    -follow        Follow raw output as go test is running.
+    -progress      Print a single summary line for each package. Useful for long running test suites.
 `
 
 var (
@@ -72,6 +74,9 @@ func main() {
 	if *vPtr || *versionPtr {
 		if buildInfo, ok := debug.ReadBuildInfo(); ok && buildInfo != nil && tparseVersion == "" {
 			tparseVersion = buildInfo.Main.Version
+		}
+		if tparseVersion == "" {
+			tparseVersion = "(devel)"
 		}
 		fmt.Fprintf(os.Stdout, "tparse version: %s\n", tparseVersion)
 		return
@@ -136,6 +141,7 @@ func main() {
 		Format:      format,
 		Sorter:      sorter,
 		ShowNoTests: *showNoTestsPtr,
+		Progress:    *progressPtr,
 
 		// Do not expose publically.
 		DisableTableOutput: false,

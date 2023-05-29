@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -74,6 +75,11 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		if option.follow && option.w != nil {
 			fmt.Fprint(option.w, e.Output)
 		}
+		// Progress is a special case of follow, where we only print the
+		// progress of the test suite, but not the output.
+		if option.progress && option.w != nil {
+			printProgress(option.w, e, summary.Packages)
+		}
 
 		summary.AddEvent(e)
 	}
@@ -86,6 +92,46 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 	}
 
 	return summary, nil
+}
+
+// printProgress prints a single summary line for each PASS or FAIL package.
+// This is useful for long running test suites.
+func printProgress(w io.Writer, e *Event, summary map[string]*Package) {
+	if e.LastLine() {
+		action := e.Action
+		var suffix string
+		if pkg, ok := summary[e.Package]; ok {
+			if pkg.NoTests {
+				suffix = " [no tests to run]"
+				action = ActionSkip
+			}
+			if pkg.NoTestFiles {
+				suffix = " [no test files]"
+				action = ActionSkip
+			}
+		}
+		// Normal go test output will print the package summary line like so:
+		//
+		// FAIL
+		// FAIL    github.com/pressly/goose/v4/internal/sqlparser  0.577s
+		//
+		// PASS
+		// ok      github.com/pressly/goose/v4/internal/sqlparser  0.349s
+		//
+		// ?       github.com/pressly/goose/v4/internal/check      [no test files]
+		//
+		// testing: warning: no tests to run
+		// PASS
+		// ok      github.com/pressly/goose/v4/pkg/source  0.382s [no tests to run]
+		//
+		// We modify this output slightly so it's more consistent and easier to parse.
+		fmt.Fprintf(w, "[%s]\t%10s\t%s%s\n",
+			strings.ToUpper(action.String()),
+			strconv.FormatFloat(e.Elapsed, 'f', 3, 64)+"s",
+			e.Package,
+			suffix,
+		)
+	}
 }
 
 type GoTestSummary struct {
