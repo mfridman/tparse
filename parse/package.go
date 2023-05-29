@@ -1,11 +1,17 @@
 package parse
 
+import "time"
+
 // Package is the representation of a single package being tested. The
 // summary field is an event that contains all relevant information about the
 // package, namely Package (name), Elapsed and Action (big pass or fail).
 type Package struct {
 	Summary *Event
 	Tests   []*Test
+
+	// StartTime is the time the package started running. This is only available
+	// in go1.20 and above.
+	StartTime time.Time
 
 	// NoTestFiles indicates whether the package contains tests: [no test files]
 	// This only occurs at the package level

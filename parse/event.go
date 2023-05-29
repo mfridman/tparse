@@ -19,8 +19,9 @@ var (
 // For more info see, https://golang.org/cmd/test2json and
 // https://github.com/golang/go/blob/master/src/cmd/internal/test2json/test2json.go
 type Event struct {
-	// Action can be one of:
-	// run, pause, cont, pass, bench, fail, output, skip
+	// Action can be one of: run, pause, cont, pass, bench, fail, output, skip, start
+	//
+	// Note, start is only available in go1.20 and above.
 	Action Action
 
 	// Portion of the test's output (standard output and standard error merged together)
@@ -187,7 +188,9 @@ const (
 	ActionFail   Action = "fail"   // test or benchmark failed
 	ActionOutput Action = "output" // test printed output
 	ActionSkip   Action = "skip"   // test was skipped or the package contained no tests
-	ActionStart  Action = "start"  // the start at the beginning of each test program's execution
+
+	// Added in go1.20 to denote the begining of each test program's execution.
+	ActionStart Action = "start" // the start at the beginning of each test program's execution
 )
 
 func (a Action) String() string {
