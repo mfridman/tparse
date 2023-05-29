@@ -89,6 +89,11 @@ func TestNewEvent(t *testing.T) {
 			false,
 			true,
 		},
+		{
+			// 10
+			`{"Time":"2023-05-28T18:36:01.446915-04:00","Action":"start","Package":"github.com/pressly/goose/v4/internal/sqlparser"}`,
+			ActionStart, "github.com/pressly/goose/v4/internal/sqlparser", "", "", false, false, false,
+		},
 	}
 
 	for i, tc := range tt {
@@ -365,6 +370,8 @@ func TestActionString(t *testing.T) {
 		{ActionFail, "FAIL"},
 		{ActionOutput, "OUTPUT"},
 		{ActionSkip, "SKIP"},
+		{ActionBench, "BENCH"},
+		{ActionStart, "START"},
 	}
 	for _, tc := range tt {
 		upper := strings.ToUpper(tc.String())
