@@ -78,7 +78,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				status = c.red(status)
 			}
 
-			packageName := shortenPackageName(t.Package, packagePrefix, 16, true)
+			packageName := shortenPackageName(t.Package, packagePrefix, 16, option.Trim)
 
 			row := testRow{
 				status:      status,
