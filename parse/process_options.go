@@ -1,11 +1,14 @@
 package parse
 
-import "io"
+import (
+	"io"
+)
 
 type options struct {
-	w      io.Writer
-	follow bool
-	debug  bool
+	w        io.Writer
+	follow   bool
+	debug    bool
+	progress bool
 }
 
 type OptionsFunc func(o *options)
@@ -20,4 +23,8 @@ func WithWriter(w io.Writer) OptionsFunc {
 
 func WithDebug() OptionsFunc {
 	return func(o *options) { o.debug = true }
+}
+
+func WithProgress(b bool) OptionsFunc {
+	return func(o *options) { o.progress = b }
 }
