@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"runtime/debug"
+	"strings"
 
 	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/parse"
@@ -61,7 +62,7 @@ Options:
 `
 
 var (
-	tparseVersion = ""
+	version = "(devel)"
 )
 
 func main() {
@@ -72,13 +73,11 @@ func main() {
 	flag.Parse()
 
 	if *vPtr || *versionPtr {
-		if buildInfo, ok := debug.ReadBuildInfo(); ok && buildInfo != nil && tparseVersion == "" {
-			tparseVersion = buildInfo.Main.Version
+		buildInfo, ok := debug.ReadBuildInfo()
+		if ok && buildInfo != nil && buildInfo.Main.Version != "" {
+			version = buildInfo.Main.Version
 		}
-		if tparseVersion == "" {
-			tparseVersion = "(devel)"
-		}
-		fmt.Fprintf(os.Stdout, "tparse version: %s\n", tparseVersion)
+		fmt.Fprintf(os.Stdout, "tparse version: %s\n", strings.TrimSpace(version))
 		return
 	}
 	if *hPtr || *helpPtr {
