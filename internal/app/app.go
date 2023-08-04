@@ -10,19 +10,29 @@ import (
 )
 
 type Options struct {
-	DisableTableOutput bool
-	FollowOutput       bool
-	DisableColor       bool
-	Format             OutputFormat
-	Sorter             parse.PackageSorter
-	ShowNoTests        bool
-	FileName           string
+	// DisableColor will disable all colors.
+	DisableColor bool
+	// Format will set the output format for tables.
+	Format OutputFormat
+	// Sorter will set the sort order for the table.
+	Sorter parse.PackageSorter
+	// ShowNoTests will display packages containing no test files or empty test files.
+	ShowNoTests bool
+	// FileName will read test output from a file.
+	FileName string
 
 	// Test table options
 	TestTableOptions    TestTableOptions
 	SummaryTableOptions SummaryTableOptions
 
+	// FollowOutput will follow the raw output as go test is running.
+	FollowOutput bool
+	// Progress will print a single summary line for each package once the package has completed.
+	// Useful for long running test suites. Maybe used with FollowOutput or on its own.
 	Progress bool
+
+	// DisableTableOutput will disable all table output. This is used for testing.
+	DisableTableOutput bool
 }
 
 func Run(w io.Writer, option Options) (int, error) {
