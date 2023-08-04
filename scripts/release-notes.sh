@@ -49,7 +49,10 @@ while IFS= read -r LINE; do
 done <"${changelog_file}"
 
 if [[ -n "$items" ]]; then
-    echo "${items%$'\n'}"
+    cat <<EOF
+## What's changed
+$items
+EOF
 else
     echo "No changelog items found for version $version"
 fi
