@@ -31,6 +31,7 @@ var (
 	followPtr      = flag.Bool("follow", false, "")
 	sortPtr        = flag.String("sort", "name", "")
 	progressPtr    = flag.Bool("progress", false, "")
+	comparePtr     = flag.String("compare", "", "")
 
 	// TODO(mf): implement this
 	ciPtr = flag.String("ci", "", "")
@@ -59,6 +60,7 @@ Options:
     -file          Read test output from a file.
     -follow        Follow raw output as go test is running.
     -progress      Print a single summary line for each package. Useful for long running test suites.
+    -compare       Compare against a previous test output file. (experimental)
 `
 
 var (
@@ -141,6 +143,7 @@ func main() {
 		Sorter:      sorter,
 		ShowNoTests: *showNoTestsPtr,
 		Progress:    *progressPtr,
+		Compare:     *comparePtr,
 
 		// Do not expose publically.
 		DisableTableOutput: false,

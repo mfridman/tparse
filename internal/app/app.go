@@ -33,6 +33,13 @@ type Options struct {
 
 	// DisableTableOutput will disable all table output. This is used for testing.
 	DisableTableOutput bool
+
+	//
+	//  Experiemntal
+	//
+
+	// Compare includes a diff of a previous test output file in the summary table.
+	Compare string
 }
 
 func Run(w io.Writer, option Options) (int, error) {
@@ -61,7 +68,8 @@ func Run(w io.Writer, option Options) (int, error) {
 	if len(summary.Packages) == 0 {
 		return 1, fmt.Errorf("found no go test packages")
 	}
-	// Useful for tests that don't need additional output.
+	// Useful for tests that don't need tparse table output. Very useful for testing output from
+	// [parse.Process]
 	if !option.DisableTableOutput {
 		display(w, summary, option)
 	}
@@ -81,6 +89,31 @@ func newPipeReader() (io.ReadCloser, error) {
 }
 
 func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
+	// Best effort to open the comparse file, if it exists.
+	//
+	// TODO(mf): add a warning if the file doesn't exist, but do not fail, and instead print a
+	// warning after the summary table.
+	var warnings []string
+	defer func() {
+		for _, w := range warnings {
+			fmt.Fprintf(os.Stderr, "warning: %s\n", w)
+		}
+	}()
+	var against *parse.GoTestSummary
+	if option.Compare != "" {
+		// TODO(mf): cleanup, this is messy.
+		f, err := os.Open(option.Compare)
+		if err != nil {
+			warnings = append(warnings, fmt.Sprintf("failed to open compare file: %s", option.Compare))
+		} else {
+			defer f.Close()
+			against, err = parse.Process(f)
+			if err != nil {
+				warnings = append(warnings, fmt.Sprintf("failed to parse compare file: %s", option.Compare))
+			}
+		}
+	}
+
 	cw := newConsoleWriter(w, option.Format, option.DisableColor)
 	// Sort packages by name ASC.
 	packages := summary.GetSortedPackages(option.Sorter)
@@ -94,5 +127,5 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	}
 	// Failures (if any) and summary table are always printed.
 	cw.printFailed(packages)
-	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions)
+	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions, against)
 }
