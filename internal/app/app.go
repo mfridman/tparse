@@ -89,10 +89,7 @@ func newPipeReader() (io.ReadCloser, error) {
 }
 
 func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
-	// Best effort to open the comparse file, if it exists.
-	//
-	// TODO(mf): add a warning if the file doesn't exist, but do not fail, and instead print a
-	// warning after the summary table.
+	// Best effort to open the compare against file, if it exists.
 	var warnings []string
 	defer func() {
 		for _, w := range warnings {
@@ -104,12 +101,12 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 		// TODO(mf): cleanup, this is messy.
 		f, err := os.Open(option.Compare)
 		if err != nil {
-			warnings = append(warnings, fmt.Sprintf("failed to open compare file: %s", option.Compare))
+			warnings = append(warnings, fmt.Sprintf("failed to open against file: %s", option.Compare))
 		} else {
 			defer f.Close()
 			against, err = parse.Process(f)
 			if err != nil {
-				warnings = append(warnings, fmt.Sprintf("failed to parse compare file: %s", option.Compare))
+				warnings = append(warnings, fmt.Sprintf("failed to parse against file: %s", option.Compare))
 			}
 		}
 	}
