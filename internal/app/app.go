@@ -10,19 +10,36 @@ import (
 )
 
 type Options struct {
-	DisableTableOutput bool
-	FollowOutput       bool
-	DisableColor       bool
-	Format             OutputFormat
-	Sorter             parse.PackageSorter
-	ShowNoTests        bool
-	FileName           string
+	// DisableColor will disable all colors.
+	DisableColor bool
+	// Format will set the output format for tables.
+	Format OutputFormat
+	// Sorter will set the sort order for the table.
+	Sorter parse.PackageSorter
+	// ShowNoTests will display packages containing no test files or empty test files.
+	ShowNoTests bool
+	// FileName will read test output from a file.
+	FileName string
 
 	// Test table options
 	TestTableOptions    TestTableOptions
 	SummaryTableOptions SummaryTableOptions
 
+	// FollowOutput will follow the raw output as go test is running.
+	FollowOutput bool
+	// Progress will print a single summary line for each package once the package has completed.
+	// Useful for long running test suites. Maybe used with FollowOutput or on its own.
 	Progress bool
+
+	// DisableTableOutput will disable all table output. This is used for testing.
+	DisableTableOutput bool
+
+	//
+	//  Experiemntal
+	//
+
+	// Compare includes a diff of a previous test output file in the summary table.
+	Compare string
 }
 
 func Run(w io.Writer, option Options) (int, error) {
@@ -51,7 +68,8 @@ func Run(w io.Writer, option Options) (int, error) {
 	if len(summary.Packages) == 0 {
 		return 1, fmt.Errorf("found no go test packages")
 	}
-	// Useful for tests that don't need additional output.
+	// Useful for tests that don't need tparse table output. Very useful for testing output from
+	// [parse.Process]
 	if !option.DisableTableOutput {
 		display(w, summary, option)
 	}
@@ -71,6 +89,28 @@ func newPipeReader() (io.ReadCloser, error) {
 }
 
 func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
+	// Best effort to open the compare against file, if it exists.
+	var warnings []string
+	defer func() {
+		for _, w := range warnings {
+			fmt.Fprintf(os.Stderr, "warning: %s\n", w)
+		}
+	}()
+	var against *parse.GoTestSummary
+	if option.Compare != "" {
+		// TODO(mf): cleanup, this is messy.
+		f, err := os.Open(option.Compare)
+		if err != nil {
+			warnings = append(warnings, fmt.Sprintf("failed to open against file: %s", option.Compare))
+		} else {
+			defer f.Close()
+			against, err = parse.Process(f)
+			if err != nil {
+				warnings = append(warnings, fmt.Sprintf("failed to parse against file: %s", option.Compare))
+			}
+		}
+	}
+
 	cw := newConsoleWriter(w, option.Format, option.DisableColor)
 	// Sort packages by name ASC.
 	packages := summary.GetSortedPackages(option.Sorter)
@@ -84,5 +124,5 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	}
 	// Failures (if any) and summary table are always printed.
 	cw.printFailed(packages)
-	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions)
+	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions, against)
 }

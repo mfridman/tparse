@@ -26,7 +26,7 @@ func (packages byCoverage) Less(i, j int) bool {
 	return packages.PackageSlice[i].Coverage > packages.PackageSlice[j].Coverage
 }
 
-// SortByCoverage sorts packages in descending order of elapsed time per package.
+// SortByElapsed sorts packages in descending order of elapsed time per package.
 func SortByElapsed(packages []*Package) sort.Interface { return byElapsed{packages} }
 func (packages byElapsed) Less(i, j int) bool {
 	return packages.PackageSlice[i].Summary.Elapsed > packages.PackageSlice[j].Summary.Elapsed

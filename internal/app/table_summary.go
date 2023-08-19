@@ -22,7 +22,12 @@ type SummaryTableOptions struct {
 	Trim bool
 }
 
-func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool, options SummaryTableOptions) {
+func (c *consoleWriter) summaryTable(
+	packages []*parse.Package,
+	showNoTests bool,
+	options SummaryTableOptions,
+	against *parse.GoTestSummary,
+) {
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
 	tbl.SetColumnAlignment([]int{
@@ -119,10 +124,23 @@ func (c *consoleWriter) summaryTable(packages []*parse.Package, showNoTests bool
 				continue
 			}
 		}
-
+		// TODO(mf): refactor this
+		// Separate cover colorization from the delta output.
 		coverage := "--"
 		if pkg.Cover {
 			coverage = fmt.Sprintf("%.1f%%", pkg.Coverage)
+			if against != nil {
+				againstP, ok := against.Packages[pkg.Summary.Package]
+				if ok {
+					var sign string
+					if pkg.Coverage > againstP.Coverage {
+						sign = "+"
+					}
+					coverage = fmt.Sprintf("%s (%s)", coverage, sign+strconv.FormatFloat(pkg.Coverage-againstP.Coverage, 'f', 1, 64)+"%")
+				} else {
+					coverage = fmt.Sprintf("%s (-)", coverage)
+				}
+			}
 			// Showing coverage for a package that failed is a bit odd.
 			//
 			// Only colorize the coverage when everything passed AND the output is not markdown.
