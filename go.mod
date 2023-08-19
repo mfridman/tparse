@@ -2,7 +2,7 @@ module github.com/mfridman/tparse
 
 require (
 	github.com/charmbracelet/lipgloss v0.7.1
-	github.com/muesli/termenv v0.15.1
+	github.com/muesli/termenv v0.15.2
 	github.com/olekukonko/tablewriter v0.0.5
 )
 
