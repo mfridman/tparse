@@ -63,9 +63,7 @@ Options:
     -compare       Compare against a previous test output file. (experimental)
 `
 
-var (
-	version = "(devel)"
-)
+var version string
 
 func main() {
 	log.SetFlags(0)
@@ -76,7 +74,7 @@ func main() {
 
 	if *vPtr || *versionPtr {
 		buildInfo, ok := debug.ReadBuildInfo()
-		if ok && buildInfo != nil && buildInfo.Main.Version != "" {
+		if ok && buildInfo != nil && buildInfo.Main.Version != "" && version == "" {
 			version = buildInfo.Main.Version
 		}
 		fmt.Fprintf(os.Stdout, "tparse version: %s\n", strings.TrimSpace(version))
