@@ -124,12 +124,12 @@ func (c *consoleWriter) summaryTable(
 				continue
 			}
 		}
-
+		// TODO(mf): refactor this
+		// Separate cover colorization from the delta output.
 		coverage := "--"
 		if pkg.Cover {
 			coverage = fmt.Sprintf("%.1f%%", pkg.Coverage)
 			if against != nil {
-				// TODO(mf): compute against
 				againstP, ok := against.Packages[pkg.Summary.Package]
 				if ok {
 					var sign string
