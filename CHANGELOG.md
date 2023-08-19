@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Add partial support for `-compare`. A feature that displays the coverage difference against a
+  previous run. See description for more details
+  https://github.com/mfridman/tparse/pull/101#issue-1857786730 and the initial issue https://github.com/mfridman/tparse/issues/92.
+
 ## [v0.13.1] - 2023-08-04
 
 - Fix failing GoReleaser github action (release notes location).
