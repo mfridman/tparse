@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"path"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -231,14 +232,21 @@ func findCommonPackagePrefix(packages []*parse.Package) string {
 	if len(packages) < 2 {
 		return ""
 	}
+	// Dirty fix for panic reported in https://github.com/mfridman/tparse/issues/102
+	// because packages are not sorted.
+	names := make([]string, 0, len(packages))
+	for _, p := range packages {
+		names = append(names, p.Summary.Package)
+	}
+	sort.Strings(names)
 
 	prefixLength := 0
-	for prefixLength = 0; prefixLength < len(packages[0].Summary.Package); prefixLength++ {
-		for i := 0; i < len(packages); i++ {
-			if len(packages[i].Summary.Package) == (prefixLength - 1) {
+	for prefixLength = 0; prefixLength < len(names[0]); prefixLength++ {
+		for i := 0; i < len(names); i++ {
+			if len(names[i]) == (prefixLength - 1) {
 				goto End
 			}
-			if packages[0].Summary.Package[prefixLength] != packages[i].Summary.Package[prefixLength] {
+			if names[0][prefixLength] != names[i][prefixLength] {
 				prefixLength--
 
 				goto End
@@ -251,7 +259,7 @@ End:
 		return ""
 	}
 
-	prefix := packages[0].Summary.Package[0:prefixLength]
+	prefix := names[0][0:prefixLength]
 	lastSlash := strings.LastIndex(prefix, "/")
 	if lastSlash >= 0 {
 		prefix = prefix[0:lastSlash]
