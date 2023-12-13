@@ -70,7 +70,7 @@ func (p *Package) AddEvent(event *Event) {
 	t.Events = append(t.Events, event)
 }
 
-// GetTest retuns a test based on given name, if no test is found
+// GetTest returns a test based on given name, if no test is found
 // return nil
 func (p *Package) GetTest(name string) *Test {
 	for _, t := range p.Tests {
