@@ -66,4 +66,4 @@ TestSubtests
  /win
  ```
 
-`tparse` aims to be a simply alternative to one-liner bash functions.
+`tparse` aims to be a simple alternative to one-liner bash functions.
