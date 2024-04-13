@@ -27,7 +27,7 @@ func TestFollow(t *testing.T) {
 		{"test_02", nil, 0},
 		{"test_03", nil, 0},
 		{"test_04", nil, 0},
-		{"test_05", parse.ErrNotParseable, 1},
+		{"test_05", parse.ErrNotParsable, 1},
 		// build failure in one package
 		{"test_06", nil, 2},
 	}

@@ -20,11 +20,11 @@ func TestPrescan(t *testing.T) {
 		err      error
 	}{
 		{"test_01.txt", "want <nil> err", nil},
-		{"test_02.txt", "want failure after reading >50 lines of non-parsable events", parse.ErrNotParseable},
+		{"test_02.txt", "want failure after reading >50 lines of non-parsable events", parse.ErrNotParsable},
 		// logic: unparsable event(s), good event(s), at least one event = fail.
 		// Once we get a good event, we expect only good events to follow until EOF.
-		{"test_03.txt", "want failure when stream contains a bad event(s) -> good event(s) -> bad event", parse.ErrNotParseable},
-		{"test_04.txt", "want failure reading <50 lines of non-parsable events", parse.ErrNotParseable},
+		{"test_03.txt", "want failure when stream contains a bad event(s) -> good event(s) -> bad event", parse.ErrNotParsable},
+		{"test_04.txt", "want failure reading <50 lines of non-parsable events", parse.ErrNotParsable},
 	}
 
 	for _, tc := range tt {

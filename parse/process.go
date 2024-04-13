@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-// ErrNotParseable indicates the event line was not parsable.
-var ErrNotParseable = errors.New("failed to parse")
+// ErrNotParsable indicates the event line was not parsable.
+var ErrNotParsable = errors.New("failed to parse")
 
 // Process is the entry point to parse. It consumes a reader
 // and parses go test output in JSON format until EOF.
@@ -45,7 +45,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 			if started || badLines > 50 {
 				var syntaxError *json.SyntaxError
 				if errors.As(err, &syntaxError) {
-					err = fmt.Errorf("line %d JSON error: %s: %w", badLines, syntaxError.Error(), ErrNotParseable)
+					err = fmt.Errorf("line %d JSON error: %s: %w", badLines, syntaxError.Error(), ErrNotParsable)
 					if option.debug {
 						// In debug mode we can surface a more verbose error message which
 						// contains the current line number and exact JSON parsing error.
@@ -86,7 +86,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 	}
 	// Entire input has been scanned and no go test JSON output was found.
 	if !started {
-		return nil, ErrNotParseable
+		return nil, ErrNotParsable
 	}
 
 	return summary, nil

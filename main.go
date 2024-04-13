@@ -144,7 +144,7 @@ func main() {
 	exitCode, err := app.Run(os.Stdout, options)
 	if err != nil {
 		msg := err.Error()
-		if errors.Is(err, parse.ErrNotParseable) {
+		if errors.Is(err, parse.ErrNotParsable) {
 			msg = "no parsable events: Make sure to run go test with -json flag"
 		}
 		fmt.Fprintln(os.Stderr, msg)
