@@ -14,7 +14,7 @@ var (
 	failedBuildOrSetupRe = regexp.MustCompile(`^FAIL(.*)\[(build failed|setup failed)\]`)
 )
 
-// Event represents a single line of json output from go test with the -json flag.
+// Event represents a single line of JSON output from go test with the -json flag.
 //
 // For more info see, https://golang.org/cmd/test2json and
 // https://github.com/golang/go/blob/master/src/cmd/internal/test2json/test2json.go

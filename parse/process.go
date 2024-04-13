@@ -45,7 +45,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 			if started || badLines > 50 {
 				var syntaxError *json.SyntaxError
 				if errors.As(err, &syntaxError) {
-					err = fmt.Errorf("line %d json error: %s: %w", badLines, syntaxError.Error(), ErrNotParseable)
+					err = fmt.Errorf("line %d JSON error: %s: %w", badLines, syntaxError.Error(), ErrNotParseable)
 					if option.debug {
 						// In debug mode we can surface a more verbose error message which
 						// contains the current line number and exact JSON parsing error.
@@ -84,7 +84,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 	if err := sc.Err(); err != nil {
 		return nil, fmt.Errorf("received scanning error: %w", err)
 	}
-	// Entire input has been scanned and no go test json output was found.
+	// Entire input has been scanned and no go test JSON output was found.
 	if !started {
 		return nil, ErrNotParseable
 	}
