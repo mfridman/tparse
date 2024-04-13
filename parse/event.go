@@ -27,7 +27,7 @@ type Event struct {
 	// Portion of the test's output (standard output and standard error merged together)
 	Output string
 
-	// Time at which the the event occurred, encodes as an RFC3339-format string.
+	// Time at which the event occurred, encodes as an RFC3339-format string.
 	// It is conventionally omitted for cached test results.
 	Time time.Time
 
@@ -189,7 +189,7 @@ const (
 	ActionOutput Action = "output" // test printed output
 	ActionSkip   Action = "skip"   // test was skipped or the package contained no tests
 
-	// Added in go1.20 to denote the begining of each test program's execution.
+	// Added in go1.20 to denote the beginning of each test program's execution.
 	ActionStart Action = "start" // the start at the beginning of each test program's execution
 )
 

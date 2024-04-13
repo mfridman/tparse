@@ -275,7 +275,7 @@ func shortenPackageName(name string, prefix string, maxLength int, trim bool) st
 
 	if prefix == "" {
 		dir, name := path.Split(name)
-		// For SIV-style imports show the last non-versioned path identifer.
+		// For SIV-style imports show the last non-versioned path identifier.
 		// Example: github.com/foo/bar/helper/v3 returns helper/v3
 		if dir != "" && versionMajorRe.MatchString(name) {
 			_, subpath := path.Split(path.Clean(dir))

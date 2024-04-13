@@ -191,7 +191,7 @@ func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageT
 		sort.Slice(tests.passed, func(i, j int) bool {
 			return tests.passed[i].Elapsed() > tests.passed[j].Elapsed()
 		})
-		// Optionall, display only the slowest N tests by elapsed time.
+		// Optional, display only the slowest N tests by elapsed time.
 		if option.Slow > 0 && len(tests.passed) > option.Slow {
 			tests.passed = tests.passed[:option.Slow]
 		}
