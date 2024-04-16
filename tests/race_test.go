@@ -55,7 +55,7 @@ func TestRaceDetected(t *testing.T) {
 
 	for _, tc := range tt {
 		t.Run(tc.fileName, func(t *testing.T) {
-			intputFile := filepath.Join(base, tc.fileName+".json")
+			intputFile := filepath.Join(base, tc.fileName+".jsonl")
 			f, err := os.Open(intputFile)
 			check.NoError(t, err)
 			defer f.Close()

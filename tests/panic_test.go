@@ -22,22 +22,22 @@ func TestPanic(t *testing.T) {
 		expected
 	}{
 		{
-			"test_01.json", expected{
+			"test_01.jsonl", expected{
 				"github.com/pressly/goose/v3/tests/e2e": true,
 			},
 		},
 		{
-			"test_02.json", expected{
+			"test_02.jsonl", expected{
 				"github.com/mfridman/tparse/parse": true,
 			},
 		},
 		{
-			"test_03.json", expected{
+			"test_03.jsonl", expected{
 				"github.com/mfridman/tparse/tests": true,
 			},
 		},
 		{
-			"test_04.json", expected{
+			"test_04.jsonl", expected{
 				"github.com/mfridman/tparse/tests":  true,
 				"github.com/mfridman/tparse/ignore": false,
 				"github.com/mfridman/tparse/parse":  false,
@@ -45,7 +45,7 @@ func TestPanic(t *testing.T) {
 			},
 		},
 		{
-			"test_05.json", expected{
+			"test_05.jsonl", expected{
 				"github.com/mfridman/tparse/tests":  true,
 				"github.com/mfridman/tparse/parse":  false,
 				"github.com/mfridman/tparse":        false,
@@ -53,7 +53,7 @@ func TestPanic(t *testing.T) {
 			},
 		},
 		{
-			"test_06.json", expected{
+			"test_06.jsonl", expected{
 				"github.com/mfridman/tparse/tests":  false,
 				"github.com/mfridman/tparse/parse":  true,
 				"github.com/mfridman/tparse":        false,

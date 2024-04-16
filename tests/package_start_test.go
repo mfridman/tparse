@@ -12,7 +12,7 @@ import (
 func TestPackageStartTime(t *testing.T) {
 	t.Parallel()
 
-	// This test depends on go120_start_action.json, which contains test output from go1.20
+	// This test depends on go120_start_action.jsonl, which contains test output from go1.20
 
 	expected := map[string]string{
 		"github.com/pressly/goose/v4":                                          "2023-05-28T18:36:01.280967-04:00",
@@ -28,7 +28,7 @@ func TestPackageStartTime(t *testing.T) {
 		"github.com/pressly/goose/v4/internal/testdb":                          "2023-05-28T18:36:01.446973-04:00",
 	}
 
-	fileName := "./testdata/go120_start_action.json"
+	fileName := "./testdata/go120_start_action.jsonl"
 	f, err := os.Open(fileName)
 	check.NoError(t, err)
 	defer f.Close()

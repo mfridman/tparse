@@ -21,10 +21,10 @@ func TestFinalOutcome(t *testing.T) {
 		exitCode int
 		registry
 	}{
-		{"test_01.json", 1, registry{
+		{"test_01.jsonl", 1, registry{
 			"github.com/mfridman/tparse/tests": parse.ActionFail,
 		}},
-		{"test_02.json", 1, registry{
+		{"test_02.jsonl", 1, registry{
 			"github.com/astromail/rover/tests":          parse.ActionFail,
 			"github.com/astromail/rover/cmd/roverd":     parse.ActionPass,
 			"github.com/astromail/rover/smtp":           parse.ActionPass,
@@ -33,22 +33,22 @@ func TestFinalOutcome(t *testing.T) {
 			"github.com/astromail/rover/storage/badger": parse.ActionPass,
 			"github.com/astromail/rover":                parse.ActionPass,
 		}},
-		{"test_03.json", 0, registry{
+		{"test_03.jsonl", 0, registry{
 			"fmt": parse.ActionPass,
 		}},
-		{"test_04.json", 0, registry{
+		{"test_04.jsonl", 0, registry{
 			"github.com/astromail/rover/tests": parse.ActionPass,
 		}},
-		{"test_05.json", 0, registry{
+		{"test_05.jsonl", 0, registry{
 			"github.com/astromail/rover/tests": parse.ActionPass,
 		}},
-		{"test_06.json", 0, registry{
+		{"test_06.jsonl", 0, registry{
 			"fmt": parse.ActionPass,
 		}},
-		{"test_07.json", 0, registry{
+		{"test_07.jsonl", 0, registry{
 			"debug/errorcause": parse.ActionPass,
 		}},
-		{"test_08.json", 0, registry{
+		{"test_08.jsonl", 0, registry{
 			"github.com/awesome/pkg": parse.ActionPass,
 		}},
 	}

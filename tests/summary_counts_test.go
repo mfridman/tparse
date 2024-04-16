@@ -11,10 +11,10 @@ import (
 func TestSummaryCounts(t *testing.T) {
 	t.Parallel()
 
-	// This test depends on metrics_test.json, which contains the output of 9 std lib packages:
+	// This test depends on metrics_test.jsonl, which contains the output of 9 std lib packages:
 	// go test -count=1 fmt strings bytes bufio crypto log mime sort time -json
 
-	fileName := "./testdata/metrics_test.json"
+	fileName := "./testdata/metrics_test.jsonl"
 	f, err := os.Open(fileName)
 	check.NoError(t, err)
 
@@ -80,7 +80,7 @@ func TestSummaryCounts(t *testing.T) {
 func TestElapsed(t *testing.T) {
 	t.Parallel()
 
-	// This test depends on elapsed_test.json, which contains the output of 2 std lib tests
+	// This test depends on elapsed_test.jsonl, which contains the output of 2 std lib tests
 	// with known elapsed time.
 	// go test -count=1 strings -run="^(TestCompareStrings|TestCaseConsistency$)" -json -cover
 
@@ -89,7 +89,7 @@ func TestElapsed(t *testing.T) {
 		"TestCaseConsistency": 0.17,
 	}
 
-	fileName := "./testdata/elapsed_test.json"
+	fileName := "./testdata/elapsed_test.jsonl"
 	f, err := os.Open(fileName)
 	check.NoError(t, err)
 	defer f.Close()

@@ -33,7 +33,7 @@ func TestFollow(t *testing.T) {
 	}
 	for _, tc := range tt {
 		t.Run(tc.fileName, func(t *testing.T) {
-			intputFile := filepath.Join(base, tc.fileName+".json")
+			intputFile := filepath.Join(base, tc.fileName+".jsonl")
 			options := app.Options{
 				FileName:           intputFile,
 				FollowOutput:       true,
