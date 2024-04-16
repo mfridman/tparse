@@ -3,7 +3,7 @@ package parsetest
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -46,7 +46,7 @@ func TestFollow(t *testing.T) {
 			}
 			check.Number(t, gotExitCode, tc.exitCode)
 			goldenFile := filepath.Join(base, tc.fileName+".golden")
-			want, err := ioutil.ReadFile(goldenFile)
+			want, err := os.ReadFile(goldenFile)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -56,7 +56,7 @@ func TestFollow(t *testing.T) {
 					"tests/"+goldenFile+".FAIL",
 					"tests/"+intputFile+".FAIL",
 				)
-				if err := ioutil.WriteFile(goldenFile+".FAIL", buf.Bytes(), 0644); err != nil {
+				if err := os.WriteFile(goldenFile+".FAIL", buf.Bytes(), 0644); err != nil {
 					t.Fatal(err)
 				}
 			}

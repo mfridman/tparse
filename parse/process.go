@@ -43,18 +43,16 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 			badLines++
 			if started || badLines > 50 {
-				switch err.(type) {
-				case *json.SyntaxError:
-					err = fmt.Errorf("line %d json error: %s: %w", badLines, err.Error(), ErrNotParseable)
+				var syntaxError *json.SyntaxError
+				if errors.As(err, &syntaxError) {
+					err = fmt.Errorf("line %d json error: %s: %w", badLines, syntaxError.Error(), ErrNotParseable)
 					if option.debug {
 						// In debug mode we can surface a more verbose error message which
 						// contains the current line number and exact JSON parsing error.
 						fmt.Fprintf(os.Stderr, "debug: %s", err.Error())
 					}
-					return nil, err
-				default:
-					return nil, err
 				}
+				return nil, err
 			}
 			if option.follow && option.w != nil {
 				fmt.Fprintf(option.w, "%s\n", sc.Bytes())
