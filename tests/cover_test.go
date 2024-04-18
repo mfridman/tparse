@@ -57,8 +57,8 @@ func Test(t *testing.T) {
 	}
 	for _, tc := range tt {
 		t.Run(tc.fileName, func(t *testing.T) {
-			intputFile := filepath.Join(base, tc.fileName+".jsonl")
-			f, err := os.Open(intputFile)
+			inputFile := filepath.Join(base, tc.fileName+".jsonl")
+			f, err := os.Open(inputFile)
 			check.NoError(t, err)
 
 			summary, err := parse.Process(f)

@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-// ErrNotParseable indicates the event line was not parseable.
-var ErrNotParseable = errors.New("failed to parse")
+// ErrNotParsable indicates the event line was not parsable.
+var ErrNotParsable = errors.New("failed to parse")
 
 // Process is the entry point to parse. It consumes a reader
 // and parses go test output in JSON format until EOF.
@@ -32,12 +32,12 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 	var started bool
 	var badLines int
 	for sc.Scan() {
-		// Scan up-to 50 lines for a parseable event, if we get one, expect
+		// Scan up-to 50 lines for a parsable event, if we get one, expect
 		// no errors to follow until EOF.
 		e, err := NewEvent(sc.Bytes())
 		if err != nil {
 			// We failed to parse a go test JSON event, but there are special cases for failed
-			// builds, setup, etc. Let's special case these and bubble them up in the summary
+			// builds, setup, etc. Let special case these and bubble them up in the summary
 			// if the output belongs to a package.
 			summary.AddRawEvent(sc.Text())
 
@@ -45,7 +45,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 			if started || badLines > 50 {
 				var syntaxError *json.SyntaxError
 				if errors.As(err, &syntaxError) {
-					err = fmt.Errorf("line %d json error: %s: %w", badLines, syntaxError.Error(), ErrNotParseable)
+					err = fmt.Errorf("line %d JSON error: %s: %w", badLines, syntaxError.Error(), ErrNotParsable)
 					if option.debug {
 						// In debug mode we can surface a more verbose error message which
 						// contains the current line number and exact JSON parsing error.
@@ -61,14 +61,14 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		}
 		started = true
 
-		// TODO(mf): when running tparse locally it's very useful to see progress for long
-		// running test suites. Since we have access to the event we can send it on a chan
+		// TODO(mf): when running tparse locally it's very useful to see progress for long-running
+		// test suites. Since we have access to the event we can send it on a chan
 		// or just directly update a spinner-like component. This cannot be run with the
-		// follow option. Lastly, need to consider what local vs CI behaviour would be like.
-		// Depending how often the frames update, this could cause a lot of noise, so maybe
+		// follow option. Lastly, need to consider what local vs CI behavior would be like.
+		// Depending on how often the frames update, this could cause a lot of noise, so maybe
 		// we need to expose an interval option, so in CI it would update infrequently.
 
-		// Optionally, as test output is piped to us we write the plain
+		// Optionally, as test output is piped to us, we write the plain
 		// text Output as if go test was run without the -json flag.
 		if option.follow && option.w != nil {
 			fmt.Fprint(option.w, e.Output)
@@ -84,16 +84,16 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 	if err := sc.Err(); err != nil {
 		return nil, fmt.Errorf("received scanning error: %w", err)
 	}
-	// Entire input has been scanned and no go test json output was found.
+	// Entire input has been scanned and no go test JSON output was found.
 	if !started {
-		return nil, ErrNotParseable
+		return nil, ErrNotParsable
 	}
 
 	return summary, nil
 }
 
 // printProgress prints a single summary line for each PASS or FAIL package.
-// This is useful for long running test suites.
+// This is useful for long-running test suites.
 func printProgress(w io.Writer, e *Event, summary map[string]*Package) {
 	if !e.LastLine() {
 		return
@@ -201,7 +201,7 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 		pkg.NoTestFiles = true
 		// Manually mark [no test files] as "pass", because the go test tool reports the
 		// package Summary action as "skip".
-		// TODO(mf): revisit this behaviour?
+		// TODO(mf): revisit this behavior?
 		pkg.Summary.Package = e.Package
 		pkg.Summary.Action = ActionPass
 	case e.NoTestsWarn():

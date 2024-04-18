@@ -10,7 +10,7 @@ import (
 type OutputFormat int
 
 const (
-	// OutputFormatBasic is a normal table withput a border
+	// OutputFormatBasic is a normal table without a border
 	OutputFormatPlain OutputFormat = iota + 1
 	// OutputFormatBasic is a normal table with border
 	OutputFormatBasic

@@ -27,15 +27,15 @@ func TestFollow(t *testing.T) {
 		{"test_02", nil, 0},
 		{"test_03", nil, 0},
 		{"test_04", nil, 0},
-		{"test_05", parse.ErrNotParseable, 1},
+		{"test_05", parse.ErrNotParsable, 1},
 		// build failure in one package
 		{"test_06", nil, 2},
 	}
 	for _, tc := range tt {
 		t.Run(tc.fileName, func(t *testing.T) {
-			intputFile := filepath.Join(base, tc.fileName+".jsonl")
+			inputFile := filepath.Join(base, tc.fileName+".jsonl")
 			options := app.Options{
-				FileName:           intputFile,
+				FileName:           inputFile,
 				FollowOutput:       true,
 				DisableTableOutput: true,
 			}
@@ -54,7 +54,7 @@ func TestFollow(t *testing.T) {
 				t.Error("input does not match expected output; diff files in follow dir suffixed with .FAIL to debug")
 				t.Logf("diff %v %v",
 					"tests/"+goldenFile+".FAIL",
-					"tests/"+intputFile+".FAIL",
+					"tests/"+inputFile+".FAIL",
 				)
 				if err := os.WriteFile(goldenFile+".FAIL", buf.Bytes(), 0644); err != nil {
 					t.Fatal(err)

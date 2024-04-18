@@ -35,7 +35,7 @@ type Options struct {
 	DisableTableOutput bool
 
 	//
-	//  Experiemntal
+	//  Experimental
 	//
 
 	// Compare includes a diff of a previous test output file in the summary table.

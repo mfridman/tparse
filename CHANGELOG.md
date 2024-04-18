@@ -16,7 +16,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [v0.13.1] - 2023-08-04
 
-- Fix failing GoReleaser github action (release notes location).
+- Fix failing GoReleaser GitHub action (release notes location).
 
 Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 
