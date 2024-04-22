@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v0.13.3]
+
+- General housekeeping and dependency updates.
+
 ## [v0.13.2]
 
 - Add partial support for `-compare`. A feature that displays the coverage difference against a
@@ -32,7 +36,8 @@ Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 - Add [GoReleaser](https://goreleaser.com/) to automate the release process. Pre-built binaries are
   available for each release, currently Linux and macOS. If there is demand, can also add Windows.
 
-[Unreleased]: https://github.com/mfridman/tparse/compare/v0.13.2...HEAD
+[Unreleased]: https://github.com/mfridman/tparse/compare/v0.13.3...HEAD
+[v0.13.3]: https://github.com/mfridman/tparse/compare/v0.13.2...v0.13.3
 [v0.13.2]: https://github.com/mfridman/tparse/compare/v0.13.1...v0.13.2
 [v0.13.1]: https://github.com/mfridman/tparse/compare/v0.13.0...v0.13.1
 [v0.13.0]: https://github.com/mfridman/tparse/releases/tag/v0.13.0

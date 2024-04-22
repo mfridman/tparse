@@ -1,5 +1,7 @@
 module github.com/mfridman/tparse
 
+go 1.18
+
 require (
 	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/mfridman/buildversion v0.3.0
@@ -14,7 +16,5 @@ require (
 	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/sys v0.17.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
 )
-
-go 1.18
