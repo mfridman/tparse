@@ -21,6 +21,16 @@ errcheck:
 imports:
 	goimports -local $(ROOT) -w $(shell find . -type f -name '*.go' -not -path './vendor/*')
 
+.PHONY: lint
+lint: tools
+	@golangci-lint run ./... --fix
+
+.PHONY: tools
+tools:
+# Install latest golangci-lint with recommended method https://golangci-lint.run/welcome/install/#local-installation
+# Only install it if missing, as we don't want to mess up with any local existing golangci-lint version
+	@which golangci-lint 2>/dev/null || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin
+
 test:
 	go test -count=1 ./...
 
