@@ -32,9 +32,6 @@ var (
 	progressPtr    = flag.Bool("progress", false, "")
 	comparePtr     = flag.String("compare", "", "")
 
-	// TODO(mf): implement this
-	ciPtr = flag.String("ci", "", "")
-
 	// Legacy flags
 	noBordersPtr = flag.Bool("noborders", false, "")
 )

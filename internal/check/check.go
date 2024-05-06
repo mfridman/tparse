@@ -30,7 +30,7 @@ func IsError(t *testing.T, err, target error) {
 	}
 }
 
-func Number(t *testing.T, got, want interface{}) {
+func Number(t *testing.T, got, want any) {
 	t.Helper()
 	gotNumber, err := reflectToInt64(got)
 	if err != nil {
@@ -45,7 +45,7 @@ func Number(t *testing.T, got, want interface{}) {
 	}
 }
 
-func NumberNotZero(t *testing.T, got interface{}) {
+func NumberNotZero(t *testing.T, got any) {
 	t.Helper()
 	gotNumber, err := reflectToInt64(got)
 	if err != nil {
@@ -70,14 +70,14 @@ func Contains(t *testing.T, got, want string) {
 	}
 }
 
-func Equal(t *testing.T, got, want interface{}) {
+func Equal(t *testing.T, got, want any) {
 	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		t.Fatalf("failed deep equal:\ngot: %v\nwant: %v\v", got, want)
 	}
 }
 
-func reflectToInt64(v interface{}) (int64, error) {
+func reflectToInt64(v any) (int64, error) {
 	switch typ := v.(type) {
 	case int, int8, int16, int32, int64:
 		return reflect.ValueOf(typ).Int(), nil

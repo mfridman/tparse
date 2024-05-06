@@ -53,3 +53,7 @@ tidy:
 
 build:
 	go build -o $$GOBIN/tparse main.go
+
+search-todo:
+	@echo "Searching for TODOs in Go files..."
+	@rg '// TODO\(mf\):' --glob '*.go' || echo "No TODOs found."
