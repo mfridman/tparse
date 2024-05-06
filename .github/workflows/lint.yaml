@@ -26,3 +26,4 @@ jobs:
           version: latest
           github-token: ${{ secrets.GITHUB_TOKEN }}
           args: --timeout=2m --verbose
+          annotations: false
