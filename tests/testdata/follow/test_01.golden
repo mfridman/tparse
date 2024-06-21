@@ -1,3 +1,2 @@
     fmt_test.go:1457: skipping; GOMAXPROCS>1
-PASS
 ok  	fmt	0.143s

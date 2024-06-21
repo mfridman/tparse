@@ -114,6 +114,14 @@ const (
 	resultPrefixBench = "--- BENCH: "
 )
 
+// BigResult reports whether the test output is a big pass or big fail
+//
+// https://github.com/golang/go/blob/38cfb3be9d486833456276777155980d1ec0823e/src/cmd/internal/test2json/test2json.go#L146-L150
+const (
+	bigPass = "PASS"
+	bigFail = "FAIL"
+)
+
 // Let's try using the LastLine method to report the package result.
 // If there are issues with LastLine() we can switch to this method.
 //

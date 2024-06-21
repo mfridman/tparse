@@ -39,9 +39,18 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		resultPrefixPass,
 		resultPrefixSkip,
 	}
-	isNoisy := func(s string) bool {
+	isNoisy := func(e *Event) bool {
+		output := strings.TrimSpace(e.Output)
+		// If the event is a big pass or fail, we can safely discard it. These are typically the
+		// lines preceding the package summary line. For example:
+		//
+		//  PASS
+		//  ok      fmt 0.144s
+		if e.Test == "" && (output == bigPass || output == bigFail) {
+			return true
+		}
 		for _, prefix := range noisy {
-			if strings.HasPrefix(s, prefix) {
+			if strings.HasPrefix(output, prefix) {
 				return true
 			}
 		}
@@ -92,7 +101,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		// Optionally, as test output is piped to us, we write the plain
 		// text Output as if go test was run without the -json flag.
 		if (option.follow || option.followVerbose) && option.w != nil {
-			if !option.followVerbose && isNoisy(strings.TrimSpace(e.Output)) {
+			if !option.followVerbose && isNoisy(e) {
 				continue
 			}
 			fmt.Fprint(option.w, e.Output)
