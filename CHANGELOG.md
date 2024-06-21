@@ -7,6 +7,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Modify `--follow` behavior by minimizing noisy output. (#122)
+
+> [!TIP]
+> If you want the existing behavior, I added a `--follow-verbose` flag. But please do let me know if this affected you, as I plan to remove this before cutting a `v1.0.0`. Thank you!
+
 ## [v0.13.3]
 
 - General housekeeping and dependency updates.

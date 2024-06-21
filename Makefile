@@ -57,3 +57,7 @@ build:
 search-todo:
 	@echo "Searching for TODOs in Go files..."
 	@rg '// TODO\(mf\):' --glob '*.go' || echo "No TODOs found."
+
+.PHONY: clean
+clean:
+	@find . -type f -name '*.FAIL' -delete

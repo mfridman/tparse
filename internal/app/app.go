@@ -26,7 +26,9 @@ type Options struct {
 	SummaryTableOptions SummaryTableOptions
 
 	// FollowOutput will follow the raw output as go test is running.
-	FollowOutput bool
+	FollowOutput        bool
+	FollowOutputVerbose bool
+
 	// Progress will print a single summary line for each package once the package has completed.
 	// Useful for long running test suites. Maybe used with FollowOutput or on its own.
 	Progress bool
@@ -59,6 +61,7 @@ func Run(w io.Writer, option Options) (int, error) {
 	summary, err := parse.Process(
 		reader,
 		parse.WithFollowOutput(option.FollowOutput),
+		parse.WithFollowVersboseOutput(option.FollowOutputVerbose),
 		parse.WithWriter(w),
 		parse.WithProgress(option.Progress),
 	)

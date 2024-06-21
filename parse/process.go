@@ -28,6 +28,36 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		Packages: make(map[string]*Package),
 	}
 
+	noisy := []string{
+		// 1. Filter out noisy output, such as === RUN, === PAUSE, etc.
+		updatePrefixRun,
+		updatePrefixPause,
+		updatePrefixCont,
+		updatePrefixPass,
+		updatePrefixSkip,
+		// 2. Filter out report output, such as --- PASS: and --- SKIP:
+		resultPrefixPass,
+		resultPrefixSkip,
+	}
+	isNoisy := func(e *Event) bool {
+		output := strings.TrimSpace(e.Output)
+		// If the event is a big pass or fail, we can safely discard it. These are typically the
+		// lines preceding the package summary line. For example:
+		//
+		//  PASS
+		//  ok      fmt 0.144s
+		if e.Test == "" && (output == bigPass || output == bigFail) {
+			return true
+		}
+		for _, prefix := range noisy {
+			if strings.HasPrefix(output, prefix) {
+				return true
+			}
+		}
+		return false
+
+	}
+
 	sc := bufio.NewScanner(r)
 	var started bool
 	var badLines int
@@ -70,7 +100,10 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 		// Optionally, as test output is piped to us, we write the plain
 		// text Output as if go test was run without the -json flag.
-		if option.follow && option.w != nil {
+		if (option.follow || option.followVerbose) && option.w != nil {
+			if !option.followVerbose && isNoisy(e) {
+				continue
+			}
 			fmt.Fprint(option.w, e.Output)
 		}
 		// Progress is a special case of follow, where we only print the
