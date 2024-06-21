@@ -1,0 +1,39 @@
+=== RUN   TestRace
+==================
+WARNING: DATA RACE
+Write at 0x00c000090090 by goroutine 7:
+  debug/tparse-24.TestRace.func1()
+      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:7 +0x38
+
+Previous write at 0x00c000090090 by goroutine 6:
+  debug/tparse-24.TestRace()
+      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x88
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:827 +0x162
+
+Goroutine 7 (running) created at:
+  debug/tparse-24.TestRace()
+      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:7 +0x7a
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:827 +0x162
+
+Goroutine 6 (running) created at:
+  testing.(*T).Run()
+      /usr/local/go/src/testing/testing.go:878 +0x650
+  testing.runTests.func1()
+      /usr/local/go/src/testing/testing.go:1119 +0xa8
+  testing.tRunner()
+      /usr/local/go/src/testing/testing.go:827 +0x162
+  testing.runTests()
+      /usr/local/go/src/testing/testing.go:1117 +0x4ee
+  testing.(*M).Run()
+      /usr/local/go/src/testing/testing.go:1034 +0x2ee
+  main.main()
+      _testmain.go:42 +0x221
+==================
+--- FAIL: TestRace (0.00s)
+    some_test.go:9: 64
+    testing.go:771: race detected during execution of test
+FAIL
+exit status 1
+FAIL	debug/tparse-24	0.020s

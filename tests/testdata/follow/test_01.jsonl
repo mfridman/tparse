@@ -1,42 +1,325 @@
-{"Time":"2018-12-04T22:42:29.634612-05:00","Action":"run","Package":"debug/tparse-24","Test":"TestRace"}
-{"Time":"2018-12-04T22:42:29.634912-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"=== RUN   TestRace\n"}
-{"Time":"2018-12-04T22:42:29.635129-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"==================\n"}
-{"Time":"2018-12-04T22:42:29.635163-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"WARNING: DATA RACE\n"}
-{"Time":"2018-12-04T22:42:29.635172-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Write at 0x00c000090090 by goroutine 7:\n"}
-{"Time":"2018-12-04T22:42:29.635205-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  debug/tparse-24.TestRace.func1()\n"}
-{"Time":"2018-12-04T22:42:29.635213-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:7 +0x38\n"}
-{"Time":"2018-12-04T22:42:29.635226-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"\n"}
-{"Time":"2018-12-04T22:42:29.635236-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Previous write at 0x00c000090090 by goroutine 6:\n"}
-{"Time":"2018-12-04T22:42:29.635254-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  debug/tparse-24.TestRace()\n"}
-{"Time":"2018-12-04T22:42:29.63527-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:8 +0x88\n"}
-{"Time":"2018-12-04T22:42:29.635283-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.tRunner()\n"}
-{"Time":"2018-12-04T22:42:29.63529-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
-{"Time":"2018-12-04T22:42:29.635302-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"\n"}
-{"Time":"2018-12-04T22:42:29.635322-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Goroutine 7 (running) created at:\n"}
-{"Time":"2018-12-04T22:42:29.635334-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  debug/tparse-24.TestRace()\n"}
-{"Time":"2018-12-04T22:42:29.635341-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /Users/michael.fridman/go/src/debug/tparse-24/some_test.go:7 +0x7a\n"}
-{"Time":"2018-12-04T22:42:29.635348-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.tRunner()\n"}
-{"Time":"2018-12-04T22:42:29.635354-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
-{"Time":"2018-12-04T22:42:29.635361-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"\n"}
-{"Time":"2018-12-04T22:42:29.635367-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"Goroutine 6 (running) created at:\n"}
-{"Time":"2018-12-04T22:42:29.635376-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.(*T).Run()\n"}
-{"Time":"2018-12-04T22:42:29.635382-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:878 +0x650\n"}
-{"Time":"2018-12-04T22:42:29.635388-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.runTests.func1()\n"}
-{"Time":"2018-12-04T22:42:29.635397-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:1119 +0xa8\n"}
-{"Time":"2018-12-04T22:42:29.635403-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.tRunner()\n"}
-{"Time":"2018-12-04T22:42:29.635409-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:827 +0x162\n"}
-{"Time":"2018-12-04T22:42:29.635415-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.runTests()\n"}
-{"Time":"2018-12-04T22:42:29.635422-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:1117 +0x4ee\n"}
-{"Time":"2018-12-04T22:42:29.635448-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  testing.(*M).Run()\n"}
-{"Time":"2018-12-04T22:42:29.635465-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      /usr/local/go/src/testing/testing.go:1034 +0x2ee\n"}
-{"Time":"2018-12-04T22:42:29.635472-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"  main.main()\n"}
-{"Time":"2018-12-04T22:42:29.635478-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"      _testmain.go:42 +0x221\n"}
-{"Time":"2018-12-04T22:42:29.635485-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"==================\n"}
-{"Time":"2018-12-04T22:42:29.635807-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"--- FAIL: TestRace (0.00s)\n"}
-{"Time":"2018-12-04T22:42:29.635821-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"    some_test.go:9: 64\n"}
-{"Time":"2018-12-04T22:42:29.635829-05:00","Action":"output","Package":"debug/tparse-24","Test":"TestRace","Output":"    testing.go:771: race detected during execution of test\n"}
-{"Time":"2018-12-04T22:42:29.636065-05:00","Action":"fail","Package":"debug/tparse-24","Test":"TestRace","Elapsed":0}
-{"Time":"2018-12-04T22:42:29.636085-05:00","Action":"output","Package":"debug/tparse-24","Output":"FAIL\n"}
-{"Time":"2018-12-04T22:42:29.63706-05:00","Action":"output","Package":"debug/tparse-24","Output":"exit status 1\n"}
-{"Time":"2018-12-04T22:42:29.637098-05:00","Action":"output","Package":"debug/tparse-24","Output":"FAIL\tdebug/tparse-24\t0.020s\n"}
-{"Time":"2018-12-04T22:42:29.637108-05:00","Action":"fail","Package":"debug/tparse-24","Elapsed":0.02}
+{"Time":"2024-06-20T21:08:32.953975-04:00","Action":"start","Package":"fmt"}
+{"Time":"2024-06-20T21:08:33.045731-04:00","Action":"run","Package":"fmt","Test":"TestErrorf"}
+{"Time":"2024-06-20T21:08:33.045779-04:00","Action":"output","Package":"fmt","Test":"TestErrorf","Output":"=== RUN   TestErrorf\n"}
+{"Time":"2024-06-20T21:08:33.045801-04:00","Action":"output","Package":"fmt","Test":"TestErrorf","Output":"--- PASS: TestErrorf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.045807-04:00","Action":"pass","Package":"fmt","Test":"TestErrorf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.04582-04:00","Action":"run","Package":"fmt","Test":"TestFmtInterface"}
+{"Time":"2024-06-20T21:08:33.045824-04:00","Action":"output","Package":"fmt","Test":"TestFmtInterface","Output":"=== RUN   TestFmtInterface\n"}
+{"Time":"2024-06-20T21:08:33.04583-04:00","Action":"output","Package":"fmt","Test":"TestFmtInterface","Output":"--- PASS: TestFmtInterface (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.045842-04:00","Action":"pass","Package":"fmt","Test":"TestFmtInterface","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.045846-04:00","Action":"run","Package":"fmt","Test":"TestSprintf"}
+{"Time":"2024-06-20T21:08:33.04585-04:00","Action":"output","Package":"fmt","Test":"TestSprintf","Output":"=== RUN   TestSprintf\n"}
+{"Time":"2024-06-20T21:08:33.046003-04:00","Action":"output","Package":"fmt","Test":"TestSprintf","Output":"--- PASS: TestSprintf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.04601-04:00","Action":"pass","Package":"fmt","Test":"TestSprintf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046014-04:00","Action":"run","Package":"fmt","Test":"TestComplexFormatting"}
+{"Time":"2024-06-20T21:08:33.046017-04:00","Action":"output","Package":"fmt","Test":"TestComplexFormatting","Output":"=== RUN   TestComplexFormatting\n"}
+{"Time":"2024-06-20T21:08:33.046684-04:00","Action":"output","Package":"fmt","Test":"TestComplexFormatting","Output":"--- PASS: TestComplexFormatting (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046692-04:00","Action":"pass","Package":"fmt","Test":"TestComplexFormatting","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046696-04:00","Action":"run","Package":"fmt","Test":"TestReorder"}
+{"Time":"2024-06-20T21:08:33.0467-04:00","Action":"output","Package":"fmt","Test":"TestReorder","Output":"=== RUN   TestReorder\n"}
+{"Time":"2024-06-20T21:08:33.046711-04:00","Action":"output","Package":"fmt","Test":"TestReorder","Output":"--- PASS: TestReorder (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046715-04:00","Action":"pass","Package":"fmt","Test":"TestReorder","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046719-04:00","Action":"run","Package":"fmt","Test":"TestCountMallocs"}
+{"Time":"2024-06-20T21:08:33.046723-04:00","Action":"output","Package":"fmt","Test":"TestCountMallocs","Output":"=== RUN   TestCountMallocs\n"}
+{"Time":"2024-06-20T21:08:33.046744-04:00","Action":"output","Package":"fmt","Test":"TestCountMallocs","Output":"    fmt_test.go:1457: skipping; GOMAXPROCS\u003e1\n"}
+{"Time":"2024-06-20T21:08:33.046781-04:00","Action":"output","Package":"fmt","Test":"TestCountMallocs","Output":"--- SKIP: TestCountMallocs (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046786-04:00","Action":"skip","Package":"fmt","Test":"TestCountMallocs","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.04679-04:00","Action":"run","Package":"fmt","Test":"TestFlagParser"}
+{"Time":"2024-06-20T21:08:33.046793-04:00","Action":"output","Package":"fmt","Test":"TestFlagParser","Output":"=== RUN   TestFlagParser\n"}
+{"Time":"2024-06-20T21:08:33.046813-04:00","Action":"output","Package":"fmt","Test":"TestFlagParser","Output":"--- PASS: TestFlagParser (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046819-04:00","Action":"pass","Package":"fmt","Test":"TestFlagParser","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046822-04:00","Action":"run","Package":"fmt","Test":"TestStructPrinter"}
+{"Time":"2024-06-20T21:08:33.046826-04:00","Action":"output","Package":"fmt","Test":"TestStructPrinter","Output":"=== RUN   TestStructPrinter\n"}
+{"Time":"2024-06-20T21:08:33.046831-04:00","Action":"output","Package":"fmt","Test":"TestStructPrinter","Output":"--- PASS: TestStructPrinter (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046855-04:00","Action":"pass","Package":"fmt","Test":"TestStructPrinter","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046858-04:00","Action":"run","Package":"fmt","Test":"TestSlicePrinter"}
+{"Time":"2024-06-20T21:08:33.046861-04:00","Action":"output","Package":"fmt","Test":"TestSlicePrinter","Output":"=== RUN   TestSlicePrinter\n"}
+{"Time":"2024-06-20T21:08:33.046864-04:00","Action":"output","Package":"fmt","Test":"TestSlicePrinter","Output":"--- PASS: TestSlicePrinter (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046866-04:00","Action":"pass","Package":"fmt","Test":"TestSlicePrinter","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046869-04:00","Action":"run","Package":"fmt","Test":"TestMapPrinter"}
+{"Time":"2024-06-20T21:08:33.046871-04:00","Action":"output","Package":"fmt","Test":"TestMapPrinter","Output":"=== RUN   TestMapPrinter\n"}
+{"Time":"2024-06-20T21:08:33.046874-04:00","Action":"output","Package":"fmt","Test":"TestMapPrinter","Output":"--- PASS: TestMapPrinter (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046877-04:00","Action":"pass","Package":"fmt","Test":"TestMapPrinter","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.04688-04:00","Action":"run","Package":"fmt","Test":"TestEmptyMap"}
+{"Time":"2024-06-20T21:08:33.046882-04:00","Action":"output","Package":"fmt","Test":"TestEmptyMap","Output":"=== RUN   TestEmptyMap\n"}
+{"Time":"2024-06-20T21:08:33.046885-04:00","Action":"output","Package":"fmt","Test":"TestEmptyMap","Output":"--- PASS: TestEmptyMap (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046887-04:00","Action":"pass","Package":"fmt","Test":"TestEmptyMap","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046889-04:00","Action":"run","Package":"fmt","Test":"TestBlank"}
+{"Time":"2024-06-20T21:08:33.046892-04:00","Action":"output","Package":"fmt","Test":"TestBlank","Output":"=== RUN   TestBlank\n"}
+{"Time":"2024-06-20T21:08:33.046894-04:00","Action":"output","Package":"fmt","Test":"TestBlank","Output":"--- PASS: TestBlank (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046897-04:00","Action":"pass","Package":"fmt","Test":"TestBlank","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046899-04:00","Action":"run","Package":"fmt","Test":"TestBlankln"}
+{"Time":"2024-06-20T21:08:33.046902-04:00","Action":"output","Package":"fmt","Test":"TestBlankln","Output":"=== RUN   TestBlankln\n"}
+{"Time":"2024-06-20T21:08:33.046905-04:00","Action":"output","Package":"fmt","Test":"TestBlankln","Output":"--- PASS: TestBlankln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046907-04:00","Action":"pass","Package":"fmt","Test":"TestBlankln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046909-04:00","Action":"run","Package":"fmt","Test":"TestFormatterPrintln"}
+{"Time":"2024-06-20T21:08:33.046912-04:00","Action":"output","Package":"fmt","Test":"TestFormatterPrintln","Output":"=== RUN   TestFormatterPrintln\n"}
+{"Time":"2024-06-20T21:08:33.046915-04:00","Action":"output","Package":"fmt","Test":"TestFormatterPrintln","Output":"--- PASS: TestFormatterPrintln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046918-04:00","Action":"pass","Package":"fmt","Test":"TestFormatterPrintln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.04692-04:00","Action":"run","Package":"fmt","Test":"TestWidthAndPrecision"}
+{"Time":"2024-06-20T21:08:33.046923-04:00","Action":"output","Package":"fmt","Test":"TestWidthAndPrecision","Output":"=== RUN   TestWidthAndPrecision\n"}
+{"Time":"2024-06-20T21:08:33.046925-04:00","Action":"output","Package":"fmt","Test":"TestWidthAndPrecision","Output":"--- PASS: TestWidthAndPrecision (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046928-04:00","Action":"pass","Package":"fmt","Test":"TestWidthAndPrecision","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.04693-04:00","Action":"run","Package":"fmt","Test":"TestPanics"}
+{"Time":"2024-06-20T21:08:33.046933-04:00","Action":"output","Package":"fmt","Test":"TestPanics","Output":"=== RUN   TestPanics\n"}
+{"Time":"2024-06-20T21:08:33.046935-04:00","Action":"output","Package":"fmt","Test":"TestPanics","Output":"--- PASS: TestPanics (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046939-04:00","Action":"pass","Package":"fmt","Test":"TestPanics","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046946-04:00","Action":"run","Package":"fmt","Test":"TestBadVerbRecursion"}
+{"Time":"2024-06-20T21:08:33.046948-04:00","Action":"output","Package":"fmt","Test":"TestBadVerbRecursion","Output":"=== RUN   TestBadVerbRecursion\n"}
+{"Time":"2024-06-20T21:08:33.046952-04:00","Action":"output","Package":"fmt","Test":"TestBadVerbRecursion","Output":"--- PASS: TestBadVerbRecursion (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.046955-04:00","Action":"pass","Package":"fmt","Test":"TestBadVerbRecursion","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.046957-04:00","Action":"run","Package":"fmt","Test":"TestIsSpace"}
+{"Time":"2024-06-20T21:08:33.04696-04:00","Action":"output","Package":"fmt","Test":"TestIsSpace","Output":"=== RUN   TestIsSpace\n"}
+{"Time":"2024-06-20T21:08:33.051737-04:00","Action":"output","Package":"fmt","Test":"TestIsSpace","Output":"--- PASS: TestIsSpace (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051772-04:00","Action":"pass","Package":"fmt","Test":"TestIsSpace","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.051778-04:00","Action":"run","Package":"fmt","Test":"TestNilDoesNotBecomeTyped"}
+{"Time":"2024-06-20T21:08:33.051788-04:00","Action":"output","Package":"fmt","Test":"TestNilDoesNotBecomeTyped","Output":"=== RUN   TestNilDoesNotBecomeTyped\n"}
+{"Time":"2024-06-20T21:08:33.051793-04:00","Action":"output","Package":"fmt","Test":"TestNilDoesNotBecomeTyped","Output":"--- PASS: TestNilDoesNotBecomeTyped (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051796-04:00","Action":"pass","Package":"fmt","Test":"TestNilDoesNotBecomeTyped","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.051799-04:00","Action":"run","Package":"fmt","Test":"TestFormatterFlags"}
+{"Time":"2024-06-20T21:08:33.051802-04:00","Action":"output","Package":"fmt","Test":"TestFormatterFlags","Output":"=== RUN   TestFormatterFlags\n"}
+{"Time":"2024-06-20T21:08:33.051806-04:00","Action":"output","Package":"fmt","Test":"TestFormatterFlags","Output":"--- PASS: TestFormatterFlags (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051809-04:00","Action":"pass","Package":"fmt","Test":"TestFormatterFlags","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.051811-04:00","Action":"run","Package":"fmt","Test":"TestParsenum"}
+{"Time":"2024-06-20T21:08:33.05182-04:00","Action":"output","Package":"fmt","Test":"TestParsenum","Output":"=== RUN   TestParsenum\n"}
+{"Time":"2024-06-20T21:08:33.051823-04:00","Action":"output","Package":"fmt","Test":"TestParsenum","Output":"--- PASS: TestParsenum (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051825-04:00","Action":"pass","Package":"fmt","Test":"TestParsenum","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.051828-04:00","Action":"run","Package":"fmt","Test":"TestAppendf"}
+{"Time":"2024-06-20T21:08:33.05183-04:00","Action":"output","Package":"fmt","Test":"TestAppendf","Output":"=== RUN   TestAppendf\n"}
+{"Time":"2024-06-20T21:08:33.051833-04:00","Action":"output","Package":"fmt","Test":"TestAppendf","Output":"--- PASS: TestAppendf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051835-04:00","Action":"pass","Package":"fmt","Test":"TestAppendf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.051837-04:00","Action":"run","Package":"fmt","Test":"TestAppend"}
+{"Time":"2024-06-20T21:08:33.05184-04:00","Action":"output","Package":"fmt","Test":"TestAppend","Output":"=== RUN   TestAppend\n"}
+{"Time":"2024-06-20T21:08:33.051842-04:00","Action":"output","Package":"fmt","Test":"TestAppend","Output":"--- PASS: TestAppend (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051847-04:00","Action":"pass","Package":"fmt","Test":"TestAppend","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.05185-04:00","Action":"run","Package":"fmt","Test":"TestAppendln"}
+{"Time":"2024-06-20T21:08:33.051852-04:00","Action":"output","Package":"fmt","Test":"TestAppendln","Output":"=== RUN   TestAppendln\n"}
+{"Time":"2024-06-20T21:08:33.051855-04:00","Action":"output","Package":"fmt","Test":"TestAppendln","Output":"--- PASS: TestAppendln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.051857-04:00","Action":"pass","Package":"fmt","Test":"TestAppendln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.051859-04:00","Action":"run","Package":"fmt","Test":"TestScan"}
+{"Time":"2024-06-20T21:08:33.051874-04:00","Action":"output","Package":"fmt","Test":"TestScan","Output":"=== RUN   TestScan\n"}
+{"Time":"2024-06-20T21:08:33.051878-04:00","Action":"run","Package":"fmt","Test":"TestScan/StringReader"}
+{"Time":"2024-06-20T21:08:33.05188-04:00","Action":"output","Package":"fmt","Test":"TestScan/StringReader","Output":"=== RUN   TestScan/StringReader\n"}
+{"Time":"2024-06-20T21:08:33.051966-04:00","Action":"run","Package":"fmt","Test":"TestScan/ReaderOnly"}
+{"Time":"2024-06-20T21:08:33.051972-04:00","Action":"output","Package":"fmt","Test":"TestScan/ReaderOnly","Output":"=== RUN   TestScan/ReaderOnly\n"}
+{"Time":"2024-06-20T21:08:33.052001-04:00","Action":"run","Package":"fmt","Test":"TestScan/OneByteReader"}
+{"Time":"2024-06-20T21:08:33.052007-04:00","Action":"output","Package":"fmt","Test":"TestScan/OneByteReader","Output":"=== RUN   TestScan/OneByteReader\n"}
+{"Time":"2024-06-20T21:08:33.052084-04:00","Action":"run","Package":"fmt","Test":"TestScan/DataErrReader"}
+{"Time":"2024-06-20T21:08:33.052089-04:00","Action":"output","Package":"fmt","Test":"TestScan/DataErrReader","Output":"=== RUN   TestScan/DataErrReader\n"}
+{"Time":"2024-06-20T21:08:33.052167-04:00","Action":"output","Package":"fmt","Test":"TestScan","Output":"--- PASS: TestScan (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052172-04:00","Action":"output","Package":"fmt","Test":"TestScan/StringReader","Output":"    --- PASS: TestScan/StringReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052175-04:00","Action":"pass","Package":"fmt","Test":"TestScan/StringReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052178-04:00","Action":"output","Package":"fmt","Test":"TestScan/ReaderOnly","Output":"    --- PASS: TestScan/ReaderOnly (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052181-04:00","Action":"pass","Package":"fmt","Test":"TestScan/ReaderOnly","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052183-04:00","Action":"output","Package":"fmt","Test":"TestScan/OneByteReader","Output":"    --- PASS: TestScan/OneByteReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052186-04:00","Action":"pass","Package":"fmt","Test":"TestScan/OneByteReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052188-04:00","Action":"output","Package":"fmt","Test":"TestScan/DataErrReader","Output":"    --- PASS: TestScan/DataErrReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052191-04:00","Action":"pass","Package":"fmt","Test":"TestScan/DataErrReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052193-04:00","Action":"pass","Package":"fmt","Test":"TestScan","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052195-04:00","Action":"run","Package":"fmt","Test":"TestScanln"}
+{"Time":"2024-06-20T21:08:33.052197-04:00","Action":"output","Package":"fmt","Test":"TestScanln","Output":"=== RUN   TestScanln\n"}
+{"Time":"2024-06-20T21:08:33.052206-04:00","Action":"run","Package":"fmt","Test":"TestScanln/StringReader"}
+{"Time":"2024-06-20T21:08:33.052209-04:00","Action":"output","Package":"fmt","Test":"TestScanln/StringReader","Output":"=== RUN   TestScanln/StringReader\n"}
+{"Time":"2024-06-20T21:08:33.052212-04:00","Action":"run","Package":"fmt","Test":"TestScanln/ReaderOnly"}
+{"Time":"2024-06-20T21:08:33.052215-04:00","Action":"output","Package":"fmt","Test":"TestScanln/ReaderOnly","Output":"=== RUN   TestScanln/ReaderOnly\n"}
+{"Time":"2024-06-20T21:08:33.052249-04:00","Action":"run","Package":"fmt","Test":"TestScanln/OneByteReader"}
+{"Time":"2024-06-20T21:08:33.052255-04:00","Action":"output","Package":"fmt","Test":"TestScanln/OneByteReader","Output":"=== RUN   TestScanln/OneByteReader\n"}
+{"Time":"2024-06-20T21:08:33.052307-04:00","Action":"run","Package":"fmt","Test":"TestScanln/DataErrReader"}
+{"Time":"2024-06-20T21:08:33.052312-04:00","Action":"output","Package":"fmt","Test":"TestScanln/DataErrReader","Output":"=== RUN   TestScanln/DataErrReader\n"}
+{"Time":"2024-06-20T21:08:33.052406-04:00","Action":"output","Package":"fmt","Test":"TestScanln","Output":"--- PASS: TestScanln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052412-04:00","Action":"output","Package":"fmt","Test":"TestScanln/StringReader","Output":"    --- PASS: TestScanln/StringReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052422-04:00","Action":"pass","Package":"fmt","Test":"TestScanln/StringReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052425-04:00","Action":"output","Package":"fmt","Test":"TestScanln/ReaderOnly","Output":"    --- PASS: TestScanln/ReaderOnly (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052428-04:00","Action":"pass","Package":"fmt","Test":"TestScanln/ReaderOnly","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052431-04:00","Action":"output","Package":"fmt","Test":"TestScanln/OneByteReader","Output":"    --- PASS: TestScanln/OneByteReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052433-04:00","Action":"pass","Package":"fmt","Test":"TestScanln/OneByteReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052436-04:00","Action":"output","Package":"fmt","Test":"TestScanln/DataErrReader","Output":"    --- PASS: TestScanln/DataErrReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052438-04:00","Action":"pass","Package":"fmt","Test":"TestScanln/DataErrReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052441-04:00","Action":"pass","Package":"fmt","Test":"TestScanln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052443-04:00","Action":"run","Package":"fmt","Test":"TestScanf"}
+{"Time":"2024-06-20T21:08:33.052446-04:00","Action":"output","Package":"fmt","Test":"TestScanf","Output":"=== RUN   TestScanf\n"}
+{"Time":"2024-06-20T21:08:33.052468-04:00","Action":"output","Package":"fmt","Test":"TestScanf","Output":"--- PASS: TestScanf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052475-04:00","Action":"pass","Package":"fmt","Test":"TestScanf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052477-04:00","Action":"run","Package":"fmt","Test":"TestScanOverflow"}
+{"Time":"2024-06-20T21:08:33.05248-04:00","Action":"output","Package":"fmt","Test":"TestScanOverflow","Output":"=== RUN   TestScanOverflow\n"}
+{"Time":"2024-06-20T21:08:33.052562-04:00","Action":"output","Package":"fmt","Test":"TestScanOverflow","Output":"--- PASS: TestScanOverflow (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052567-04:00","Action":"pass","Package":"fmt","Test":"TestScanOverflow","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.05257-04:00","Action":"run","Package":"fmt","Test":"TestNaN"}
+{"Time":"2024-06-20T21:08:33.052572-04:00","Action":"output","Package":"fmt","Test":"TestNaN","Output":"=== RUN   TestNaN\n"}
+{"Time":"2024-06-20T21:08:33.052575-04:00","Action":"output","Package":"fmt","Test":"TestNaN","Output":"--- PASS: TestNaN (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052578-04:00","Action":"pass","Package":"fmt","Test":"TestNaN","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.05258-04:00","Action":"run","Package":"fmt","Test":"TestInf"}
+{"Time":"2024-06-20T21:08:33.052582-04:00","Action":"output","Package":"fmt","Test":"TestInf","Output":"=== RUN   TestInf\n"}
+{"Time":"2024-06-20T21:08:33.052585-04:00","Action":"output","Package":"fmt","Test":"TestInf","Output":"--- PASS: TestInf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052588-04:00","Action":"pass","Package":"fmt","Test":"TestInf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.05259-04:00","Action":"run","Package":"fmt","Test":"TestScanfMulti"}
+{"Time":"2024-06-20T21:08:33.052592-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti","Output":"=== RUN   TestScanfMulti\n"}
+{"Time":"2024-06-20T21:08:33.052595-04:00","Action":"run","Package":"fmt","Test":"TestScanfMulti/StringReader"}
+{"Time":"2024-06-20T21:08:33.052597-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/StringReader","Output":"=== RUN   TestScanfMulti/StringReader\n"}
+{"Time":"2024-06-20T21:08:33.052601-04:00","Action":"run","Package":"fmt","Test":"TestScanfMulti/ReaderOnly"}
+{"Time":"2024-06-20T21:08:33.052603-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/ReaderOnly","Output":"=== RUN   TestScanfMulti/ReaderOnly\n"}
+{"Time":"2024-06-20T21:08:33.05264-04:00","Action":"run","Package":"fmt","Test":"TestScanfMulti/OneByteReader"}
+{"Time":"2024-06-20T21:08:33.052646-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/OneByteReader","Output":"=== RUN   TestScanfMulti/OneByteReader\n"}
+{"Time":"2024-06-20T21:08:33.052676-04:00","Action":"run","Package":"fmt","Test":"TestScanfMulti/DataErrReader"}
+{"Time":"2024-06-20T21:08:33.05269-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/DataErrReader","Output":"=== RUN   TestScanfMulti/DataErrReader\n"}
+{"Time":"2024-06-20T21:08:33.052712-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti","Output":"--- PASS: TestScanfMulti (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052717-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/StringReader","Output":"    --- PASS: TestScanfMulti/StringReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052721-04:00","Action":"pass","Package":"fmt","Test":"TestScanfMulti/StringReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052724-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/ReaderOnly","Output":"    --- PASS: TestScanfMulti/ReaderOnly (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052727-04:00","Action":"pass","Package":"fmt","Test":"TestScanfMulti/ReaderOnly","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.05273-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/OneByteReader","Output":"    --- PASS: TestScanfMulti/OneByteReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052733-04:00","Action":"pass","Package":"fmt","Test":"TestScanfMulti/OneByteReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052736-04:00","Action":"output","Package":"fmt","Test":"TestScanfMulti/DataErrReader","Output":"    --- PASS: TestScanfMulti/DataErrReader (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052739-04:00","Action":"pass","Package":"fmt","Test":"TestScanfMulti/DataErrReader","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052741-04:00","Action":"pass","Package":"fmt","Test":"TestScanfMulti","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052744-04:00","Action":"run","Package":"fmt","Test":"TestScanMultiple"}
+{"Time":"2024-06-20T21:08:33.052746-04:00","Action":"output","Package":"fmt","Test":"TestScanMultiple","Output":"=== RUN   TestScanMultiple\n"}
+{"Time":"2024-06-20T21:08:33.05275-04:00","Action":"output","Package":"fmt","Test":"TestScanMultiple","Output":"--- PASS: TestScanMultiple (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052752-04:00","Action":"pass","Package":"fmt","Test":"TestScanMultiple","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052755-04:00","Action":"run","Package":"fmt","Test":"TestScanEmpty"}
+{"Time":"2024-06-20T21:08:33.052757-04:00","Action":"output","Package":"fmt","Test":"TestScanEmpty","Output":"=== RUN   TestScanEmpty\n"}
+{"Time":"2024-06-20T21:08:33.05276-04:00","Action":"output","Package":"fmt","Test":"TestScanEmpty","Output":"--- PASS: TestScanEmpty (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052766-04:00","Action":"pass","Package":"fmt","Test":"TestScanEmpty","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052769-04:00","Action":"run","Package":"fmt","Test":"TestScanNotPointer"}
+{"Time":"2024-06-20T21:08:33.052771-04:00","Action":"output","Package":"fmt","Test":"TestScanNotPointer","Output":"=== RUN   TestScanNotPointer\n"}
+{"Time":"2024-06-20T21:08:33.052774-04:00","Action":"output","Package":"fmt","Test":"TestScanNotPointer","Output":"--- PASS: TestScanNotPointer (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052779-04:00","Action":"pass","Package":"fmt","Test":"TestScanNotPointer","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052781-04:00","Action":"run","Package":"fmt","Test":"TestScanlnNoNewline"}
+{"Time":"2024-06-20T21:08:33.052783-04:00","Action":"output","Package":"fmt","Test":"TestScanlnNoNewline","Output":"=== RUN   TestScanlnNoNewline\n"}
+{"Time":"2024-06-20T21:08:33.052786-04:00","Action":"output","Package":"fmt","Test":"TestScanlnNoNewline","Output":"--- PASS: TestScanlnNoNewline (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052789-04:00","Action":"pass","Package":"fmt","Test":"TestScanlnNoNewline","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052791-04:00","Action":"run","Package":"fmt","Test":"TestScanlnWithMiddleNewline"}
+{"Time":"2024-06-20T21:08:33.052793-04:00","Action":"output","Package":"fmt","Test":"TestScanlnWithMiddleNewline","Output":"=== RUN   TestScanlnWithMiddleNewline\n"}
+{"Time":"2024-06-20T21:08:33.052802-04:00","Action":"output","Package":"fmt","Test":"TestScanlnWithMiddleNewline","Output":"--- PASS: TestScanlnWithMiddleNewline (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052806-04:00","Action":"pass","Package":"fmt","Test":"TestScanlnWithMiddleNewline","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052809-04:00","Action":"run","Package":"fmt","Test":"TestEOF"}
+{"Time":"2024-06-20T21:08:33.052818-04:00","Action":"output","Package":"fmt","Test":"TestEOF","Output":"=== RUN   TestEOF\n"}
+{"Time":"2024-06-20T21:08:33.052821-04:00","Action":"output","Package":"fmt","Test":"TestEOF","Output":"--- PASS: TestEOF (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052824-04:00","Action":"pass","Package":"fmt","Test":"TestEOF","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052826-04:00","Action":"run","Package":"fmt","Test":"TestEOFAtEndOfInput"}
+{"Time":"2024-06-20T21:08:33.052829-04:00","Action":"output","Package":"fmt","Test":"TestEOFAtEndOfInput","Output":"=== RUN   TestEOFAtEndOfInput\n"}
+{"Time":"2024-06-20T21:08:33.052831-04:00","Action":"output","Package":"fmt","Test":"TestEOFAtEndOfInput","Output":"--- PASS: TestEOFAtEndOfInput (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052834-04:00","Action":"pass","Package":"fmt","Test":"TestEOFAtEndOfInput","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052836-04:00","Action":"run","Package":"fmt","Test":"TestEOFAllTypes"}
+{"Time":"2024-06-20T21:08:33.052839-04:00","Action":"output","Package":"fmt","Test":"TestEOFAllTypes","Output":"=== RUN   TestEOFAllTypes\n"}
+{"Time":"2024-06-20T21:08:33.052841-04:00","Action":"output","Package":"fmt","Test":"TestEOFAllTypes","Output":"--- PASS: TestEOFAllTypes (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052844-04:00","Action":"pass","Package":"fmt","Test":"TestEOFAllTypes","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052846-04:00","Action":"run","Package":"fmt","Test":"TestUnreadRuneWithBufio"}
+{"Time":"2024-06-20T21:08:33.052849-04:00","Action":"output","Package":"fmt","Test":"TestUnreadRuneWithBufio","Output":"=== RUN   TestUnreadRuneWithBufio\n"}
+{"Time":"2024-06-20T21:08:33.052851-04:00","Action":"output","Package":"fmt","Test":"TestUnreadRuneWithBufio","Output":"--- PASS: TestUnreadRuneWithBufio (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052854-04:00","Action":"pass","Package":"fmt","Test":"TestUnreadRuneWithBufio","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052856-04:00","Action":"run","Package":"fmt","Test":"TestMultiLine"}
+{"Time":"2024-06-20T21:08:33.052858-04:00","Action":"output","Package":"fmt","Test":"TestMultiLine","Output":"=== RUN   TestMultiLine\n"}
+{"Time":"2024-06-20T21:08:33.052862-04:00","Action":"output","Package":"fmt","Test":"TestMultiLine","Output":"--- PASS: TestMultiLine (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052864-04:00","Action":"pass","Package":"fmt","Test":"TestMultiLine","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052866-04:00","Action":"run","Package":"fmt","Test":"TestLineByLineFscanf"}
+{"Time":"2024-06-20T21:08:33.052869-04:00","Action":"output","Package":"fmt","Test":"TestLineByLineFscanf","Output":"=== RUN   TestLineByLineFscanf\n"}
+{"Time":"2024-06-20T21:08:33.052871-04:00","Action":"output","Package":"fmt","Test":"TestLineByLineFscanf","Output":"--- PASS: TestLineByLineFscanf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052874-04:00","Action":"pass","Package":"fmt","Test":"TestLineByLineFscanf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052876-04:00","Action":"run","Package":"fmt","Test":"TestScanStateCount"}
+{"Time":"2024-06-20T21:08:33.052878-04:00","Action":"output","Package":"fmt","Test":"TestScanStateCount","Output":"=== RUN   TestScanStateCount\n"}
+{"Time":"2024-06-20T21:08:33.052881-04:00","Action":"output","Package":"fmt","Test":"TestScanStateCount","Output":"--- PASS: TestScanStateCount (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.052883-04:00","Action":"pass","Package":"fmt","Test":"TestScanStateCount","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.052886-04:00","Action":"run","Package":"fmt","Test":"TestScanInts"}
+{"Time":"2024-06-20T21:08:33.052888-04:00","Action":"output","Package":"fmt","Test":"TestScanInts","Output":"=== RUN   TestScanInts\n"}
+{"Time":"2024-06-20T21:08:33.096481-04:00","Action":"output","Package":"fmt","Test":"TestScanInts","Output":"--- PASS: TestScanInts (0.04s)\n"}
+{"Time":"2024-06-20T21:08:33.096512-04:00","Action":"pass","Package":"fmt","Test":"TestScanInts","Elapsed":0.04}
+{"Time":"2024-06-20T21:08:33.096525-04:00","Action":"run","Package":"fmt","Test":"TestHexBytes"}
+{"Time":"2024-06-20T21:08:33.096531-04:00","Action":"output","Package":"fmt","Test":"TestHexBytes","Output":"=== RUN   TestHexBytes\n"}
+{"Time":"2024-06-20T21:08:33.096536-04:00","Action":"output","Package":"fmt","Test":"TestHexBytes","Output":"--- PASS: TestHexBytes (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096542-04:00","Action":"pass","Package":"fmt","Test":"TestHexBytes","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096545-04:00","Action":"run","Package":"fmt","Test":"TestScanNewlinesAreSpaces"}
+{"Time":"2024-06-20T21:08:33.096549-04:00","Action":"output","Package":"fmt","Test":"TestScanNewlinesAreSpaces","Output":"=== RUN   TestScanNewlinesAreSpaces\n"}
+{"Time":"2024-06-20T21:08:33.096554-04:00","Action":"output","Package":"fmt","Test":"TestScanNewlinesAreSpaces","Output":"--- PASS: TestScanNewlinesAreSpaces (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096558-04:00","Action":"pass","Package":"fmt","Test":"TestScanNewlinesAreSpaces","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096561-04:00","Action":"run","Package":"fmt","Test":"TestScanlnNewlinesTerminate"}
+{"Time":"2024-06-20T21:08:33.096565-04:00","Action":"output","Package":"fmt","Test":"TestScanlnNewlinesTerminate","Output":"=== RUN   TestScanlnNewlinesTerminate\n"}
+{"Time":"2024-06-20T21:08:33.096569-04:00","Action":"output","Package":"fmt","Test":"TestScanlnNewlinesTerminate","Output":"--- PASS: TestScanlnNewlinesTerminate (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096573-04:00","Action":"pass","Package":"fmt","Test":"TestScanlnNewlinesTerminate","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096576-04:00","Action":"run","Package":"fmt","Test":"TestScanfNewlineMatchFormat"}
+{"Time":"2024-06-20T21:08:33.096579-04:00","Action":"output","Package":"fmt","Test":"TestScanfNewlineMatchFormat","Output":"=== RUN   TestScanfNewlineMatchFormat\n"}
+{"Time":"2024-06-20T21:08:33.096583-04:00","Action":"output","Package":"fmt","Test":"TestScanfNewlineMatchFormat","Output":"--- PASS: TestScanfNewlineMatchFormat (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096586-04:00","Action":"pass","Package":"fmt","Test":"TestScanfNewlineMatchFormat","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.09659-04:00","Action":"run","Package":"fmt","Test":"TestHexByte"}
+{"Time":"2024-06-20T21:08:33.096594-04:00","Action":"output","Package":"fmt","Test":"TestHexByte","Output":"=== RUN   TestHexByte\n"}
+{"Time":"2024-06-20T21:08:33.096598-04:00","Action":"output","Package":"fmt","Test":"TestHexByte","Output":"--- PASS: TestHexByte (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096601-04:00","Action":"pass","Package":"fmt","Test":"TestHexByte","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096605-04:00","Action":"run","Package":"fmt","Test":"TestFormatString"}
+{"Time":"2024-06-20T21:08:33.096619-04:00","Action":"output","Package":"fmt","Test":"TestFormatString","Output":"=== RUN   TestFormatString\n"}
+{"Time":"2024-06-20T21:08:33.096622-04:00","Action":"output","Package":"fmt","Test":"TestFormatString","Output":"--- PASS: TestFormatString (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096625-04:00","Action":"pass","Package":"fmt","Test":"TestFormatString","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096627-04:00","Action":"run","Package":"fmt","Test":"TestStringer"}
+{"Time":"2024-06-20T21:08:33.09663-04:00","Action":"output","Package":"fmt","Test":"TestStringer","Output":"=== RUN   TestStringer\n"}
+{"Time":"2024-06-20T21:08:33.096633-04:00","Action":"output","Package":"fmt","Test":"TestStringer","Output":"--- PASS: TestStringer (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096636-04:00","Action":"pass","Package":"fmt","Test":"TestStringer","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096638-04:00","Action":"run","Package":"fmt","Test":"ExampleErrorf"}
+{"Time":"2024-06-20T21:08:33.096839-04:00","Action":"output","Package":"fmt","Test":"ExampleErrorf","Output":"=== RUN   ExampleErrorf\n"}
+{"Time":"2024-06-20T21:08:33.096854-04:00","Action":"output","Package":"fmt","Test":"ExampleErrorf","Output":"--- PASS: ExampleErrorf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096858-04:00","Action":"pass","Package":"fmt","Test":"ExampleErrorf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096861-04:00","Action":"run","Package":"fmt","Test":"ExampleFscanf"}
+{"Time":"2024-06-20T21:08:33.096864-04:00","Action":"output","Package":"fmt","Test":"ExampleFscanf","Output":"=== RUN   ExampleFscanf\n"}
+{"Time":"2024-06-20T21:08:33.096867-04:00","Action":"output","Package":"fmt","Test":"ExampleFscanf","Output":"--- PASS: ExampleFscanf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.09687-04:00","Action":"pass","Package":"fmt","Test":"ExampleFscanf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096872-04:00","Action":"run","Package":"fmt","Test":"ExampleFscanln"}
+{"Time":"2024-06-20T21:08:33.096875-04:00","Action":"output","Package":"fmt","Test":"ExampleFscanln","Output":"=== RUN   ExampleFscanln\n"}
+{"Time":"2024-06-20T21:08:33.096881-04:00","Action":"output","Package":"fmt","Test":"ExampleFscanln","Output":"--- PASS: ExampleFscanln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096884-04:00","Action":"pass","Package":"fmt","Test":"ExampleFscanln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096886-04:00","Action":"run","Package":"fmt","Test":"ExampleSscanf"}
+{"Time":"2024-06-20T21:08:33.096888-04:00","Action":"output","Package":"fmt","Test":"ExampleSscanf","Output":"=== RUN   ExampleSscanf\n"}
+{"Time":"2024-06-20T21:08:33.096894-04:00","Action":"output","Package":"fmt","Test":"ExampleSscanf","Output":"--- PASS: ExampleSscanf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096897-04:00","Action":"pass","Package":"fmt","Test":"ExampleSscanf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096899-04:00","Action":"run","Package":"fmt","Test":"ExamplePrint"}
+{"Time":"2024-06-20T21:08:33.096902-04:00","Action":"output","Package":"fmt","Test":"ExamplePrint","Output":"=== RUN   ExamplePrint\n"}
+{"Time":"2024-06-20T21:08:33.096904-04:00","Action":"output","Package":"fmt","Test":"ExamplePrint","Output":"--- PASS: ExamplePrint (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.09691-04:00","Action":"pass","Package":"fmt","Test":"ExamplePrint","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096913-04:00","Action":"run","Package":"fmt","Test":"ExamplePrintln"}
+{"Time":"2024-06-20T21:08:33.096915-04:00","Action":"output","Package":"fmt","Test":"ExamplePrintln","Output":"=== RUN   ExamplePrintln\n"}
+{"Time":"2024-06-20T21:08:33.096918-04:00","Action":"output","Package":"fmt","Test":"ExamplePrintln","Output":"--- PASS: ExamplePrintln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.09692-04:00","Action":"pass","Package":"fmt","Test":"ExamplePrintln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096923-04:00","Action":"run","Package":"fmt","Test":"ExamplePrintf"}
+{"Time":"2024-06-20T21:08:33.096925-04:00","Action":"output","Package":"fmt","Test":"ExamplePrintf","Output":"=== RUN   ExamplePrintf\n"}
+{"Time":"2024-06-20T21:08:33.096927-04:00","Action":"output","Package":"fmt","Test":"ExamplePrintf","Output":"--- PASS: ExamplePrintf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.09693-04:00","Action":"pass","Package":"fmt","Test":"ExamplePrintf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096933-04:00","Action":"run","Package":"fmt","Test":"ExampleSprint"}
+{"Time":"2024-06-20T21:08:33.096935-04:00","Action":"output","Package":"fmt","Test":"ExampleSprint","Output":"=== RUN   ExampleSprint\n"}
+{"Time":"2024-06-20T21:08:33.096937-04:00","Action":"output","Package":"fmt","Test":"ExampleSprint","Output":"--- PASS: ExampleSprint (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.09694-04:00","Action":"pass","Package":"fmt","Test":"ExampleSprint","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096942-04:00","Action":"run","Package":"fmt","Test":"ExampleSprintln"}
+{"Time":"2024-06-20T21:08:33.096945-04:00","Action":"output","Package":"fmt","Test":"ExampleSprintln","Output":"=== RUN   ExampleSprintln\n"}
+{"Time":"2024-06-20T21:08:33.096952-04:00","Action":"output","Package":"fmt","Test":"ExampleSprintln","Output":"--- PASS: ExampleSprintln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096954-04:00","Action":"pass","Package":"fmt","Test":"ExampleSprintln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096957-04:00","Action":"run","Package":"fmt","Test":"ExampleSprintf"}
+{"Time":"2024-06-20T21:08:33.096959-04:00","Action":"output","Package":"fmt","Test":"ExampleSprintf","Output":"=== RUN   ExampleSprintf\n"}
+{"Time":"2024-06-20T21:08:33.096962-04:00","Action":"output","Package":"fmt","Test":"ExampleSprintf","Output":"--- PASS: ExampleSprintf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096964-04:00","Action":"pass","Package":"fmt","Test":"ExampleSprintf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.096967-04:00","Action":"run","Package":"fmt","Test":"ExampleFprint"}
+{"Time":"2024-06-20T21:08:33.096972-04:00","Action":"output","Package":"fmt","Test":"ExampleFprint","Output":"=== RUN   ExampleFprint\n"}
+{"Time":"2024-06-20T21:08:33.096975-04:00","Action":"output","Package":"fmt","Test":"ExampleFprint","Output":"--- PASS: ExampleFprint (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096978-04:00","Action":"pass","Package":"fmt","Test":"ExampleFprint","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.09698-04:00","Action":"run","Package":"fmt","Test":"ExampleFprintln"}
+{"Time":"2024-06-20T21:08:33.096983-04:00","Action":"output","Package":"fmt","Test":"ExampleFprintln","Output":"=== RUN   ExampleFprintln\n"}
+{"Time":"2024-06-20T21:08:33.096985-04:00","Action":"output","Package":"fmt","Test":"ExampleFprintln","Output":"--- PASS: ExampleFprintln (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.096988-04:00","Action":"pass","Package":"fmt","Test":"ExampleFprintln","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.09699-04:00","Action":"run","Package":"fmt","Test":"ExampleFprintf"}
+{"Time":"2024-06-20T21:08:33.096992-04:00","Action":"output","Package":"fmt","Test":"ExampleFprintf","Output":"=== RUN   ExampleFprintf\n"}
+{"Time":"2024-06-20T21:08:33.096995-04:00","Action":"output","Package":"fmt","Test":"ExampleFprintf","Output":"--- PASS: ExampleFprintf (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.097-04:00","Action":"pass","Package":"fmt","Test":"ExampleFprintf","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.097002-04:00","Action":"run","Package":"fmt","Test":"Example_printers"}
+{"Time":"2024-06-20T21:08:33.097004-04:00","Action":"output","Package":"fmt","Test":"Example_printers","Output":"=== RUN   Example_printers\n"}
+{"Time":"2024-06-20T21:08:33.097009-04:00","Action":"output","Package":"fmt","Test":"Example_printers","Output":"--- PASS: Example_printers (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.097011-04:00","Action":"pass","Package":"fmt","Test":"Example_printers","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.097014-04:00","Action":"run","Package":"fmt","Test":"Example_formats"}
+{"Time":"2024-06-20T21:08:33.097016-04:00","Action":"output","Package":"fmt","Test":"Example_formats","Output":"=== RUN   Example_formats\n"}
+{"Time":"2024-06-20T21:08:33.09702-04:00","Action":"output","Package":"fmt","Test":"Example_formats","Output":"--- PASS: Example_formats (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.097022-04:00","Action":"pass","Package":"fmt","Test":"Example_formats","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.097025-04:00","Action":"run","Package":"fmt","Test":"ExampleGoStringer"}
+{"Time":"2024-06-20T21:08:33.097027-04:00","Action":"output","Package":"fmt","Test":"ExampleGoStringer","Output":"=== RUN   ExampleGoStringer\n"}
+{"Time":"2024-06-20T21:08:33.09703-04:00","Action":"output","Package":"fmt","Test":"ExampleGoStringer","Output":"--- PASS: ExampleGoStringer (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.097032-04:00","Action":"pass","Package":"fmt","Test":"ExampleGoStringer","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.097035-04:00","Action":"run","Package":"fmt","Test":"ExampleStringer"}
+{"Time":"2024-06-20T21:08:33.097037-04:00","Action":"output","Package":"fmt","Test":"ExampleStringer","Output":"=== RUN   ExampleStringer\n"}
+{"Time":"2024-06-20T21:08:33.097039-04:00","Action":"output","Package":"fmt","Test":"ExampleStringer","Output":"--- PASS: ExampleStringer (0.00s)\n"}
+{"Time":"2024-06-20T21:08:33.097046-04:00","Action":"pass","Package":"fmt","Test":"ExampleStringer","Elapsed":0}
+{"Time":"2024-06-20T21:08:33.097048-04:00","Action":"output","Package":"fmt","Output":"PASS\n"}
+{"Time":"2024-06-20T21:08:33.097358-04:00","Action":"output","Package":"fmt","Output":"ok  \tfmt\t0.143s\n"}
+{"Time":"2024-06-20T21:08:33.097376-04:00","Action":"pass","Package":"fmt","Elapsed":0.143}
