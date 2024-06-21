@@ -35,9 +35,10 @@ func TestFollow(t *testing.T) {
 		t.Run(tc.fileName, func(t *testing.T) {
 			inputFile := filepath.Join(base, tc.fileName+".jsonl")
 			options := app.Options{
-				FileName:           inputFile,
-				FollowOutput:       true,
-				DisableTableOutput: true,
+				FileName:            inputFile,
+				FollowOutput:        true,
+				FollowOutputVerbose: true,
+				DisableTableOutput:  true,
 			}
 			var buf bytes.Buffer
 			gotExitCode, err := app.Run(&buf, options)
