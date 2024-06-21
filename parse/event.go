@@ -85,11 +85,34 @@ func (e *Event) DiscardEmptyTestOutput() bool {
 	return e.Action == ActionOutput && e.Test == ""
 }
 
+// Prefixes for the different types of test updates. See:
+//
+//	https://github.com/golang/go/blob/38cfb3be9d486833456276777155980d1ec0823e/src/cmd/internal/test2json/test2json.go#L160-L168
+const (
+	updatePrefixRun   = "=== RUN   "
+	updatePrefixPause = "=== PAUSE "
+	updatePrefixCont  = "=== CONT  "
+	updatePrefixName  = "=== NAME  "
+	updatePrefixPass  = "=== PASS  "
+	updatePrefixFail  = "=== FAIL  "
+	updatePrefixSkip  = "=== SKIP  "
+)
+
 var updates = []string{
-	"=== RUN   ",
-	"=== PAUSE ",
-	"=== CONT  ",
+	updatePrefixRun,
+	updatePrefixPause,
+	updatePrefixCont,
 }
+
+// Prefix for the different types of test results. See
+//
+// https://github.com/golang/go/blob/38cfb3be9d486833456276777155980d1ec0823e/src/cmd/internal/test2json/test2json.go#L170-L175
+const (
+	resultPrefixPass  = "--- PASS: "
+	resultPrefixFail  = "--- FAIL: "
+	resultPrefixSkip  = "--- SKIP: "
+	resultPrefixBench = "--- BENCH: "
+)
 
 // Let's try using the LastLine method to report the package result.
 // If there are issues with LastLine() we can switch to this method.
