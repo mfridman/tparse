@@ -91,10 +91,11 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 		// Optionally, as test output is piped to us, we write the plain
 		// text Output as if go test was run without the -json flag.
-		if option.follow && option.w != nil {
-			if !isNoisy(strings.TrimSpace(e.Output)) {
-				fmt.Fprint(option.w, e.Output)
+		if (option.follow || option.followVerbose) && option.w != nil {
+			if !option.followVerbose && isNoisy(strings.TrimSpace(e.Output)) {
+				continue
 			}
+			fmt.Fprint(option.w, e.Output)
 		}
 		// Progress is a special case of follow, where we only print the
 		// progress of the test suite, but not the output.

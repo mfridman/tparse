@@ -5,16 +5,21 @@ import (
 )
 
 type options struct {
-	w        io.Writer
-	follow   bool
-	debug    bool
-	progress bool
+	w             io.Writer
+	follow        bool
+	followVerbose bool
+	debug         bool
+	progress      bool
 }
 
 type OptionsFunc func(o *options)
 
 func WithFollowOutput(b bool) OptionsFunc {
 	return func(o *options) { o.follow = b }
+}
+
+func WithFollowVersboseOutput(b bool) OptionsFunc {
+	return func(o *options) { o.followVerbose = b }
 }
 
 func WithWriter(w io.Writer) OptionsFunc {

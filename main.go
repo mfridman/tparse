@@ -31,6 +31,8 @@ var (
 	sortPtr        = flag.String("sort", "name", "")
 	progressPtr    = flag.Bool("progress", false, "")
 	comparePtr     = flag.String("compare", "", "")
+	// Undocumented flags
+	followVerbose = flag.Bool("follow-verbose", false, "")
 
 	// Legacy flags
 	noBordersPtr = flag.Bool("noborders", false, "")
@@ -117,9 +119,10 @@ func main() {
 		disableColor = true
 	}
 	options := app.Options{
-		DisableColor: disableColor,
-		FollowOutput: *followPtr,
-		FileName:     *fileNamePtr,
+		DisableColor:        disableColor,
+		FollowOutput:        *followPtr,
+		FollowOutputVerbose: *followVerbose,
+		FileName:            *fileNamePtr,
 		TestTableOptions: app.TestTableOptions{
 			Pass: *passPtr,
 			Skip: *skipPtr,
