@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
+        # go-version: ['oldstable', 'stable', '1.23.0-rc.2']
         go-version: ['oldstable', 'stable']
     env:
       VERBOSE: 1
@@ -27,6 +28,7 @@ jobs:
       - name: Build
         run: go build -v .
       - name: Run tests with GITHUB_STEP_SUMMARY
+        shell: bash
         # Note the use of  || true. This so the job doesn't fail at that line. We want to preserve -follow
         # as part of the test output, but not output it to the summary page, which is done in the proceeding
         # command when we parse the output.jsonl file.
@@ -36,3 +38,14 @@ jobs:
           ./tparse -format markdown -file output.jsonl -all -slow 20 > $GITHUB_STEP_SUMMARY
       - name: Run tparse w/ std lib
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort time -json -cover | ./tparse -follow -all
+      - name: Install GoReleaser
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.go-version == 'stable'
+        uses: goreleaser/goreleaser-action@v6
+        with:
+          install-only: true
+          distribution: goreleaser
+          version: "~> v2"
+      - name: Gorelease dry-run
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.go-version == 'stable'
+        run: |
+          goreleaser release --skip=publish --snapshot --fail-fast --clean
