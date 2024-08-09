@@ -208,7 +208,12 @@ func shortenTestName(s string, trim bool, maxLength int) string {
 		ss := strings.Split(s, "/")
 		testName.WriteString(ss[0] + "\n")
 		for i, s := range ss[1:] {
-			testName.WriteString(" /" + s)
+			testName.WriteString(" /")
+			for len(s) > maxLength {
+				testName.WriteString(s[:maxLength-2] + " …\n  ")
+				s = s[maxLength-2:]
+			}
+			testName.WriteString(s)
 			if i != len(ss[1:])-1 {
 				testName.WriteString("\n")
 			}
