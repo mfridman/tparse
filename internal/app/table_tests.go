@@ -27,6 +27,7 @@ type TestTableOptions struct {
 	//  /seed-up-down-to-zero
 	Trim bool
 
+	// TrimPath is the path prefix to trim from the package name.
 	TrimPath string
 
 	// Display up to N slow tests for each package, tests are sorted by

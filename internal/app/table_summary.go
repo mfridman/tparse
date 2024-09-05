@@ -23,6 +23,7 @@ type SummaryTableOptions struct {
 	//  /seed-up-down-to-zero
 	Trim bool
 
+	// TrimPath is the path prefix to trim from the package name.
 	TrimPath string
 }
 
