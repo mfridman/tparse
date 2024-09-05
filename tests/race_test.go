@@ -5,7 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -57,11 +59,11 @@ func TestRaceDetected(t *testing.T) {
 		t.Run(tc.fileName, func(t *testing.T) {
 			inputFile := filepath.Join(base, tc.fileName+".jsonl")
 			f, err := os.Open(inputFile)
-			check.NoError(t, err)
+			require.NoError(t, err)
 			defer f.Close()
 
 			summary, err := parse.Process(f)
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			if summary.ExitCode() == 0 {
 				t.Fatalf("expecting non-zero exit code")
@@ -71,10 +73,10 @@ func TestRaceDetected(t *testing.T) {
 				if !ok {
 					t.Fatalf("failed to find package: %q", name)
 				}
-				check.Number(t, len(pkg.DataRaceTests), len(wantTestName))
+				assert.Equal(t, len(pkg.DataRaceTests), len(wantTestName))
 				if len(pkg.DataRaceTests) > 0 {
 					for i := range pkg.DataRaceTests {
-						check.Equal(t, pkg.DataRaceTests[i], wantTestName[i])
+						assert.Equal(t, pkg.DataRaceTests[i], wantTestName[i])
 					}
 				}
 			}

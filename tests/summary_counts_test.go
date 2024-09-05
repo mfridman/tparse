@@ -4,7 +4,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -16,11 +18,11 @@ func TestSummaryCounts(t *testing.T) {
 
 	fileName := "./testdata/metrics_test.jsonl"
 	f, err := os.Open(fileName)
-	check.NoError(t, err)
+	require.NoError(t, err)
 
 	summary, err := parse.Process(f)
-	check.NoError(t, err)
-	check.Number(t, len(summary.Packages), 9)
+	require.NoError(t, err)
+	assert.Len(t, summary.Packages, 9)
 
 	for name, pkg := range summary.Packages {
 		if pkg.Summary == nil {
@@ -91,18 +93,18 @@ func TestElapsed(t *testing.T) {
 
 	fileName := "./testdata/elapsed_test.jsonl"
 	f, err := os.Open(fileName)
-	check.NoError(t, err)
+	require.NoError(t, err)
 	defer f.Close()
 
 	summary, err := parse.Process(f)
-	check.NoError(t, err)
-	check.Number(t, len(summary.Packages), 1)
+	require.NoError(t, err)
+	assert.Len(t, summary.Packages, 1)
 
 	pkg, ok := summary.Packages["strings"]
 	if !ok {
 		t.Fatalf(`got unexpected pkg: %v\nwant "strings"`, pkg)
 	}
-	check.Number(t, len(pkg.Tests), 2)
+	assert.Len(t, pkg.Tests, 2)
 
 	for _, test := range pkg.Tests {
 		wantElapsed, ok := expected[test.Name]

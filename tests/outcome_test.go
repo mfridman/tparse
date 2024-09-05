@@ -5,7 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -59,9 +61,9 @@ func TestFinalOutcome(t *testing.T) {
 				t.Fatal(err)
 			}
 			summary, err := parse.Process(f)
-			check.NoError(t, err)
-			check.Number(t, len(summary.Packages), len(tc.registry))
-			check.Number(t, summary.ExitCode(), tc.exitCode)
+			require.NoError(t, err)
+			assert.Equal(t, len(summary.Packages), len(tc.registry))
+			assert.Equal(t, summary.ExitCode(), tc.exitCode)
 
 			for name, pkg := range summary.Packages {
 				want, ok := tc.registry[name]

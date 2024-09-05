@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/require"
 )
 
 func TestNewEvent(t *testing.T) {
@@ -99,7 +99,7 @@ func TestNewEvent(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			if e.Action != tc.action {
 				t.Errorf("wrong action: got %q, want %q", e.Action, tc.action)
@@ -166,7 +166,7 @@ func TestCachedEvent(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			got := e.IsCached()
 			want := tc.cached
@@ -220,7 +220,7 @@ func TestCoverEvent(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			f, ok := e.Cover()
 			if ok != tc.cover {
@@ -264,7 +264,7 @@ func TestNoTestFiles(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			got := e.NoTestFiles()
 			want := tc.noTestFiles
@@ -303,7 +303,7 @@ func TestNoTestsToRun(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			got := e.NoTestsToRun()
 			want := tc.noTests
@@ -344,7 +344,7 @@ func TestNoTestsWarn(t *testing.T) {
 	for i, tc := range tt {
 		t.Run(fmt.Sprintf("event_%d", i), func(t *testing.T) {
 			e, err := NewEvent([]byte(tc.raw))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			got := e.NoTestsWarn()
 			want := tc.wanNoTests
@@ -394,7 +394,7 @@ func TestDiscardOutput(t *testing.T) {
 	}
 	for _, tc := range tt {
 		e, err := NewEvent([]byte(tc))
-		check.NoError(t, err)
+		require.NoError(t, err)
 		if e.DiscardOutput() != true {
 			t.Errorf("%s - %s failed discard check: got:%v, want:%v", e.Package, e.Test, e.DiscardOutput(), true)
 		}
