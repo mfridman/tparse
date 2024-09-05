@@ -35,11 +35,12 @@ test:
 	go test -count=1 ./...
 
 test-tparse:
-	go test -race -count=1 ./... -json -cover -coverpkg=./... | go run main.go
+	go test -race -count=1 ./internal/... -json -cover | go run main.go -trimpath=auto -sort=elapsed
+	go test -race -count=1 ./tests/... -json -cover -coverpkg=./parse | go run main.go -trimpath=github.com/mfridman/tparse -sort=elapsed
 
 # dogfooding :)
 test-tparse-full:
-	go test -race -count=1 -v ./... -json -cover -coverpkg=./... | go run main.go -all -smallscreen -notests
+	go test -race -count=1 -v ./... -json | go run main.go -all -smallscreen -notests -sort=elapsed
 
 release:
 	goreleaser --rm-dist

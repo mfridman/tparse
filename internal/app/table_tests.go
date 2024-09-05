@@ -9,6 +9,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
+	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -25,6 +26,8 @@ type TestTableOptions struct {
 	// TestNoVersioning
 	//  /seed-up-down-to-zero
 	Trim bool
+
+	TrimPath string
 
 	// Display up to N slow tests for each package, tests are sorted by
 	// calculated the elapsed time for the given test.
@@ -51,7 +54,11 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	}
 	tbl.SetHeader(header.toRow())
 
-	packagePrefix := findCommonPackagePrefix(packages)
+	names := make([]string, 0, len(packages))
+	for _, pkg := range packages {
+		names = append(names, pkg.Summary.Package)
+	}
+	packagePrefix := utils.FindLongestCommonPrefix(names)
 
 	for i, pkg := range packages {
 		// Discard packages where we cannot generate a sensible test summary.
@@ -79,7 +86,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				status = c.red(status)
 			}
 
-			packageName := shortenPackageName(t.Package, packagePrefix, 16, option.Trim)
+			packageName := shortenPackageName(t.Package, packagePrefix, 16, option.Trim, option.TrimPath)
 
 			row := testRow{
 				status:      status,
