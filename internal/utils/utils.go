@@ -5,13 +5,13 @@ import (
 	"strings"
 )
 
-// FindLongestCommonPrefix finds the longest common prefix amongst a list of full package names. For
-// example, given the following:
+// FindLongestCommonPrefix finds the longest common path prefix of a set of paths. For example,
+// given the following:
 //
 //	github.com/owner/repo/cmd/foo
 //	github.com/owner/repo/cmd/bar
 //
-// The longest common prefix is: github.com/owner/repo/cmd
+// The longest common prefix is: github.com/owner/repo/cmd/ (note the trailing slash is included).
 func FindLongestCommonPrefix(paths []string) string {
 	if len(paths) < 2 {
 		return ""
@@ -34,7 +34,7 @@ func FindLongestCommonPrefix(paths []string) string {
 	// Ensure the common prefix ends at a boundary.
 	commonPrefix := first[:commonPrefixLength]
 	if n := strings.LastIndex(commonPrefix, "/"); n != -1 {
-		return commonPrefix[:n]
+		return commonPrefix[:n+1]
 	}
 	return ""
 }
