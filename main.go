@@ -31,6 +31,7 @@ var (
 	sortPtr        = flag.String("sort", "name", "")
 	progressPtr    = flag.Bool("progress", false, "")
 	comparePtr     = flag.String("compare", "", "")
+	trimPathPtr    = flag.String("trimpath", "", "")
 	// Undocumented flags
 	followVerbosePtr = flag.Bool("follow-verbose", false, "")
 
@@ -59,6 +60,7 @@ Options:
     -follow        Follow raw output as go test is running.
     -progress      Print a single summary line for each package. Useful for long running test suites.
     -compare       Compare against a previous test output file. (experimental)
+    -trimpath      Remove path prefix from package names in output, simplifying their display.
 `
 
 var version string
@@ -118,19 +120,22 @@ func main() {
 	if _, ok := os.LookupEnv("NO_COLOR"); ok || *noColorPtr {
 		disableColor = true
 	}
+	// TODO(mf): we should marry the options with the flags to avoid having to do this.
 	options := app.Options{
 		DisableColor:        disableColor,
 		FollowOutput:        *followPtr,
 		FollowOutputVerbose: *followVerbosePtr,
 		FileName:            *fileNamePtr,
 		TestTableOptions: app.TestTableOptions{
-			Pass: *passPtr,
-			Skip: *skipPtr,
-			Trim: *smallScreenPtr,
-			Slow: *slowPtr,
+			Pass:     *passPtr,
+			Skip:     *skipPtr,
+			Trim:     *smallScreenPtr,
+			TrimPath: *trimPathPtr,
+			Slow:     *slowPtr,
 		},
 		SummaryTableOptions: app.SummaryTableOptions{
-			Trim: *smallScreenPtr,
+			Trim:     *smallScreenPtr,
+			TrimPath: *trimPathPtr,
 		},
 		Format:      format,
 		Sorter:      sorter,

@@ -3,13 +3,13 @@ package app
 import (
 	"fmt"
 	"path"
-	"sort"
 	"strconv"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/olekukonko/tablewriter"
 
+	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -22,6 +22,9 @@ type SummaryTableOptions struct {
 	// tparse
 	//  /seed-up-down-to-zero
 	Trim bool
+
+	// TrimPath is the path prefix to trim from the package name.
+	TrimPath string
 }
 
 func (c *consoleWriter) summaryTable(
@@ -57,14 +60,19 @@ func (c *consoleWriter) summaryTable(
 	// is almost always the user matching on the wrong package.
 	var passed, notests []summaryRow
 
-	packagePrefix := findCommonPackagePrefix(packages)
+	names := make([]string, 0, len(packages))
+	for _, pkg := range packages {
+		names = append(names, pkg.Summary.Package)
+	}
+	packagePrefix := utils.FindLongestCommonPrefix(names)
 
 	for _, pkg := range packages {
 		elapsed := strconv.FormatFloat(pkg.Summary.Elapsed, 'f', 2, 64) + "s"
 		if pkg.Cached {
 			elapsed = "(cached)"
 		}
-		packageName := shortenPackageName(pkg.Summary.Package, packagePrefix, 32, options.Trim)
+		packageName := pkg.Summary.Package
+		packageName = shortenPackageName(packageName, packagePrefix, 32, options.Trim, options.TrimPath)
 		if pkg.HasPanic {
 			row := summaryRow{
 				status:      c.red("PANIC"),
@@ -229,47 +237,18 @@ func (r summaryRow) toRow() []string {
 	}
 }
 
-func findCommonPackagePrefix(packages []*parse.Package) string {
-	if len(packages) < 2 {
-		return ""
+func shortenPackageName(
+	name string,
+	prefix string,
+	maxLength int,
+	trim bool,
+	trimPath string,
+) string {
+	if trimPath == "auto" {
+		name = strings.TrimPrefix(name, prefix)
+	} else if trimPath != "" {
+		name = strings.TrimPrefix(name, trimPath)
 	}
-	// Dirty fix for panic reported in https://github.com/mfridman/tparse/issues/102
-	// because packages are not sorted.
-	names := make([]string, 0, len(packages))
-	for _, p := range packages {
-		names = append(names, p.Summary.Package)
-	}
-	sort.Strings(names)
-
-	prefixLength := 0
-	for prefixLength = 0; prefixLength < len(names[0]); prefixLength++ {
-		for i := 0; i < len(names); i++ {
-			if len(names[i]) == (prefixLength - 1) {
-				goto End
-			}
-			if names[0][prefixLength] != names[i][prefixLength] {
-				prefixLength--
-
-				goto End
-			}
-		}
-	}
-
-End:
-	if prefixLength <= 0 {
-		return ""
-	}
-
-	prefix := names[0][0:prefixLength]
-	lastSlash := strings.LastIndex(prefix, "/")
-	if lastSlash >= 0 {
-		prefix = prefix[0:lastSlash]
-	}
-
-	return prefix
-}
-
-func shortenPackageName(name string, prefix string, maxLength int, trim bool) string {
 	if !trim {
 		return name
 	}
