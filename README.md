@@ -2,7 +2,9 @@
 
 A command line tool for analyzing and summarizing `go test` output.
 
-**Don't forget to run `go test` with the `-json` flag.**
+> [!TIP]
+>
+> Don't forget to run `go test` with the `-json` flag.
 
 Pass            |  Fail
 :-------------------------:|:-------------------------:
