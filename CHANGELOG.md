@@ -7,6 +7,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Add `-trimpath` flag, which removes the path prefix from package names in the output, simplifying
+  their display. See #128 for examples.
+  - There's a special case for `-trimpath=auto` which will automatically determine the prefix based
+    on the longest common prefix of all package paths.
+
 ## [v0.14.0]
 
 - Modify `--follow` behavior by minimizing noisy output. (#122)
