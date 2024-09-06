@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v0.15.0]
+
 - Add `-trimpath` flag, which removes the path prefix from package names in the output, simplifying
   their display. See #128 for examples.
   - There's a special case for `-trimpath=auto` which will automatically determine the prefix based
@@ -50,7 +52,8 @@ Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 - Add [GoReleaser](https://goreleaser.com/) to automate the release process. Pre-built binaries are
   available for each release, currently Linux and macOS. If there is demand, can also add Windows.
 
-[Unreleased]: https://github.com/mfridman/tparse/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/mfridman/tparse/compare/v0.15.0...HEAD
+[v0.15.0]: https://github.com/mfridman/tparse/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/mfridman/tparse/compare/v0.13.3...v0.14.0
 [v0.13.3]: https://github.com/mfridman/tparse/compare/v0.13.2...v0.13.3
 [v0.13.2]: https://github.com/mfridman/tparse/compare/v0.13.1...v0.13.2
