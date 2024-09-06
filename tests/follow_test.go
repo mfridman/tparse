@@ -7,8 +7,9 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/mfridman/tparse/internal/app"
-	"github.com/mfridman/tparse/internal/check"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -46,7 +47,7 @@ func TestFollow(t *testing.T) {
 				if err != nil && !errors.Is(err, tc.err) {
 					t.Fatal(err)
 				}
-				check.Number(t, gotExitCode, tc.exitCode)
+				assert.Equal(t, gotExitCode, tc.exitCode)
 				goldenFile := filepath.Join(base, tc.fileName+".golden")
 				want, err := os.ReadFile(goldenFile)
 				if err != nil {
@@ -80,7 +81,7 @@ func TestFollow(t *testing.T) {
 				if err != nil && !errors.Is(err, tc.err) {
 					t.Fatal(err)
 				}
-				check.Number(t, gotExitCode, tc.exitCode)
+				assert.Equal(t, gotExitCode, tc.exitCode)
 				goldenFile := filepath.Join(base, tc.fileName+".golden")
 				want, err := os.ReadFile(goldenFile)
 				if err != nil {

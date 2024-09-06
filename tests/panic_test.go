@@ -5,7 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -65,11 +67,11 @@ func TestPanic(t *testing.T) {
 	for _, tc := range tt {
 		t.Run(tc.fileName, func(t *testing.T) {
 			f, err := os.Open(filepath.Join(base, tc.fileName))
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			summary, err := parse.Process(f)
-			check.NoError(t, err)
-			check.Number(t, summary.ExitCode(), 1)
+			require.NoError(t, err)
+			assert.Equal(t, 1, summary.ExitCode())
 
 			for name, pkg := range summary.Packages {
 				want, ok := tc.expected[name]

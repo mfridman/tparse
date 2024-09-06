@@ -5,7 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -31,10 +32,14 @@ func TestPrescan(t *testing.T) {
 		t.Run(tc.fileName, func(t *testing.T) {
 			inputFile := filepath.Join(base, tc.fileName)
 			f, err := os.Open(inputFile)
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			_, err = parse.Process(f)
-			check.IsError(t, err, tc.err)
+			if tc.err != nil {
+				require.ErrorIs(t, err, tc.err)
+				return
+			}
+			require.NoError(t, err)
 		})
 
 	}

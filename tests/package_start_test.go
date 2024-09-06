@@ -5,7 +5,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -30,12 +32,12 @@ func TestPackageStartTime(t *testing.T) {
 
 	fileName := "./testdata/go120_start_action.jsonl"
 	f, err := os.Open(fileName)
-	check.NoError(t, err)
+	require.NoError(t, err)
 	defer f.Close()
 
 	summary, err := parse.Process(f)
-	check.NoError(t, err)
-	check.Number(t, len(summary.Packages), len(expected))
+	require.NoError(t, err)
+	assert.Equal(t, len(summary.Packages), len(expected))
 
 	for _, p := range summary.Packages {
 		if p.StartTime.IsZero() {
@@ -46,7 +48,7 @@ func TestPackageStartTime(t *testing.T) {
 			t.Fatalf("package %q not found in expected map", p.Summary.Package)
 		}
 		want, err := time.Parse(time.RFC3339, unparsed)
-		check.NoError(t, err)
+		require.NoError(t, err)
 		if !p.StartTime.Equal(want) {
 			t.Fatalf("package %q start time got %q want %q", p.Summary.Package, p.StartTime, want)
 		}

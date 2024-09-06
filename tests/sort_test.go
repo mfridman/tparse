@@ -5,7 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mfridman/tparse/internal/check"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -52,11 +54,11 @@ func TestSortName(t *testing.T) {
 		t.Run(tc.fileName, func(t *testing.T) {
 			inputFile := filepath.Join(base, tc.fileName+".jsonl")
 			f, err := os.Open(inputFile)
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			summary, err := parse.Process(f)
-			check.NoError(t, err)
-			check.Number(t, len(summary.Packages), len(tc.expected))
+			require.NoError(t, err)
+			assert.Equal(t, len(summary.Packages), len(tc.expected))
 			packages := summary.GetSortedPackages(parse.SortByPackageName)
 
 			for i, pkg := range packages {
@@ -114,11 +116,11 @@ func TestSortCoverage(t *testing.T) {
 		t.Run(tc.fileName, func(t *testing.T) {
 			inputFile := filepath.Join(base, tc.fileName+".jsonl")
 			f, err := os.Open(inputFile)
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			summary, err := parse.Process(f)
-			check.NoError(t, err)
-			check.Number(t, len(summary.Packages), len(tc.expected))
+			require.NoError(t, err)
+			assert.Equal(t, len(summary.Packages), len(tc.expected))
 			packages := summary.GetSortedPackages(parse.SortByCoverage)
 
 			for i, pkg := range packages {
@@ -176,11 +178,11 @@ func TestSortElapsed(t *testing.T) {
 		t.Run(tc.fileName, func(t *testing.T) {
 			inputFile := filepath.Join(base, tc.fileName+".jsonl")
 			f, err := os.Open(inputFile)
-			check.NoError(t, err)
+			require.NoError(t, err)
 
 			summary, err := parse.Process(f)
-			check.NoError(t, err)
-			check.Number(t, len(summary.Packages), len(tc.expected))
+			require.NoError(t, err)
+			assert.Equal(t, len(summary.Packages), len(tc.expected))
 			packages := summary.GetSortedPackages(parse.SortByElapsed)
 
 			for i, pkg := range packages {
