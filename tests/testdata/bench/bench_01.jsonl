@@ -1,0 +1,51 @@
+{"Time":"2022-06-04T10:59:47.969358-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"Test"}
+{"Time":"2022-06-04T10:59:47.969702-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"Test","Output":"=== RUN   Test\n"}
+{"Time":"2022-06-04T10:59:47.972086-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"Test","Output":"OK: 40 passed\n"}
+{"Time":"2022-06-04T10:59:47.972112-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"Test","Output":"--- PASS: Test (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972121-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"Test","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972129-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has"}
+{"Time":"2022-06-04T10:59:47.972135-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has","Output":"=== RUN   TestLabels_Has\n"}
+{"Time":"2022-06-04T10:59:47.972149-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/empty_labels"}
+{"Time":"2022-06-04T10:59:47.972155-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/empty_labels","Output":"=== RUN   TestLabels_Has/empty_labels\n"}
+{"Time":"2022-06-04T10:59:47.972164-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/has_label"}
+{"Time":"2022-06-04T10:59:47.972169-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/has_label","Output":"=== RUN   TestLabels_Has/has_label\n"}
+{"Time":"2022-06-04T10:59:47.972179-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/does_not_have_label"}
+{"Time":"2022-06-04T10:59:47.972184-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/does_not_have_label","Output":"=== RUN   TestLabels_Has/does_not_have_label\n"}
+{"Time":"2022-06-04T10:59:47.972194-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has","Output":"--- PASS: TestLabels_Has (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972201-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/empty_labels","Output":"    --- PASS: TestLabels_Has/empty_labels (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972207-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/empty_labels","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972213-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/has_label","Output":"    --- PASS: TestLabels_Has/has_label (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972219-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/has_label","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972224-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/does_not_have_label","Output":"    --- PASS: TestLabels_Has/does_not_have_label (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.97223-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has/does_not_have_label","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972236-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_Has","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972241-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource"}
+{"Time":"2022-06-04T10:59:47.972246-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource","Output":"=== RUN   TestLabels_GetFromSource\n"}
+{"Time":"2022-06-04T10:59:47.972257-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_contain_label_with_the_given_source"}
+{"Time":"2022-06-04T10:59:47.972263-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_contain_label_with_the_given_source","Output":"=== RUN   TestLabels_GetFromSource/should_contain_label_with_the_given_source\n"}
+{"Time":"2022-06-04T10:59:47.972299-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_return_an_empty_slice_as_there_are_not_labels_for_the_given_source"}
+{"Time":"2022-06-04T10:59:47.972304-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_return_an_empty_slice_as_there_are_not_labels_for_the_given_source","Output":"=== RUN   TestLabels_GetFromSource/should_return_an_empty_slice_as_there_are_not_labels_for_the_given_source\n"}
+{"Time":"2022-06-04T10:59:47.97232-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource","Output":"--- PASS: TestLabels_GetFromSource (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972326-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_contain_label_with_the_given_source","Output":"    --- PASS: TestLabels_GetFromSource/should_contain_label_with_the_given_source (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.97233-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_contain_label_with_the_given_source","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972334-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_return_an_empty_slice_as_there_are_not_labels_for_the_given_source","Output":"    --- PASS: TestLabels_GetFromSource/should_return_an_empty_slice_as_there_are_not_labels_for_the_given_source (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972339-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource/should_return_an_empty_slice_as_there_are_not_labels_for_the_given_source","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972345-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabels_GetFromSource","Elapsed":0}
+{"Time":"2022-06-04T10:59:47.972349-04:00","Action":"run","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String"}
+{"Time":"2022-06-04T10:59:47.972355-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"=== RUN   TestLabel_String\n"}
+{"Time":"2022-06-04T10:59:47.972359-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"--- PASS: TestLabel_String (0.00s)\n"}
+{"Time":"2022-06-04T10:59:47.972671-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"goos: darwin\n"}
+{"Time":"2022-06-04T10:59:47.972685-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"goarch: arm64\n"}
+{"Time":"2022-06-04T10:59:47.972691-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"pkg: github.com/cilium/cilium/pkg/labels\n"}
+{"Time":"2022-06-04T10:59:47.972696-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkParseLabel\n"}
+{"Time":"2022-06-04T10:59:49.597463-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkParseLabel-8               \t 2799072\t       424.7 ns/op\n"}
+{"Time":"2022-06-04T10:59:49.597517-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkLabels_SortedList\n"}
+{"Time":"2022-06-04T10:59:51.41853-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkLabels_SortedList-8        \t 1957405\t       613.1 ns/op\t     664 B/op\t      13 allocs/op\n"}
+{"Time":"2022-06-04T10:59:51.418588-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkLabel_FormatForKVStore\n"}
+{"Time":"2022-06-04T10:59:52.650212-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkLabel_FormatForKVStore-8   \t37181151\t        32.22 ns/op\t      48 B/op\t       1 allocs/op\n"}
+{"Time":"2022-06-04T10:59:52.650253-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkLabel_String\n"}
+{"Time":"2022-06-04T10:59:53.89166-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Output":"BenchmarkLabel_String-8             \t32042829\t        37.51 ns/op\t      48 B/op\t       1 allocs/op\n"}
+{"Time":"2022-06-04T10:59:53.891703-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Test":"TestLabel_String","Elapsed":0}
+{"Time":"2022-06-04T10:59:53.891712-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Output":"PASS\n"}
+{"Time":"2022-06-04T10:59:53.892189-04:00","Action":"output","Package":"github.com/cilium/cilium/pkg/labels","Output":"ok  \tgithub.com/cilium/cilium/pkg/labels\t6.093s\n"}
+{"Time":"2022-06-04T10:59:53.892215-04:00","Action":"pass","Package":"github.com/cilium/cilium/pkg/labels","Elapsed":6.093}

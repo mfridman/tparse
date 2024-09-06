@@ -1,13 +1,18 @@
 package parse
 
-import "time"
+import (
+	"time"
+
+	benchparse "golang.org/x/tools/benchmark/parse"
+)
 
 // Package is the representation of a single package being tested. The
 // summary field is an event that contains all relevant information about the
 // package, namely Package (name), Elapsed and Action (big pass or fail).
 type Package struct {
-	Summary *Event
-	Tests   []*Test
+	Summary    *Event
+	Tests      []*Test
+	Benchmarks []*benchparse.Benchmark
 
 	// StartTime is the time the package started running. This is only available
 	// in go1.20 and above.

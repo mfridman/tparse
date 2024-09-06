@@ -10,6 +10,8 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+
+	benchparse "golang.org/x/tools/benchmark/parse"
 )
 
 // ErrNotParsable indicates the event line was not parsable.
@@ -199,6 +201,10 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 	if !ok {
 		pkg = newPackage()
 		s.Packages[e.Package] = pkg
+	}
+	if b, err := benchparse.ParseLine(e.Output); err == nil {
+		pkg.Benchmarks = append(pkg.Benchmarks, b)
+		return
 	}
 	// Capture the start time of the package. This is only available in go1.20 and above.
 	if e.Action == ActionStart {

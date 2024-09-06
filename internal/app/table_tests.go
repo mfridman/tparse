@@ -47,11 +47,31 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	var tableString strings.Builder
 	tbl := newTableWriter(&tableString, c.format)
 
-	header := testRow{
-		status:      "Status",
-		elapsed:     "Elapsed",
-		testName:    "Test",
-		packageName: "Package",
+	var hasBench bool
+	for _, pkg := range packages {
+		if len(pkg.Benchmarks) > 0 {
+			hasBench = true
+			break
+		}
+	}
+
+	var header testRow
+	if hasBench {
+		header = testRow{
+			packageName: "Package",
+			testName:    "Test",
+			iterations:  "ITER",
+			cpu:         "OPS",
+			mem:         "MEM",
+			alloc:       "ALLOC",
+		}
+	} else {
+		header = testRow{
+			status:      "Status",
+			elapsed:     "Elapsed",
+			testName:    "Test",
+			packageName: "Package",
+		}
 	}
 	tbl.SetHeader(header.toRow())
 
@@ -71,6 +91,8 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 		all = append(all, pkgTests.passed...)
 		all = append(all, pkgTests.skipped...)
 
+		seen := make(map[string]bool)
+
 		for _, t := range all {
 			// TODO(mf): why are we sorting this?
 			t.SortEvents()
@@ -85,6 +107,24 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				status = c.yellow(status)
 			case parse.ActionFail:
 				status = c.red(status)
+			}
+
+			if hasBench {
+				for _, b := range pkg.Benchmarks {
+					if !seen[b.Name] {
+						seen[b.Name] = true
+						row := testRow{
+							testName:    b.Name,
+							packageName: "pkg/labels",
+							iterations:  strconv.Itoa(b.N),
+							cpu:         fmt.Sprintf("%.2f ns/op", b.NsPerOp),
+							mem:         fmt.Sprintf("%s/op", ByteCountIEC(b.AllocedBytesPerOp)),
+							alloc:       fmt.Sprintf("%d allocs/op", b.AllocsPerOp),
+						}
+						tbl.Append(row.toRow())
+					}
+				}
+				continue
 			}
 
 			packageName := shortenPackageName(t.Package, packagePrefix, 16, option.Trim, option.TrimPath)
@@ -235,13 +275,42 @@ type testRow struct {
 	elapsed     string
 	testName    string
 	packageName string
+
+	iterations string
+	cpu        string
+	mem        string
+	alloc      string
 }
 
 func (r testRow) toRow() []string {
+	if r.cpu != "" {
+		return []string{
+			r.testName,
+			r.iterations,
+			r.cpu,
+			r.mem,
+			r.alloc,
+			r.packageName,
+		}
+	}
 	return []string{
 		r.status,
 		r.elapsed,
 		r.testName,
 		r.packageName,
 	}
+}
+
+func ByteCountIEC(b uint64) string {
+	const unit = 1024
+	if b < unit {
+		return fmt.Sprintf("%d B", b)
+	}
+	div, exp := int64(unit), 0
+	for n := b / unit; n >= unit; n /= unit {
+		div *= unit
+		exp++
+	}
+	return fmt.Sprintf("%.1f %ciB",
+		float64(b)/float64(div), "KMGTPE"[exp])
 }
