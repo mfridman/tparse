@@ -7,7 +7,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"github.com/mfridman/tparse/parse"
+	"github.com/mfridman/tparse/internal/parse"
 )
 
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.

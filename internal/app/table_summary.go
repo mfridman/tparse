@@ -9,8 +9,8 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/olekukonko/tablewriter"
 
+	"github.com/mfridman/tparse/internal/parse"
 	"github.com/mfridman/tparse/internal/utils"
-	"github.com/mfridman/tparse/parse"
 )
 
 type SummaryTableOptions struct {
