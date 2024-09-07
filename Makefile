@@ -10,7 +10,7 @@ lint: tools
 
 .PHONY: tools
 tools:
-	@cd tools && awk -F'"' '/^[[:space:]]*_[[:space:]]*"/ {print $$2}' tools.go | xargs -tI {} go install {}
+	@which golangci-lint 2>/dev/null || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin
 
 .PHONY: test
 test:
