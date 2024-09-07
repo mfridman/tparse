@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mfridman/tparse/parse"
+	"github.com/mfridman/tparse/internal/parse"
 )
 
 func TestPackageStartTime(t *testing.T) {

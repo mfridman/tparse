@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mfridman/tparse/internal/app"
-	"github.com/mfridman/tparse/parse"
+	"github.com/mfridman/tparse/internal/parse"
 )
 
 func TestFollow(t *testing.T) {
