@@ -1,6 +1,6 @@
 module github.com/mfridman/tparse
 
-go 1.23.0
+go 1.18
 
 require (
 	github.com/charmbracelet/lipgloss v0.13.0
