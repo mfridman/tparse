@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mfridman/tparse/internal/parse"
+	"github.com/mfridman/tparse/parse"
 )
 
 func TestPrescan(t *testing.T) {

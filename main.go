@@ -9,7 +9,7 @@ import (
 
 	"github.com/mfridman/buildversion"
 	"github.com/mfridman/tparse/internal/app"
-	"github.com/mfridman/tparse/internal/parse"
+	"github.com/mfridman/tparse/parse"
 )
 
 // Flags.

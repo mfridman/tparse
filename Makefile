@@ -30,14 +30,14 @@ test:
 
 test-tparse:
 	@go test -race -count=1 ./internal/... -json -cover | go run main.go -trimpath=auto -sort=elapsed
-	@go test -race -count=1 ./tests/... -json -cover -coverpkg=./internal/parse | go run main.go -trimpath=github.com/mfridman/tparse/ -sort=elapsed
+	@go test -race -count=1 ./tests/... -json -cover -coverpkg=./parse | go run main.go -trimpath=github.com/mfridman/tparse/ -sort=elapsed
 
 # dogfooding :)
 test-tparse-full:
 	go test -race -count=1 -v ./... -json | go run main.go -all -smallscreen -notests -sort=elapsed
 
 coverage:
-	go test ./tests/... -coverpkg=./internal/parse -covermode=count -coverprofile=count.out
+	go test ./tests/... -coverpkg=./parse -covermode=count -coverprofile=count.out
 	go tool cover -html=count.out
 
 search-todo:
