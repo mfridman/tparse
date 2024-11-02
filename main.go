@@ -135,7 +135,7 @@ func main() {
 			return
 		}
 		*followPtr = true
-	case *followPtr:
+	case *followPtr, *followVerbosePtr:
 		followOutput = os.Stdout
 	default:
 		// If no follow flags are set, we should not write to followOutput.
