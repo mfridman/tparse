@@ -33,31 +33,27 @@ func (c *consoleWriter) summaryTable(
 	options SummaryTableOptions,
 	against *parse.GoTestSummary,
 ) {
-	t := newTable(c.format)
-	t.StyleFunc(func(row, col int) lipgloss.Style {
-		style := lipgloss.NewStyle().
-			PaddingLeft(1).
-			PaddingRight(1).
-			Align(lipgloss.Center)
+	tbl := newTable(c.format, func(style lipgloss.Style, row, col int) lipgloss.Style {
 		switch row {
 		case table.HeaderRow:
 		default:
 			if col == 2 {
+				// Package name
 				style = style.Align(lipgloss.Left)
 			}
 		}
 		return style
 	})
 	header := summaryRow{
-		status:      "Status",  // center
-		elapsed:     "Elapsed", // center
-		packageName: "Package", // left
-		cover:       "Cover",   // center
-		pass:        "Pass",    // center
-		fail:        "Fail",    // center
-		skip:        "Skip",    // center
+		status:      "Status",
+		elapsed:     "Elapsed",
+		packageName: "Package",
+		cover:       "Cover",
+		pass:        "Pass",
+		fail:        "Fail",
+		skip:        "Skip",
 	}
-	t.Headers(header.toRow()...)
+	tbl.Headers(header.toRow()...)
 
 	var rows []summaryRow
 
@@ -196,26 +192,22 @@ func (c *consoleWriter) summaryTable(
 	if len(rows) == 0 && len(passed) == 0 && len(notests) == 0 {
 		return
 	}
+	rows = append(rows, passed...)
 
-	for _, p := range passed {
-		rows = append(rows, p)
-	}
 	// Only display the "no tests to run" cases if users want to see them when passed
 	// tests are available.
 	// An exception is made if there are no passed tests and only a single no test files
 	// package. This is almost always because the user forgot to match one or more packages.
 	if showNoTests || (len(passed) == 0 && len(notests) == 1) {
-		for _, p := range notests {
-			rows = append(rows, p)
-		}
+		rows = append(rows, notests...)
 	}
 	// The table gets written to a strings builder so we can further modify the output
 	// with lipgloss.
 	for _, r := range rows {
-		t.Rows(r.toRow())
+		tbl.Rows(r.toRow())
 	}
 
-	fmt.Fprintln(c.w, t.Render())
+	fmt.Fprintln(c.w, tbl.Render())
 }
 
 type summaryRow struct {

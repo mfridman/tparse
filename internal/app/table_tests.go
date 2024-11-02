@@ -9,6 +9,7 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/table"
+
 	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
@@ -44,29 +45,22 @@ type packageTests struct {
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
 	// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-	tbl := newTable(c.format)
-	tbl.StyleFunc(func(row, col int) lipgloss.Style {
-		style := lipgloss.NewStyle().
-			PaddingLeft(1).
-			PaddingRight(1).
-			Align(lipgloss.Center)
+	tbl := newTable(c.format, func(style lipgloss.Style, row, col int) lipgloss.Style {
 		switch row {
 		case table.HeaderRow:
 		default:
-			if col == 1 {
-				style = style.Align(lipgloss.Right)
-			}
 			if col == 2 || col == 3 {
+				// Test name and package name
 				style = style.Align(lipgloss.Left)
 			}
 		}
 		return style
 	})
 	header := testRow{
-		status:      "Status",  // center
-		elapsed:     "Elapsed", // right
-		testName:    "Test",    // left
-		packageName: "Package", // left
+		status:      "Status",
+		elapsed:     "Elapsed",
+		testName:    "Test",
+		packageName: "Package",
 	}
 	tbl.Headers(header.toRow()...)
 
@@ -115,7 +109,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			rows = append(rows, row)
 		}
 		if i != (len(packages) - 1) {
-			// TODO(mf): is it possible to add a custom separator with tablewriter instead of empty space?
+			// Add a blank row between packages.
 			rows = append(rows, testRow{})
 		}
 	}
@@ -131,14 +125,24 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option TestTableOptions) {
 	for _, pkg := range packages {
 		// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-		t := newTable(c.format)
+		tbl := newTable(c.format, func(style lipgloss.Style, row, col int) lipgloss.Style {
+			switch row {
+			case table.HeaderRow:
+			default:
+				if col == 2 {
+					// Test name
+					style = style.Align(lipgloss.Left)
+				}
+			}
+			return style
+		})
 		header := []string{
 			"Status",
 			"Elapsed",
 			"Test",
 		}
-		t.Headers(header...)
-		var rows []string
+		tbl.Headers(header...)
+		var rows [][]string
 
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
@@ -168,7 +172,10 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 				status,
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
 				testName,
-			}...)
+			})
+		}
+		for _, r := range rows {
+			tbl.Rows(r)
 		}
 		if len(rows) > 0 {
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
@@ -185,7 +192,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<summary>Click for test summary</summary>")
 			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, t.Render())
+			fmt.Fprintln(c.w, tbl.Render())
 			fmt.Fprintln(c.w, "</details>")
 			fmt.Fprintln(c.w)
 		}

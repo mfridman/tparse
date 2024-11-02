@@ -5,17 +5,27 @@ import (
 	"github.com/charmbracelet/lipgloss/table"
 )
 
-func newTable(format OutputFormat) *table.Table {
-	t := table.New()
+func newTable(
+	format OutputFormat,
+	override func(style lipgloss.Style, row, col int) lipgloss.Style,
+) *table.Table {
+	tbl := table.New()
 	switch format {
 	case OutputFormatPlain:
-		t = t.Border(lipgloss.HiddenBorder()).BorderTop(false).BorderBottom(false)
+		tbl.Border(lipgloss.HiddenBorder()).BorderTop(false).BorderBottom(false)
 	case OutputFormatMarkdown:
-		t = t.Border(markdownBorder).BorderBottom(false).BorderTop(false)
+		tbl.Border(markdownBorder).BorderBottom(false).BorderTop(false)
 	case OutputFormatBasic:
-		t = t.Border(lipgloss.RoundedBorder())
+		tbl.Border(lipgloss.RoundedBorder())
 	}
-	return t
+	return tbl.StyleFunc(func(row, col int) lipgloss.Style {
+		// Default style, may be overridden.
+		style := lipgloss.NewStyle().PaddingLeft(1).PaddingRight(1).Align(lipgloss.Center)
+		if override != nil {
+			style = override(style, row, col)
+		}
+		return style
+	})
 }
 
 var markdownBorder = lipgloss.Border{
