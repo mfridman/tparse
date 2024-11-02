@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
-
+	"github.com/charmbracelet/lipgloss/table"
 	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
@@ -44,16 +44,33 @@ type packageTests struct {
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
 	// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-	var tableString strings.Builder
-	tbl := newTableWriter(&tableString, c.format)
-
+	tbl := newTable(c.format)
+	tbl.StyleFunc(func(row, col int) lipgloss.Style {
+		style := lipgloss.NewStyle().
+			PaddingLeft(1).
+			PaddingRight(1).
+			Align(lipgloss.Center)
+		switch row {
+		case table.HeaderRow:
+		default:
+			if col == 1 {
+				style = style.Align(lipgloss.Right)
+			}
+			if col == 2 || col == 3 {
+				style = style.Align(lipgloss.Left)
+			}
+		}
+		return style
+	})
 	header := testRow{
-		status:      "Status",
-		elapsed:     "Elapsed",
-		testName:    "Test",
-		packageName: "Package",
+		status:      "Status",  // center
+		elapsed:     "Elapsed", // right
+		testName:    "Test",    // left
+		packageName: "Package", // left
 	}
-	tbl.SetHeader(header.toRow())
+	tbl.Headers(header.toRow()...)
+
+	var rows []testRow
 
 	names := make([]string, 0, len(packages))
 	for _, pkg := range packages {
@@ -95,40 +112,33 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				testName:    testName,
 				packageName: packageName,
 			}
-			tbl.Append(row.toRow())
+			rows = append(rows, row)
 		}
 		if i != (len(packages) - 1) {
 			// TODO(mf): is it possible to add a custom separator with tablewriter instead of empty space?
-			tbl.Append(testRow{}.toRow())
+			rows = append(rows, testRow{})
 		}
 	}
 
-	if tbl.NumLines() > 0 {
-		// The table gets written to a strings builder so we can further modify the output
-		// with lipgloss.
-		tbl.Render()
-		output := tableString.String()
-		if c.format == OutputFormatBasic {
-			output = lipgloss.NewStyle().
-				Border(lipgloss.NormalBorder()).
-				Render(strings.TrimSuffix(output, "\n"))
-		}
-		fmt.Fprintln(c.w, output)
+	for _, r := range rows {
+		tbl.Rows(r.toRow())
+	}
+	if len(rows) > 0 {
+		fmt.Fprintln(c.w, tbl.Render())
 	}
 }
 
 func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option TestTableOptions) {
 	for _, pkg := range packages {
 		// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-		var tableString strings.Builder
-		tbl := newTableWriter(&tableString, c.format)
-
+		t := newTable(c.format)
 		header := []string{
 			"Status",
 			"Elapsed",
 			"Test",
 		}
-		tbl.SetHeader(header)
+		t.Headers(header...)
+		var rows []string
 
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
@@ -154,15 +164,13 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			case parse.ActionFail:
 				status = c.red(status)
 			}
-			tbl.Append([]string{
+			rows = append(rows, []string{
 				status,
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
 				testName,
-			})
+			}...)
 		}
-		if tbl.NumLines() > 0 {
-			tbl.Render()
-
+		if len(rows) > 0 {
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
 			fmt.Fprintf(c.w,
@@ -177,7 +185,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<summary>Click for test summary</summary>")
 			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, tableString.String())
+			fmt.Fprintln(c.w, t.Render())
 			fmt.Fprintln(c.w, "</details>")
 			fmt.Fprintln(c.w)
 		}
