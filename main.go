@@ -134,6 +134,7 @@ func main() {
 			fmt.Fprintln(os.Stderr, err)
 			return
 		}
+		*followPtr = true
 	case *followPtr:
 		followOutput = os.Stdout
 	default:
