@@ -27,7 +27,7 @@ func FindLongestCommonPrefix(paths []string) string {
 
 	// Find the common prefix between the first and last sorted paths.
 	commonPrefixLength := 0
-	minLength := minimum(len(first), len(last))
+	minLength := min(len(first), len(last))
 	for commonPrefixLength < minLength && first[commonPrefixLength] == last[commonPrefixLength] {
 		commonPrefixLength++
 	}
@@ -38,13 +38,6 @@ func FindLongestCommonPrefix(paths []string) string {
 		return commonPrefix[:n+1]
 	}
 	return ""
-}
-
-func minimum(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
 }
 
 // DiscardCloser is an io.Writer that implements io.Closer by doing nothing.
