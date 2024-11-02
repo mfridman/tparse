@@ -173,13 +173,19 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 		if data.Rows() > 0 {
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
-			fmt.Fprintf(c.w,
-				"**%d passed** tests (out of %d) | **%d skipped** tests (out of %d)\n",
-				len(pkgTests.passed),
+
+			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped\n",
 				pkgTests.passedCount,
-				len(pkgTests.skipped),
 				pkgTests.skippedCount,
 			)
+			if option.Slow > 0 && option.Slow < pkgTests.passedCount {
+				msg += fmt.Sprintf("↓ Slowest %d tests shown (of %d)\n",
+					option.Slow,
+					pkgTests.passedCount,
+				)
+			}
+			fmt.Fprint(c.w, msg)
+
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<details>")
 			fmt.Fprintln(c.w)
