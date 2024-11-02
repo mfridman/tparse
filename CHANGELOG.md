@@ -9,7 +9,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Add a `-follow-output` flag to allow writing go test output directly into a file. This will be
   useful (especially in CI jobs) for outputting overly verbose testing output into a file instead of
-  the standard stream. (#133)
+  the standard stream. (#134)
 
   | flag combination         | `go test` output destination |
   | ------------------------ | ---------------------------- |
@@ -17,6 +17,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   | `-follow`                | Write to stdout              |
   | `-follow-output`         | Write to file                |
   | `-follow -follow-output` | Write to file                |
+
+- Use [charmbracelet/lipgloss](https://github.com/charmbracelet/lipgloss) for table rendering.
+  - This will allow for more control over the output and potentially more features in the future.
+    (#136)
+  - Minor changes to the output format are expected, but the overall content should remain the same.
+    If you have any feedback, please let me know.
 
 ## [v0.15.0]
 

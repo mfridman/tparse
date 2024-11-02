@@ -8,6 +8,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/table"
 
 	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
@@ -44,16 +45,25 @@ type packageTests struct {
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
 	// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-	var tableString strings.Builder
-	tbl := newTableWriter(&tableString, c.format)
-
+	tbl := newTable(c.format, func(style lipgloss.Style, row, col int) lipgloss.Style {
+		switch row {
+		case table.HeaderRow:
+		default:
+			if col == 2 || col == 3 {
+				// Test name and package name
+				style = style.Align(lipgloss.Left)
+			}
+		}
+		return style
+	})
 	header := testRow{
 		status:      "Status",
 		elapsed:     "Elapsed",
 		testName:    "Test",
 		packageName: "Package",
 	}
-	tbl.SetHeader(header.toRow())
+	tbl.Headers(header.toRow()...)
+	data := table.NewStringData()
 
 	names := make([]string, 0, len(packages))
 	for _, pkg := range packages {
@@ -95,40 +105,40 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				testName:    testName,
 				packageName: packageName,
 			}
-			tbl.Append(row.toRow())
+			data.Append(row.toRow())
 		}
 		if i != (len(packages) - 1) {
-			// TODO(mf): is it possible to add a custom separator with tablewriter instead of empty space?
-			tbl.Append(testRow{}.toRow())
+			// Add a blank row between packages.
+			data.Append(testRow{}.toRow())
 		}
 	}
 
-	if tbl.NumLines() > 0 {
-		// The table gets written to a strings builder so we can further modify the output
-		// with lipgloss.
-		tbl.Render()
-		output := tableString.String()
-		if c.format == OutputFormatBasic {
-			output = lipgloss.NewStyle().
-				Border(lipgloss.NormalBorder()).
-				Render(strings.TrimSuffix(output, "\n"))
-		}
-		fmt.Fprintln(c.w, output)
+	if data.Rows() > 0 {
+		fmt.Fprintln(c.w, tbl.Data(data).Render())
 	}
 }
 
 func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option TestTableOptions) {
 	for _, pkg := range packages {
 		// Print passed tests, sorted by elapsed DESC. Grouped by alphabetically sorted packages.
-		var tableString strings.Builder
-		tbl := newTableWriter(&tableString, c.format)
-
+		tbl := newTable(c.format, func(style lipgloss.Style, row, col int) lipgloss.Style {
+			switch row {
+			case table.HeaderRow:
+			default:
+				if col == 2 {
+					// Test name
+					style = style.Align(lipgloss.Left)
+				}
+			}
+			return style
+		})
 		header := []string{
 			"Status",
 			"Elapsed",
 			"Test",
 		}
-		tbl.SetHeader(header)
+		tbl.Headers(header...)
+		data := table.NewStringData()
 
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
@@ -154,30 +164,34 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			case parse.ActionFail:
 				status = c.red(status)
 			}
-			tbl.Append([]string{
+			data.Append([]string{
 				status,
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
 				testName,
 			})
 		}
-		if tbl.NumLines() > 0 {
-			tbl.Render()
-
+		if data.Rows() > 0 {
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
-			fmt.Fprintf(c.w,
-				"**%d passed** tests (out of %d) | **%d skipped** tests (out of %d)\n",
-				len(pkgTests.passed),
+
+			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped\n",
 				pkgTests.passedCount,
-				len(pkgTests.skipped),
 				pkgTests.skippedCount,
 			)
+			if option.Slow > 0 && option.Slow < pkgTests.passedCount {
+				msg += fmt.Sprintf("↓ Slowest %d passed tests shown (of %d)\n",
+					option.Slow,
+					pkgTests.passedCount,
+				)
+			}
+			fmt.Fprint(c.w, msg)
+
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<details>")
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<summary>Click for test summary</summary>")
 			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, tableString.String())
+			fmt.Fprintln(c.w, tbl.Data(data).Render())
 			fmt.Fprintln(c.w, "</details>")
 			fmt.Fprintln(c.w)
 		}

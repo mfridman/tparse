@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/olekukonko/tablewriter"
+	"github.com/charmbracelet/lipgloss/table"
 
 	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
@@ -33,16 +33,16 @@ func (c *consoleWriter) summaryTable(
 	options SummaryTableOptions,
 	against *parse.GoTestSummary,
 ) {
-	var tableString strings.Builder
-	tbl := newTableWriter(&tableString, c.format)
-	tbl.SetColumnAlignment([]int{
-		tablewriter.ALIGN_LEFT,
-		tablewriter.ALIGN_CENTER,
-		tablewriter.ALIGN_LEFT,
-		tablewriter.ALIGN_CENTER,
-		tablewriter.ALIGN_CENTER,
-		tablewriter.ALIGN_CENTER,
-		tablewriter.ALIGN_CENTER,
+	tbl := newTable(c.format, func(style lipgloss.Style, row, col int) lipgloss.Style {
+		switch row {
+		case table.HeaderRow:
+		default:
+			if col == 2 {
+				// Package name
+				style = style.Align(lipgloss.Left)
+			}
+		}
+		return style
 	})
 	header := summaryRow{
 		status:      "Status",
@@ -53,7 +53,8 @@ func (c *consoleWriter) summaryTable(
 		fail:        "Fail",
 		skip:        "Skip",
 	}
-	tbl.SetHeader(header.toRow())
+	tbl.Headers(header.toRow()...)
+	data := table.NewStringData()
 
 	// Capture as separate slices because notests are optional when passed tests are available.
 	// The only exception is if passed=0 and notests=1, then we display them regardless. This
@@ -80,7 +81,7 @@ func (c *consoleWriter) summaryTable(
 				packageName: packageName,
 				cover:       "--", pass: "--", fail: "--", skip: "--",
 			}
-			tbl.Append(row.toRow())
+			data.Append(row.toRow())
 			continue
 		}
 		if pkg.HasFailedBuildOrSetup {
@@ -90,7 +91,7 @@ func (c *consoleWriter) summaryTable(
 				packageName: packageName + "\n[" + pkg.Summary.Output + "]",
 				cover:       "--", pass: "--", fail: "--", skip: "--",
 			}
-			tbl.Append(row.toRow())
+			data.Append(row.toRow())
 			continue
 		}
 		if pkg.NoTestFiles {
@@ -187,32 +188,24 @@ func (c *consoleWriter) summaryTable(
 		passed = append(passed, row)
 	}
 
-	if tbl.NumLines() == 0 && len(passed) == 0 && len(notests) == 0 {
+	if data.Rows() == 0 && len(passed) == 0 && len(notests) == 0 {
 		return
 	}
-
-	for _, p := range passed {
-		tbl.Append(p.toRow())
+	for _, r := range passed {
+		data.Append(r.toRow())
 	}
+
 	// Only display the "no tests to run" cases if users want to see them when passed
 	// tests are available.
 	// An exception is made if there are no passed tests and only a single no test files
 	// package. This is almost always because the user forgot to match one or more packages.
 	if showNoTests || (len(passed) == 0 && len(notests) == 1) {
-		for _, p := range notests {
-			tbl.Append(p.toRow())
+		for _, r := range notests {
+			data.Append(r.toRow())
 		}
 	}
-	// The table gets written to a strings builder so we can further modify the output
-	// with lipgloss.
-	tbl.Render()
-	output := tableString.String()
-	if c.format == OutputFormatBasic {
-		output = lipgloss.NewStyle().
-			Border(lipgloss.NormalBorder()).
-			Render(strings.TrimSuffix(tableString.String(), "\n"))
-	}
-	fmt.Fprintln(c.w, output)
+
+	fmt.Fprintln(c.w, tbl.Data(data).Render())
 }
 
 type summaryRow struct {
