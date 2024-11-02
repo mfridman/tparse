@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"io"
 	"sort"
 	"strings"
 )
@@ -44,4 +45,15 @@ func minimum(a, b int) int {
 		return a
 	}
 	return b
+}
+
+// DiscardCloser is an io.Writer that implements io.Closer by doing nothing.
+//
+// https://github.com/golang/go/issues/22823
+type WriteNopCloser struct {
+	io.Writer
+}
+
+func (WriteNopCloser) Close() error {
+	return nil
 }

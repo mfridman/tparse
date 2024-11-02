@@ -10,6 +10,8 @@ import (
 )
 
 type Options struct {
+	// Output is used to write the final output, such as the tables, summary, etc.
+	Output io.Writer
 	// DisableColor will disable all colors.
 	DisableColor bool
 	// Format will set the output format for tables.
@@ -26,12 +28,16 @@ type Options struct {
 	SummaryTableOptions SummaryTableOptions
 
 	// FollowOutput will follow the raw output as go test is running.
-	FollowOutput        bool
+	FollowOutput        bool           // Output to stdout
+	FollowOutputWriter  io.WriteCloser // Output to a file, takes precedence over FollowOutput
 	FollowOutputVerbose bool
 
 	// Progress will print a single summary line for each package once the package has completed.
 	// Useful for long running test suites. Maybe used with FollowOutput or on its own.
-	Progress bool
+	//
+	// This will output to stdout.
+	Progress       bool
+	ProgressOutput io.Writer
 
 	// DisableTableOutput will disable all table output. This is used for testing.
 	DisableTableOutput bool
@@ -44,7 +50,7 @@ type Options struct {
 	Compare string
 }
 
-func Run(w io.Writer, option Options) (int, error) {
+func Run(option Options) (int, error) {
 	var reader io.ReadCloser
 	var err error
 	if option.FileName != "" {
@@ -58,12 +64,17 @@ func Run(w io.Writer, option Options) (int, error) {
 	}
 	defer reader.Close()
 
+	if option.FollowOutputWriter != nil {
+		defer option.FollowOutputWriter.Close()
+	}
+
 	summary, err := parse.Process(
 		reader,
 		parse.WithFollowOutput(option.FollowOutput),
 		parse.WithFollowVersboseOutput(option.FollowOutputVerbose),
-		parse.WithWriter(w),
+		parse.WithWriter(option.FollowOutputWriter),
 		parse.WithProgress(option.Progress),
+		parse.WithProgressOutput(option.ProgressOutput),
 	)
 	if err != nil {
 		return 1, err
@@ -74,7 +85,7 @@ func Run(w io.Writer, option Options) (int, error) {
 	// Useful for tests that don't need tparse table output. Very useful for testing output from
 	// [parse.Process]
 	if !option.DisableTableOutput {
-		display(w, summary, option)
+		display(option.Output, summary, option)
 	}
 	return summary.ExitCode(), nil
 }

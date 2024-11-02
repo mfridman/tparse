@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mfridman/tparse/internal/app"
+	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -35,15 +36,16 @@ func TestFollow(t *testing.T) {
 		}
 		for _, tc := range tt {
 			t.Run(tc.fileName, func(t *testing.T) {
+				buf := bytes.NewBuffer(nil)
 				inputFile := filepath.Join(base, tc.fileName+".jsonl")
 				options := app.Options{
 					FileName:            inputFile,
 					FollowOutput:        true,
+					FollowOutputWriter:  utils.WriteNopCloser{Writer: buf},
 					FollowOutputVerbose: true,
 					DisableTableOutput:  true,
 				}
-				var buf bytes.Buffer
-				gotExitCode, err := app.Run(&buf, options)
+				gotExitCode, err := app.Run(options)
 				if err != nil && !errors.Is(err, tc.err) {
 					t.Fatal(err)
 				}
@@ -70,14 +72,15 @@ func TestFollow(t *testing.T) {
 		}
 		for _, tc := range tt {
 			t.Run(tc.fileName, func(t *testing.T) {
+				buf := bytes.NewBuffer(nil)
 				inputFile := filepath.Join(base, tc.fileName+".jsonl")
 				options := app.Options{
 					FileName:           inputFile,
 					FollowOutput:       true,
+					FollowOutputWriter: utils.WriteNopCloser{Writer: buf},
 					DisableTableOutput: true,
 				}
-				var buf bytes.Buffer
-				gotExitCode, err := app.Run(&buf, options)
+				gotExitCode, err := app.Run(options)
 				if err != nil && !errors.Is(err, tc.err) {
 					t.Fatal(err)
 				}

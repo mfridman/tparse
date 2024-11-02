@@ -109,7 +109,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		// Progress is a special case of follow, where we only print the
 		// progress of the test suite, but not the output.
 		if option.progress && option.w != nil {
-			printProgress(option.w, e, summary.Packages)
+			printProgress(option.progressOutput, e, summary.Packages)
 		}
 
 		summary.AddEvent(e)

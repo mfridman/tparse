@@ -4,34 +4,37 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"os"
 
 	"github.com/mfridman/buildversion"
 	"github.com/mfridman/tparse/internal/app"
+	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
 
 // Flags.
 var (
-	vPtr           = flag.Bool("v", false, "")
-	versionPtr     = flag.Bool("version", false, "")
-	hPtr           = flag.Bool("h", false, "")
-	helpPtr        = flag.Bool("help", false, "")
-	allPtr         = flag.Bool("all", false, "")
-	passPtr        = flag.Bool("pass", false, "")
-	skipPtr        = flag.Bool("skip", false, "")
-	showNoTestsPtr = flag.Bool("notests", false, "")
-	smallScreenPtr = flag.Bool("smallscreen", false, "")
-	noColorPtr     = flag.Bool("nocolor", false, "")
-	slowPtr        = flag.Int("slow", 0, "")
-	fileNamePtr    = flag.String("file", "", "")
-	formatPtr      = flag.String("format", "", "")
-	followPtr      = flag.Bool("follow", false, "")
-	sortPtr        = flag.String("sort", "name", "")
-	progressPtr    = flag.Bool("progress", false, "")
-	comparePtr     = flag.String("compare", "", "")
-	trimPathPtr    = flag.String("trimpath", "", "")
+	vPtr            = flag.Bool("v", false, "")
+	versionPtr      = flag.Bool("version", false, "")
+	hPtr            = flag.Bool("h", false, "")
+	helpPtr         = flag.Bool("help", false, "")
+	allPtr          = flag.Bool("all", false, "")
+	passPtr         = flag.Bool("pass", false, "")
+	skipPtr         = flag.Bool("skip", false, "")
+	showNoTestsPtr  = flag.Bool("notests", false, "")
+	smallScreenPtr  = flag.Bool("smallscreen", false, "")
+	noColorPtr      = flag.Bool("nocolor", false, "")
+	slowPtr         = flag.Int("slow", 0, "")
+	fileNamePtr     = flag.String("file", "", "")
+	formatPtr       = flag.String("format", "", "")
+	followPtr       = flag.Bool("follow", false, "")
+	followOutputPtr = flag.String("follow-output", "", "")
+	sortPtr         = flag.String("sort", "name", "")
+	progressPtr     = flag.Bool("progress", false, "")
+	comparePtr      = flag.String("compare", "", "")
+	trimPathPtr     = flag.String("trimpath", "", "")
 	// Undocumented flags
 	followVerbosePtr = flag.Bool("follow-verbose", false, "")
 
@@ -57,7 +60,8 @@ Options:
     -nocolor       Disable all colors. (NO_COLOR also supported)
     -format        The output format for tables [basic, plain, markdown]. Default is basic.
     -file          Read test output from a file.
-    -follow        Follow raw output as go test is running.
+    -follow        Follow raw output from go test to stdout.
+    -follow-output Write raw output from go test to a file (takes precedence over -follow).
     -progress      Print a single summary line for each package. Useful for long running test suites.
     -compare       Compare against a previous test output file. (experimental)
     -trimpath      Remove path prefix from package names in output, simplifying their display.
@@ -95,7 +99,7 @@ func main() {
 			format = app.OutputFormatPlain
 		}
 	default:
-		fmt.Fprintf(os.Stderr, "invalid option:%q. The -format flag must be one of: basic, plain or markdown", *formatPtr)
+		fmt.Fprintf(os.Stderr, "invalid option:%q. The -format flag must be one of: basic, plain or markdown\n", *formatPtr)
 		return
 	}
 	var sorter parse.PackageSorter
@@ -120,10 +124,28 @@ func main() {
 	if _, ok := os.LookupEnv("NO_COLOR"); ok || *noColorPtr {
 		disableColor = true
 	}
+
+	var followOutput io.WriteCloser
+	switch {
+	case *followOutputPtr != "":
+		var err error
+		followOutput, err = os.Create(*followOutputPtr)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+	case *followPtr:
+		followOutput = os.Stdout
+	default:
+		// If no follow flags are set, we should not write to followOutput.
+		followOutput = utils.WriteNopCloser{Writer: io.Discard}
+	}
 	// TODO(mf): we should marry the options with the flags to avoid having to do this.
 	options := app.Options{
+		Output:              os.Stdout,
 		DisableColor:        disableColor,
 		FollowOutput:        *followPtr,
+		FollowOutputWriter:  followOutput,
 		FollowOutputVerbose: *followVerbosePtr,
 		FileName:            *fileNamePtr,
 		TestTableOptions: app.TestTableOptions{
@@ -137,16 +159,17 @@ func main() {
 			Trim:     *smallScreenPtr,
 			TrimPath: *trimPathPtr,
 		},
-		Format:      format,
-		Sorter:      sorter,
-		ShowNoTests: *showNoTestsPtr,
-		Progress:    *progressPtr,
-		Compare:     *comparePtr,
+		Format:         format,
+		Sorter:         sorter,
+		ShowNoTests:    *showNoTestsPtr,
+		Progress:       *progressPtr,
+		ProgressOutput: os.Stdout,
+		Compare:        *comparePtr,
 
 		// Do not expose publicly.
 		DisableTableOutput: false,
 	}
-	exitCode, err := app.Run(os.Stdout, options)
+	exitCode, err := app.Run(options)
 	if err != nil {
 		msg := err.Error()
 		if errors.Is(err, parse.ErrNotParsable) {
