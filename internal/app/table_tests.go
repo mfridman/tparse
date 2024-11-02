@@ -63,8 +63,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 		packageName: "Package",
 	}
 	tbl.Headers(header.toRow()...)
-
-	var rows []testRow
+	data := table.NewStringData()
 
 	names := make([]string, 0, len(packages))
 	for _, pkg := range packages {
@@ -106,19 +105,16 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				testName:    testName,
 				packageName: packageName,
 			}
-			rows = append(rows, row)
+			data.Append(row.toRow())
 		}
 		if i != (len(packages) - 1) {
 			// Add a blank row between packages.
-			rows = append(rows, testRow{})
+			data.Append(testRow{}.toRow())
 		}
 	}
 
-	for _, r := range rows {
-		tbl.Rows(r.toRow())
-	}
-	if len(rows) > 0 {
-		fmt.Fprintln(c.w, tbl.Render())
+	if data.Rows() > 0 {
+		fmt.Fprintln(c.w, tbl.Data(data).Render())
 	}
 }
 
@@ -142,7 +138,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			"Test",
 		}
 		tbl.Headers(header...)
-		var rows [][]string
+		data := table.NewStringData()
 
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
@@ -168,16 +164,13 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			case parse.ActionFail:
 				status = c.red(status)
 			}
-			rows = append(rows, []string{
+			data.Append([]string{
 				status,
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
 				testName,
 			})
 		}
-		for _, r := range rows {
-			tbl.Rows(r)
-		}
-		if len(rows) > 0 {
+		if data.Rows() > 0 {
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
 			fmt.Fprintf(c.w,
@@ -192,7 +185,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			fmt.Fprintln(c.w)
 			fmt.Fprintln(c.w, "<summary>Click for test summary</summary>")
 			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, tbl.Render())
+			fmt.Fprintln(c.w, tbl.Data(data).Render())
 			fmt.Fprintln(c.w, "</details>")
 			fmt.Fprintln(c.w)
 		}
