@@ -7,6 +7,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Add a `-follow-output` flag to allow writing go test output directly into a file. This will be
+  useful (especially in CI jobs) for outputting overly verbose testing output into a file instead of
+  the standard stream. (#133)
+
+  | flag combination         | `go test` output destination |
+  | ------------------------ | ---------------------------- |
+  | No flags                 | Discard output               |
+  | `-follow`                | Write to stdout              |
+  | `-follow-output`         | Write to file                |
+  | `-follow -follow-output` | Write to file                |
+
 ## [v0.15.0]
 
 - Add `-trimpath` flag, which removes the path prefix from package names in the output, simplifying
