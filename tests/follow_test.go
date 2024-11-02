@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/mfridman/tparse/internal/app"
+	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -40,7 +41,7 @@ func TestFollow(t *testing.T) {
 				options := app.Options{
 					FileName:            inputFile,
 					FollowOutput:        true,
-					FollowOutputWriter:  &bufferWriteCloser{buf},
+					FollowOutputWriter:  utils.WriteNopCloser{Writer: buf},
 					FollowOutputVerbose: true,
 					DisableTableOutput:  true,
 				}
@@ -76,7 +77,7 @@ func TestFollow(t *testing.T) {
 				options := app.Options{
 					FileName:           inputFile,
 					FollowOutput:       true,
-					FollowOutputWriter: &bufferWriteCloser{buf},
+					FollowOutputWriter: utils.WriteNopCloser{Writer: buf},
 					DisableTableOutput: true,
 				}
 				gotExitCode, err := app.Run(options)
@@ -111,12 +112,4 @@ func checkGolden(
 			t.Fatal(err)
 		}
 	}
-}
-
-type bufferWriteCloser struct {
-	*bytes.Buffer
-}
-
-func (b *bufferWriteCloser) Close() error {
-	return nil
 }

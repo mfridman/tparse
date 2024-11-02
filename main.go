@@ -10,6 +10,7 @@ import (
 
 	"github.com/mfridman/buildversion"
 	"github.com/mfridman/tparse/internal/app"
+	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -59,8 +60,8 @@ Options:
     -nocolor       Disable all colors. (NO_COLOR also supported)
     -format        The output format for tables [basic, plain, markdown]. Default is basic.
     -file          Read test output from a file.
-    -follow        Follow raw output as go test is running.
-    -follow-output Write raw output from go test to a file.
+    -follow        Follow raw output from go test to stdout.
+    -follow-output Write raw output from go test to a file (takes precedence over -follow).
     -progress      Print a single summary line for each package. Useful for long running test suites.
     -compare       Compare against a previous test output file. (experimental)
     -trimpath      Remove path prefix from package names in output, simplifying their display.
@@ -137,7 +138,7 @@ func main() {
 		followOutput = os.Stdout
 	default:
 		// If no follow flags are set, we should not write to followOutput.
-		followOutput = &DiscardCloser{io.Discard}
+		followOutput = utils.WriteNopCloser{Writer: io.Discard}
 	}
 	// TODO(mf): we should marry the options with the flags to avoid having to do this.
 	options := app.Options{
