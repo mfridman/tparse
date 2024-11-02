@@ -179,7 +179,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 				pkgTests.skippedCount,
 			)
 			if option.Slow > 0 && option.Slow < pkgTests.passedCount {
-				msg += fmt.Sprintf("↓ Slowest %d tests shown (of %d)\n",
+				msg += fmt.Sprintf("↓ Slowest %d passed tests shown (of %d)\n",
 					option.Slow,
 					pkgTests.passedCount,
 				)
