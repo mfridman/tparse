@@ -9,7 +9,9 @@ type options struct {
 	follow        bool
 	followVerbose bool
 	debug         bool
-	progress      bool
+
+	progress       bool
+	progressOutput io.Writer
 }
 
 type OptionsFunc func(o *options)
@@ -32,4 +34,8 @@ func WithDebug() OptionsFunc {
 
 func WithProgress(b bool) OptionsFunc {
 	return func(o *options) { o.progress = b }
+}
+
+func WithProgressOutput(w io.Writer) OptionsFunc {
+	return func(o *options) { o.progressOutput = w }
 }

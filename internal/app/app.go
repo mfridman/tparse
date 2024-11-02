@@ -34,7 +34,10 @@ type Options struct {
 
 	// Progress will print a single summary line for each package once the package has completed.
 	// Useful for long running test suites. Maybe used with FollowOutput or on its own.
-	Progress bool
+	//
+	// This will output to stdout.
+	Progress       bool
+	ProgressOutput io.Writer
 
 	// DisableTableOutput will disable all table output. This is used for testing.
 	DisableTableOutput bool
@@ -71,6 +74,7 @@ func Run(option Options) (int, error) {
 		parse.WithFollowVersboseOutput(option.FollowOutputVerbose),
 		parse.WithWriter(option.FollowOutputWriter),
 		parse.WithProgress(option.Progress),
+		parse.WithProgressOutput(option.ProgressOutput),
 	)
 	if err != nil {
 		return 1, err
