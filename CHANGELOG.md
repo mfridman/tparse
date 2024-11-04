@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v0.16.0]
+
 - Add a `-follow-output` flag to allow writing go test output directly into a file. This will be
   useful (especially in CI jobs) for outputting overly verbose testing output into a file instead of
   the standard stream. (#134)
@@ -69,7 +71,8 @@ Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 - Add [GoReleaser](https://goreleaser.com/) to automate the release process. Pre-built binaries are
   available for each release, currently Linux and macOS. If there is demand, can also add Windows.
 
-[Unreleased]: https://github.com/mfridman/tparse/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/mfridman/tparse/compare/v0.16.0...HEAD
+[v0.16.0]: https://github.com/mfridman/tparse/compare/v0.15.0...v0.16.0
 [v0.15.0]: https://github.com/mfridman/tparse/compare/v0.14.0...v0.15.0
 [v0.14.0]: https://github.com/mfridman/tparse/compare/v0.13.3...v0.14.0
 [v0.13.3]: https://github.com/mfridman/tparse/compare/v0.13.2...v0.13.3
