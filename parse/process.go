@@ -189,6 +189,26 @@ func (s *GoTestSummary) AddRawEvent(str string) {
 }
 
 func (s *GoTestSummary) AddEvent(e *Event) {
+	// TODO(mf): special case for build output, we need to capture this as part of the package.
+	if e.ImportPath != "" {
+		if e.Action == ActionBuildOutput && e.Output != "" {
+			// Capture this output as part of the package.
+			parts := strings.Fields(e.ImportPath)
+			if len(parts) > 1 {
+				packageName := parts[0]
+
+				pkg, ok := s.Packages[packageName]
+				if !ok {
+					pkg = newPackage()
+					s.Packages[packageName] = pkg
+				}
+				// Add the output as test output.
+				pkg.Build = append(pkg.Build, e)
+			}
+		}
+		return
+	}
+
 	// Discard noisy output such as "=== CONT", "=== RUN", etc. These add
 	// no value to the go test output, unless you care to follow how often
 	// tests are paused and for what duration.

@@ -8,6 +8,7 @@ import "time"
 type Package struct {
 	Summary *Event
 	Tests   []*Test
+	Build   []*Event
 
 	// StartTime is the time the package started running. This is only available
 	// in go1.20 and above.

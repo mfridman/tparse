@@ -21,8 +21,12 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			fmt.Fprintln(c.w, output)
 			continue
 		}
+		var buildOuput []string
+		for _, b := range pkg.Build {
+			buildOuput = append(buildOuput, strings.TrimSuffix(b.Output, "\n"))
+		}
 		failedTests := pkg.TestsByAction(parse.ActionFail)
-		if len(failedTests) == 0 {
+		if len(failedTests) == 0 && len(buildOuput) == 0 {
 			continue
 		}
 		styledPackageHeader := c.styledHeader(
@@ -75,6 +79,9 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			}
 			key = base
 			fmt.Fprintln(c.w, c.prepareStyledTest(t))
+		}
+		for _, b := range buildOuput {
+			fmt.Fprintln(c.w, b)
 		}
 		if c.format == OutputFormatMarkdown {
 			fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
