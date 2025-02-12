@@ -7,8 +7,8 @@ import (
 	"io"
 	"log"
 	"os"
+	"runtime/debug"
 
-	"github.com/mfridman/buildversion"
 	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/internal/utils"
 	"github.com/mfridman/tparse/parse"
@@ -77,7 +77,10 @@ func main() {
 	flag.Parse()
 
 	if *vPtr || *versionPtr {
-		fmt.Fprintf(os.Stdout, "tparse version: %s\n", buildversion.New(version))
+		if info, ok := debug.ReadBuildInfo(); ok {
+			version = info.Main.Version
+		}
+		fmt.Fprintf(os.Stdout, "tparse version: %s\n", version)
 		return
 	}
 	if *hPtr || *helpPtr {
