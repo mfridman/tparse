@@ -18,7 +18,7 @@ release:
 
 .PHONY: build
 build:
-	@go build -o $$GOBIN/tparse main.go
+	@go build -o $$GOBIN/tparse ./
 
 .PHONY: clean
 clean:
