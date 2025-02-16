@@ -55,7 +55,7 @@ type Event struct {
 
 	// BuildEvent specific fields.
 	//
-	// TODO(mf): Unfortuantely the output has both BuildEvent and TestEvent interleaved in the
+	// TODO(mf): Unfortunately the output has both BuildEvent and TestEvent interleaved in the
 	// output so for now we just combine them. But in the future pre-v1 we'll want to improve this.
 	//
 	//  type BuildEvent struct {

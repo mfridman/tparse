@@ -1,4 +1,6 @@
 ROOT := github.com/mfridman/tparse
+GOPATH ?= $(shell go env GOPATH)
+TOOLS_BIN = $(GOPATH)/bin
 
 .PHONY: vet
 vet:
@@ -10,7 +12,23 @@ lint: tools
 
 .PHONY: tools
 tools:
-	@which golangci-lint >/dev/null 2>&1 || curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin
+	@which golangci-lint >/dev/null 2>&1 || \
+		(echo "Installing latest golangci-lint" && \
+		curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | \
+		sh -s -- -b "$(TOOLS_BIN)")
+
+.PHONY: tools-update
+tools-update:
+	@echo "Updating golangci-lint to latest version"
+	@rm -f "$(TOOLS_BIN)/golangci-lint"
+	@curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | \
+		sh -s -- -b "$(TOOLS_BIN)"
+	@echo "golangci-lint updated successfully to latest version"
+
+.PHONY: tools-version
+tools-version:
+	@echo "Current tool versions:"
+	@echo "golangci-lint: $$(golangci-lint --version 2>/dev/null || echo 'not installed')"
 
 .PHONY: release
 release:
