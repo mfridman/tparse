@@ -7,6 +7,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Deprecate github.com/mfridman/buildversion, and use std lib `debug.ReadBuildInfo()` instead. In
+  go1.24 this is handled automatically, from the [release notes](https://go.dev/doc/go1.24):
+
+  > The go build command now sets the main module’s version in the compiled binary based on the
+  > version control system tag and/or commit. A +dirty suffix will be appended if there are
+  > uncommitted changes. Use the -buildvcs=false flag to omit version control information from the
+  > binary.
+
+- Handle changes in go1.24 related to build output. `tparse` will pipe the build output to stderr
+
+  > Furthermore, `go test -json` now reports build output and failures in JSON, interleaved with
+  > test result JSON. These are distinguished by new Action types, but if they cause problems in a
+  > test integration system, you can revert to the text build output with GODEBUG setting
+  > gotestjsonbuildtext=1.
+
 ## [v0.16.0]
 
 - Add a `-follow-output` flag to allow writing go test output directly into a file. This will be
