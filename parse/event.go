@@ -19,9 +19,14 @@ var (
 // For more info see, https://golang.org/cmd/test2json and
 // https://github.com/golang/go/blob/master/src/cmd/internal/test2json/test2json.go
 type Event struct {
-	// Action can be one of: run, pause, cont, pass, bench, fail, output, skip, start
+	// Action can be one of: run, pause, cont, pass, bench, fail, output, skip
 	//
-	// Note, start is only available in go1.20 and above.
+	//  Added in go1.20:
+	//   - start
+	//
+	//  Added in go1.24:
+	//   - build-fail
+	//   - build-output
 	Action Action
 
 	// Portion of the test's output (standard output and standard error merged together)
@@ -43,6 +48,22 @@ type Event struct {
 	// Elapsed is time elapsed (in seconds) for the specific test or
 	// the overall package test that passed or failed.
 	Elapsed float64
+
+	// FailedBuild is the package ID that is the root cause of a build failure for this test. This
+	// will be reported in the final "fail" event's FailedBuild field.
+	FailedBuild string
+
+	// BuildEvent specific fields.
+	//
+	// TODO(mf): Unfortuantely the output has both BuildEvent and TestEvent interleaved in the
+	// output so for now we just combine them. But in the future pre-v1 we'll want to improve this.
+	//
+	//  type BuildEvent struct {
+	//      ImportPath string
+	//      Action     string
+	//      Output     string
+	//  }
+	ImportPath string
 }
 
 func (e *Event) String() string {
@@ -222,6 +243,10 @@ const (
 
 	// Added in go1.20 to denote the beginning of each test program's execution.
 	ActionStart Action = "start" // the start at the beginning of each test program's execution
+
+	// Added in go1.24 to denote a build failure.
+	ActionBuildFail   Action = "build-fail"   // the build failed
+	ActionBuildOutput Action = "build-output" // the toolchain printed output
 )
 
 func (a Action) String() string {

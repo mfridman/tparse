@@ -112,6 +112,21 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 			printProgress(option.progressOutput, e, summary.Packages)
 		}
 
+		// TODO(mf): special case build output for now. Need to understand how to better handle this
+		// But we don't want to swallow important build errors. There is a class of build output
+		// that is bengin like: https://github.com/golang/go/issues/61229
+		//
+		//  Example:
+		//  ld: warning: '.../go.o' has malformed LC_DYSYMTAB, expected 92 undefined symbols to start at index 15983, found 102 undefined symbol
+		//
+		// TL;DR - output ALL build output to stderr and exclude it from being added to test events
+		if e.ImportPath != "" {
+			if e.Output != "" {
+				fmt.Fprint(os.Stderr, e.Output)
+			}
+			continue
+		}
+
 		summary.AddEvent(e)
 	}
 	if err := sc.Err(); err != nil {
