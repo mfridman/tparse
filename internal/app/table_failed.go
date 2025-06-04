@@ -2,12 +2,13 @@ package app
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
-
 	"github.com/mfridman/tparse/parse"
+	"golang.org/x/term"
 )
 
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.
@@ -114,7 +115,12 @@ func (c *consoleWriter) prepareStyledPanic(
 		}
 		rows.WriteString(e.Output)
 	}
-	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, rows.String())
+	width, _, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		width = 80
+	}
+	content := lipgloss.NewStyle().Width(width).Render(rows.String())
+	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, content)
 }
 
 func (c *consoleWriter) styledHeader(status, packageName string) string {
