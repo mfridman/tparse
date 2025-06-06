@@ -7,8 +7,9 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/mfridman/tparse/parse"
 	"golang.org/x/term"
+
+	"github.com/mfridman/tparse/parse"
 )
 
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.
