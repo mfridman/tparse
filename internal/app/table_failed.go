@@ -2,22 +2,33 @@ package app
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
+	"golang.org/x/term"
 
 	"github.com/mfridman/tparse/parse"
+)
+
+const (
+	defaultWidth = 96
 )
 
 // printFailed prints all failed tests, grouping them by package. Packages are sorted.
 // Panic is an exception.
 func (c *consoleWriter) printFailed(packages []*parse.Package) {
+	width, _, err := term.GetSize(int(os.Stdout.Fd()))
+	if err != nil {
+		width = defaultWidth
+	}
+
 	for _, pkg := range packages {
 		if pkg.HasPanic {
 			// TODO(mf): document why panics are handled separately. A panic may or may
 			// not be associated with tests, so we print it at the package level.
-			output := c.prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents)
+			output := c.prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents, width)
 			fmt.Fprintln(c.w, output)
 			continue
 		}
@@ -44,7 +55,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			BorderStyle(lipgloss.NormalBorder()).
 			BorderTop(true).
 			Faint(c.format != OutputFormatMarkdown).
-			Width(96)
+			Width(width)
 
 		/*
 			Note, some output such as the "--- FAIL: " line is prefixed
@@ -99,6 +110,7 @@ func (c *consoleWriter) prepareStyledPanic(
 	packageName string,
 	testName string,
 	panicEvents []*parse.Event,
+	width int,
 ) string {
 	if testName != "" {
 		packageName = packageName + " • " + testName
@@ -114,7 +126,8 @@ func (c *consoleWriter) prepareStyledPanic(
 		}
 		rows.WriteString(e.Output)
 	}
-	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, rows.String())
+	content := lipgloss.NewStyle().Width(width).Render(rows.String())
+	return lipgloss.JoinVertical(lipgloss.Left, styledPackageHeader, content)
 }
 
 func (c *consoleWriter) styledHeader(status, packageName string) string {
