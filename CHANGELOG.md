@@ -7,6 +7,11 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v0.18.0] - 2025-08-24
+
+- Wrap panic messages at the terminal width (#142)
+- Do not include packages with no coverage in the output (#144)
+
 ## [v0.17.0]
 
 - Deprecate github.com/mfridman/buildversion, and use std lib `debug.ReadBuildInfo()` instead. In
@@ -88,7 +93,8 @@ Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 - Add [GoReleaser](https://goreleaser.com/) to automate the release process. Pre-built binaries are
   available for each release, currently Linux and macOS. If there is demand, can also add Windows.
 
-[Unreleased]: https://github.com/mfridman/tparse/compare/v0.17.0...HEAD
+[Unreleased]: https://github.com/mfridman/tparse/compare/v0.18.0...HEAD
+[v0.18.0]: https://github.com/mfridman/tparse/compare/v0.17.0...v0.18.0
 [v0.17.0]: https://github.com/mfridman/tparse/compare/v0.16.0...v0.17.0
 [v0.16.0]: https://github.com/mfridman/tparse/compare/v0.15.0...v0.16.0
 [v0.15.0]: https://github.com/mfridman/tparse/compare/v0.14.0...v0.15.0
