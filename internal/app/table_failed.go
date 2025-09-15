@@ -29,7 +29,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			// TODO(mf): document why panics are handled separately. A panic may or may
 			// not be associated with tests, so we print it at the package level.
 			output := c.prepareStyledPanic(pkg.Summary.Package, pkg.Summary.Test, pkg.PanicEvents, width)
-			fmt.Fprintln(c.w, output)
+			fmt.Fprintln(c, output)
 			continue
 		}
 		failedTests := pkg.TestsByAction(parse.ActionFail)
@@ -40,8 +40,8 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 			pkg.Summary.Action.String(),
 			pkg.Summary.Package,
 		)
-		fmt.Fprintln(c.w, styledPackageHeader)
-		fmt.Fprintln(c.w)
+		fmt.Fprintln(c, styledPackageHeader)
+		fmt.Fprintln(c)
 		/*
 			Failed tests are all the individual tests, where the subtests are not separated.
 
@@ -75,20 +75,20 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		*/
 
 		if c.format == OutputFormatMarkdown {
-			fmt.Fprintln(c.w, fencedCodeBlock)
+			fmt.Fprintln(c, fencedCodeBlock)
 		}
 		var key string
 		for i, t := range failedTests {
 			// Add top divider to all tests except first one.
 			base, _, _ := cut(t.Name, "/")
 			if i > 0 && key != base {
-				fmt.Fprintln(c.w, divider.String())
+				fmt.Fprintln(c, divider.String())
 			}
 			key = base
-			fmt.Fprintln(c.w, c.prepareStyledTest(t))
+			fmt.Fprintln(c, c.prepareStyledTest(t))
 		}
 		if c.format == OutputFormatMarkdown {
-			fmt.Fprint(c.w, fencedCodeBlock+"\n\n")
+			fmt.Fprint(c, fencedCodeBlock+"\n\n")
 		}
 	}
 }

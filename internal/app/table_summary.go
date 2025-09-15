@@ -212,7 +212,7 @@ func (c *consoleWriter) summaryTable(
 		}
 	}
 
-	fmt.Fprintln(c.w, tbl.Data(data).Render())
+	fmt.Fprintln(c, tbl.Data(data).Render())
 }
 
 type summaryRow struct {

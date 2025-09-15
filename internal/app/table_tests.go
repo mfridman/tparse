@@ -114,7 +114,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	}
 
 	if data.Rows() > 0 {
-		fmt.Fprintln(c.w, tbl.Data(data).Render())
+		fmt.Fprintln(c, tbl.Data(data).Render())
 	}
 }
 
@@ -171,8 +171,8 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			})
 		}
 		if data.Rows() > 0 {
-			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
-			fmt.Fprintln(c.w)
+			fmt.Fprintf(c, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
+			fmt.Fprintln(c)
 
 			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped\n",
 				pkgTests.passedCount,
@@ -184,18 +184,18 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 					pkgTests.passedCount,
 				)
 			}
-			fmt.Fprint(c.w, msg)
+			fmt.Fprint(c, msg)
 
-			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, "<details>")
-			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, "<summary>Click for test summary</summary>")
-			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, tbl.Data(data).Render())
-			fmt.Fprintln(c.w, "</details>")
-			fmt.Fprintln(c.w)
+			fmt.Fprintln(c)
+			fmt.Fprintln(c, "<details>")
+			fmt.Fprintln(c)
+			fmt.Fprintln(c, "<summary>Click for test summary</summary>")
+			fmt.Fprintln(c)
+			fmt.Fprintln(c, tbl.Data(data).Render())
+			fmt.Fprintln(c, "</details>")
+			fmt.Fprintln(c)
 		}
-		fmt.Fprintln(c.w)
+		fmt.Fprintln(c)
 	}
 }
 

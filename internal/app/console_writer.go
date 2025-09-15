@@ -19,8 +19,8 @@ const (
 )
 
 type consoleWriter struct {
+	io.Writer
 	format OutputFormat
-	w      io.Writer
 
 	red    colorOptionFunc
 	green  colorOptionFunc
@@ -52,7 +52,7 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		format = OutputFormatBasic
 	}
 	cw := &consoleWriter{
-		w:      w,
+		Writer: w,
 		format: format,
 	}
 	cw.red = noColor()
