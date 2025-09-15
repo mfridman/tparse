@@ -87,16 +87,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 
 			testName := shortenTestName(t.Name, option.Trim, 32)
 
-			status := strings.ToUpper(t.Status().String())
-			switch t.Status() {
-			case parse.ActionPass:
-				status = c.green(status)
-			case parse.ActionSkip:
-				status = c.yellow(status)
-			case parse.ActionFail:
-				status = c.red(status)
-			}
-
+			status := c.FormatAction(t.Status())
 			packageName := shortenPackageName(t.Package, packagePrefix, 16, option.Trim, option.TrimPath)
 
 			row := testRow{
@@ -155,15 +146,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 
 			testName := shortenTestName(t.Name, option.Trim, 32)
 
-			status := strings.ToUpper(t.Status().String())
-			switch t.Status() {
-			case parse.ActionPass:
-				status = c.green(status)
-			case parse.ActionSkip:
-				status = c.yellow(status)
-			case parse.ActionFail:
-				status = c.red(status)
-			}
+			status := c.FormatAction(t.Status())
 			data.Append([]string{
 				status,
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),

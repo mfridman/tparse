@@ -2,9 +2,12 @@ package app
 
 import (
 	"io"
+	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/muesli/termenv"
+
+	"github.com/mfridman/tparse/parse"
 )
 
 type OutputFormat int
@@ -80,4 +83,18 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 		}
 	}
 	return cw
+}
+
+func (w *consoleWriter) FormatAction(action parse.Action) string {
+	s := strings.ToUpper(action.String())
+	switch action {
+	case parse.ActionPass:
+		return w.green(s)
+	case parse.ActionSkip:
+		return w.yellow(s)
+	case parse.ActionFail:
+		return w.red(s)
+	default:
+		return s
+	}
 }
