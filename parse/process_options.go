@@ -4,6 +4,11 @@ import (
 	"io"
 )
 
+type progressWriter interface {
+	io.Writer
+	FormatAction(Action) string
+}
+
 type options struct {
 	w             io.Writer
 	follow        bool
@@ -11,7 +16,7 @@ type options struct {
 	debug         bool
 
 	progress       bool
-	progressOutput io.Writer
+	progressOutput progressWriter
 }
 
 type OptionsFunc func(o *options)
@@ -36,6 +41,6 @@ func WithProgress(b bool) OptionsFunc {
 	return func(o *options) { o.progress = b }
 }
 
-func WithProgressOutput(w io.Writer) OptionsFunc {
+func WithProgressOutput(w progressWriter) OptionsFunc {
 	return func(o *options) { o.progressOutput = w }
 }
