@@ -42,6 +42,6 @@ func WithProgressOutput(w io.Writer) OptionsFunc {
 	return func(o *options) { o.progressOutput = w }
 }
 
-func WithIncludeTimestamp(b bool)OptionsFunc{
-	return func(o *options){ o.includeTimestamp=b}
+func WithIncludeTimestamp(b bool) OptionsFunc {
+	return func(o *options) { o.includeTimestamp = b }
 }
