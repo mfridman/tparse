@@ -49,8 +49,8 @@ type Options struct {
 	// Compare includes a diff of a previous test output file in the summary table.
 	Compare string
 
-	//used with FollowOutput, when enabled it would include timestamp with log lines
-	IncludeTimestamp bool 
+	// Used with FollowOutput, when enabled it would include timestamp with log lines
+	IncludeTimestamp bool
 }
 
 func Run(option Options) (int, error) {

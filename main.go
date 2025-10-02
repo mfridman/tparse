@@ -165,12 +165,12 @@ func main() {
 			Trim:     *smallScreenPtr,
 			TrimPath: *trimPathPtr,
 		},
-		Format:         format,
-		Sorter:         sorter,
-		ShowNoTests:    *showNoTestsPtr,
-		Progress:       *progressPtr,
-		ProgressOutput: os.Stdout,
-		Compare:        *comparePtr,
+		Format:           format,
+		Sorter:           sorter,
+		ShowNoTests:      *showNoTestsPtr,
+		Progress:         *progressPtr,
+		ProgressOutput:   os.Stdout,
+		Compare:          *comparePtr,
 		IncludeTimestamp: *includeTimestamp,
 
 		// Do not expose publicly.
