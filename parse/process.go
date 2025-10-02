@@ -104,7 +104,12 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 			if !option.followVerbose && isNoisy(e) {
 				continue
 			}
-			fmt.Fprint(option.w, e.Output)
+			if e.Output!="" && option.includeTimestamp {
+				fmt.Fprint(option.w,e.Time.Format("2006-01-02T15:04:05.000000-07:00")+" "+e.Output)
+			}else{
+				fmt.Fprint(option.w,e.Output)
+			}
+			
 		}
 		// Progress is a special case of follow, where we only print the
 		// progress of the test suite, but not the output.

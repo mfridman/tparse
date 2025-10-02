@@ -37,6 +37,7 @@ var (
 	trimPathPtr     = flag.String("trimpath", "", "")
 	// Undocumented flags
 	followVerbosePtr = flag.Bool("follow-verbose", false, "")
+	includeTimestamp = flag.Bool("include-timestamp", false, "include timestamps in follow output")
 
 	// Legacy flags
 	noBordersPtr = flag.Bool("noborders", false, "")
@@ -48,23 +49,24 @@ var usage = `Usage:
     go test [packages...] -json > pkgs.out ; tparse [options...] -file pkgs.out
 
 Options:
-    -h             Show help.
-    -v             Show version.
-    -all           Display table event for pass and skip. (Failed items always displayed)
-    -pass          Display table for passed tests.
-    -skip          Display table for skipped tests.
-    -notests       Display packages containing no test files or empty test files.
-    -smallscreen   Split subtest names vertically to fit on smaller screens.
-    -slow          Number of slowest tests to display. Default is 0, display all.
-    -sort          Sort table output by attribute [name, elapsed, cover]. Default is name.
-    -nocolor       Disable all colors. (NO_COLOR also supported)
-    -format        The output format for tables [basic, plain, markdown]. Default is basic.
-    -file          Read test output from a file.
-    -follow        Follow raw output from go test to stdout.
-    -follow-output Write raw output from go test to a file (takes precedence over -follow).
-    -progress      Print a single summary line for each package. Useful for long running test suites.
-    -compare       Compare against a previous test output file. (experimental)
-    -trimpath      Remove path prefix from package names in output, simplifying their display.
+    -h                 Show help.
+    -v                 Show version.
+    -all               Display table event for pass and skip. (Failed items always displayed)
+    -pass              Display table for passed tests.
+    -skip              Display table for skipped tests.
+    -notests           Display packages containing no test files or empty test files.
+    -smallscreen       Split subtest names vertically to fit on smaller screens.
+    -slow              Number of slowest tests to display. Default is 0, display all.
+    -sort              Sort table output by attribute [name, elapsed, cover]. Default is name.
+    -nocolor           Disable all colors. (NO_COLOR also supported)
+    -format            The output format for tables [basic, plain, markdown]. Default is basic.
+    -file              Read test output from a file.
+    -follow            Follow raw output from go test to stdout.
+    -follow-output     Write raw output from go test to a file (takes precedence over -follow).
+    -include-timestamp Include timestamps in follow output. 
+    -progress          Print a single summary line for each package. Useful for long running test suites.
+    -compare           Compare against a previous test output file. (experimental)
+    -trimpath          Remove path prefix from package names in output, simplifying their display.
 `
 
 var version string
@@ -169,6 +171,7 @@ func main() {
 		Progress:       *progressPtr,
 		ProgressOutput: os.Stdout,
 		Compare:        *comparePtr,
+		IncludeTimestamp: *includeTimestamp,
 
 		// Do not expose publicly.
 		DisableTableOutput: false,
