@@ -71,13 +71,14 @@ func Run(option Options) (int, error) {
 		defer option.FollowOutputWriter.Close()
 	}
 
+	progressWriter := newConsoleWriter(option.Output, option.Format, option.DisableColor)
 	summary, err := parse.Process(
 		reader,
 		parse.WithFollowOutput(option.FollowOutput),
 		parse.WithFollowVersboseOutput(option.FollowOutputVerbose),
 		parse.WithWriter(option.FollowOutputWriter),
 		parse.WithProgress(option.Progress),
-		parse.WithProgressOutput(option.ProgressOutput),
+		parse.WithProgressOutput(progressWriter),
 		parse.WithIncludeTimestamp(option.IncludeTimestamp),
 	)
 	if err != nil {

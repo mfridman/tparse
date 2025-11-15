@@ -41,6 +41,8 @@ type packageTests struct {
 	skipped      []*parse.Test
 	passedCount  int
 	passed       []*parse.Test
+	failed       []*parse.Test
+	failedCount  int
 }
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
@@ -77,9 +79,10 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			continue
 		}
 		pkgTests := getTestsFromPackages(pkg, option)
-		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped))
+		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped)+len(pkgTests.failed))
 		all = append(all, pkgTests.passed...)
 		all = append(all, pkgTests.skipped...)
+		all = append(all, pkgTests.failed...)
 
 		for _, t := range all {
 			// TODO(mf): why are we sorting this?
@@ -87,16 +90,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 
 			testName := shortenTestName(t.Name, option.Trim, 32)
 
-			status := strings.ToUpper(t.Status().String())
-			switch t.Status() {
-			case parse.ActionPass:
-				status = c.green(status)
-			case parse.ActionSkip:
-				status = c.yellow(status)
-			case parse.ActionFail:
-				status = c.red(status)
-			}
-
+			status := c.FormatAction(t.Status())
 			packageName := shortenPackageName(t.Package, packagePrefix, 16, option.Trim, option.TrimPath)
 
 			row := testRow{
@@ -114,7 +108,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	}
 
 	if data.Rows() > 0 {
-		fmt.Fprintln(c.w, tbl.Data(data).Render())
+		fmt.Fprintln(c, tbl.Data(data).Render())
 	}
 }
 
@@ -145,9 +139,10 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			continue
 		}
 		pkgTests := getTestsFromPackages(pkg, option)
-		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped))
+		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped)+len(pkgTests.failed))
 		all = append(all, pkgTests.passed...)
 		all = append(all, pkgTests.skipped...)
+		all = append(all, pkgTests.failed...)
 
 		for _, t := range all {
 			// TODO(mf): why are we sorting this?
@@ -155,15 +150,7 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 
 			testName := shortenTestName(t.Name, option.Trim, 32)
 
-			status := strings.ToUpper(t.Status().String())
-			switch t.Status() {
-			case parse.ActionPass:
-				status = c.green(status)
-			case parse.ActionSkip:
-				status = c.yellow(status)
-			case parse.ActionFail:
-				status = c.red(status)
-			}
+			status := c.FormatAction(t.Status())
 			data.Append([]string{
 				status,
 				strconv.FormatFloat(t.Elapsed(), 'f', 2, 64),
@@ -171,12 +158,13 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			})
 		}
 		if data.Rows() > 0 {
-			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
-			fmt.Fprintln(c.w)
+			fmt.Fprintf(c, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
+			fmt.Fprintln(c)
 
-			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped\n",
+			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped | %d failed\n",
 				pkgTests.passedCount,
 				pkgTests.skippedCount,
+				pkgTests.failedCount,
 			)
 			if option.Slow > 0 && option.Slow < pkgTests.passedCount {
 				msg += fmt.Sprintf("↓ Slowest %d passed tests shown (of %d)\n",
@@ -184,18 +172,18 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 					pkgTests.passedCount,
 				)
 			}
-			fmt.Fprint(c.w, msg)
+			fmt.Fprint(c, msg)
 
-			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, "<details>")
-			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, "<summary>Click for test summary</summary>")
-			fmt.Fprintln(c.w)
-			fmt.Fprintln(c.w, tbl.Data(data).Render())
-			fmt.Fprintln(c.w, "</details>")
-			fmt.Fprintln(c.w)
+			fmt.Fprintln(c)
+			fmt.Fprintln(c, "<details>")
+			fmt.Fprintln(c)
+			fmt.Fprintln(c, "<summary>Click for test summary</summary>")
+			fmt.Fprintln(c)
+			fmt.Fprintln(c, tbl.Data(data).Render())
+			fmt.Fprintln(c, "</details>")
+			fmt.Fprintln(c)
 		}
-		fmt.Fprintln(c.w)
+		fmt.Fprintln(c)
 	}
 }
 
@@ -205,6 +193,8 @@ func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageT
 	tests.skippedCount = len(skipped)
 	passed := pkg.TestsByAction(parse.ActionPass)
 	tests.passedCount = len(passed)
+	failed := pkg.TestsByAction(parse.ActionFail)
+	tests.failedCount = len(failed)
 	if option.Skip {
 		tests.skipped = append(tests.skipped, skipped...)
 	}
@@ -219,6 +209,7 @@ func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageT
 			tests.passed = tests.passed[:option.Slow]
 		}
 	}
+	tests.failed = append(tests.failed, failed...)
 	return tests
 }
 
