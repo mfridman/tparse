@@ -7,6 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Update dependencies to latest versions
+- Include failed test names in table (#149)
+- Colorize the status in `--progress` output (#150)
+
 ## [v0.18.0] - 2025-08-24
 
 - Wrap panic messages at the terminal width (#142)
