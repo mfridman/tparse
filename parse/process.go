@@ -106,7 +106,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 				continue
 			}
 			if e.Output != "" && option.includeTimestamp {
-				fmt.Fprint(option.w, e.Time.Format(time.RFC3339Nano)+" "+e.Output)
+				fmt.Fprint(option.w, e.Time.Format(time.RFC3339)+" "+e.Output)
 			} else {
 				fmt.Fprint(option.w, e.Output)
 			}
