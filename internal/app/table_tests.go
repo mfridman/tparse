@@ -41,6 +41,8 @@ type packageTests struct {
 	skipped      []*parse.Test
 	passedCount  int
 	passed       []*parse.Test
+	failed       []*parse.Test
+	failedCount  int
 }
 
 func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOptions) {
@@ -77,9 +79,10 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			continue
 		}
 		pkgTests := getTestsFromPackages(pkg, option)
-		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped))
+		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped)+len(pkgTests.failed))
 		all = append(all, pkgTests.passed...)
 		all = append(all, pkgTests.skipped...)
+		all = append(all, pkgTests.failed...)
 
 		for _, t := range all {
 			// TODO(mf): why are we sorting this?
@@ -145,9 +148,10 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			continue
 		}
 		pkgTests := getTestsFromPackages(pkg, option)
-		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped))
+		all := make([]*parse.Test, 0, len(pkgTests.passed)+len(pkgTests.skipped)+len(pkgTests.failed))
 		all = append(all, pkgTests.passed...)
 		all = append(all, pkgTests.skipped...)
+		all = append(all, pkgTests.failed...)
 
 		for _, t := range all {
 			// TODO(mf): why are we sorting this?
@@ -174,9 +178,10 @@ func (c *consoleWriter) testsTableMarkdown(packages []*parse.Package, option Tes
 			fmt.Fprintf(c.w, "## 📦 Package **`%s`**\n", pkg.Summary.Package)
 			fmt.Fprintln(c.w)
 
-			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped\n",
+			msg := fmt.Sprintf("Tests: ✓ %d passed | %d skipped | %d failed\n",
 				pkgTests.passedCount,
 				pkgTests.skippedCount,
+				pkgTests.failedCount,
 			)
 			if option.Slow > 0 && option.Slow < pkgTests.passedCount {
 				msg += fmt.Sprintf("↓ Slowest %d passed tests shown (of %d)\n",
@@ -205,6 +210,8 @@ func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageT
 	tests.skippedCount = len(skipped)
 	passed := pkg.TestsByAction(parse.ActionPass)
 	tests.passedCount = len(passed)
+	failed := pkg.TestsByAction(parse.ActionFail)
+	tests.failedCount = len(failed)
 	if option.Skip {
 		tests.skipped = append(tests.skipped, skipped...)
 	}
@@ -219,6 +226,7 @@ func getTestsFromPackages(pkg *parse.Package, option TestTableOptions) *packageT
 			tests.passed = tests.passed[:option.Slow]
 		}
 	}
+	tests.failed = append(tests.failed, failed...)
 	return tests
 }
 
