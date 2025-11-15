@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // ErrNotParsable indicates the event line was not parsable.
@@ -105,7 +106,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 				continue
 			}
 			if e.Output != "" && option.includeTimestamp {
-				fmt.Fprint(option.w, e.Time.Format("2006-01-02T15:04:05.000000-07:00")+" "+e.Output)
+				fmt.Fprint(option.w, e.Time.Format(time.RFC3339Nano)+" "+e.Output)
 			} else {
 				fmt.Fprint(option.w, e.Output)
 			}
