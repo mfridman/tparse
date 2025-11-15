@@ -167,15 +167,7 @@ func (c *consoleWriter) summaryTable(
 			}
 		}
 
-		status := strings.ToUpper(pkg.Summary.Action.String())
-		switch pkg.Summary.Action {
-		case parse.ActionPass:
-			status = c.green(status)
-		case parse.ActionSkip:
-			status = c.yellow(status)
-		case parse.ActionFail:
-			status = c.red(status)
-		}
+		status := c.FormatAction(pkg.Summary.Action)
 
 		// Skip packages with no coverage to mimic nocoverageredesign behavior (changed in github.com/golang/go/issues/24570)
 		totalTests := len(pkg.TestsByAction(parse.ActionPass)) + len(pkg.TestsByAction(parse.ActionFail)) + len(pkg.TestsByAction(parse.ActionSkip))
@@ -212,7 +204,7 @@ func (c *consoleWriter) summaryTable(
 		}
 	}
 
-	fmt.Fprintln(c.w, tbl.Data(data).Render())
+	fmt.Fprintln(c, tbl.Data(data).Render())
 }
 
 type summaryRow struct {

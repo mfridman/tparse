@@ -142,7 +142,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 // printProgress prints a single summary line for each PASS or FAIL package.
 // This is useful for long-running test suites.
-func printProgress(w io.Writer, e *Event, summary map[string]*Package) {
+func printProgress(w progressWriter, e *Event, summary map[string]*Package) {
 	if !e.LastLine() {
 		return
 	}
@@ -174,7 +174,7 @@ func printProgress(w io.Writer, e *Event, summary map[string]*Package) {
 	//
 	// We modify this output slightly so it's more consistent and easier to parse.
 	fmt.Fprintf(w, "[%s]\t%10s\t%s%s\n",
-		strings.ToUpper(action.String()),
+		w.FormatAction(action),
 		strconv.FormatFloat(e.Elapsed, 'f', 2, 64)+"s",
 		e.Package,
 		suffix,
