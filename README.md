@@ -12,7 +12,7 @@ Pass            |  Fail
 
 By default, `tparse` will always return test failures and panics, if any, followed by a package-level summary table.
 
-To get additional info on passed tests run `tparse` with `-pass` flag. Tests are grouped by package and sorted by elapsed time in descending order (longest to shortest).
+To get additional info on passed tests run `tparse` with `-pass` flag. To display only failed tests without the summary table, use the `-fail-only` flag. Tests are grouped by package and sorted by elapsed time in descending order (longest to shortest).
 
 ### [But why?!](#but-why) for more info.
 
@@ -47,7 +47,7 @@ Tip: run `tparse -h` to get usage and options.
 
 `tparse` attempts to do just that; return failed tests and panics, if any, followed by a single package-level summary. No more searching for the literal string: "--- FAIL".
 
-But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) you can get additional info, such as skipped tests and elapsed time of each passed test.
+But, let's take it a bit further. With `-all` (`-pass` and `-skip` combined) you can get additional info, such as skipped tests and elapsed time of each passed test. For the opposite use case, use `-fail-only` to display only failed tests.
 
 `tparse` comes with a `-follow` flag to print raw output. Yep, go test pipes JSON, it's parsed and the output is printed back out as if you ran go test without `-json` flag. Eliminating the need for `tee /dev/tty` between pipes.
 
