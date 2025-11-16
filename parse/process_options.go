@@ -17,6 +17,8 @@ type options struct {
 
 	progress       bool
 	progressOutput progressWriter
+
+	includeTimestamp bool
 }
 
 type OptionsFunc func(o *options)
@@ -43,4 +45,8 @@ func WithProgress(b bool) OptionsFunc {
 
 func WithProgressOutput(w progressWriter) OptionsFunc {
 	return func(o *options) { o.progressOutput = w }
+}
+
+func WithIncludeTimestamp(b bool) OptionsFunc {
+	return func(o *options) { o.includeTimestamp = b }
 }

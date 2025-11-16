@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // ErrNotParsable indicates the event line was not parsable.
@@ -104,7 +105,12 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 			if !option.followVerbose && isNoisy(e) {
 				continue
 			}
-			fmt.Fprint(option.w, e.Output)
+			if e.Output != "" && option.includeTimestamp {
+				fmt.Fprint(option.w, e.Time.Format(time.RFC3339)+" "+e.Output)
+			} else {
+				fmt.Fprint(option.w, e.Output)
+			}
+
 		}
 		// Progress is a special case of follow, where we only print the
 		// progress of the test suite, but not the output.
