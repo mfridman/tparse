@@ -12,7 +12,7 @@ Pass            |  Fail
 
 By default, `tparse` will always return test failures and panics, if any, followed by a package-level summary table.
 
-To get additional info on passed tests run `tparse` with `-pass` flag. To display only failed tests without the summary table, use the `-fail-only` flag. Tests are grouped by package and sorted by elapsed time in descending order (longest to shortest).
+To get additional info on passed tests run `tparse` with `-pass` flag. To display only failed tests, use the `-fail-only` flag. Tests are grouped by package and sorted by elapsed time in descending order (longest to shortest).
 
 ### [But why?!](#but-why) for more info.
 
