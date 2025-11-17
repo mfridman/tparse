@@ -54,3 +54,45 @@ func TestFailedTestsTable(t *testing.T) {
 		})
 	}
 }
+
+func TestFailOnly(t *testing.T) {
+	t.Parallel()
+
+	base := filepath.Join("testdata", "fail-only")
+
+	tt := []struct {
+		fileName string
+		exitCode int
+	}{
+		{"test_01", 1},
+		{"test_02", 0},
+	}
+
+	for _, tc := range tt {
+		t.Run(tc.fileName, func(t *testing.T) {
+			buf := bytes.NewBuffer(nil)
+			inputFile := filepath.Join(base, tc.fileName+".jsonl")
+			options := app.Options{
+				FileName: inputFile,
+				Output:   buf,
+				Sorter:   parse.SortByPackageName,
+				TestTableOptions: app.TestTableOptions{
+					FailOnly: true,
+				},
+				SummaryTableOptions: app.SummaryTableOptions{
+					FailOnly: true,
+				},
+			}
+			gotExitCode, err := app.Run(options)
+			require.NoError(t, err)
+			assert.Equal(t, tc.exitCode, gotExitCode)
+
+			goldenFile := filepath.Join(base, tc.fileName+".golden")
+			want, err := os.ReadFile(goldenFile)
+			if err != nil {
+				t.Fatal(err)
+			}
+			checkGolden(t, inputFile, goldenFile, buf.Bytes(), want)
+		})
+	}
+}

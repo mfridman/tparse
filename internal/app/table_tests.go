@@ -21,6 +21,9 @@ var (
 type TestTableOptions struct {
 	// Display passed or skipped tests. If both are true this is equivalent to all.
 	Pass, Skip bool
+	// FailOnly will display only tests with failed status.
+	// If true, it takes precedence over Pass and Skip.
+	FailOnly bool
 	// For narrow screens, trim long test identifiers vertically. Example:
 	// TestNoVersioning/seed-up-down-to-zero
 	//
@@ -102,6 +105,9 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			data.Append(row.toRow())
 		}
 		if i != (len(packages) - 1) {
+			if option.FailOnly && data.Rows() == 0 {
+				continue
+			}
 			// Add a blank row between packages.
 			data.Append(testRow{}.toRow())
 		}
