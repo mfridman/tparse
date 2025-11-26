@@ -73,7 +73,7 @@ func TestRaceDetected(t *testing.T) {
 				if !ok {
 					t.Fatalf("failed to find package: %q", name)
 				}
-				assert.Equal(t, len(pkg.DataRaceTests), len(wantTestName))
+				assert.Len(t, pkg.DataRaceTests, len(wantTestName))
 				if len(pkg.DataRaceTests) > 0 {
 					for i := range pkg.DataRaceTests {
 						assert.Equal(t, pkg.DataRaceTests[i], wantTestName[i])

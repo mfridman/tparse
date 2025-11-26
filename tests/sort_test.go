@@ -58,7 +58,7 @@ func TestSortName(t *testing.T) {
 
 			summary, err := parse.Process(f)
 			require.NoError(t, err)
-			assert.Equal(t, len(summary.Packages), len(tc.expected))
+			assert.Len(t, summary.Packages, len(tc.expected))
 			packages := summary.GetSortedPackages(parse.SortByPackageName)
 
 			for i, pkg := range packages {
@@ -120,7 +120,7 @@ func TestSortCoverage(t *testing.T) {
 
 			summary, err := parse.Process(f)
 			require.NoError(t, err)
-			assert.Equal(t, len(summary.Packages), len(tc.expected))
+			assert.Len(t, summary.Packages, len(tc.expected))
 			packages := summary.GetSortedPackages(parse.SortByCoverage)
 
 			for i, pkg := range packages {
@@ -182,7 +182,7 @@ func TestSortElapsed(t *testing.T) {
 
 			summary, err := parse.Process(f)
 			require.NoError(t, err)
-			assert.Equal(t, len(summary.Packages), len(tc.expected))
+			assert.Len(t, summary.Packages, len(tc.expected))
 			packages := summary.GetSortedPackages(parse.SortByElapsed)
 
 			for i, pkg := range packages {

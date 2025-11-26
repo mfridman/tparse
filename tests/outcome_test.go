@@ -62,7 +62,7 @@ func TestFinalOutcome(t *testing.T) {
 			}
 			summary, err := parse.Process(f)
 			require.NoError(t, err)
-			assert.Equal(t, len(summary.Packages), len(tc.registry))
+			assert.Len(t, summary.Packages, len(tc.registry))
 			assert.Equal(t, summary.ExitCode(), tc.exitCode)
 
 			for name, pkg := range summary.Packages {

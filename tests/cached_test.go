@@ -62,7 +62,7 @@ func TestPackageCache(t *testing.T) {
 
 			summary, err := parse.Process(f)
 			require.NoError(t, err)
-			assert.Equal(t, len(summary.Packages), len(tc.expected))
+			assert.Len(t, summary.Packages, len(tc.expected))
 
 			for name, pkg := range summary.Packages {
 				t.Run(name, func(t *testing.T) {
