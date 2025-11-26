@@ -46,7 +46,6 @@ linters:
         - name: increment-decrement
         - name: indent-error-flow
         - name: exported
-        - name: var-naming
         - name: var-declaration
         - name: package-comments
         - name: range
