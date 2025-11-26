@@ -37,7 +37,7 @@ func TestPackageStartTime(t *testing.T) {
 
 	summary, err := parse.Process(f)
 	require.NoError(t, err)
-	assert.Equal(t, len(summary.Packages), len(expected))
+	assert.Len(t, summary.Packages, len(expected))
 
 	for _, p := range summary.Packages {
 		if p.StartTime.IsZero() {
