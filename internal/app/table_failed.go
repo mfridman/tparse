@@ -198,8 +198,8 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 						n++
 					}
 				}
-				for i := 0; i < n/2; i++ {
-					pad += " "
+				if n/2 > 0 {
+					pad = strings.Repeat(" ", n/2)
 				}
 			}
 			header = pad + failLine + after
