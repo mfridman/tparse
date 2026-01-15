@@ -34,6 +34,7 @@ var (
 	sortPtr         = flag.String("sort", "name", "")
 	progressPtr     = flag.Bool("progress", false, "")
 	comparePtr      = flag.String("compare", "", "")
+	outputPtr       = flag.Bool("output", false, "")
 	trimPathPtr     = flag.String("trimpath", "", "")
 	// Undocumented flags
 	followVerbosePtr = flag.Bool("follow-verbose", false, "")
@@ -63,6 +64,7 @@ Options:
     -file              Read test output from a file.
     -follow            Follow raw output from go test to stdout.
     -follow-output     Write raw output from go test to a file (takes precedence over -follow).
+		-output     		   Display table for test output to stdout prefixed with "--- OUTPUT: ".
     -include-timestamp Include timestamps in follow output. 
     -progress          Print a single summary line for each package. Useful for long running test suites.
     -compare           Compare against a previous test output file. (experimental)
@@ -161,6 +163,7 @@ func main() {
 			TrimPath: *trimPathPtr,
 			Slow:     *slowPtr,
 		},
+		PrintOutput: *outputPtr,
 		SummaryTableOptions: app.SummaryTableOptions{
 			Trim:     *smallScreenPtr,
 			TrimPath: *trimPathPtr,

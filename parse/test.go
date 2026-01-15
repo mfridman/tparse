@@ -2,6 +2,7 @@ package parse
 
 import (
 	"sort"
+	"strings"
 )
 
 // Test represents a single, unique, package test.
@@ -21,6 +22,18 @@ func (t *Test) Elapsed() float64 {
 		}
 	}
 	return f
+}
+
+// Collect test printable output to a single string and return
+func (t *Test) GetPrintableOutput() string {
+	outputs := make([]string, len(t.Events))
+
+	for i, e := range t.Events {
+		outputs[i] = e.PrintableOutput
+	}
+	s := strings.Join(outputs, "")
+
+	return s
 }
 
 // Status reports the outcome of the test represented as a single Action: pass, fail or skip.

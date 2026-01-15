@@ -27,6 +27,9 @@ type Options struct {
 	TestTableOptions    TestTableOptions
 	SummaryTableOptions SummaryTableOptions
 
+	// PrintOutput will display test output prefixed with "--- OUTPUT: "
+	PrintOutput bool
+
 	// FollowOutput will follow the raw output as go test is running.
 	FollowOutput        bool           // Output to stdout
 	FollowOutputWriter  io.WriteCloser // Output to a file, takes precedence over FollowOutput
@@ -141,6 +144,12 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 			cw.testsTable(packages, option.TestTableOptions)
 		}
 	}
+
+	// Print test output table
+	if option.PrintOutput {
+		cw.outputTable(packages)
+	}
+
 	// Failures (if any) and summary table are always printed.
 	cw.printFailed(packages)
 	cw.summaryTable(packages, option.ShowNoTests, option.SummaryTableOptions, against)
