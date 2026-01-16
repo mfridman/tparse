@@ -43,7 +43,7 @@ func (c *consoleWriter) outputTable(packages []*parse.Package) {
 	for _, pkg := range packages {
 		printed := false
 		for _, t := range pkg.Tests {
-			if o := t.GetPrintableOutput(); o != "" {
+			if o := t.GetPrintableOutput(); o != "" && t.Status() == parse.ActionPass {
 
 				row := outputRow{
 					packageName: t.Package,
