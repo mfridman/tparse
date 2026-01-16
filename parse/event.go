@@ -239,12 +239,12 @@ func (e *Event) IsPanic() bool {
 
 func (e *Event) IsStdout() bool {
 	for _, r := range results {
-		if strings.HasPrefix(e.Output, r) {
+		if strings.HasPrefix(strings.TrimSpace(e.Output), r) {
 			return false
 		}
 	}
 	for _, u := range updates {
-		if strings.HasPrefix(e.Output, u) {
+		if strings.HasPrefix(strings.TrimSpace(e.Output), u) {
 			return false
 		}
 	}
