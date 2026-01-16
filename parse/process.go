@@ -213,9 +213,15 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 	// Discard noisy output such as "=== CONT", "=== RUN", etc. These add
 	// no value to the go test output, unless you care to follow how often
 	// tests are paused and for what duration.
-	if e.Action == ActionOutput && e.DiscardOutput() {
-		return
+	if e.Action == ActionOutput {
+		if e.DiscardOutput() {
+			return
+		}
+		if e.IsStdout() {
+			e.PrintableOutput = e.Output
+		}
 	}
+
 	pkg, ok := s.Packages[e.Package]
 	if !ok {
 		pkg = newPackage()

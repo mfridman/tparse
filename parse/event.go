@@ -64,6 +64,9 @@ type Event struct {
 	//      Output     string
 	//  }
 	ImportPath string
+
+	// PrintableOutput is the stdout output of the event
+	PrintableOutput string
 }
 
 func (e *Event) String() string {
@@ -134,6 +137,13 @@ const (
 	resultPrefixSkip  = "--- SKIP: "
 	resultPrefixBench = "--- BENCH: "
 )
+
+var results = []string{
+	resultPrefixPass,
+	resultPrefixFail,
+	resultPrefixSkip,
+	resultPrefixBench,
+}
 
 // BigResult reports whether the test output is a big pass or big fail
 //
@@ -225,6 +235,20 @@ func (e *Event) IsPanic() bool {
 	}
 	return false
 
+}
+
+func (e *Event) IsStdout() bool {
+	for _, r := range results {
+		if strings.HasPrefix(strings.TrimSpace(e.Output), r) {
+			return false
+		}
+	}
+	for _, u := range updates {
+		if strings.HasPrefix(strings.TrimSpace(e.Output), u) {
+			return false
+		}
+	}
+	return true
 }
 
 // Action is one of a fixed set of actions describing a single emitted event.
