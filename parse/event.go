@@ -138,6 +138,13 @@ const (
 	resultPrefixBench = "--- BENCH: "
 )
 
+var results = []string{
+	resultPrefixPass,
+	resultPrefixFail,
+	resultPrefixSkip,
+	resultPrefixBench,
+}
+
 // Prefix set by user to mark output as printable when -output flag is set
 const OutputPrefix = "--- OUTPUT: "
 
@@ -231,6 +238,20 @@ func (e *Event) IsPanic() bool {
 	}
 	return false
 
+}
+
+func (e *Event) IsStdout() bool {
+	for _, r := range results {
+		if strings.HasPrefix(e.Output, r) {
+			return false
+		}
+	}
+	for _, u := range updates {
+		if strings.HasPrefix(e.Output, u) {
+			return false
+		}
+	}
+	return true
 }
 
 // Action is one of a fixed set of actions describing a single emitted event.
