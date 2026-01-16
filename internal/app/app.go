@@ -27,7 +27,7 @@ type Options struct {
 	TestTableOptions    TestTableOptions
 	SummaryTableOptions SummaryTableOptions
 
-	// PrintOutput will display test output prefixed with "--- OUTPUT: "
+	// PrintOutput will display test stdout output.
 	PrintOutput bool
 
 	// FollowOutput will follow the raw output as go test is running.

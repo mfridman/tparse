@@ -65,7 +65,7 @@ type Event struct {
 	//  }
 	ImportPath string
 
-	// PrintableOutput is the output of the event if it has the prefix "--- OUTPUT: "
+	// PrintableOutput is the stdout output of the event
 	PrintableOutput string
 }
 
@@ -144,9 +144,6 @@ var results = []string{
 	resultPrefixSkip,
 	resultPrefixBench,
 }
-
-// Prefix set by user to mark output as printable when -output flag is set
-const OutputPrefix = "--- OUTPUT: "
 
 // BigResult reports whether the test output is a big pass or big fail
 //

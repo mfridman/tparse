@@ -214,10 +214,11 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 	// no value to the go test output, unless you care to follow how often
 	// tests are paused and for what duration.
 	if e.Action == ActionOutput {
-		if o, f := strings.CutPrefix(e.Output, OutputPrefix); f {
-			e.PrintableOutput = o
-		} else if e.DiscardOutput() {
+		if e.DiscardOutput() {
 			return
+		}
+		if e.IsStdout() {
+			e.PrintableOutput = e.Output
 		}
 	}
 
