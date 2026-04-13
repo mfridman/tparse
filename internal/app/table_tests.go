@@ -101,7 +101,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 			}
 			data.Append(row.toRow())
 		}
-		if i != (len(packages) - 1) {
+		if len(all) > 0 && i != (len(packages)-1) {
 			// Add a blank row between packages.
 			data.Append(testRow{}.toRow())
 		}
