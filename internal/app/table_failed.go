@@ -100,8 +100,8 @@ const (
 // copied directly from strings.Cut (go1.18) to support older Go versions.
 // In the future, replace this with the upstream function.
 func cut(s, sep string) (before, after string, found bool) {
-	if i := strings.Index(s, sep); i >= 0 {
-		return s[:i], s[i+len(sep):], true
+	if before, after, ok := strings.Cut(s, sep); ok {
+		return before, after, true
 	}
 	return s, "", false
 }
