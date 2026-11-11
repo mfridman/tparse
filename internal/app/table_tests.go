@@ -73,7 +73,7 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 	}
 	packagePrefix := utils.FindLongestCommonPrefix(names)
 
-	for i, pkg := range packages {
+	for _, pkg := range packages {
 		// Discard packages where we cannot generate a sensible test summary.
 		if pkg.NoTestFiles || pkg.NoTests || pkg.HasPanic {
 			continue
@@ -83,6 +83,15 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 		all = append(all, pkgTests.passed...)
 		all = append(all, pkgTests.skipped...)
 		all = append(all, pkgTests.failed...)
+		if len(all) == 0 {
+			continue
+		}
+		// Add a blank row between packages. Packages without rows are skipped
+		// above, so the table never starts or ends with a blank row, and never
+		// has two blank rows in a row.
+		if data.Rows() > 0 {
+			data.Append(testRow{}.toRow())
+		}
 
 		for _, t := range all {
 			// TODO(mf): why are we sorting this?
@@ -100,10 +109,6 @@ func (c *consoleWriter) testsTable(packages []*parse.Package, option TestTableOp
 				packageName: packageName,
 			}
 			data.Append(row.toRow())
-		}
-		if i != (len(packages) - 1) {
-			// Add a blank row between packages.
-			data.Append(testRow{}.toRow())
 		}
 	}
 
