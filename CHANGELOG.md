@@ -7,8 +7,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-- Update dependencies to latest versions
-- Require Go 1.26 or later (needed by updated dependencies)
+- Update dependencies to latest versions (#161)
+- Require Go 1.26.7 or later (needed by updated dependencies)
+- Upgrade to lipgloss v2 (#162)
+- `-nocolor` now removes all colors, including in failed test headers (#162)
 - Include failed test names in table (#149)
 - Colorize the status in `--progress` output (#150)
 

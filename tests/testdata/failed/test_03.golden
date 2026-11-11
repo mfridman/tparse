@@ -1,137 +1,137 @@
 ╭────────┬─────────┬─────────────────────────────────┬──────────────────────────────────╮
 │ Status │ Elapsed │              Test               │             Package              │
 ├────────┼─────────┼─────────────────────────────────┼──────────────────────────────────┤
-│  [92mPASS[0m  │  0.02   │ TestMetrics                     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.01   │ TestBigOutcome                  │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.01   │ TestPackageCache                │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.01   │ TestPackageCover                │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent                    │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCachedEvent                 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent                  │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestFiles                 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsToRun                │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsWarn                 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestActionString                │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestElapsed                     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPanic                       │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestSingleTestFailStack         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input01.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPanic/input01.json          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPanic/input02.json          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPanic/input03.json          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPanic/input04.json          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPanic/input05.json          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestFiles/event_0         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestFiles/event_1         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestSingleTestFailStack/input01 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPrescan/input01.txt         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPrescan/input04.txt         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestFiles/event_2         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsToRun/event_0        │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input02.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestSingleTestFailStack/input02 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestFiles/event_3         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCachedEvent/event_0         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCachedEvent/event_1         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCachedEvent/event_2         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCachedEvent/event_3         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsWarn/event_0         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestSingleTestFailStack/input03 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCachedEvent/event_4         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsToRun/event_1        │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsToRun/event_2        │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsWarn/event_1         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsToRun/event_3        │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestSingleTestFailStack/input04 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent/event_0          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsWarn/event_2         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent/event_1          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNoTestsWarn/event_3         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent/event_2          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent/event_3          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input03.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent/event_4          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_0            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestCoverEvent/event_5          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_1            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_2            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestSingleTestFailStack/input05 │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_3            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_4            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_5            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_6            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_7            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_8            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestNewEvent/event_9            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input04.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input05.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input06.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input07.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestBigOutcome/input08.json     │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCover/log            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCover/bytes          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCover/sort           │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCache/mime           │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCache/time           │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCache/strings        │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestPackageCache/fmt            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/fmt_test            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/strings_test        │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/bytes_test          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/bufio_test          │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/crypto_test         │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/log_test            │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/mime_test           │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/sort_test           │ github.com/mfridman/tparse/parse │
-│  [92mPASS[0m  │  0.00   │ TestMetrics/time_test           │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestPrescan                     │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestRaceReplay                  │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestRaceReplay/input01          │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestRaceReplay/input02          │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestRaceReplay/input03          │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestPrescan/input02.txt         │ github.com/mfridman/tparse/parse │
-│  [91mFAIL[0m  │  0.00   │ TestPrescan/input03.txt         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.02   │ TestMetrics                     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.01   │ TestBigOutcome                  │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.01   │ TestPackageCache                │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.01   │ TestPackageCover                │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent                    │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCachedEvent                 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent                  │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestFiles                 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsToRun                │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsWarn                 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestActionString                │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestElapsed                     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPanic                       │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestSingleTestFailStack         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input01.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPanic/input01.json          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPanic/input02.json          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPanic/input03.json          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPanic/input04.json          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPanic/input05.json          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestFiles/event_0         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestFiles/event_1         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestSingleTestFailStack/input01 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPrescan/input01.txt         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPrescan/input04.txt         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestFiles/event_2         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsToRun/event_0        │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input02.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestSingleTestFailStack/input02 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestFiles/event_3         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCachedEvent/event_0         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCachedEvent/event_1         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCachedEvent/event_2         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCachedEvent/event_3         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsWarn/event_0         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestSingleTestFailStack/input03 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCachedEvent/event_4         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsToRun/event_1        │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsToRun/event_2        │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsWarn/event_1         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsToRun/event_3        │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestSingleTestFailStack/input04 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent/event_0          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsWarn/event_2         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent/event_1          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNoTestsWarn/event_3         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent/event_2          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent/event_3          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input03.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent/event_4          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_0            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestCoverEvent/event_5          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_1            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_2            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestSingleTestFailStack/input05 │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_3            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_4            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_5            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_6            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_7            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_8            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestNewEvent/event_9            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input04.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input05.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input06.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input07.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestBigOutcome/input08.json     │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCover/log            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCover/bytes          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCover/sort           │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCache/mime           │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCache/time           │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCache/strings        │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestPackageCache/fmt            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/fmt_test            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/strings_test        │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/bytes_test          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/bufio_test          │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/crypto_test         │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/log_test            │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/mime_test           │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/sort_test           │ github.com/mfridman/tparse/parse │
+│  [92mPASS[m  │  0.00   │ TestMetrics/time_test           │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestPrescan                     │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestRaceReplay                  │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestRaceReplay/input01          │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestRaceReplay/input02          │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestRaceReplay/input03          │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestPrescan/input02.txt         │ github.com/mfridman/tparse/parse │
+│  [91mFAIL[m  │  0.00   │ TestPrescan/input03.txt         │ github.com/mfridman/tparse/parse │
 │        │         │                                 │                                  │
-│  [92mPASS[0m  │  0.00   │ TestFollow                      │ github.com/mfridman/tparse/tests │
-│  [92mPASS[0m  │  0.00   │ TestFollow/test_01              │ github.com/mfridman/tparse/tests │
-│  [92mPASS[0m  │  0.00   │ TestFollow/test_02              │ github.com/mfridman/tparse/tests │
-│  [92mPASS[0m  │  0.00   │ TestFollow/test_03              │ github.com/mfridman/tparse/tests │
-│  [92mPASS[0m  │  0.00   │ TestFollow/test_04              │ github.com/mfridman/tparse/tests │
-│  [92mPASS[0m  │  0.00   │ TestFollow/test_05              │ github.com/mfridman/tparse/tests │
+│  [92mPASS[m  │  0.00   │ TestFollow                      │ github.com/mfridman/tparse/tests │
+│  [92mPASS[m  │  0.00   │ TestFollow/test_01              │ github.com/mfridman/tparse/tests │
+│  [92mPASS[m  │  0.00   │ TestFollow/test_02              │ github.com/mfridman/tparse/tests │
+│  [92mPASS[m  │  0.00   │ TestFollow/test_03              │ github.com/mfridman/tparse/tests │
+│  [92mPASS[m  │  0.00   │ TestFollow/test_04              │ github.com/mfridman/tparse/tests │
+│  [92mPASS[m  │  0.00   │ TestFollow/test_05              │ github.com/mfridman/tparse/tests │
 ╰────────┴─────────┴─────────────────────────────────┴──────────────────────────────────╯
-[38;5;103m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓[0m
-[38;5;103m┃[0m   [91m[91mFAIL[0m[0m  package: github.com/mfridman/tparse/parse   [38;5;103m┃[0m
-[38;5;103m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛[0m
+[38;5;103m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓[m
+[38;5;103m┃[m   [91m[91mFAIL[m[m  package: github.com/mfridman/tparse/parse   [38;5;103m┃[m
+[38;5;103m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛[m
 
-[31m--- FAIL: TestPrescan (0.00s)[0m
-[31m  --- FAIL: TestPrescan/input02.txt (0.00s)[0m
+[31m--- FAIL: TestPrescan (0.00s)[m
+[31m  --- FAIL: TestPrescan/input02.txt (0.00s)[m
 
     prescan_test.go:51: want failure after reading >50 lines of non-parsable events: got err type *fmt.wrapError want *errors.fundamental: line 51 json error: invalid character 'p' looking for beginning of value: failed to parse
 
-[31m  --- FAIL: TestPrescan/input03.txt (0.00s)[0m
+[31m  --- FAIL: TestPrescan/input03.txt (0.00s)[m
 
     prescan_test.go:51: want failure when stream contains a bad event(s) -> good event(s) -> bad event: got err type *fmt.wrapError want *errors.fundamental: line 6 json error: invalid character 'r' looking for beginning of value: failed to parse
 
 ────────────────────────────────────────────────────────────────────────────────────────────────
-[2m[0m                                                                                                
-[31m--- FAIL: TestRaceReplay (0.00s)[0m
-[31m  --- FAIL: TestRaceReplay/input01 (0.00s)[0m
+[2m[m                                                                                                
+[31m--- FAIL: TestRaceReplay (0.00s)[m
+[31m  --- FAIL: TestRaceReplay/input01 (0.00s)[m
 
     race_test.go:56: got wrong opaque error %!q(<nil>); want ErrRaceDetected
 
-[31m  --- FAIL: TestRaceReplay/input02 (0.00s)[0m
+[31m  --- FAIL: TestRaceReplay/input02 (0.00s)[m
 
     race_test.go:41: race input does not match expected output; diff files in race dir suffixed with .FAIL to debug
     race_test.go:42: diff parse/testdata/race/input02.json.FAIL parse/testdata/race/output02.golden.FAIL
     race_test.go:56: got wrong opaque error %!q(<nil>); want ErrRaceDetected
 
-[31m  --- FAIL: TestRaceReplay/input03 (0.00s)[0m
+[31m  --- FAIL: TestRaceReplay/input03 (0.00s)[m
 
     race_test.go:56: got wrong opaque error %!q(<nil>); want ErrRaceDetected
 
 ╭────────┬─────────┬──────────────────────────────────┬───────┬──────┬──────┬──────╮
 │ Status │ Elapsed │             Package              │ Cover │ Pass │ Fail │ Skip │
 ├────────┼─────────┼──────────────────────────────────┼───────┼──────┼──────┼──────┤
-│  [91mFAIL[0m  │  0.17s  │ github.com/mfridman/tparse/parse │  --   │  83  │  7   │  0   │
-│  [92mPASS[0m  │  0.10s  │ github.com/mfridman/tparse/tests │  --   │  6   │  0   │  0   │
+│  [91mFAIL[m  │  0.17s  │ github.com/mfridman/tparse/parse │  --   │  83  │  7   │  0   │
+│  [92mPASS[m  │  0.10s  │ github.com/mfridman/tparse/tests │  --   │  6   │  0   │  0   │
 ╰────────┴─────────┴──────────────────────────────────┴───────┴──────┴──────┴──────╯
