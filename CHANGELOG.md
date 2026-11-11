@@ -13,6 +13,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - `-nocolor` now removes all colors, including in failed test headers (#162)
 - Include failed test names in table (#149)
 - Colorize the status in `--progress` output (#150)
+- Fix empty rows in the tests table when some packages have no rows to show (#155)
 
 ## [v0.18.0] - 2025-08-24
 
