@@ -74,8 +74,7 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 
 			badLines++
 			if started || badLines > 50 {
-				var syntaxError *json.SyntaxError
-				if errors.As(err, &syntaxError) {
+				if syntaxError, ok := errors.AsType[*json.SyntaxError](err); ok {
 					err = fmt.Errorf("line %d JSON error: %s: %w", badLines, syntaxError.Error(), ErrNotParsable)
 					if option.debug {
 						// In debug mode we can surface a more verbose error message which
