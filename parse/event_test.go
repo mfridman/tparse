@@ -259,6 +259,26 @@ func TestNoTestFiles(t *testing.T) {
 			// 3
 			`{"Time": "2018-10-28T00:06:53.511804-04:00", "Action": "output", "Package": "github.com[no test files]\n"}`, false,
 		},
+		{
+			// 4: go1.22+ with -cover, package with code but no test files.
+			`{"Action":"output","Package":"example.com/mod/notests","Output":"\texample.com/mod/notests\t\tcoverage: 0.0% of statements\n"}`, true,
+		},
+		{
+			// 5: go1.22+ with -coverpkg, package with code but no test files.
+			`{"Action":"output","Package":"example.com/mod/notests","Output":"\texample.com/mod/notests\t\tcoverage: 0.0% of statements in ./...\n"}`, true,
+		},
+		{
+			// 6: regular coverage line for a package with tests.
+			`{"Action":"output","Package":"example.com/mod/tested","Output":"ok  \texample.com/mod/tested\t0.228s\tcoverage: 100.0% of statements\n"}`, false,
+		},
+		{
+			// 7: coverage line printed by the test binary.
+			`{"Action":"output","Package":"example.com/mod/tested","Output":"coverage: 0.0% of statements\n"}`, false,
+		},
+		{
+			// 8: coverage line for a different package.
+			`{"Action":"output","Package":"example.com/mod/other","Output":"\texample.com/mod/notests\t\tcoverage: 0.0% of statements\n"}`, false,
+		},
 	}
 
 	for i, tc := range tt {

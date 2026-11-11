@@ -164,8 +164,18 @@ func (e *Event) LastLine() bool {
 
 // NoTestFiles reports special event case for packages containing no test files:
 // "?   \tpackage\t[no test files]\n"
+//
+// Since go1.22, go test -cover reports packages that have code but no test files with a coverage
+// line instead, and without an "ok" prefix or elapsed time:
+// "\tpackage\t\tcoverage: 0.0% of statements\n"
+//
+// See https://go.dev/doc/go1.22#go-command
 func (e *Event) NoTestFiles() bool {
-	return strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "[no test files]\n")
+	if strings.HasPrefix(e.Output, "?   \t") && strings.HasSuffix(e.Output, "[no test files]\n") {
+		return true
+	}
+	return e.Test == "" && e.Package != "" &&
+		strings.HasPrefix(e.Output, "\t"+e.Package+"\t\tcoverage: ")
 }
 
 // NoTestsToRun reports special event case for no tests to run:

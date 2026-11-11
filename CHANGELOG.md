@@ -14,6 +14,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Include failed test names in table (#149)
 - Colorize the status in `--progress` output (#150)
 - Fix empty rows in the tests table when some packages have no rows to show (#155)
+- Show packages without test files with `-notests` when running `go test -cover` on go1.22 and later (#106)
 
 ## [v0.18.0] - 2025-08-24
 

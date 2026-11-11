@@ -169,12 +169,6 @@ func (c *consoleWriter) summaryTable(
 
 		status := c.FormatAction(pkg.Summary.Action)
 
-		// Skip packages with no coverage to mimic nocoverageredesign behavior (changed in github.com/golang/go/issues/24570)
-		totalTests := len(pkg.TestsByAction(parse.ActionPass)) + len(pkg.TestsByAction(parse.ActionFail)) + len(pkg.TestsByAction(parse.ActionSkip))
-		if pkg.Cover && pkg.Coverage == 0.0 && totalTests == 0 {
-			continue
-		}
-
 		row := summaryRow{
 			status:      status,
 			elapsed:     elapsed,
