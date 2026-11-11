@@ -32,7 +32,7 @@ tools-version:
 
 .PHONY: release
 release:
-	@goreleaser --rm-dist
+	@goreleaser release --clean
 
 .PHONY: build
 build:

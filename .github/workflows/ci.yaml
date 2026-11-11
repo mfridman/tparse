@@ -21,9 +21,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v7
         with:
           go-version: ${{ matrix.go-version }}
       - name: Build
@@ -41,7 +41,7 @@ jobs:
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort slices -json -cover | ./tparse -follow -all
       - name: Install GoReleaser
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.go-version == 'stable'
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@v7
         with:
           install-only: true
           distribution: goreleaser
