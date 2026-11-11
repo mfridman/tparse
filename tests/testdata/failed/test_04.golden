@@ -1,18 +1,18 @@
 ╭────────┬─────────┬────────────────────────────────┬────────────────────────╮
 │ Status │ Elapsed │              Test              │        Package         │
 ├────────┼─────────┼────────────────────────────────┼────────────────────────┤
-│  [91mFAIL[0m  │  1.00   │ TestWhatever                   │ command-line-arguments │
-│  [91mFAIL[0m  │  0.00   │ TestWhatever/foo               │ command-line-arguments │
-│  [91mFAIL[0m  │  0.00   │ TestWhatever/foo/bar           │ command-line-arguments │
-│  [91mFAIL[0m  │  0.00   │ TestWhatever/foo/baz           │ command-line-arguments │
-│  [91mFAIL[0m  │  0.00   │ TestWhatever/foo/bar/inner-bar │ command-line-arguments │
-│  [91mFAIL[0m  │  0.00   │ TestWhatever/foo/baz/inner-baz │ command-line-arguments │
+│  [91mFAIL[m  │  1.00   │ TestWhatever                   │ command-line-arguments │
+│  [91mFAIL[m  │  0.00   │ TestWhatever/foo               │ command-line-arguments │
+│  [91mFAIL[m  │  0.00   │ TestWhatever/foo/bar           │ command-line-arguments │
+│  [91mFAIL[m  │  0.00   │ TestWhatever/foo/baz           │ command-line-arguments │
+│  [91mFAIL[m  │  0.00   │ TestWhatever/foo/bar/inner-bar │ command-line-arguments │
+│  [91mFAIL[m  │  0.00   │ TestWhatever/foo/baz/inner-baz │ command-line-arguments │
 ╰────────┴─────────┴────────────────────────────────┴────────────────────────╯
-[38;5;103m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓[0m
-[38;5;103m┃[0m   [91m[91mFAIL[0m[0m  package: command-line-arguments   [38;5;103m┃[0m
-[38;5;103m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛[0m
+[38;5;103m┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓[m
+[38;5;103m┃[m   [91m[91mFAIL[m[m  package: command-line-arguments   [38;5;103m┃[m
+[38;5;103m┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛[m
 
-[31m--- FAIL: TestWhatever (1.00s)[0m
+[31m--- FAIL: TestWhatever (1.00s)[m
 
     main_test.go:12: assert error
     main_test.go:13: 
@@ -27,25 +27,25 @@
         	Test:       	TestWhatever
         	Messages:   	not what I was expecting
 
-[31m  --- FAIL: TestWhatever/foo (0.00s)[0m
+[31m  --- FAIL: TestWhatever/foo (0.00s)[m
 
     main_test.go:17: some random output from foo only
 
-[31m    --- FAIL: TestWhatever/foo/bar (0.00s)[0m
+[31m    --- FAIL: TestWhatever/foo/bar (0.00s)[m
 
     main_test.go:20: some random output from bar only
 
-[31m      --- FAIL: TestWhatever/foo/bar/inner-bar (0.00s)[0m
+[31m      --- FAIL: TestWhatever/foo/bar/inner-bar (0.00s)[m
 
     main_test.go:23: another inner-bar
 
-[31m    --- FAIL: TestWhatever/foo/baz (0.00s)[0m
-[31m      --- FAIL: TestWhatever/foo/baz/inner-baz (0.00s)[0m
+[31m    --- FAIL: TestWhatever/foo/baz (0.00s)[m
+[31m      --- FAIL: TestWhatever/foo/baz/inner-baz (0.00s)[m
 
     main_test.go:30: some inner-baz error
 
 ╭────────┬─────────┬────────────────────────┬───────┬──────┬──────┬──────╮
 │ Status │ Elapsed │        Package         │ Cover │ Pass │ Fail │ Skip │
 ├────────┼─────────┼────────────────────────┼───────┼──────┼──────┼──────┤
-│  [91mFAIL[0m  │  1.13s  │ command-line-arguments │  --   │  0   │  6   │  0   │
+│  [91mFAIL[m  │  1.13s  │ command-line-arguments │  --   │  0   │  6   │  0   │
 ╰────────┴─────────┴────────────────────────┴───────┴──────┴──────┴──────╯

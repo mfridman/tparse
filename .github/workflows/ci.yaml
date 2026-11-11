@@ -8,22 +8,26 @@ on:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # go-version: ['oldstable', 'stable', '1.23.0-rc.2']
         go-version: ['oldstable', 'stable']
     env:
       VERBOSE: 1
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: ${{ matrix.go-version }}
       - name: Build
@@ -41,7 +45,7 @@ jobs:
         run: go test -count=1 fmt strings bytes bufio crypto log mime sort slices -json -cover | ./tparse -follow -all
       - name: Install GoReleaser
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.go-version == 'stable'
-        uses: goreleaser/goreleaser-action@v6
+        uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           install-only: true
           distribution: goreleaser

@@ -1,6 +1,7 @@
 package parse
 
 import (
+	"slices"
 	"sort"
 )
 
@@ -29,8 +30,8 @@ func (t *Test) Status() Action {
 	// The first action we come across (in reverse order) is
 	// the outcome of the test, which will be one of pass|fail|skip.
 	t.SortEvents()
-	for i := len(t.Events) - 1; i >= 0; i-- {
-		switch t.Events[i].Action {
+	for _, v := range slices.Backward(t.Events) {
+		switch v.Action {
 		case ActionPass:
 			return ActionPass
 		case ActionSkip:

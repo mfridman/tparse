@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/charmbracelet/lipgloss"
+	"charm.land/lipgloss/v2"
 	"golang.org/x/term"
 
 	"github.com/mfridman/tparse/parse"
@@ -80,7 +80,7 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		var key string
 		for i, t := range failedTests {
 			// Add top divider to all tests except first one.
-			base, _, _ := cut(t.Name, "/")
+			base, _, _ := strings.Cut(t.Name, "/")
 			if i > 0 && key != base {
 				fmt.Fprintln(c, divider.String())
 			}
@@ -96,15 +96,6 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 const (
 	fencedCodeBlock string = "```"
 )
-
-// copied directly from strings.Cut (go1.18) to support older Go versions.
-// In the future, replace this with the upstream function.
-func cut(s, sep string) (before, after string, found bool) {
-	if i := strings.Index(s, sep); i >= 0 {
-		return s[:i], s[i+len(sep):], true
-	}
-	return s, "", false
-}
 
 func (c *consoleWriter) prepareStyledPanic(
 	packageName string,
@@ -189,7 +180,7 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 			// go test prefixes too much padding to the "--- FAIL: " output lines.
 			// Let's cut the padding by half, being careful to preserve the fail
 			// line and the proceeding output.
-			before, after, ok := cut(header, failLine)
+			before, after, ok := strings.Cut(header, failLine)
 			var pad string
 			if ok {
 				var n int
