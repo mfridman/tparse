@@ -8,13 +8,15 @@ on:
     types: [opened, synchronize, reopened]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build and test
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # go-version: ['oldstable', 'stable', '1.23.0-rc.2']
         go-version: ['oldstable', 'stable']
     env:
       VERBOSE: 1
@@ -22,6 +24,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Set up Go
         uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
