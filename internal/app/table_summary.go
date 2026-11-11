@@ -25,6 +25,9 @@ type SummaryTableOptions struct {
 
 	// TrimPath is the path prefix to trim from the package name.
 	TrimPath string
+
+	// FailOnly will display only packages with failed tests.
+	FailOnly bool
 }
 
 func (c *consoleWriter) summaryTable(
@@ -191,6 +194,9 @@ func (c *consoleWriter) summaryTable(
 		return
 	}
 	for _, r := range passed {
+		if options.FailOnly && r.fail == "0" {
+			continue
+		}
 		data.Append(r.toRow())
 	}
 
@@ -203,7 +209,10 @@ func (c *consoleWriter) summaryTable(
 			data.Append(r.toRow())
 		}
 	}
-
+	if options.FailOnly && data.Rows() == 0 {
+		fmt.Fprintln(c, "No tests failed.")
+		return
+	}
 	fmt.Fprintln(c, tbl.Data(data).Render())
 }
 

@@ -134,7 +134,7 @@ func display(w io.Writer, summary *parse.GoTestSummary, option Options) {
 	// Sort packages by name ASC.
 	packages := summary.GetSortedPackages(option.Sorter)
 	// Only print the tests table if either pass or skip is true.
-	if option.TestTableOptions.Pass || option.TestTableOptions.Skip {
+	if option.TestTableOptions.Pass || option.TestTableOptions.Skip || option.TestTableOptions.FailOnly {
 		if option.Format == OutputFormatMarkdown {
 			cw.testsTableMarkdown(packages, option.TestTableOptions)
 		} else {
