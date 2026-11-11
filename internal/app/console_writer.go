@@ -1,11 +1,12 @@
 package app
 
 import (
+	"image/color"
 	"io"
 	"strings"
 
-	"github.com/charmbracelet/lipgloss"
-	"github.com/muesli/termenv"
+	"charm.land/lipgloss/v2"
+	"github.com/charmbracelet/colorprofile"
 
 	"github.com/mfridman/tparse/parse"
 )
@@ -33,9 +34,9 @@ type consoleWriter struct {
 type colorOptionFunc func(s string) string
 
 // newColor is a helper function to set the base color.
-func newColor(color lipgloss.TerminalColor) colorOptionFunc {
+func newColor(c color.Color) colorOptionFunc {
 	return func(text string) string {
-		return lipgloss.NewStyle().Foreground(color).Render(text)
+		return lipgloss.NewStyle().Foreground(c).Render(text)
 	}
 }
 
@@ -62,15 +63,16 @@ func newConsoleWriter(w io.Writer, format OutputFormat, disableColor bool) *cons
 	cw.green = noColor()
 	cw.yellow = noColor()
 
-	if !disableColor {
-		// NOTE(mf): GitHub Actions CI env (and probably others) do not have an
-		// interactive TTY, and tparse through termenv will degrade to the
-		// "best available option" .. which is no colors. We can work around this by
-		// setting a color profile explicitly instead of relying on termenv to auto-detect.
-		// Ref: https://github.com/charmbracelet/lipgloss/issues/74
-		// Ref: https://github.com/mfridman/tparse/issues/76
-		lipgloss.SetColorProfile(termenv.TrueColor)
-
+	// NOTE(mf): lipgloss always renders full-color ANSI sequences, and leaves
+	// color downsampling to the writer. We do not auto-detect the profile,
+	// because GitHub Actions CI env (and probably others) do not have an
+	// interactive TTY, and detection would degrade to no colors. So colors are
+	// written as-is, unless the user disables them.
+	// Ref: https://github.com/charmbracelet/lipgloss/issues/74
+	// Ref: https://github.com/mfridman/tparse/issues/76
+	if disableColor {
+		cw.Writer = &colorprofile.Writer{Forward: w, Profile: colorprofile.NoTTY}
+	} else {
 		switch format {
 		case OutputFormatMarkdown:
 			cw.green = newMarkdownColor("🟢")

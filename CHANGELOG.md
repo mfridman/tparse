@@ -9,6 +9,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Update dependencies to latest versions
 - Require Go 1.26 or later (needed by updated dependencies)
+- Upgrade to lipgloss v2
 - Include failed test names in table (#149)
 - Colorize the status in `--progress` output (#150)
 
