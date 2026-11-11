@@ -1,0 +1,27 @@
+{"Time":"2026-11-11T16:27:37.925996-05:00","Action":"start","Package":"example.com/cov106/emptytests"}
+{"Time":"2026-11-11T16:27:37.965819-05:00","Action":"start","Package":"example.com/cov106/nocode"}
+{"Time":"2026-11-11T16:27:37.965898-05:00","Action":"output","Package":"example.com/cov106/nocode","Output":"?   \texample.com/cov106/nocode\t[no test files]\n"}
+{"Time":"2026-11-11T16:27:37.965944-05:00","Action":"skip","Package":"example.com/cov106/nocode","Elapsed":0}
+{"Time":"2026-11-11T16:27:37.965948-05:00","Action":"start","Package":"example.com/cov106/notests"}
+{"Time":"2026-11-11T16:27:37.966046-05:00","Action":"output","Package":"example.com/cov106/notests","Output":"?   \texample.com/cov106/notests\t[no test files]\n"}
+{"Time":"2026-11-11T16:27:37.966092-05:00","Action":"skip","Package":"example.com/cov106/notests","Elapsed":0}
+{"Time":"2026-11-11T16:27:38.03967-05:00","Action":"start","Package":"example.com/cov106/tested"}
+{"Time":"2026-11-11T16:27:38.041994-05:00","Action":"start","Package":"example.com/cov106/zerocov"}
+{"Time":"2026-11-11T16:27:38.191093-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-11-11T16:27:38.191222-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.196235-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"ok  \texample.com/cov106/emptytests\t0.230s [no tests to run]\n"}
+{"Time":"2026-11-11T16:27:38.196306-05:00","Action":"pass","Package":"example.com/cov106/emptytests","Elapsed":0.27}
+{"Time":"2026-11-11T16:27:38.374986-05:00","Action":"run","Package":"example.com/cov106/tested","Test":"TestAdd"}
+{"Time":"2026-11-11T16:27:38.375088-05:00","Action":"output","Package":"example.com/cov106/tested","Test":"TestAdd","Output":"=== RUN   TestAdd\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.375161-05:00","Action":"output","Package":"example.com/cov106/tested","Test":"TestAdd","Output":"--- PASS: TestAdd (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.375247-05:00","Action":"pass","Package":"example.com/cov106/tested","Test":"TestAdd","Elapsed":0}
+{"Time":"2026-11-11T16:27:38.375295-05:00","Action":"output","Package":"example.com/cov106/tested","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.379447-05:00","Action":"output","Package":"example.com/cov106/tested","Output":"ok  \texample.com/cov106/tested\t0.340s\n"}
+{"Time":"2026-11-11T16:27:38.379502-05:00","Action":"pass","Package":"example.com/cov106/tested","Elapsed":0.34}
+{"Time":"2026-11-11T16:27:38.39859-05:00","Action":"run","Package":"example.com/cov106/zerocov","Test":"TestNothing"}
+{"Time":"2026-11-11T16:27:38.398681-05:00","Action":"output","Package":"example.com/cov106/zerocov","Test":"TestNothing","Output":"=== RUN   TestNothing\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.39872-05:00","Action":"output","Package":"example.com/cov106/zerocov","Test":"TestNothing","Output":"--- PASS: TestNothing (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.398756-05:00","Action":"pass","Package":"example.com/cov106/zerocov","Test":"TestNothing","Elapsed":0}
+{"Time":"2026-11-11T16:27:38.398802-05:00","Action":"output","Package":"example.com/cov106/zerocov","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:38.406958-05:00","Action":"output","Package":"example.com/cov106/zerocov","Output":"ok  \texample.com/cov106/zerocov\t0.365s\n"}
+{"Time":"2026-11-11T16:27:38.40701-05:00","Action":"pass","Package":"example.com/cov106/zerocov","Elapsed":0.365}

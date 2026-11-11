@@ -1,0 +1,30 @@
+{"Time":"2026-11-11T16:27:39.733721-05:00","Action":"start","Package":"example.com/cov106/emptytests"}
+{"Time":"2026-11-11T16:27:39.734694-05:00","Action":"start","Package":"example.com/cov106/nocode"}
+{"Time":"2026-11-11T16:27:39.734928-05:00","Action":"output","Package":"example.com/cov106/nocode","Output":"?   \texample.com/cov106/nocode\t[no test files]\n"}
+{"Time":"2026-11-11T16:27:39.734964-05:00","Action":"skip","Package":"example.com/cov106/nocode","Elapsed":0}
+{"Time":"2026-11-11T16:27:39.734989-05:00","Action":"start","Package":"example.com/cov106/notests"}
+{"Time":"2026-11-11T16:27:39.824752-05:00","Action":"start","Package":"example.com/cov106/tested"}
+{"Time":"2026-11-11T16:27:39.832654-05:00","Action":"start","Package":"example.com/cov106/zerocov"}
+{"Time":"2026-11-11T16:27:40.101705-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"testing: warning: no tests to run\n"}
+{"Time":"2026-11-11T16:27:40.10182-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.110327-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"coverage: 0.0% of statements in ./...\n"}
+{"Time":"2026-11-11T16:27:40.110505-05:00","Action":"run","Package":"example.com/cov106/zerocov","Test":"TestNothing"}
+{"Time":"2026-11-11T16:27:40.110568-05:00","Action":"output","Package":"example.com/cov106/zerocov","Test":"TestNothing","Output":"=== RUN   TestNothing\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.110635-05:00","Action":"output","Package":"example.com/cov106/zerocov","Test":"TestNothing","Output":"--- PASS: TestNothing (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.110673-05:00","Action":"pass","Package":"example.com/cov106/zerocov","Test":"TestNothing","Elapsed":0}
+{"Time":"2026-11-11T16:27:40.110718-05:00","Action":"output","Package":"example.com/cov106/zerocov","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.110754-05:00","Action":"output","Package":"example.com/cov106/zerocov","Output":"coverage: 0.0% of statements in ./...\n"}
+{"Time":"2026-11-11T16:27:40.110782-05:00","Action":"output","Package":"example.com/cov106/emptytests","Output":"ok  \texample.com/cov106/emptytests\t0.375s\tcoverage: 0.0% of statements in ./... [no tests to run]\n"}
+{"Time":"2026-11-11T16:27:40.110837-05:00","Action":"pass","Package":"example.com/cov106/emptytests","Elapsed":0.377}
+{"Time":"2026-11-11T16:27:40.111218-05:00","Action":"output","Package":"example.com/cov106/zerocov","Output":"ok  \texample.com/cov106/zerocov\t0.278s\tcoverage: 0.0% of statements in ./...\n"}
+{"Time":"2026-11-11T16:27:40.112332-05:00","Action":"pass","Package":"example.com/cov106/zerocov","Elapsed":0.28}
+{"Time":"2026-11-11T16:27:40.111962-05:00","Action":"run","Package":"example.com/cov106/tested","Test":"TestAdd"}
+{"Time":"2026-11-11T16:27:40.112529-05:00","Action":"output","Package":"example.com/cov106/tested","Test":"TestAdd","Output":"=== RUN   TestAdd\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.112554-05:00","Action":"output","Package":"example.com/cov106/tested","Test":"TestAdd","Output":"--- PASS: TestAdd (0.00s)\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.11258-05:00","Action":"pass","Package":"example.com/cov106/tested","Test":"TestAdd","Elapsed":0}
+{"Time":"2026-11-11T16:27:40.112598-05:00","Action":"output","Package":"example.com/cov106/tested","Output":"PASS\n","OutputType":"frame"}
+{"Time":"2026-11-11T16:27:40.113226-05:00","Action":"output","Package":"example.com/cov106/tested","Output":"coverage: 25.0% of statements in ./...\n"}
+{"Time":"2026-11-11T16:27:40.113776-05:00","Action":"output","Package":"example.com/cov106/tested","Output":"ok  \texample.com/cov106/tested\t0.288s\tcoverage: 25.0% of statements in ./...\n"}
+{"Time":"2026-11-11T16:27:40.113834-05:00","Action":"pass","Package":"example.com/cov106/tested","Elapsed":0.289}
+{"Time":"2026-11-11T16:27:40.301719-05:00","Action":"output","Package":"example.com/cov106/notests","Output":"\texample.com/cov106/notests\t\tcoverage: 0.0% of statements\n"}
+{"Time":"2026-11-11T16:27:40.301829-05:00","Action":"pass","Package":"example.com/cov106/notests","Elapsed":0.567}
