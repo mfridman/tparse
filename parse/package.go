@@ -37,6 +37,9 @@ type Package struct {
 	// Once a package has been marked HasPanic all subsequent events are added to PanicEvents.
 	PanicEvents []*Event
 
+	panickedTests   map[string]bool
+	packagePanicked bool
+
 	// HasDataRace marks the entire package as having a data race.
 	HasDataRace bool
 	// DataRaceTests captures an individual test names as having a data race.
@@ -50,8 +53,9 @@ type Package struct {
 // newPackage initializes and returns a Package.
 func newPackage() *Package {
 	return &Package{
-		Summary: &Event{},
-		Tests:   []*Test{},
+		Summary:       &Event{},
+		Tests:         []*Test{},
+		panickedTests: make(map[string]bool),
 	}
 }
 

@@ -231,14 +231,52 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 		pkg.Summary.Action = ActionFail
 		pkg.Summary.Package = e.Package
 		pkg.Summary.Test = e.Test
+		if pkg.panickedTests == nil {
+			pkg.panickedTests = make(map[string]bool)
+		}
+		if e.Test != "" {
+			pkg.panickedTests[e.Test] = true
+		} else {
+			pkg.packagePanicked = true
+		}
 	}
-	// Short circuit output when panic is detected.
 	if pkg.HasPanic {
 		pkg.PanicEvents = append(pkg.PanicEvents, e)
-		return
 	}
+
+	if e.Test != "" && e.Action == ActionPass {
+		if pkg.panickedTests != nil {
+			delete(pkg.panickedTests, e.Test)
+			for k := range pkg.panickedTests {
+				if strings.HasPrefix(k, e.Test+"/") {
+					delete(pkg.panickedTests, k)
+				}
+			}
+		}
+		if len(pkg.panickedTests) == 0 && !pkg.packagePanicked {
+			pkg.HasPanic = false
+			pkg.PanicEvents = nil
+			if pkg.Summary.Test == e.Test || strings.HasPrefix(pkg.Summary.Test, e.Test+"/") {
+				pkg.Summary.Test = ""
+			}
+			if pkg.Summary.Action == ActionFail {
+				pkg.Summary.Action = ActionPass
+			}
+		}
+	}
+
 	if e.LastLine() {
+		if pkg.HasPanic && e.Action == ActionFail {
+			pkg.Summary.Elapsed = e.Elapsed
+			return
+		}
 		pkg.Summary = e
+		if e.Action == ActionPass {
+			pkg.HasPanic = false
+			pkg.PanicEvents = nil
+			pkg.packagePanicked = false
+			pkg.panickedTests = nil
+		}
 		return
 	}
 	// Parse the raw output to add additional metadata to Package.
