@@ -34,6 +34,18 @@ func (c *consoleWriter) printFailed(packages []*parse.Package) {
 		}
 		failedTests := pkg.TestsByAction(parse.ActionFail)
 		if len(failedTests) == 0 {
+			if pkg.HasDataRace {
+				pkgName := pkg.Summary.Package
+				if pkgName == "" && len(pkg.Tests) > 0 {
+					pkgName = pkg.Tests[0].Package
+				}
+				styledPackageHeader := c.styledHeader(
+					"DATA RACE",
+					pkgName,
+				)
+				fmt.Fprintln(c, styledPackageHeader)
+				fmt.Fprintln(c)
+			}
 			continue
 		}
 		styledPackageHeader := c.styledHeader(

@@ -218,7 +218,7 @@ func (e *Event) Cover() (float64, bool) {
 
 // IsRace indicates a race event has been detected.
 func (e *Event) IsRace() bool {
-	return strings.HasPrefix(e.Output, "WARNING: DATA RACE")
+	return strings.HasPrefix(strings.TrimSpace(e.Output), "WARNING: DATA RACE") || strings.Contains(e.Output, "WARNING: DATA RACE")
 }
 
 // IsPanic indicates a panic event has been detected.

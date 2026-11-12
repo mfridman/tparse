@@ -1,6 +1,7 @@
 package parsetest
 
 import (
+	"bytes"
 	"os"
 	"path/filepath"
 	"testing"
@@ -8,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/parse"
 )
 
@@ -77,9 +79,84 @@ func TestRaceDetected(t *testing.T) {
 				if len(pkg.DataRaceTests) > 0 {
 					for i := range pkg.DataRaceTests {
 						assert.Equal(t, pkg.DataRaceTests[i], wantTestName[i])
+						test := pkg.GetTest(pkg.DataRaceTests[i])
+						require.NotNil(t, test)
+						assert.True(t, test.HasDataRace())
+						assert.Equal(t, parse.ActionFail, test.Status())
 					}
 				}
 			}
 		})
 	}
+}
+
+func TestRaceFailedTestsOutput(t *testing.T) {
+	t.Parallel()
+
+	base := filepath.Join("testdata", "race")
+
+	t.Run("test_level_race_captured_in_failed_tests", func(t *testing.T) {
+		buf := bytes.NewBuffer(nil)
+		inputFile := filepath.Join(base, "test_01.jsonl")
+		options := app.Options{
+			FileName: inputFile,
+			Output:   buf,
+			Sorter:   parse.SortByPackageName,
+		}
+		gotExitCode, err := app.Run(options)
+		require.NoError(t, err)
+		assert.Equal(t, 1, gotExitCode)
+		out := buf.String()
+		assert.Contains(t, out, "TestA")
+		assert.Contains(t, out, "WARNING: DATA RACE")
+	})
+
+	t.Run("package_level_race_without_failed_tests", func(t *testing.T) {
+		buf := bytes.NewBuffer(nil)
+		inputFile := filepath.Join(base, "test_03.jsonl")
+		options := app.Options{
+			FileName: inputFile,
+			Output:   buf,
+			Sorter:   parse.SortByPackageName,
+		}
+		gotExitCode, err := app.Run(options)
+		require.NoError(t, err)
+		assert.Equal(t, 1, gotExitCode)
+		out := buf.String()
+		assert.Contains(t, out, "DATA RACE")
+		assert.Contains(t, out, "debug/tparse-24")
+	})
+
+	t.Run("package_level_race_markdown", func(t *testing.T) {
+		buf := bytes.NewBuffer(nil)
+		inputFile := filepath.Join(base, "test_03.jsonl")
+		options := app.Options{
+			FileName: inputFile,
+			Output:   buf,
+			Format:   app.OutputFormatMarkdown,
+			Sorter:   parse.SortByPackageName,
+		}
+		gotExitCode, err := app.Run(options)
+		require.NoError(t, err)
+		assert.Equal(t, 1, gotExitCode)
+		out := buf.String()
+		assert.Contains(t, out, "DATA RACE")
+		assert.Contains(t, out, "debug/tparse-24")
+	})
+
+	t.Run("package_level_race_no_tests", func(t *testing.T) {
+		buf := bytes.NewBuffer(nil)
+		inputFile := filepath.Join(base, "test_06.jsonl")
+		options := app.Options{
+			FileName: inputFile,
+			Output:   buf,
+			Sorter:   parse.SortByPackageName,
+		}
+		gotExitCode, err := app.Run(options)
+		require.NoError(t, err)
+		assert.Equal(t, 1, gotExitCode)
+		out := buf.String()
+		assert.Contains(t, out, "DATA RACE")
+		assert.Contains(t, out, "github.com/mfridman/debug-go/testing")
+	})
 }
