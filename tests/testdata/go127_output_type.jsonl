@@ -1,0 +1,13 @@
+{"Action":"start","Package":"issue158.example"}
+{"Action":"run","Package":"issue158.example","Test":"TestChildExpectedFailure"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"=== RUN   TestChildExpectedFailure\n","OutputType":"frame"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"    outer_test.go:8: expected --- FAIL: TestChild in child transcript:\n","OutputType":"error"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"        === RUN   TestChild\n","OutputType":"error-continue"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"        --- PASS: TestChild (0.00s)\n","OutputType":"error-continue"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"        PASS\n","OutputType":"error-continue"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"        ok  \tissue158.example/child\t0.002s\n","OutputType":"error-continue"}
+{"Action":"output","Package":"issue158.example","Test":"TestChildExpectedFailure","Output":"--- FAIL: TestChildExpectedFailure (0.22s)\n","OutputType":"frame"}
+{"Action":"fail","Package":"issue158.example","Test":"TestChildExpectedFailure","Elapsed":0.22}
+{"Action":"output","Package":"issue158.example","Output":"FAIL\n","OutputType":"frame"}
+{"Action":"output","Package":"issue158.example","Output":"FAIL\tissue158.example\t0.221s\n","OutputType":"frame"}
+{"Action":"fail","Package":"issue158.example","Elapsed":0.221}

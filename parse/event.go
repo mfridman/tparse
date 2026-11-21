@@ -32,6 +32,10 @@ type Event struct {
 	// Portion of the test's output (standard output and standard error merged together)
 	Output string
 
+	// OutputType, added in Go 1.27, is "frame", "error", or "error-continue".
+	// It is empty for regular output and older Go versions.
+	OutputType string `json:",omitempty"`
+
 	// Time at which the event occurred, encodes as an RFC3339-format string.
 	// It is conventionally omitted for cached test results.
 	Time time.Time
@@ -87,6 +91,11 @@ func NewEvent(data []byte) (*Event, error) {
 	return &e, nil
 }
 
+// IsErrorOutput reports whether go test marked this output as part of an error message.
+func (e *Event) IsErrorOutput() bool {
+	return e.OutputType == "error" || e.OutputType == "error-continue"
+}
+
 // DiscardOutput reports whether to discard output that belongs to one of
 // the output update actions:
 // === RUN
@@ -94,6 +103,9 @@ func NewEvent(data []byte) (*Event, error) {
 // === CONT
 // If output is none one of the above return false.
 func (e *Event) DiscardOutput() bool {
+	if e.IsErrorOutput() {
+		return false
+	}
 	for i := range updates {
 		if strings.HasPrefix(e.Output, updates[i]) {
 			return true

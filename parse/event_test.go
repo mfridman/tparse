@@ -420,3 +420,25 @@ func TestDiscardOutput(t *testing.T) {
 		}
 	}
 }
+
+func TestDiscardOutputType(t *testing.T) {
+	t.Parallel()
+
+	for _, tc := range []struct {
+		outputType string
+		discard    bool
+	}{
+		{"error", false},
+		{"error-continue", false},
+		{"frame", true},
+		{"", true},
+		{"unknown", true},
+	} {
+		input := fmt.Sprintf(`{"Action":"output","Output":"=== RUN   TestChild\n","OutputType":%q}`, tc.outputType)
+		event, err := NewEvent([]byte(input))
+		require.NoError(t, err)
+		if got := event.DiscardOutput(); got != tc.discard {
+			t.Errorf("OutputType %q: DiscardOutput() = %t, want %t", tc.outputType, got, tc.discard)
+		}
+	}
+}

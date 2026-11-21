@@ -175,7 +175,7 @@ func (c *consoleWriter) prepareStyledTest(t *parse.Test) string {
 		if e.Action != parse.ActionOutput {
 			continue
 		}
-		if strings.Contains(e.Output, failLine) {
+		if !e.IsErrorOutput() && strings.Contains(e.Output, failLine) {
 			header := strings.TrimSuffix(e.Output, "\n")
 			// go test prefixes too much padding to the "--- FAIL: " output lines.
 			// Let's cut the padding by half, being careful to preserve the fail

@@ -41,6 +41,9 @@ func Process(r io.Reader, optionsFunc ...OptionsFunc) (*GoTestSummary, error) {
 		resultPrefixSkip,
 	}
 	isNoisy := func(e *Event) bool {
+		if e.IsErrorOutput() {
+			return false
+		}
 		output := strings.TrimSpace(e.Output)
 		// If the event is a big pass or fail, we can safely discard it. These are typically the
 		// lines preceding the package summary line. For example:
