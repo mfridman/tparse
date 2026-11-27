@@ -35,38 +35,89 @@ var (
 	progressPtr     = flag.Bool("progress", false, "")
 	comparePtr      = flag.String("compare", "", "")
 	trimPathPtr     = flag.String("trimpath", "", "")
+
+	includeTimestamp = flag.Bool("include-timestamp", false, "")
+
 	// Undocumented flags
 	followVerbosePtr = flag.Bool("follow-verbose", false, "")
-	includeTimestamp = flag.Bool("include-timestamp", false, "include timestamps in follow output")
 
 	// Legacy flags
 	noBordersPtr = flag.Bool("noborders", false, "")
 )
 
-var usage = `Usage:
+var usage = `tparse summarizes go test -json output. It shows failed tests first,
+then a summary table for each package.
+
+Usage:
     go test ./... -json | tparse [options...]
-    go test [packages...] -json | tparse [options...]
-    go test [packages...] -json > pkgs.out ; tparse [options...] -file pkgs.out
+    go test ./... -json > test.json ; tparse -file test.json [options...]
+
+Input:
+    tparse reads go test -json output from a pipe or from -file. It does not
+    read a redirected file (tparse < test.json). Use -file for saved output.
+    In shell pipelines, use "set -o pipefail" so that the pipeline also fails
+    when go test fails.
+
+Output:
+    Tables go to stdout. Errors, warnings, and build output go to stderr.
+    Colors are on by default, also when stdout is not a terminal. For logs,
+    files, and AI agents, use -nocolor or -format markdown.
+
+Exit status:
+    0 when all tests pass. Non-zero when a test fails, a package does not
+    build, or tparse cannot read the input.
 
 Options:
-    -h                 Show help.
-    -v                 Show version.
-    -all               Display table event for pass and skip. (Failed items always displayed)
-    -pass              Display table for passed tests.
-    -skip              Display table for skipped tests.
-    -notests           Display packages containing no test files or empty test files.
-    -smallscreen       Split subtest names vertically to fit on smaller screens.
-    -slow              Number of slowest tests to display. Default is 0, display all.
-    -sort              Sort table output by attribute [name, elapsed, cover]. Default is name.
-    -nocolor           Disable all colors. (NO_COLOR also supported)
-    -format            The output format for tables [basic, plain, markdown]. Default is basic.
-    -file              Read test output from a file.
-    -follow            Follow raw output from go test to stdout.
-    -follow-output     Write raw output from go test to a file (takes precedence over -follow).
-    -include-timestamp Include timestamps in follow output. 
-    -progress          Print a single summary line for each package. Useful for long running test suites.
-    -compare           Compare against a previous test output file. (experimental)
-    -trimpath          Remove path prefix from package names in output, simplifying their display.
+  Tables:
+    -all                Show passed and skipped tests. Failed tests always show.
+    -pass               Show a table of passed tests.
+    -skip               Show a table of skipped tests.
+    -slow N             With -pass or -all, show only the N slowest passed tests
+                        in each package. Default is 0 (show all).
+    -sort ATTR          Sort packages by name, elapsed, or cover.
+                        Default is name.
+    -notests            Show packages that have no test files.
+    -smallscreen        Shorten package and test names to fit small screens.
+    -trimpath PREFIX    Remove PREFIX from package names. Use "auto" to remove
+                        the prefix that all packages share.
+
+  Format:
+    -format FORMAT      Table format: basic, plain, or markdown.
+                        Default is basic.
+    -nocolor            Disable all colors. NO_COLOR is also supported.
+
+  Input and raw output:
+    -file PATH          Read go test -json output from a file.
+    -follow             Also print the raw go test output to stdout as it runs.
+    -follow-output PATH Write the raw go test output to a file. Takes precedence
+                        over -follow.
+    -include-timestamp  Add a timestamp to each line of the raw output.
+    -progress           Print one summary line for each package when it ends.
+                        Useful for long test suites.
+    -compare PATH       Compare against a previous go test -json output file.
+                        (experimental)
+
+  Other:
+    -h                  Show help.
+    -v                  Show version.
+
+Examples:
+    # Failures and summary only, with no ANSI colors (good for agents and logs)
+    go test ./... -json | tparse -format markdown
+
+    # GitHub Actions: show all tests and add them to the job summary
+    set -o pipefail
+    go test ./... -json | tparse -all -format markdown \
+        | tee -a "$GITHUB_STEP_SUMMARY"
+
+    # The 5 slowest passed tests in each package, slowest packages first
+    go test ./... -json | tparse -pass -slow 5 -sort elapsed
+
+    # Keep the full raw output in a file, and show only the summary
+    go test ./... -json | tparse -follow-output test.log
+
+    # Save the output once, then read it again with other options
+    go test ./... -json > test.json ; tparse -file test.json -all
 `
 
 var version string

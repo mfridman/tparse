@@ -7,6 +7,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+- Improve `-h` help text: add input, output, and exit status notes, group the options, and add
+  examples for CI and AI agents
+
 ## [v0.19.0] - 2026-11-27
 
 - Update dependencies to latest versions (#161)
