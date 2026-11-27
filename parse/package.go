@@ -45,6 +45,9 @@ type Package struct {
 	// HasFailedBuildOrSetup marks the package as having a failed build or setup.
 	// Example: [build failed] or [setup failed]
 	HasFailedBuildOrSetup bool
+	// failedBuildOrSetupReason is the reason from the go test output line, for
+	// example "build failed" or "setup failed".
+	failedBuildOrSetupReason string
 }
 
 // newPackage initializes and returns a Package.

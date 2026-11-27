@@ -2,6 +2,7 @@ package parse
 
 import (
 	"bufio"
+	"cmp"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -237,8 +238,23 @@ func (s *GoTestSummary) AddEvent(e *Event) {
 		pkg.PanicEvents = append(pkg.PanicEvents, e)
 		return
 	}
+	// Since go1.24, go test -json reports a build or setup failure as JSON
+	// events. An output line such as "FAIL\tpkg [build failed]" holds the
+	// reason, and the final "fail" event has the FailedBuild field set.
+	if e.Action == ActionOutput && e.Test == "" {
+		if ss := failedBuildOrSetupRe.FindStringSubmatch(e.Output); len(ss) == 3 {
+			pkg.failedBuildOrSetupReason = strings.TrimSpace(ss[2])
+		}
+	}
 	if e.LastLine() {
 		pkg.Summary = e
+		if e.FailedBuild != "" {
+			pkg.HasFailedBuildOrSetup = true
+			// Copy the event, so the original event keeps an empty Output.
+			summary := *e
+			summary.Output = cmp.Or(pkg.failedBuildOrSetupReason, "build failed")
+			pkg.Summary = &summary
+		}
 		return
 	}
 	// Parse the raw output to add additional metadata to Package.
@@ -289,18 +305,22 @@ func (s *GoTestSummary) GetSortedPackages(sorter PackageSorter) []*Package {
 	return packages
 }
 
+// ExitCode returns 2 if any package has a failed build or setup, 1 if any
+// package has a failure, panic, or data race, and 0 otherwise. A build or setup
+// failure takes precedence over other failures, in any package order.
 func (s *GoTestSummary) ExitCode() int {
+	var exitCode int
 	for _, pkg := range s.Packages {
 		switch {
 		case pkg.HasFailedBuildOrSetup:
 			return 2
 		case pkg.HasPanic, pkg.HasDataRace:
-			return 1
+			exitCode = 1
 		case len(pkg.DataRaceTests) > 0:
-			return 1
+			exitCode = 1
 		case pkg.Summary.Action == ActionFail:
-			return 1
+			exitCode = 1
 		}
 	}
-	return 0
+	return exitCode
 }

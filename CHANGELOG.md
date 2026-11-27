@@ -11,6 +11,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   examples for CI and AI agents
 - Exit with status 2 (was 0) when `-format` or `-sort` has an invalid value, and with status 1 (was
   0) when the `-follow-output` file cannot be created
+- Exit with status 2 (was 1) when a package does not build or a test setup fails on go1.24 and
+  later, and show the reason (`[build failed]` or `[setup failed]`) in the summary table
+- Exit with status 2 when any package does not build, also when another package has a test failure.
+  Before, the exit status depended on package order
 
 ## [v0.19.0] - 2026-11-27
 

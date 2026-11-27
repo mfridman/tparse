@@ -33,8 +33,10 @@ Output:
     files, and AI agents, use -nocolor or -format markdown.
 
 Exit status:
-    0 when all tests pass. Non-zero when a test fails, a package does not
-    build, or tparse cannot read the input.
+    0    All tests pass.
+    1    A test fails, panics, or has a data race, or tparse cannot read
+         the input.
+    2    A package does not build, a test setup fails, or a flag is not valid.
 
 Options:
   Tables:
