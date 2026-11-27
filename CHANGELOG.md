@@ -7,6 +7,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v0.20.0] - 2026-11-27
+
 - Improve `-h` help text: add input, output, and exit status notes, group the options, and add
   examples for CI and AI agents
 - Exit with status 2 (was 0) when `-format` or `-sort` has an invalid value, and with status 1 (was
@@ -114,7 +116,8 @@ Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 - Add [GoReleaser](https://goreleaser.com/) to automate the release process. Pre-built binaries are
   available for each release, currently Linux and macOS. If there is demand, can also add Windows.
 
-[Unreleased]: https://github.com/mfridman/tparse/compare/v0.19.0...HEAD
+[Unreleased]: https://github.com/mfridman/tparse/compare/v0.20.0...HEAD
+[v0.20.0]: https://github.com/mfridman/tparse/compare/v0.19.0...v0.20.0
 [v0.19.0]: https://github.com/mfridman/tparse/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/mfridman/tparse/compare/v0.17.0...v0.18.0
 [v0.17.0]: https://github.com/mfridman/tparse/compare/v0.16.0...v0.17.0
