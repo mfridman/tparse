@@ -24,8 +24,21 @@ func (t *Test) Elapsed() float64 {
 	return f
 }
 
+// HasDataRace reports whether any event in the test represents a data race.
+func (t *Test) HasDataRace() bool {
+	for _, e := range t.Events {
+		if e.IsRace() {
+			return true
+		}
+	}
+	return false
+}
+
 // Status reports the outcome of the test represented as a single Action: pass, fail or skip.
 func (t *Test) Status() Action {
+	if t.HasDataRace() {
+		return ActionFail
+	}
 	// sort by time and scan for an action in reverse order.
 	// The first action we come across (in reverse order) is
 	// the outcome of the test, which will be one of pass|fail|skip.

@@ -420,3 +420,57 @@ func TestDiscardOutput(t *testing.T) {
 		}
 	}
 }
+
+func TestEvent_IsRace(t *testing.T) {
+	t.Parallel()
+
+	tests := []struct {
+		name   string
+		output string
+		want   bool
+	}{
+		{
+			name:   "exact match",
+			output: "WARNING: DATA RACE\n",
+			want:   true,
+		},
+		{
+			name:   "leading spaces",
+			output: "  WARNING: DATA RACE\n",
+			want:   true,
+		},
+		{
+			name:   "leading tabs",
+			output: "\t\tWARNING: DATA RACE\n",
+			want:   true,
+		},
+		{
+			name:   "contains race text in middle",
+			output: "some prefix WARNING: DATA RACE suffix\n",
+			want:   true,
+		},
+		{
+			name:   "unrelated output",
+			output: "=== RUN   TestFoo\n",
+			want:   false,
+		},
+		{
+			name:   "pass output",
+			output: "--- PASS: TestFoo (0.01s)\n",
+			want:   false,
+		},
+		{
+			name:   "empty output",
+			output: "",
+			want:   false,
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			e := &Event{Output: tc.output}
+			require.Equal(t, tc.want, e.IsRace())
+		})
+	}
+}
+
