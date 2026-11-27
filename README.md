@@ -1,4 +1,7 @@
-# tparse  [![Actions](https://github.com/mfridman/tparse/workflows/CI/badge.svg)](https://github.com/mfridman/tparse)
+# tparse
+
+[![CI](https://github.com/mfridman/tparse/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/mfridman/tparse/actions/workflows/ci.yaml)
+[![Best of Go](https://bestofgo.dev/badge/mfridman/tparse.svg)](https://bestofgo.dev/mfridman/tparse)
 
 A command line tool for analyzing and summarizing `go test` output.
 
