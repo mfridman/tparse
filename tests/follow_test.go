@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	"github.com/mfridman/tparse/internal/app"
 	"github.com/mfridman/tparse/internal/utils"
@@ -94,6 +95,44 @@ func TestFollow(t *testing.T) {
 			})
 		}
 	})
+}
+
+// The failing parent test includes a child go test transcript in its error message.
+func TestFollowErrorOutput(t *testing.T) {
+	t.Parallel()
+	for _, tc := range []struct {
+		name    string
+		follow  bool
+		verbose bool
+	}{
+		{"default", false, false},
+		{"follow", true, false},
+		{"follow-verbose", true, true},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			var report, live bytes.Buffer
+			code, err := app.Run(app.Options{
+				FileName:            filepath.Join("testdata", "go127_output_type.jsonl"),
+				Output:              &report,
+				Sorter:              parse.SortByPackageName,
+				DisableColor:        true,
+				FollowOutput:        tc.follow,
+				FollowOutputVerbose: tc.verbose,
+				FollowOutputWriter:  utils.WriteNopCloser{Writer: &live},
+			})
+			require.NoError(t, err)
+			require.Equal(t, 1, code)
+
+			const diagnostic = "outer_test.go:8: expected --- FAIL: TestChild in child transcript:\n" +
+				"        === RUN   TestChild\n        --- PASS: TestChild (0.00s)\n"
+			assert.Contains(t, report.String(), diagnostic)
+			if tc.follow {
+				assert.Contains(t, live.String(), diagnostic)
+			}
+			const outerFrame = "=== RUN   TestChildExpectedFailure\n"
+			assert.Equal(t, tc.verbose, bytes.Contains(live.Bytes(), []byte(outerFrame)))
+		})
+	}
 }
 
 func checkGolden(
