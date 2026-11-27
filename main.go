@@ -14,37 +14,6 @@ import (
 	"github.com/mfridman/tparse/parse"
 )
 
-// Flags.
-var (
-	vPtr            = flag.Bool("v", false, "")
-	versionPtr      = flag.Bool("version", false, "")
-	hPtr            = flag.Bool("h", false, "")
-	helpPtr         = flag.Bool("help", false, "")
-	allPtr          = flag.Bool("all", false, "")
-	passPtr         = flag.Bool("pass", false, "")
-	skipPtr         = flag.Bool("skip", false, "")
-	showNoTestsPtr  = flag.Bool("notests", false, "")
-	smallScreenPtr  = flag.Bool("smallscreen", false, "")
-	noColorPtr      = flag.Bool("nocolor", false, "")
-	slowPtr         = flag.Int("slow", 0, "")
-	fileNamePtr     = flag.String("file", "", "")
-	formatPtr       = flag.String("format", "", "")
-	followPtr       = flag.Bool("follow", false, "")
-	followOutputPtr = flag.String("follow-output", "", "")
-	sortPtr         = flag.String("sort", "name", "")
-	progressPtr     = flag.Bool("progress", false, "")
-	comparePtr      = flag.String("compare", "", "")
-	trimPathPtr     = flag.String("trimpath", "", "")
-
-	includeTimestamp = flag.Bool("include-timestamp", false, "")
-
-	// Undocumented flags
-	followVerbosePtr = flag.Bool("follow-verbose", false, "")
-
-	// Legacy flags
-	noBordersPtr = flag.Bool("noborders", false, "")
-)
-
 var usage = `tparse summarizes go test -json output. It shows failed tests first,
 then a summary table for each package.
 
@@ -124,51 +93,71 @@ var version string
 
 func main() {
 	log.SetFlags(0)
-	flag.Usage = func() {
-		fmt.Fprint(flag.CommandLine.Output(), usage)
+	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr))
+}
+
+// run parses the command line arguments, runs tparse, and returns the exit
+// code. Invalid flag values return 2, the same exit code that the flag package
+// uses for unknown flags.
+func run(args []string, stdout, stderr io.Writer) int {
+	flags := flag.NewFlagSet("tparse", flag.ContinueOnError)
+	flags.SetOutput(stderr)
+	flags.Usage = func() {
+		fmt.Fprint(stderr, usage)
 	}
-	flag.Parse()
+	var (
+		vPtr            = flags.Bool("v", false, "")
+		versionPtr      = flags.Bool("version", false, "")
+		hPtr            = flags.Bool("h", false, "")
+		helpPtr         = flags.Bool("help", false, "")
+		allPtr          = flags.Bool("all", false, "")
+		passPtr         = flags.Bool("pass", false, "")
+		skipPtr         = flags.Bool("skip", false, "")
+		showNoTestsPtr  = flags.Bool("notests", false, "")
+		smallScreenPtr  = flags.Bool("smallscreen", false, "")
+		noColorPtr      = flags.Bool("nocolor", false, "")
+		slowPtr         = flags.Int("slow", 0, "")
+		fileNamePtr     = flags.String("file", "", "")
+		formatPtr       = flags.String("format", "", "")
+		followPtr       = flags.Bool("follow", false, "")
+		followOutputPtr = flags.String("follow-output", "", "")
+		sortPtr         = flags.String("sort", "name", "")
+		progressPtr     = flags.Bool("progress", false, "")
+		comparePtr      = flags.String("compare", "", "")
+		trimPathPtr     = flags.String("trimpath", "", "")
+
+		includeTimestamp = flags.Bool("include-timestamp", false, "")
+
+		// Undocumented flags
+		followVerbosePtr = flags.Bool("follow-verbose", false, "")
+
+		// Legacy flags
+		noBordersPtr = flags.Bool("noborders", false, "")
+	)
+	if err := flags.Parse(args); err != nil {
+		return 2
+	}
 
 	if *vPtr || *versionPtr {
 		if info, ok := debug.ReadBuildInfo(); ok {
 			version = info.Main.Version
 		}
-		fmt.Fprintf(os.Stdout, "tparse version: %s\n", version)
-		return
+		fmt.Fprintf(stdout, "tparse version: %s\n", version)
+		return 0
 	}
 	if *hPtr || *helpPtr {
-		fmt.Print(usage)
-		return
+		fmt.Fprint(stdout, usage)
+		return 0
 	}
-	var format app.OutputFormat
-	switch *formatPtr {
-	case "basic":
-		format = app.OutputFormatBasic
-	case "plain":
-		format = app.OutputFormatPlain
-	case "markdown":
-		format = app.OutputFormatMarkdown
-	case "":
-		// This was an existing flag, let's try to avoid breaking users.
-		format = app.OutputFormatBasic
-		if *noBordersPtr {
-			format = app.OutputFormatPlain
-		}
-	default:
-		fmt.Fprintf(os.Stderr, "invalid option:%q. The -format flag must be one of: basic, plain or markdown\n", *formatPtr)
-		return
+	format, err := parseFormat(*formatPtr, *noBordersPtr)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return 2
 	}
-	var sorter parse.PackageSorter
-	switch *sortPtr {
-	case "name":
-		sorter = parse.SortByPackageName
-	case "elapsed":
-		sorter = parse.SortByElapsed
-	case "cover":
-		sorter = parse.SortByCoverage
-	default:
-		fmt.Fprintf(os.Stderr, "invalid option:%q. The -sort flag must be one of: name, elapsed or cover\n", *sortPtr)
-		return
+	sorter, err := parseSorter(*sortPtr)
+	if err != nil {
+		fmt.Fprintln(stderr, err)
+		return 2
 	}
 
 	if *allPtr {
@@ -184,22 +173,21 @@ func main() {
 	var followOutput io.WriteCloser
 	switch {
 	case *followOutputPtr != "":
-		var err error
 		followOutput, err = os.Create(*followOutputPtr)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			return
+			fmt.Fprintln(stderr, err)
+			return 1
 		}
 		*followPtr = true
 	case *followPtr, *followVerbosePtr:
-		followOutput = os.Stdout
+		followOutput = utils.WriteNopCloser{Writer: stdout}
 	default:
 		// If no follow flags are set, we should not write to followOutput.
 		followOutput = utils.WriteNopCloser{Writer: io.Discard}
 	}
 	// TODO(mf): we should marry the options with the flags to avoid having to do this.
 	options := app.Options{
-		Output:              os.Stdout,
+		Output:              stdout,
 		DisableColor:        disableColor,
 		FollowOutput:        *followPtr,
 		FollowOutputWriter:  followOutput,
@@ -220,7 +208,7 @@ func main() {
 		Sorter:           sorter,
 		ShowNoTests:      *showNoTestsPtr,
 		Progress:         *progressPtr,
-		ProgressOutput:   os.Stdout,
+		ProgressOutput:   stdout,
 		Compare:          *comparePtr,
 		IncludeTimestamp: *includeTimestamp,
 
@@ -233,7 +221,39 @@ func main() {
 		if errors.Is(err, parse.ErrNotParsable) {
 			msg = "no parsable events: Make sure to run go test with -json flag"
 		}
-		fmt.Fprintln(os.Stderr, msg)
+		fmt.Fprintln(stderr, msg)
 	}
-	os.Exit(exitCode)
+	return exitCode
+}
+
+func parseFormat(value string, noBorders bool) (app.OutputFormat, error) {
+	switch value {
+	case "basic":
+		return app.OutputFormatBasic, nil
+	case "plain":
+		return app.OutputFormatPlain, nil
+	case "markdown":
+		return app.OutputFormatMarkdown, nil
+	case "":
+		// This was an existing flag, let's try to avoid breaking users.
+		if noBorders {
+			return app.OutputFormatPlain, nil
+		}
+		return app.OutputFormatBasic, nil
+	default:
+		return 0, fmt.Errorf("invalid option:%q. The -format flag must be one of: basic, plain or markdown", value)
+	}
+}
+
+func parseSorter(value string) (parse.PackageSorter, error) {
+	switch value {
+	case "name":
+		return parse.SortByPackageName, nil
+	case "elapsed":
+		return parse.SortByElapsed, nil
+	case "cover":
+		return parse.SortByCoverage, nil
+	default:
+		return nil, fmt.Errorf("invalid option:%q. The -sort flag must be one of: name, elapsed or cover", value)
+	}
 }

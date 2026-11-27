@@ -9,6 +9,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Improve `-h` help text: add input, output, and exit status notes, group the options, and add
   examples for CI and AI agents
+- Exit with status 2 (was 0) when `-format` or `-sort` has an invalid value, and with status 1 (was
+  0) when the `-follow-output` file cannot be created
 
 ## [v0.19.0] - 2026-11-27
 
