@@ -7,12 +7,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [v0.19.0] - 2026-11-27
+
 - Update dependencies to latest versions (#161)
 - Require Go 1.26.7 or later (needed by updated dependencies)
 - Upgrade to lipgloss v2 (#162)
 - `-nocolor` now removes all colors, including in failed test headers (#162)
 - Include failed test names in table (#149)
-- Colorize the status in `--progress` output (#150)
+- Colorize the status in `-progress` output (#147)
+- Add `-include-timestamp` flag to include timestamps in `-follow` output (#148)
 - Fix empty rows in the tests table when some packages have no rows to show (#155)
 - Show packages without test files with `-notests` when running `go test -cover` on go1.22 and later (#106)
 
@@ -102,7 +105,8 @@ Summary from [v0.13.0](https://github.com/mfridman/tparse/releases/tag/v0.13.0)
 - Add [GoReleaser](https://goreleaser.com/) to automate the release process. Pre-built binaries are
   available for each release, currently Linux and macOS. If there is demand, can also add Windows.
 
-[Unreleased]: https://github.com/mfridman/tparse/compare/v0.18.0...HEAD
+[Unreleased]: https://github.com/mfridman/tparse/compare/v0.19.0...HEAD
+[v0.19.0]: https://github.com/mfridman/tparse/compare/v0.18.0...v0.19.0
 [v0.18.0]: https://github.com/mfridman/tparse/compare/v0.17.0...v0.18.0
 [v0.17.0]: https://github.com/mfridman/tparse/compare/v0.16.0...v0.17.0
 [v0.16.0]: https://github.com/mfridman/tparse/compare/v0.15.0...v0.16.0
